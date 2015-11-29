@@ -18,6 +18,6 @@ SCORE_CMD="th ${TH_RELEX_ROOT}/src/eval/ScoreCandidateFile.lua -candidates $CAND
 echo $SCORE_CMD
 $SCORE_CMD
 
-${TH_RELEX_ROOT}/eval-scripts/evaluateScoresTopTuneThresh $SCORE_SCRIPT $SCORED_CANDIDATES $RUN_DIR $CONFIG $PP $KEY $OUT | grep -e F1 -e Tuning
+${TAC_EVAL_ROOT}/eval-scripts/evaluateScoresTopTuneThresh $SCORE_SCRIPT $SCORED_CANDIDATES $RUN_DIR $CONFIG $PP $KEY $OUT | grep -e F1 -e Tuning
 
 rm $SCORED_CANDIDATES
