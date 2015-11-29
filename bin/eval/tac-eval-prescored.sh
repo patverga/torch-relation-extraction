@@ -6,5 +6,5 @@ TUNED_PARAMS=$3
 
 source ${TH_RELEX_ROOT}/bin/tac-configs/${YEAR}
 
-${TH_RELEX_ROOT}/david-evaluation/evaluateScoresTuned $SCORE_SCRIPT $SCORED_CANDIDATES $RUN_DIR $CONFIG $PP $KEY $TUNED_PARAMS
+${TH_RELEX_ROOT}/bin/tac-scripts/evaluateScoresTuned $SCORE_SCRIPT $SCORED_CANDIDATES $RUN_DIR $CONFIG $PP $KEY $TUNED_PARAMS
 

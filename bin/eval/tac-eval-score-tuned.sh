@@ -19,6 +19,6 @@ SCORE_CMD="th ${TH_RELEX_ROOT}/src/eval/ScoreCandidateFile.lua -candidates $CAND
 echo $SCORE_CMD
 $SCORE_CMD
 
-${TH_RELEX_ROOT}/david-evaluation/evaluateScoresTunedThresh $SCORE_SCRIPT $SCORED_CANDIDATES $RUN_DIR $CONFIG $PP $KEY $TUNED_PARAMS $OUT
+${TH_RELEX_ROOT}/bin/tac-scripts/evaluateScoresTunedThresh $SCORE_SCRIPT $SCORED_CANDIDATES $RUN_DIR $CONFIG $PP $KEY $TUNED_PARAMS $OUT
 
 rm $SCORED_CANDIDATES
