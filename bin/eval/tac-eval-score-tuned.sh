@@ -9,8 +9,8 @@ OTHER_ARGS=$6
 TUNED_PARAMS=$7
 OUT=$8
 
-source ${TH_RELEX_ROOT}/bin/tac-configs/${YEAR}
-
+TAC_EVAL_ROOT=${TH_RELEX_ROOT}/bin/tac-evaluation
+source ${TAC_EVAL_ROOT}/${YEAR}
 
 SCORED_CANDIDATES=${CANDIDATES}-scored-$RANDOM
 
@@ -19,6 +19,6 @@ SCORE_CMD="th ${TH_RELEX_ROOT}/src/eval/ScoreCandidateFile.lua -candidates $CAND
 echo $SCORE_CMD
 $SCORE_CMD
 
-${TH_RELEX_ROOT}/bin/tac-scripts/evaluateScoresTunedThresh $SCORE_SCRIPT $SCORED_CANDIDATES $RUN_DIR $CONFIG $PP $KEY $TUNED_PARAMS $OUT
+${TAC_EVAL_ROOT}/eval-scripts/evaluateScoresTunedThresh $SCORE_SCRIPT $SCORED_CANDIDATES $RUN_DIR $CONFIG $PP $KEY $TUNED_PARAMS $OUT
 
 rm $SCORED_CANDIDATES
