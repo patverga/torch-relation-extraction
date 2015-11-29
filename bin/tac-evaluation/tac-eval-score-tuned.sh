@@ -10,7 +10,7 @@ TUNED_PARAMS=$7
 OUT=$8
 
 TAC_EVAL_ROOT=${TH_RELEX_ROOT}/bin/tac-evaluation
-source ${TAC_EVAL_ROOT}/${YEAR}
+source ${TAC_EVAL_ROOT}/configs/${YEAR}
 
 SCORED_CANDIDATES=${CANDIDATES}-scored-$RANDOM
 

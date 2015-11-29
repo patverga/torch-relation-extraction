@@ -8,7 +8,8 @@ MAX_SEQ=$5
 OTHER_ARGS=$6
 OUT=`pwd`/$7
 
-source ${TH_RELEX_ROOT}/bin/tac-configs/${YEAR}
+TAC_EVAL_ROOT=${TH_RELEX_ROOT}/bin/tac-evaluation
+source ${TAC_EVAL_ROOT}/configs/${YEAR}
 
 SCORED_CANDIDATES=${CANDIDATES}-scored-$RANDOM
 
