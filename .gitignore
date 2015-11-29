@@ -1,0 +1,12 @@
+# Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm
+
+*.iml
+
+## Directory-based project format:
+.idea/
+target/*
+*.class
+*.log
+*.out
+*.bbl
+*.blg
