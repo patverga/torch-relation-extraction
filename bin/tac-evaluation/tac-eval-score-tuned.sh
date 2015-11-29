@@ -12,7 +12,7 @@ OUT=$8
 TAC_EVAL_ROOT=${TH_RELEX_ROOT}/bin/tac-evaluation
 source ${TAC_EVAL_ROOT}/configs/${YEAR}
 
-SCORED_CANDIDATES=${CANDIDATES}-scored-$RANDOM
+SCORED_CANDIDATES=`mktemp`
 
 # score candidate file
 SCORE_CMD="th ${TH_RELEX_ROOT}/src/eval/ScoreCandidateFile.lua -candidates $CANDIDATES -vocabFile $VOCAB -model $MODEL -gpuid $GPU -threshold 0 -outFile $SCORED_CANDIDATES  -maxSeq $MAX_SEQ $OTHER_ARGS"
