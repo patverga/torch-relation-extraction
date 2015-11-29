@@ -1,0 +1,24 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.2}{Background }{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{Relation Extraction as Link Prediction }{section.2}% 3
+\BOOKMARK [2][-]{subsection.2.2}{Relation Extraction as Sentence Classification}{section.2}% 4
+\BOOKMARK [2][-]{subsection.2.3}{Open-Domain Relation Extraction}{section.2}% 5
+\BOOKMARK [2][-]{subsection.2.4}{Universal Schema}{section.2}% 6
+\BOOKMARK [1][-]{section.3}{Training a Sentence Classifier without Alignment}{}% 7
+\BOOKMARK [1][-]{section.4}{Predictions for Unseen Text Patterns }{}% 8
+\BOOKMARK [2][-]{subsection.4.1}{Modeling Idiomatic Patterns}{section.4}% 9
+\BOOKMARK [1][-]{section.5}{Multilingual Relation Extraction with Zero Annotation}{}% 10
+\BOOKMARK [2][-]{subsection.5.1}{Tied Sentence Encoders }{section.5}% 11
+\BOOKMARK [1][-]{section.6}{Experiments}{}% 12
+\BOOKMARK [2][-]{subsection.6.1}{Task}{section.6}% 13
+\BOOKMARK [2][-]{subsection.6.2}{Results}{section.6}% 14
+\BOOKMARK [2][-]{subsection.6.3}{Qualitative Analysis }{section.6}% 15
+\BOOKMARK [1][-]{section.7}{Conclusion and Future Work}{}% 16
+\BOOKMARK [1][-]{appendix.A}{Appendix}{}% 17
+\BOOKMARK [2][-]{subsection.A.1}{Details Concerning Cosine Similarity Computation}{appendix.A}% 18
+\BOOKMARK [2][-]{subsection.A.2}{Data Pre-processing }{appendix.A}% 19
+\BOOKMARK [2][-]{subsection.A.3}{Generation of Cross-Lingual Tied Word Types}{appendix.A}% 20
+\BOOKMARK [2][-]{subsection.A.4}{Distant supervision and entity linking }{appendix.A}% 21
+\BOOKMARK [2][-]{subsection.A.5}{Open IE Pattern Normalization}{appendix.A}% 22
+\BOOKMARK [2][-]{subsection.A.6}{Implementation and Hyperparameters}{appendix.A}% 23
+\BOOKMARK [2][-]{subsection.A.7}{Additional Qualitative Results}{appendix.A}% 24

@@ -1,0 +1,6 @@
+CANDIDATES=/home/pat/canvas/universal-schema/univSchema/torch/data/candidates/david-20140314-candidates
+RUN_DIR=/iesl/canvas/beroth/tac/runs/run20140314/
+KEY=/iesl/canvas/beroth/tac/evaluation/eval2013/key_2013
+SCORE_SCRIPT=/iesl/canvas/belanger/relationfactory/myEvaluation/bin/score2013.sh
+CONFIG=2013.config
+PP=pp13

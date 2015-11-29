@@ -1,0 +1,6 @@
+CANDIDATES=/home/pat/canvas/universal-schema/univSchema/torch/data/candidates/candidates2012-wildcard-sentences
+RUN_DIR=/iesl/canvas/belanger/relationfactory/example2012/
+KEY=/home/pat/canvas/universal-schema/univSchema/torch/david-evaluation/key_2012
+SCORE_SCRIPT=/home/pat/canvas/universal-schema/univSchema/torch/david-evaluation/score2012.sh
+CONFIG=2012.config
+PP=pp12
