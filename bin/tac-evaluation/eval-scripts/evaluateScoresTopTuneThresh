@@ -37,14 +37,14 @@ for t in $THRESHOLDS; do
 
   # convert scored candidates to response and calculate f1 score
   echo ISOLATED PERFORMANCE | tee $outReport
-  #/iesl/canvas/belanger/relationfactory/bin/run.sh /iesl/canvas/belanger/relationfactory/myEvaluation/system2013_isolated.config
-  $TAC_ROOT/bin/run.sh /home/pat/canvas/universal-schema/univSchema/torch/david-evaluation/$CONFIG
-  #sh /home/pat/canvas/universal-schema/univSchema/torch/david-evaluation/evaluateOutput${YEAR} $PWD/response_classifier_david_pp13
-  
+  TAC_SCRIPTS=${TH_RELEX_ROOT}/bin/tac-evaluation/eval-scripts
+
+  $TAC_ROOT/bin/run.sh ${TAC_SCRIPTS}/$CONFIG
+
   echo -e "`$SCORE_SCRIPT $TMP_DIR/response_classifier_david_$PP $KEY | grep -e F1 -e Recall -e Precision | tr '\n' '\t' | sed 's/^\t*//'`\tThreshold: $t"
   cp  $TMP_DIR/response_classifier_david_$PP $TMP_PREDICTION
 done
 
 echo "Tuning per Relation and exporting best params to $OUT"
-/home/pat/canvas/universal-schema/univSchema/torch/david-evaluation/tunej.sh $KEY $SCORE_SCRIPT $PRED_ROOT $OUT $THRESHOLDS
+${TAC_SCRIPTS}/tunej.sh $KEY $SCORE_SCRIPT $PRED_ROOT $OUT $THRESHOLDS
 rm -rf $TMP_DIR 
