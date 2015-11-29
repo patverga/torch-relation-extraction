@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 
-# given a word model (lstm or conv) trains the various multilingual models
 GPU_ID=$1
 MODEL="UniversalSchema"
 DATE=`date +'%Y-%m-%d_%k'`

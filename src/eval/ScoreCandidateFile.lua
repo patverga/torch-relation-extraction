@@ -234,7 +234,10 @@ text_encoder:evaluate()
 local vocab_map = {}
 for line in io.lines(params.vocabFile) do
     local token, id = string.match(line, "([^\t]+)\t([^\t]+)")
-    if token then vocab_map[token] = tonumber(id) end
+    if token and id then
+        id = tonumber(id)
+        if id > 0 then vocab_map[token] = id end
+    end
 end
 local dictionary = {}
 if params.dictionary ~= '' then
