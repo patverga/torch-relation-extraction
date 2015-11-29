@@ -5,7 +5,7 @@
 
 require 'torch'
 require 'optim'
-require 'RelationEncoderModel.lua'
+require 'RelationEncoderModel'
 
 local TransEEncoder, parent = torch.class('TransEEncoder', 'RelationEncoderModel')
 

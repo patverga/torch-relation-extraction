@@ -2,11 +2,12 @@
 -- User: pat
 -- Date: 8/26/15
 --
+package.path = package.path .. ";src/?.lua"
 
 require 'torch'
 require 'rnn'
 require 'optim'
-require 'RelationEncoderModel.lua'
+require 'RelationEncoderModel'
 
 local UniversalSchemaEncoder, parent = torch.class('UniversalSchemaEncoder', 'RelationEncoderModel')
 

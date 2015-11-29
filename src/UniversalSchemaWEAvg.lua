@@ -2,6 +2,7 @@
 -- User: pat
 -- Date: 8/26/15
 --
+package.path = package.path .. ";src/?.lua"
 
 require 'CmdArgs'
 
@@ -18,7 +19,7 @@ local rel_size = train_data.num_tokens
 local rel_table
 -- never update word embeddings, these should be preloaded
 if params.noWordUpdate then
-    require 'nn-modules/NoUpdateLookupTable.lua'
+    require 'nn-modules/NoUpdateLookupTable'
     rel_table = nn.NoUpdateLookupTable(rel_size, inputSize)
 else
     rel_table = nn.LookupTable(rel_size, inputSize)

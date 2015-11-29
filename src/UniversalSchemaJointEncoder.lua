@@ -6,7 +6,7 @@
 require 'torch'
 require 'rnn'
 require 'optim'
-require 'UniversalSchemaEncoder.lua'
+require 'UniversalSchemaEncoder'
 
 local UniversalSchemaJointEncoder, parent = torch.class('UniversalSchemaJointEncoder', 'UniversalSchemaEncoder')
 

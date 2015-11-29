@@ -3,6 +3,8 @@
 -- Date: 8/26/15
 --
 
+package.path = package.path .. ";src/?.lua"
+
 require 'CmdArgs'
 
 local params = CmdArgs:parse(arg)
@@ -20,7 +22,7 @@ local rel_size = train_data.num_tokens
 local rel_table
 -- never update word embeddings, these should be preloaded
 if params.noWordUpdate then
-    require 'nn-modules/NoUpdateLookupTable.lua'
+    require 'nn-modules/NoUpdateLookupTable'
     rel_table = nn.NoUpdateLookupTable(rel_size, inputSize):add(nn.TemporalConvolution(inputSize, inputSize, 1))
 else
     rel_table = nn.LookupTable(rel_size, inputSize)
@@ -35,7 +37,7 @@ end
 local encoder = nn.Sequential()
 -- word dropout
 if params.wordDropout > 0 then
-    require 'nn-modules/WordDropout.lua'
+    require 'nn-modules/WordDropout'
     encoder:add(nn.WordDropout(params.wordDropout, 1))
 end
 
@@ -55,7 +57,7 @@ for i = 1, params.layers do
     end
     if params.bi then
 --        lstm:add(nn.BiSequencer(recurrent_cell, recurrent_cell:clone()))
-        require 'nn-modules/NoUnReverseBiSequencer.lua'
+        require 'nn-modules/NoUnReverseBiSequencer'
         lstm:add(nn.NoUnReverseBiSequencer(recurrent_cell, recurrent_cell:clone()))
     else
         lstm:add(nn.Sequencer(recurrent_cell))
@@ -64,11 +66,11 @@ end
 encoder:add(lstm)
 
 if params.attention then
-    require 'nn-modules/ViewTable.lua'
-    require 'nn-modules/ReplicateAs.lua'
-    require 'nn-modules/SelectLast.lua'
-    require 'nn-modules/VariableLengthJoinTable.lua'
-    require 'nn-modules/VariableLengthConcatTable.lua'
+    require 'nn-modules/ViewTable'
+    require 'nn-modules/ReplicateAs'
+    require 'nn-modules/SelectLast'
+    require 'nn-modules/VariableLengthJoinTable'
+    require 'nn-modules/VariableLengthConcatTable'
 
     local mixture_dim = outputSize
     local M = nn.Sequential()
@@ -107,7 +109,7 @@ if params.attention then
 elseif params.poolLayer ~= '' then
     assert(params.poolLayer == 'Mean' or params.poolLayer == 'Max',
         'valid options for poolLayer are Mean and Max')
-    require 'nn-modules/ViewTable.lua'
+    require 'nn-modules/ViewTable'
     encoder:add(nn.ViewTable(-1, 1, outputSize))
     encoder:add(nn.JoinTable(2))
     encoder:add(nn[params.poolLayer](2))

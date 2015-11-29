@@ -3,6 +3,8 @@
 -- Date: 8/26/15
 --
 
+package.path = package.path .. ";src/?.lua"
+
 require 'CmdArgs'
 
 local params = CmdArgs:parse(arg)

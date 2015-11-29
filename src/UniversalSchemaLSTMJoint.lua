@@ -2,7 +2,7 @@
 -- User: pat
 -- Date: 10/2/15
 --
-
+package.path = package.path .. ";src/?.lua"
 require 'CmdArgs'
 
 local params = CmdArgs:parse(arg)
@@ -22,7 +22,7 @@ local function build_lstm_uschema_model()
     local word_table
     -- never update word embeddings, these should be preloaded
     if params.noWordUpdate then
-        require 'nn-modules/NoUpdateLookupTable.lua'
+        require 'nn-modules/NoUpdateLookupTable'
         word_table = nn.NoUpdateLookupTable(rel_size, inputSize)
     else
         word_table = nn.LookupTable(rel_size, inputSize)
@@ -66,11 +66,11 @@ local function build_lstm_uschema_model()
     text_encoder:add(lstm)
 
     if params.attention then
-        require 'nn-modules/ViewTable.lua'
-        require 'nn-modules/ReplicateAs.lua'
-        require 'nn-modules/SelectLast.lua'
-        require 'nn-modules/VariableLengthJoinTable.lua'
-        require 'nn-modules/VariableLengthConcatTable.lua'
+        require 'nn-modules/ViewTable'
+        require 'nn-modules/ReplicateAs'
+        require 'nn-modules/SelectLast'
+        require 'nn-modules/VariableLengthJoinTable'
+        require 'nn-modules/VariableLengthConcatTable'
 
         local mixture_dim = outputSize
         local M = nn.Sequential()
@@ -109,7 +109,7 @@ local function build_lstm_uschema_model()
     elseif params.poolLayer ~= '' then
         assert(params.poolLayer == 'Mean' or params.poolLayer == 'Max',
             'valid options for poolLayer are Mean and Max')
-        require 'nn-modules/ViewTable.lua'
+        require 'nn-modules/ViewTable'
         text_encoder:add(nn.ViewTable(-1, 1, outputSize))
         text_encoder:add(nn.JoinTable(2))
         text_encoder:add(nn[params.poolLayer](2))

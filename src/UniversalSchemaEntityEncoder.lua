@@ -6,7 +6,7 @@
 require 'torch'
 require 'rnn'
 require 'optim'
-require 'RelationEncoderModel.lua'
+require 'RelationEncoderModel'
 
 local UniversalSchemaEntityEncoder, parent = torch.class('UniversalSchemaEntityEncoder', 'RelationEncoderModel')
 

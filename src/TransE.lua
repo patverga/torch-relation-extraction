@@ -2,6 +2,7 @@
 -- User: pat
 -- Date: 8/26/15
 --
+package.path = package.path .. ";src/?.lua"
 
 require 'TransEEncoder'
 require 'CmdArgs'

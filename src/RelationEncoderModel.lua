@@ -2,7 +2,6 @@
 -- User: pv
 -- Date: 9/21/15
 --
-
 local RelationEncoderModel = torch.class('RelationEncoderModel')
 
 
