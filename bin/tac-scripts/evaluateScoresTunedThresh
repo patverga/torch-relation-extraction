@@ -1,0 +1,54 @@
+#!/bin/bash
+
+SCORE_SCRIPT=$1
+prediction=$2
+exampleDir=$3
+CONFIG=$4
+PP=$5
+KEY=$6
+TUNED_PARAMS=$7
+OUT=$8
+
+
+export TAC_ROOT=/iesl/canvas/belanger/relationfactory
+TMP_DIR=`mktemp -d`/out/run2013
+mkdir -p $TMP_DIR
+PRED_ROOT=$TMP_DIR/prediction_
+cd $TMP_DIR/../..
+echo working in $PWD
+
+# get top k patterns
+TUNED_PREDICTION="${PRED_ROOT}tuned"
+SORTED_PREDICTION=`mktemp`
+sort -t$'\t' -k9 -nr $prediction > $SORTED_PREDICTION
+
+# read in tuned params
+while IFS='' read -r line || [[ -n "$line" ]]; do
+  REL=`echo $line | cut -d' ' -f 1`
+  t=`echo $line | cut -d' ' -f 2`
+  echo "Getting scores with threshold $t for $REL"
+  awk -v threshold=$t -F '\t' '{if($9 >= threshold) print  }' $SORTED_PREDICTION | grep $REL >> $TUNED_PREDICTION
+done < "$TUNED_PARAMS"
+
+echo computing performance for $TUNED_PREDICTION
+echo example dir = $exampleDir
+for fn in query.xml query_expanded.xml
+do
+  cp $exampleDir/$fn $TMP_DIR/$fn
+done
+
+cp $TUNED_PREDICTION $TMP_DIR/predictions_classifier_david
+rm -f $TMP_DIR/makefile $TMP_DIR/log4j.txt
+
+source /iesl/canvas/belanger/relationfactory/myEvaluation/setupPaths  $PWD/out/
+
+# convert scored candidates to response and calculate f1 score
+echo ISOLATED PERFORMANCE | tee $outReport
+$TAC_ROOT/bin/run.sh /home/pat/canvas/universal-schema/univSchema/torch/david-evaluation/$CONFIG
+  
+echo -e "`$SCORE_SCRIPT $TMP_DIR/response_classifier_david_$PP $KEY | grep -e F1 -e Recall -e Precision | tr '\n' '\t' | sed 's/^\t*//'`\tK: $k"
+if [[ -n $OUT ]]; then
+  cp $TMP_DIR/response_classifier_david $OUT
+fi
+
+#rm -rf $TMP_DIR 

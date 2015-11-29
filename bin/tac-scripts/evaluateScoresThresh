@@ -1,0 +1,17 @@
+year=$1
+thresholds=$2
+predictionFile=$3
+lhsFile=$4
+exampleDir=$5
+headNum=$6
+outReport=$7
+
+headNum=`echo $headNum | sed 's|\..*||'`
+tmpPrediction=`mktemp`
+paste  $lhsFile $predictionFile > $tmpPrediction.1
+perl /iesl/canvas/belanger/relationfactory/myEvaluation/takeWithThresholds.pl $tmpPrediction.1 $thresholds > $tmpPrediction
+
+sh /iesl/canvas/belanger/relationfactory/myEvaluation/evaluate${year} $tmpPrediction $exampleDir $outReport  
+
+rm $tmpPrediction*
+
