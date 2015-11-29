@@ -1,0 +1,7 @@
+#!/bin/bash
+pred=$1
+key=/home/pat/canvas/universal-schema/univSchema/torch/david-evaluation/key_2012
+#key=/iesl/canvas/beroth/tac/data/key_2009-2012
+
+/iesl/canvas/belanger/relationfactory/myEvaluation/bin/score2012.sh   $pred $key 
+

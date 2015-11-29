@@ -1,0 +1,23 @@
+#!/bin/bash
+PRED=$1
+
+cp $PRED /home/pat/canvas/universal-schema/univSchema/torch/.
+/iesl/canvas/belanger/relationfactory/myEvaluation/bin/score2013.sh $PRED /iesl/canvas/beroth/tac/evaluation/eval2013/key_2013
+
+
+#BEN_RESPONSE=/iesl/canvas/beroth/tac/runs/run20140314/response_classifier
+#MERGED_RESPONSE=/home/pat/canvas/universal-schema/univSchema/torch/response_temp_$RANDOM
+#PRED_NO_PP13=`echo $PRED | sed 's/\(.*\)_pp13$/\1/'`
+
+# merge this response a ben resepones
+#$TAC_ROOT/components/bin/merge_responses.sh /iesl/canvas/beroth/tac/runs/run20140314/query_expanded.xml $BEN_RESPONSE $PRED_NO_PP13 > $MERGED_RESPONSE
+# postprocess for 2013
+#$TAC_ROOT/components/bin/postprocess2013.sh $MERGED_RESPONSE /iesl/canvas/beroth/tac/runs/run20140314/query_expanded.xml /dev/null ${MERGED_RESPONSE}_pp13
+
+
+#LONG=`wc -l $REPSONSE_ALL $PRED | grep -v total | sort -nr |awk '{print $2}'|head -1`
+#SHORT=`wc -l $REPSONSE_ALL $PRED | grep -v total | sort -nr |awk '{print $2}' | tail -n 1`
+#awk -F'\t' 'NR==FNR{  a[$1$2]=NF; b[$1$2]=$0; if(NF > 4){c[$1$2]=$9}else {c[$1$2]=0} next } NR!=FNR{ if ($1$2 in a && a[$1$2] > 4){ if (NF > 4 && $1$2 in c && c[$1$2] > $9){print b[$1$2]} else {print} } else{print} }' $SHORT $LONG > $COMBINED_RESPONSE
+
+#/iesl/canvas/belanger/relationfactory/myEvaluation/bin/score2013.sh ${MERGED_RESPONSE}_pp13 /iesl/canvas/beroth/tac/evaluation/eval2013/key_2013
+#rm $MERGED_RESPONSE

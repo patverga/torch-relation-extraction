@@ -1,0 +1,50 @@
+#!/bin/bash
+
+SCORE_SCRIPT=$1
+prediction=$2
+exampleDir=$3
+CONFIG=$4
+PP=$5
+KEY=$6
+OUT=$7
+TOP_K="0 100 250 500 1000 2000 3500 5000 7500 10000 15000 30000 100000"
+#TOP_K="1000 5000"
+
+export TAC_ROOT=/iesl/canvas/belanger/relationfactory
+TMP_DIR=`mktemp -d`/out/run2013
+mkdir -p $TMP_DIR
+PRED_ROOT=$TMP_DIR/prediction_
+cd $TMP_DIR/../..
+echo working in $PWD
+
+for k in $TOP_K; do
+  # get top k patterns
+  TMP_PREDICTION=${PRED_ROOT}$k
+  echo "GETTING TOP $k"
+  sort -t$'\t' -k9 -nr $prediction | head -n $k > $TMP_PREDICTION
+
+  echo computing performance for $TMP_PREDICTION
+  echo example dir = $exampleDir
+  for fn in query.xml query_expanded.xml
+  do
+    cp $exampleDir/$fn $TMP_DIR/$fn
+  done
+
+  cp $TMP_PREDICTION $TMP_DIR/predictions_classifier_david
+  rm -f $TMP_DIR/makefile $TMP_DIR/log4j.txt
+
+  source /iesl/canvas/belanger/relationfactory/myEvaluation/setupPaths  $PWD/out/
+
+  # convert scored candidates to response and calculate f1 score
+  echo ISOLATED PERFORMANCE | tee $outReport
+  #/iesl/canvas/belanger/relationfactory/bin/run.sh /iesl/canvas/belanger/relationfactory/myEvaluation/system2013_isolated.config
+  $TAC_ROOT/bin/run.sh /home/pat/canvas/universal-schema/univSchema/torch/david-evaluation/$CONFIG
+  #sh /home/pat/canvas/universal-schema/univSchema/torch/david-evaluation/evaluateOutput${YEAR} $PWD/response_classifier_david_pp13
+  
+  echo -e "`$SCORE_SCRIPT $TMP_DIR/response_classifier_david_$PP $KEY | grep -e F1 -e Recall -e Precision | tr '\n' '\t' | sed 's/^\t*//'`\tK: $k"
+  cp  $TMP_DIR/response_classifier_david_$PP $TMP_PREDICTION
+done
+
+echo "Tuning per Relation and exporting best params to $OUT"
+/home/pat/canvas/universal-schema/univSchema/torch/david-evaluation/tunej.sh $KEY $SCORE_SCRIPT $PRED_ROOT $OUT $TOP_K
+rm -rf $TMP_DIR 
