@@ -236,7 +236,7 @@ for line in io.lines(params.vocabFile) do
     local token, id = string.match(line, "([^\t]+)\t([^\t]+)")
     if token and id then
         id = tonumber(id)
-        if id > 0 then vocab_map[token] = id end
+        if id > 1 then vocab_map[token] = id end
     end
 end
 local dictionary = {}
