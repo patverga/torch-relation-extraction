@@ -16,7 +16,7 @@ TRAIN_FILES="no-log_min5_noramlized.en-es_no-ties no-log_min5_noramlized.en-es_d
 
 for TRAIN in ${TRAIN_FILES}; do
     echo "Training : ${MODEL}_${TRAIN}\tGPU : $GPU_ID"
-    th ${MODEL}.lua \
+    th ${TH_RELEX_ROOT}/src/${MODEL}.lua \
     -loadEpEmbeddings ${TRAINED_EP} \
     -train ${TRAIN_FILE_ROOT}/${TRAIN} \
     -saveModel ${SAVE_MODEL_ROOT}/${MODEL}_${TRAIN}  \

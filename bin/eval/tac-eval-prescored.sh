@@ -4,9 +4,7 @@ YEAR=$1
 SCORED_CANDIDATES=$2
 TUNED_PARAMS=$3
 
-source /home/pat/canvas/universal-schema/univSchema/torch/bin/tac-configs/${YEAR}
+source ${TH_RELEX_ROOT}/bin/tac-configs/${YEAR}
 
-
-#/home/pat/canvas/universal-schema/univSchema/torch/david-evaluation/evaluateScoresTuned $SCORE_SCRIPT $SCORED_CANDIDATES $RUN_DIR $CONFIG $PP $KEY $OUT $TUNED_PARAMS| grep -e F1 -e Tuning
-/home/pat/canvas/universal-schema/univSchema/torch/david-evaluation/evaluateScoresTuned $SCORE_SCRIPT $SCORED_CANDIDATES $RUN_DIR $CONFIG $PP $KEY $TUNED_PARAMS
+${TH_RELEX_ROOT}/david-evaluation/evaluateScoresTuned $SCORE_SCRIPT $SCORED_CANDIDATES $RUN_DIR $CONFIG $PP $KEY $TUNED_PARAMS
 

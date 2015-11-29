@@ -14,7 +14,7 @@ TRAIN_FILES="relogged_min5_noramlized.en relogged_min5_noramlized.en-es_es-appen
 
 for TRAIN in ${TRAIN_FILES}; do
     echo "Training : ${MODEL}_${TRAIN}\tGPU : $GPU_ID"
-    th ${MODEL}.lua \
+    th ${TH_RELEX_ROOT}/src/${MODEL}.lua \
     -train ${TRAIN_FILE_ROOT}/${TRAIN} \
     -saveModel ${SAVE_MODEL_ROOT}/${MODEL}_${TRAIN}  \
     -maxSeq 15 \
