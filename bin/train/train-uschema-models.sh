@@ -5,11 +5,11 @@
 GPU_ID=$1
 MODEL="UniversalSchema"
 DATE=`date +'%Y-%m-%d_%k'`
-SAVE_MODEL_ROOT="/home/pat/canvas/universal-schema/univSchema/torch/models/$DATE/"
-RESULT_ROOT="/home/pat/canvas/universal-schema/univSchema/torch/results/$DATE/"
+SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/$DATE/"
+RESULT_ROOT="${TH_RELEX_ROOT}/results/$DATE/"
 mkdir ${SAVE_MODEL_ROOT} ${RESULT_ROOT}
 #TRAINED_EP="data/fixed-2013-tac/fixed-nologs/models/uschema-filtered-reloged-50d/7-ent-weights"
-TRAIN_FILE_ROOT="/home/pat/canvas/universal-schema/univSchema/torch/training-data"
+TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/training-data"
 TRAIN_FILES="relogged_min5_noramlized.en relogged_min5_noramlized.en-es_es-appended"
 
 for TRAIN in ${TRAIN_FILES}; do
