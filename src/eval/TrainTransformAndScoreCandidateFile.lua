@@ -2,6 +2,7 @@
 -- User: pat
 -- Date: 9/17/15
 --
+package.path = package.path .. ";src/?.lua;src/nn-modules/?.lua"
 
 
 require 'torch'

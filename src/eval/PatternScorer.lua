@@ -2,6 +2,7 @@
 -- User: pat
 -- Date: 8/3/15
 --
+package.path = package.path .. ";src/?.lua;src/nn-modules/?.lua"
 
 local PatternScorer = torch.class('PatternScorer')
 

@@ -3,17 +3,18 @@
 -- Date: 9/17/15
 --
 
+package.path = package.path .. ";src/?.lua;src/nn-modules/?.lua"
 
 require 'torch'
 require 'rnn'
-require '../nn-modules/ViewTable.lua'
-require '../nn-modules/ReplicateAs.lua'
-require '../nn-modules/SelectLast.lua'
-require '../nn-modules/VariableLengthJoinTable.lua'
-require '../nn-modules/VariableLengthConcatTable.lua'
-require '../nn-modules/NoUpdateLookupTable.lua'
-require '../nn-modules/NoUnReverseBiSequencer.lua'
-require '../nn-modules/WordDropout.lua'
+require 'ViewTable.lua'
+require 'ReplicateAs.lua'
+require 'SelectLast.lua'
+require 'VariableLengthJoinTable.lua'
+require 'VariableLengthConcatTable.lua'
+require 'NoUpdateLookupTable.lua'
+require 'NoUnReverseBiSequencer.lua'
+require 'WordDropout.lua'
 
 --[[
     Takes a tac candidate file, tab seperated vocab idx file, and a trained uschema encoder model

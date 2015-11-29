@@ -1,3 +1,6 @@
+package.path = package.path .. ";src/?.lua"
+
+
 require 'rnn'
 
 local cmd = torch.CmdLine()
