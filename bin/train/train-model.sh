@@ -9,7 +9,7 @@ DATE=`date +'%Y-%m-%d_%k'`
 mkdir ${SAVE_MODEL_ROOT} ${RESULT_ROOT}
 
 RUN_CMD="th ${TH_RELEX_ROOT}/src/${MODEL}.lua \
--loadEpEmbeddings '${TRAINED_EP}' \
+-loadEpEmbeddings \"${TRAINED_EP}\" \
 -train ${TRAIN_FILE_ROOT}/${TRAIN_FILE} \
 -saveModel ${SAVE_MODEL_ROOT}/${MODEL}_${TRAIN_FILE}  \
 -maxSeq $MAX_SEQ \
@@ -17,7 +17,7 @@ RUN_CMD="th ${TH_RELEX_ROOT}/src/${MODEL}.lua \
 -gpuid ${GPU_ID} \
 -embeddingDim ${EMBED_DIM} \
 -numEpochs ${MAX_EPOCHS} \
--test '$TEST_FILE'"
+-test \"$TEST_FILE\""
 
 if [ "$WORD_DIM" ]; then
   RUN_CMD="$RUN_CMD -wordDim $WORD_DIM"
