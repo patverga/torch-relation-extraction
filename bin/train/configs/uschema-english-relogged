@@ -1,13 +1,14 @@
 MODEL=UniversalSchema
 
-SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/"
-RESULT_ROOT="${TH_RELEX_ROOT}/results/"
+NAME="uschema-english-relogged"
+
+SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/$NAME"
 TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/training-data"
 
-TRAINED_EP=""
 TRAIN_FILE="relogged_min5_noramlized.en"
 BATCH_SIZE=1024
 LEARN_RATE=.001
 EMBED_DIM=50
 MAX_SEQ=15
 MAX_EPOCHS=15
+EVAL_FREQ=15

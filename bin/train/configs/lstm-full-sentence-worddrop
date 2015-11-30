@@ -1,0 +1,17 @@
+MODEL=UniversalSchemaLSTM
+NAME=lstm-full-sentence-worddrop-50d
+
+SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/$NAME"
+TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/training-data/full-sentences"
+
+TRAINED_EP="/home/pat/canvas/universal-schema/univSchema/torch/data/fixed-2013-tac/fixed-nologs/models/uschema-filtered-reloged-50d/7-ent-weights"
+TRAIN_FILE="no-log-old-ep-subset-min5-seq50"
+BATCH_SIZE=128
+LEARN_RATE=.0001
+EMBED_DIM=50
+MAX_SEQ=50
+MAX_EPOCHS=15
+EVAL_FREQ=15
+DROPOUT=.1
+WORD_DROPOUT=.1
+WORD_DIM=100
