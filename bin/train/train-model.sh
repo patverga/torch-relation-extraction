@@ -27,12 +27,17 @@ fi
 if [ "$REL_DIM" ]; then
   RUN_CMD="$RUN_CMD -relDim $REL_DIM"
 fi
+if [ "$BI_DIRECTIONAL" ]; then
+  RUN_CMD="$RUN_CMD -bi"
+fi
+
 if [ "$DROPOUT" ]; then
   RUN_CMD="$RUN_CMD -dropout $DROPOUT"
 fi
 if [ "$WORD_DROPOUT" ]; then
   RUN_CMD="$RUN_CMD -wordDropout $WORD_DROPOUT"
 fi
+
 if [ "$TEST_FILE" ]; then
   RUN_CMD="$RUN_CMD -test $TEST_FILE"
 fi
