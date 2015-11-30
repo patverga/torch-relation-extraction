@@ -1,7 +1,9 @@
 MODEL=UniversalSchema
+
 SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/"
 RESULT_ROOT="${TH_RELEX_ROOT}/results/"
 TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/training-data"
+
 TRAINED_EP=""
 TRAIN_FILE="relogged_min5_noramlized.en"
 BATCH_SIZE=1024
