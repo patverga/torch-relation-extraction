@@ -3,8 +3,7 @@
 GPU_ID=$1
 CONFIG=$2
 
-TAC_EVAL_ROOT=${TH_RELEX_ROOT}/bin/train
-source ${TAC_EVAL_ROOT}/configs/${CONFIG}
+source ${TH_RELEX_ROOT}/${CONFIG}
 
 DATE=`date +'%Y-%m-%d_%k'`
 mkdir ${SAVE_MODEL_ROOT} ${RESULT_ROOT}
