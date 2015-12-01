@@ -1,5 +1,4 @@
 MODEL=UniversalSchema
-
 NAME="uschema-english-relogged"
 
 SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/$NAME"
@@ -11,4 +10,4 @@ LEARN_RATE=.001
 EMBED_DIM=50
 MAX_SEQ=15
 MAX_EPOCHS=15
-EVAL_FREQ=15
+EVAL_FREQ=3

@@ -1,5 +1,5 @@
 MODEL=UniversalSchemaLSTM
-NAME=lstm-full-sentence-worddrop-100d
+NAME=lstm-full-sentence-100d
 
 SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/$NAME"
 TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/training-data/full-sentences"
@@ -14,5 +14,4 @@ MAX_SEQ=50
 MAX_EPOCHS=15
 EVAL_FREQ=3
 DROPOUT=.1
-WORD_DROPOUT=.1
 WORD_DIM=100
