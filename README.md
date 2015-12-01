@@ -1,5 +1,12 @@
 # Universal Schema based relation extraction implemented in Torch.
 
+Paper
+------------
+This code was used for the paper [Multilingual Relation Extraction using Compositional Universal Schema](http://arxiv.org/abs/1511.06396) by Patrick Verga, David Belanger, Emma Strubell, Benjamin Roth, Andrew McCallum.
+
+If you use this code, please cite us.
+
+
 Dependencies
 -----------
 - [torch](https://github.com/torch/torch7)
@@ -7,6 +14,7 @@ Dependencies
 - [rnn](https://github.com/Element-Research/rnn)
 - [optim](https://github.com/torch/optim)
 - set this enivorment variable : TH_RELEX_ROOT=/path/to/this/proj
+
 
 Data Processing
 --------------
@@ -36,9 +44,3 @@ If you specify a test file (or comma seperated list of files), MAP will be caluc
 There are also scripts to evaluate using the [TAC slot filling task](http://www.nist.gov/tac/2013/KBP/). This requires generation of candidate files using [Relation Factory](https://github.com/beroth/relationfactory). If you follow the instructions, the candidate file will be located at /your/rundir/candidates. You can then create a config file similar to [this one](https://github.com/patverga/torch-relation-extraction/tree/master/bin/tac-evaluation/configs/2013) that points to your run directory, candidate file, etc. You can then evaluate using [this script](https://github.com/patverga/torch-relation-extraction/blob/master/bin/tac-evaluation/tac-eval-score-tuned.sh). You should tune the thresholds using [this script](https://github.com/patverga/torch-relation-extraction/blob/master/bin/tac-evaluation/tac-eval-tune-thresh.sh) first using dev data. If you dont want to, you can use [this no-threshold param file](https://github.com/patverga/torch-relation-extraction/blob/master/bin/tac-evaluation/no-thresh-params). 
 
 `./bin/tac-evaluation/tac-eval-score-tuned.sh your-config trained-model vocab-file.txt gpu-id max-length-seq-to-consider "" bin/tac-evaluation/no-thresh-params output-dir`
-
-Paper
-------------
-This code was used for the paper [Multilingual Relation Extraction using Compositional Universal Schema](http://arxiv.org/abs/1511.06396) by Patrick Verga, David Belanger, Emma Strubell, Benjamin Roth, Andrew McCallum.
-
-If you use this code, please cite us.
