@@ -117,7 +117,7 @@ else
     encoder:add(nn.SelectTable(-1))
 end
 
-if params.pool_relations ~= '' then
+if params.pool_relations then
     require 'nn-modules/EncoderPool'
     encoder = nn.EncoderPool(encoder:clone(), nn.Max(2))
 end
