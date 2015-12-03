@@ -12,16 +12,21 @@ def process_line(chars, ent_map, ep_map, line, rel_map, token_counter, double_vo
     ep_str = e1_str + '\t' + e2_str
     tokens = list(rel_str.replace(' ', '<SPACE>')) if chars else rel_str.split(' ')
 
-    for i, token in enumerate(tokens):
-        if replace_digits and '$ARG' not in token and not re.match('\[\d\]', token):
-            token = re.sub(r'[0-9]', '#', token)
-        if double_vocab and 0 < i < len(tokens) - 1:
-            token = token+'_'+tokens[0]
-        tokens[i] = token
+    if replace_digits:
+        # replace digits except for ARG and log distance tokens
+        tokens = [re.sub(r'[0-9]', '#', token) if '$ARG' not in token and not re.match('\[\d\]', token) else token for
+                  token in tokens]
+
+    # have seperate vocabularies for when arg1 proceeds arg2 and vice-versa
+    if double_vocab and tokens.index("$ARG1") > tokens.index("$ARG2"):
+        tokens = [token + '_ARG2' for token in tokens]
+
+    for token in tokens:
         token_counter[token] += 1
 
     # if not chars:
     rel_str = ' '.join(tokens)
+
     # add 1 for 1 indexing
     ent_map.setdefault(e1_str, str(len(ent_map) + 1))
     ent_map.setdefault(e2_str, str(len(ent_map) + 1))
@@ -38,6 +43,12 @@ def export_line(e1_str, e2_str, ep_str, rel_str, tokens, ent_map, ep_map, rel_ma
     ep = ep_map[ep_str]
     rel = rel_map[rel_str]
     out.write('\t'.join([e1, e2, ep, rel, ' '.join(token_ids), label]) + '\n')
+
+def export_map(file_name, vocab_map):
+    with open(file_name, 'w') as fp:
+        vocab_map = {token : int(id) for token, id in vocab_map.iteritems()}
+        for token in sorted(vocab_map, key=vocab_map.get, reverse=False):
+            fp.write(token + '\t' + str(vocab_map[token]) + '\n')
 
 
 def main(argv):
@@ -56,7 +67,8 @@ def main(argv):
 -s <throw away relations longer than this> -c <use char tokens (default is use words)> -d <double vocab depending on if [A1 rel A2] or [A2 rel A1]>'
     try:
         opts, args = getopt.getopt(argv, "hi:o:dcm:s:l:v:rn", ["inFile=", "outFile=", "saveVocab=", "loadVocab=",
-                "chars", "doubleVocab", "minCount=", "maxSeq=", "resetVocab", "noNumbers"])
+                                                               "chars", "doubleVocab", "minCount=", "maxSeq=",
+                                                               "resetVocab", "noNumbers"])
     except getopt.GetoptError:
         print help_msg
         sys.exit(2)
@@ -110,14 +122,10 @@ def main(argv):
             for line in open(in_file, 'r')]
 
     # prune infrequent tokens
-    token_count = 1
     if reset_tokens or not load_vocab_file:
-        for token, count in token_counter.iteritems():
-            if count < min_count:
-                token_map[token] = 1
-            else:
-                token_count += 1
-                token_map[token] = token_count
+        filtered_tokens = {token : count for token, count in token_counter.iteritems() if count > min_count}
+        sorted_tokens = [token for token in sorted(filtered_tokens, key=filtered_tokens.get, reverse=True)]
+        token_map = {token: i+1 for i, token in enumerate(sorted_tokens)}
 
     print 'Exporting processed lines to file'
     # export processed data
@@ -126,23 +134,16 @@ def main(argv):
      for e1_str, e2_str, ep_str, rel_str, tokens, label in data if len(tokens) <= max_seq]
     out.close()
     print 'Num ents: ', len(ent_map), 'Num eps: ', len(ep_map), \
-        'Num rels: ', len(rel_map), 'Num tokens: ', token_count
+        'Num rels: ', len(rel_map), 'Num tokens: ', len(token_map)
 
     if save_vocab_file:
         with open(save_vocab_file, 'wb') as fp:
             pickle.dump([ent_map, ep_map, rel_map, token_map, token_counter], fp)
-        with open(save_vocab_file + '-tokens.txt', 'w') as fp:
-            for token, index in token_map.iteritems():
-                fp.write(token + '\t' + str(index) + '\n')
-        with open(save_vocab_file + '-relations.txt', 'w') as fp:
-            for token, index in rel_map.iteritems():
-                fp.write(token + '\t' + str(index) + '\n')
-        with open(save_vocab_file + '-entities.txt', 'w') as fp:
-            for token, index in ent_map.iteritems():
-                fp.write(token + '\t' + str(index) + '\n')
-        with open(save_vocab_file + '-entpairs.txt', 'w') as fp:
-            for token, index in ep_map.iteritems():
-                fp.write(token + '\t' + str(index) + '\n')
+        export_map(save_vocab_file + '-tokens.txt', token_map)
+        export_map(save_vocab_file + '-relations.txt', rel_map)
+        export_map(save_vocab_file + '-entities.txt', ent_map)
+        export_map(save_vocab_file + '-entpairs.txt', ep_map)
+
 
 if __name__ == "__main__":
     main(sys.argv[1:])
