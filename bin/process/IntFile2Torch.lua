@@ -58,7 +58,7 @@ for i = 1, max_len do
         local relTensor = torch.Tensor(count, 1)
         local seqTensor = torch.Tensor(count, i)
         local labelTensor = torch.Tensor(count, 1)
-        data[i] = {ep = epTensor, e1 = e1Tensor, e2 = e2Tensor, rel = relTensor, seq = seqTensor, label = labelTensor, count = 0 }
+        data[i] = {ep = epTensor, e1 = e1Tensor, e2 = e2Tensor, rel = relTensor, seq = seqTensor, label = labelTensor, count = 0, num_rels = max_rel, num_eps = max_ep, num_ents = max_ent, num_tokens = max_token, max_length = params.maxSeq, min_count = params.minCount}
     end
 end
 
@@ -105,16 +105,7 @@ data.num_ents = max_ent
 data.num_tokens = max_token
 data.max_length = params.maxSeq
 data.min_count = params.minCount
-for i = 1, #data do
-    if data[i] then
-        data[i].num_rels = max_rel
-        data[i].num_eps = max_ep
-        data[i].num_ents = max_ent
-        data[i].num_tokens = max_token
-        data[i].max_length = params.maxSeq
-        data[i].min_count = params.minCount
-    end
-end
+
 
 torch.save(params.outFile, data)
 print(string.format('num rows = %d\t num unique tokens = %d', num_rows, max_token))
