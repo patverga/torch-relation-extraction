@@ -119,7 +119,7 @@ end
 
 if params.pool_relations ~= '' then
     require 'nn-modules/EncoderPool'
-    local encoder = nn.EncoderPool(encoder:clone(), nn.Max(2))
+    encoder = nn.EncoderPool(encoder:clone(), nn.Max(2))
 end
 
 local model
