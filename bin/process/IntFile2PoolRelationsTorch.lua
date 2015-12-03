@@ -52,6 +52,7 @@ local join = nn.JoinTable(1)
 local rel_counts = {}
 local ep_counts = {}
 local max_count = 0
+local ep_num = 0
 for ep, rel_table in pairs(ep_rels) do
     max_count = math.max(max_count, #rel_table)
     local rel_tensor = join(rel_table):clone()
@@ -59,10 +60,12 @@ for ep, rel_table in pairs(ep_rels) do
     ep_counts[#rel_table] = ep_counts[#rel_table] or {}
     table.insert(rel_counts[#rel_table], rel_tensor:view(1, rel_tensor:size(1), rel_tensor:size(2)))
     table.insert(ep_counts[#rel_table], ep)
+    ep_num = ep_num+1
+    if (ep_num % 100 == 0) then io.write('\rProcessing ep number : '..ep_num); io.flush() end
 end
-
 ep_rels = nil
-local data = {}
+
+local data = { num_eps = max_ep, num_tokens = max_token, max_length = params.max_count }
 for i = 1, math.min(params.maxCount, max_count) do
     if rel_counts[i] then
         local epTensor = torch.Tensor(ep_counts[i])
@@ -71,12 +74,8 @@ for i = 1, math.min(params.maxCount, max_count) do
     end
 end
 
+ep_counts = nil; rel_counts = nil;
+
 print('\nSaving data')
--- attach meta data
-data.num_eps = max_ep
-data.num_tokens = max_token
-data.max_length = params.max_count
-
-
 torch.save(params.outFile, data)
 print(string.format('num rows = %d\t num unique tokens = %d', num_rows, max_token))
