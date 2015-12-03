@@ -117,9 +117,10 @@ else
     encoder:add(nn.SelectTable(-1))
 end
 
---if params.dropout > 0.0 then
---encoder:add(nn.Dropout(params.dropout))
---end
+if params.pool_relations ~= '' then
+    require 'nn-modules/EncoderPool'
+    local encoder = nn.EncoderPool(encoder:clone, nn.Max(2))
+end
 
 local model
 if params.entityModel then

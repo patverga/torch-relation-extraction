@@ -46,7 +46,7 @@ function RelationEncoderModel:train(num_epochs)
             local label = batch.label
             epoch_error = epoch_error + self:optim_update(self.net, self.crit, example, label, parameters, gradParameters, self.opt_config, self.opt_state, epoch)
 
-            if (i % 50 == 0) then
+            if (i % 25 == 0) then
                 io.write(string.format('\r%.2f percent complete\tspeed = %.2f examples/sec\terror = %.4f',
                     100 * i / (#batches), (i * self.params.batchSize) / (sys.clock() - startTime), (epoch_error / i)))
                 io.flush()

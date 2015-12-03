@@ -34,7 +34,7 @@ cmd:option('-relations', false, 'Use full relation vectors instead of tokens')
 cmd:option('-logRelations', false, 'Use log relation vectors instead of tokens')
 cmd:option('-doubleVocab', false, 'double vocab so that tokens to the right of ARG1 are different then to the right of ARG2')
 cmd:option('-appendEs', false, 'append @es to end of relation')
-cmd:option('-normalizeDigits', false, 'map all digits to #')
+cmd:option('-normalizeDigits', true, 'map all digits to #')
 cmd:option('-tokenAppend', '', 'append this to the end of each token')
 cmd:option('-fullPath', false, 'use the full input pattern without any segmenting')
 
