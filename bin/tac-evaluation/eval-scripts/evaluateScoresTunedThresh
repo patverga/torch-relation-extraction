@@ -48,7 +48,7 @@ TAC_SCRIPTS=${TH_RELEX_ROOT}/bin/tac-evaluation/eval-scripts
 
 $TAC_ROOT/bin/run.sh ${TAC_SCRIPTS}/$CONFIG
   
-echo -e "`$SCORE_SCRIPT $TMP_DIR/response_classifier_david_$PP $KEY | grep -e F1 -e Recall -e Precision | tr '\n' '\t' | sed 's/^\t*//'`\tK: $k"
+echo -e "`$SCORE_SCRIPT $TMP_DIR/response_classifier_david_$PP $KEY | grep -e F1 -e Recall -e Precision | tr '\n' '\t' | sed 's/^\t*//'`"
 if [[ -n $OUT ]]; then
   cp $TMP_DIR/response_classifier_david $OUT
 fi

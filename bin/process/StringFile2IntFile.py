@@ -96,8 +96,8 @@ def main(argv):
             reset_tokens = True
         elif opt in ("-n", "--noNumbers"):
             replace_digits = True
-    print 'Input file is "', in_file
-    print 'Output file is "', out_file
+    print 'Input file is :', in_file
+    print 'Output file is :', out_file
     print ('Exporting char tokens' if chars else 'Exporting word tokens')
 
     # load memory maps from file or initialize new ones
