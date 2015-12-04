@@ -50,6 +50,9 @@ fi
 if [ "$EVAL_FREQ" ]; then
   RUN_CMD="$RUN_CMD -evaluateFrequency $EVAL_FREQ"
 fi
+if [ "$BATCH_SIZE" ]; then
+  RUN_CMD="$RUN_CMD -batchSize $BATCH_SIZE"
+fi
 
 
 echo "Training : ${MODEL}_${TRAIN_FILE}\tGPU : $GPU_ID"
