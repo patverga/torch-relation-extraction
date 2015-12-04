@@ -30,6 +30,7 @@ cmd:option('-model', '', 'a trained model that will be used to score candidates'
 cmd:option('-delim', ' ', 'delimiter to split lines on')
 cmd:option('-threshold', .001, 'scores below this threshold will be set to -1e100')
 cmd:option('-gpuid', -1, 'Which gpu to use, -1 for cpu (default)')
+cmd:option('-unkIdx', 1, 'Index to map unknown tokens to')
 cmd:option('-relations', false, 'Use full relation vectors instead of tokens')
 cmd:option('-logRelations', false, 'Use log relation vectors instead of tokens')
 cmd:option('-doubleVocab', false, 'double vocab so that tokens to the right of ARG1 are different then to the right of ARG2')
@@ -66,7 +67,7 @@ local function token_tensor(arg1_first, pattern_rel, vocab_map, dictionary, star
         idx = idx + 1
     end
 
-    if not use_full_pattern then table.insert(token_ids, vocab_map[first_arg] or 1) end
+    if not use_full_pattern then table.insert(token_ids, vocab_map[first_arg] or params.unkIdx) end
     for i = 1, #tokens do
         local token
         if not params.logRelations or #tokens <= 4 or i <= 2 or i > #tokens -2 then
@@ -136,7 +137,7 @@ local function process_line(line, vocab_map, dictionary)
 
     if params.normalizeDigits then pattern_rel = pattern_rel:gsub("%^a", "") end
 
-    local tac_tensor = torch.Tensor({vocab_map[tac_rel] or 1})
+    local tac_tensor = torch.Tensor({vocab_map[tac_rel] or params.unkIdx})
 
     -- we only want tokens between the two args
     local start_idx = tonumber(end_1)
