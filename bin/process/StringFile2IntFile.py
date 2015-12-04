@@ -18,7 +18,7 @@ def process_line(chars, ent_map, ep_map, line, rel_map, token_counter, double_vo
                   token in tokens]
 
     # have seperate vocabularies for when arg1 proceeds arg2 and vice-versa
-    if double_vocab and tokens.index("$ARG1") > tokens.index("$ARG2"):
+    if double_vocab and len(tokens) > 1 and tokens.index("$ARG1") > tokens.index("$ARG2"):
         tokens = [token + '_ARG2' for token in tokens]
 
     for token in tokens:
@@ -44,9 +44,10 @@ def export_line(e1_str, e2_str, ep_str, rel_str, tokens, ent_map, ep_map, rel_ma
     rel = rel_map[rel_str]
     out.write('\t'.join([e1, e2, ep, rel, ' '.join(token_ids), label]) + '\n')
 
+
 def export_map(file_name, vocab_map):
     with open(file_name, 'w') as fp:
-        vocab_map = {token : int(id) for token, id in vocab_map.iteritems()}
+        vocab_map = {token: int(id) for token, id in vocab_map.iteritems()}
         for token in sorted(vocab_map, key=vocab_map.get, reverse=False):
             fp.write(token + '\t' + str(vocab_map[token]) + '\n')
 
@@ -123,9 +124,9 @@ def main(argv):
 
     # prune infrequent tokens
     if reset_tokens or not load_vocab_file:
-        filtered_tokens = {token : count for token, count in token_counter.iteritems() if count > min_count}
+        filtered_tokens = {token: count for token, count in token_counter.iteritems() if count > min_count}
         sorted_tokens = [token for token in sorted(filtered_tokens, key=filtered_tokens.get, reverse=True)]
-        token_map = {token: i+1 for i, token in enumerate(sorted_tokens)}
+        token_map = {token: i + 1 for i, token in enumerate(sorted_tokens)}
 
     print 'Exporting processed lines to file'
     # export processed data
