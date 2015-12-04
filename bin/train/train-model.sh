@@ -30,6 +30,9 @@ fi
 if [ "$BI_DIRECTIONAL" ]; then
   RUN_CMD="$RUN_CMD -bi"
 fi
+if [ "$POOL_RELATIONS" ]; then
+  RUN_CMD="$RUN_CMD -poolRelations"
+fi
 
 if [ "$DROPOUT" ]; then
   RUN_CMD="$RUN_CMD -dropout $DROPOUT"
