@@ -13,7 +13,7 @@ cmd:option('-gpuid', -1, 'Which gpu to use, -1 for cpu (default)')
 
 -- data file locations
 cmd:option('-train', 'data/train-mtx.torch', 'torch format train file list')
-cmd:option('-test', 'data/test-mtx-torch/0-test.mtx', 'torch format test file list')
+cmd:option('-test', '', 'torch format test file list')
 cmd:option('-loadModel', '', 'load a pretrained model from this file')
 cmd:option('-saveModel', '', 'file to save the trained model to')
 cmd:option('-loadEpEmbeddings', '', 'file containing serialized torch embeddings')
