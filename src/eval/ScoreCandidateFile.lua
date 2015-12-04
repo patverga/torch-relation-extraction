@@ -221,35 +221,40 @@ local function score_data(data, max_seq, text_encoder, kb_rel_table)
     out_file:close()
 end
 
+local function load_maps()
+    local vocab_map = {}
+    for line in io.lines(params.vocabFile) do
+        local token, id = string.match(line, "([^\t]+)\t([^\t]+)")
+        if token and id then
+            id = tonumber(id)
+            if id > 1 then vocab_map[token] = id end
+        end
+    end
+    local dictionary = {}
+    if params.dictionary ~= '' then
+        for line in io.lines(params.dictionary) do
+            -- space seperated
+            local en, es = string.match(line, "([^\t]+) ([^\t]+)")
+            dictionary[es] = en
+        end
+    end
+    return vocab_map, dictionary
+end
+
+
+
 ---- main
 
-local model = torch.load(params.model)
+-- process the candidate file
+local data, max_seq = process_file(load_maps())
 
+-- load model
+local model = torch.load(params.model)
 local kb_rel_table = to_cuda(model.kb_rel_table ~= nil and model.kb_rel_table or model.encoder)
 local text_encoder = to_cuda(model.text_encoder ~= nil and model.text_encoder or model.encoder)
 kb_rel_table:evaluate()
 text_encoder:evaluate()
 
--- load the vocab map to memory
-local vocab_map = {}
-for line in io.lines(params.vocabFile) do
-    local token, id = string.match(line, "([^\t]+)\t([^\t]+)")
-    if token and id then
-        id = tonumber(id)
-        if id > 1 then vocab_map[token] = id end
-    end
-end
-local dictionary = {}
-if params.dictionary ~= '' then
-    for line in io.lines(params.dictionary) do
-        -- space seperated
-        local en, es = string.match(line, "([^\t]+) ([^\t]+)")
-        dictionary[es] = en
-    end
-end
-
-
-local data, max_seq = process_file(vocab_map, dictionary)
+-- score and export candidate file
 score_data(data, max_seq, text_encoder, kb_rel_table)
-
 print ('\nDone, found ' .. in_vocab .. ' in vocab tokens and ' .. out_vocab .. ' out of vocab tokens.')
