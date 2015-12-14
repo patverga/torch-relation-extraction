@@ -12,6 +12,7 @@ MAX_SEQ=9999999
 CHARS=""
 DOUBLE_VOCAB=""
 CUR_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+
 PY_FILE="$CUR_DIR/StringFile2IntFile.py"
 TORCH_FILE="$CUR_DIR/IntFile2Torch.lua"
 
@@ -23,7 +24,7 @@ while getopts i:o:v:m:l:s:cdrn opt; do
   i)
       IN_FILE=$OPTARG
       PY_CMD="$PY_CMD -i $IN_FILE"
-      INTERMEDIATE_FILE=${IN_FILE}-ints
+      INTERMEDIATE_FILE=`mktemp`
       PY_CMD="$PY_CMD -o $INTERMEDIATE_FILE"
       TORCH_CMD="$TORCH_CMD -inFile ${INTERMEDIATE_FILE}"
       ;;
