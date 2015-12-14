@@ -3,25 +3,19 @@ import getopt
 
 
 def process_line(line):
-    arg1, tac_rel, arg2, doc_info, s1_str, e1_str, s2_str, e2_str, sentence = line.split('\t')
+    arg1, tac_rel, arg2, doc_info, s1_str, e1_str, s2_str, e2_str, sentence = line.strip().split('\t')
     s1 = int(s1_str)
     s2 = int(s2_str)
     e1 = int(e1_str)
     e2 = int(e2_str)
 
-    a1_first = s1 < s2
-    if a1_first:
+    if s1 < s2:
         arg1_str = '$ARG1'
         arg2_str = '$ARG2'
     else:
         arg1_str = '$ARG2'
         arg2_str = '$ARG1'
-        tmp = s1
-        s1 = s2
-        s2 = tmp
-        tmp = e1
-        e1 = e2
-        e2 = tmp
+        s1, s2, e1, e2 = s2, s1, e2, e1
 
     tokens = sentence.split(' ')
     left = tokens[:s1]
@@ -56,7 +50,7 @@ def main(argv):
 
     print 'Exporting lines to ' + out_file
     out = open(out_file, 'w')
-    [out.write(line) for line in data]
+    [out.write(line + '\n') for line in data]
     out.close()
 
     print 'Done'
