@@ -37,6 +37,7 @@ function UniversalSchemaEncoder:__init(params, rel_table, encoder, squeeze_rel)
     self.encoder = encoder
 end
 
+
 function UniversalSchemaEncoder:build_network(params, num_eps, encoder)
     -- seperate lookup tables for entity pairs and relations
     local pos_ep_table = self:to_cuda(nn.LookupTable(num_eps, params.embeddingDim))
@@ -81,10 +82,7 @@ function UniversalSchemaEncoder:build_network(params, num_eps, encoder)
 end
 
 
-
 ----- TRAIN -----
-
-
 function UniversalSchemaEncoder:gen_subdata_batches(sub_data, batches, max_neg, shuffle)
 --    shuffle = shuffle or true
     local start = 1
@@ -102,6 +100,7 @@ function UniversalSchemaEncoder:gen_subdata_batches(sub_data, batches, max_neg, 
     end
 end
 
+
 function UniversalSchemaEncoder:gen_training_batches(data)
     local batches = {}
     if #data > 0 then
@@ -114,6 +113,7 @@ function UniversalSchemaEncoder:gen_training_batches(data)
     end
     return batches
 end
+
 
 function UniversalSchemaEncoder:regularize()
     self.rel_table.weight:renorm(2, 2, 3.0)
@@ -150,8 +150,6 @@ function UniversalSchemaEncoder:optim_update(net, criterion, x, y, parameters, g
             net:backward(x,df_dpred)
         end
 
-
-
         if net.forget then net:forget() end
         if self.params.l2Reg > 0 then grad_params:add(self.params.l2Reg, parameters) end
         if self.params.clipGrads > 0 then
@@ -169,7 +167,6 @@ function UniversalSchemaEncoder:optim_update(net, criterion, x, y, parameters, g
     if self.params.regularize then self:regularize() end
     return err
 end
-
 
 
 --- - Evaluate ----
@@ -200,3 +197,4 @@ function UniversalSchemaEncoder:score_subdata(sub_data)
 
     return scores, sub_data.label:view(sub_data.label:size(1))
 end
+
