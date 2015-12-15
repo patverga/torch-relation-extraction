@@ -52,7 +52,7 @@ while read REL; do
     #echo $'\r'"F1: $FSCORE"
     if [[ `echo "$FSCORE > $OLD_FSCORE" | bc` == 1 ]]; 
     then
-     echo $'\r'"F1: $FSCORE"
+     # echo $'\r'"F1: $FSCORE"
      OLD_FSCORE=$FSCORE
      USED_JPARAM=$JPARAM
     fi
@@ -65,5 +65,5 @@ while read REL; do
 done < $RELLIST
 done
 
-echo $FSCORE > ${OUT}/F1
+echo $OLD_FSCORE | tee ${OUT}/F1
 rm $slotlist
