@@ -6,7 +6,7 @@ TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/training-data/pool-relations"
 
 TRAINED_EP="/home/pat/canvas/universal-schema/univSchema/torch/data/fixed-2013-tac/fixed-nologs/models/uschema-filtered-reloged-50d/7-ent-weights"
 TRAIN_FILE="sentences-min5-max100.en"
-VOCAB="sentences-min5-max100.en-tokens.txt"
+VOCAB="${TH_RELEX_ROOT}/vocabs/full-sentences/sentences-min5-max100.en-tokens.txt"
 TAC_YEAR="2012-full-sentence"
 
 BATCH_SIZE=128
