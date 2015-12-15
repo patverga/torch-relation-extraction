@@ -65,4 +65,5 @@ while read REL; do
 done < $RELLIST
 done
 
+echo $FSCORE > ${OUT}/F1
 rm $slotlist
