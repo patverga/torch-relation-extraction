@@ -5,7 +5,7 @@ SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/$NAME"
 TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/training-data/full-sentences"
 
 TRAINED_EP="/home/pat/canvas/universal-schema/univSchema/torch/data/fixed-2013-tac/fixed-nologs/models/uschema-filtered-reloged-50d/7-ent-weights"
-TRAIN_FILE="no-log-old-ep-subset-min5-seq50"
+TRAIN_FILE="sentences-min5-max100.en"
 BATCH_SIZE=128
 LEARN_RATE=.0001
 EMBED_DIM=50
