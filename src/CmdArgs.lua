@@ -77,7 +77,7 @@ cmd:option('-freezeRel', 0, 'freeze the rel embeddings for this many epochs')
 cmd:option('-tacOut', '', 'tac eval output dir')
 cmd:option('-vocab', '', 'vocab file to use for tac eval')
 cmd:option('-tacYear', '', 'tac evaluation year')
-cmd:option('-otherArgs', '', 'other args for tac eval')
+cmd:option('-evalArgs', '', 'other args for tac eval')
 cmd:option('-evaluateFrequency', 1, 'evaluate after every ith epoch')
 
 -- other

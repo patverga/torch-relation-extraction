@@ -8,6 +8,7 @@ TRAINED_EP="/home/pat/canvas/universal-schema/univSchema/torch/data/fixed-2013-t
 TRAIN_FILE="sentences-min5-max100.en"
 VOCAB="${TH_RELEX_ROOT}/vocabs/full-sentences/sentences-min5-max100.en-tokens.txt"
 TAC_YEAR="2012-full-sentence"
+EVAL_ARGS="\"-fullPath\""
 
 BATCH_SIZE=128
 LEARN_RATE=.0001

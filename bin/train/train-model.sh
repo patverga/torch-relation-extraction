@@ -53,6 +53,9 @@ fi
 if [ "$VOCAB" ]; then
   RUN_CMD="$RUN_CMD -vocab $VOCAB"
 fi
+if [ "$EVAL_ARGS" ]; then
+  RUN_CMD="$RUN_CMD -evalArgs $EVAL_ARGS"
+fi
 
 if [ "$EVAL_FREQ" ]; then
   RUN_CMD="$RUN_CMD -evaluateFrequency $EVAL_FREQ"

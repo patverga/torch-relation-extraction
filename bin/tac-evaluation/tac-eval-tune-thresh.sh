@@ -5,8 +5,9 @@ MODEL=$2
 VOCAB=$3
 GPU=$4
 MAX_SEQ=$5
-OTHER_ARGS=$6
-OUT=`pwd`/$7
+OUT=$6
+EVAL_ARGS=$7
+
 
 TAC_EVAL_ROOT=${TH_RELEX_ROOT}/bin/tac-evaluation
 source ${TAC_EVAL_ROOT}/configs/${YEAR}
@@ -14,7 +15,7 @@ source ${TAC_EVAL_ROOT}/configs/${YEAR}
 SCORED_CANDIDATES=`mktemp`
 
 # score candidate file
-SCORE_CMD="th ${TH_RELEX_ROOT}/src/eval/ScoreCandidateFile.lua -candidates $CANDIDATES -vocabFile $VOCAB -model $MODEL -gpuid $GPU -threshold 0 -outFile $SCORED_CANDIDATES  -maxSeq $MAX_SEQ $OTHER_ARGS"
+SCORE_CMD="th ${TH_RELEX_ROOT}/src/eval/ScoreCandidateFile.lua -candidates $CANDIDATES -vocabFile $VOCAB -model $MODEL -gpuid $GPU -threshold 0 -outFile $SCORED_CANDIDATES -maxSeq $MAX_SEQ $EVAL_ARGS"
 echo $SCORE_CMD
 $SCORE_CMD
 
