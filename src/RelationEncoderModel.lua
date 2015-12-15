@@ -124,7 +124,7 @@ end
 
 function RelationEncoderModel:tac_eval(model_file, other_args)
     if self.params.vocab ~= '' and self.params.tacYear ~= '' then
-        local cmd = '/home/pat/canvas/universal-schema/univSchema/torch/tac-eval.sh ' .. self.params.tacYear .. ' ' .. model_file..'-model'
+        local cmd = '${TH_RELEX_ROOT}/bin/tac-evaluation/tac-eval-tune-thresh.sh ' .. self.params.tacYear .. ' ' .. model_file..'-model'
                 .. ' ' .. self.params.vocab .. ' ' .. self.params.gpuid ..' ' .. self.params.maxSeq .. ' "' .. other_args .. '"' .. ' ' .. self.params.tacOut
         print(cmd)
         os.execute(cmd)

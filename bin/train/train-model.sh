@@ -44,9 +44,16 @@ fi
 if [ "$TEST_FILE" ]; then
   RUN_CMD="$RUN_CMD -test $TEST_FILE"
 fi
+if [ "$TAC_YEAR" ]; then
+  RUN_CMD="$RUN_CMD -tacYear $TAC_YEAR"
+fi
 if [ "$TRAINED_EP" ]; then
   RUN_CMD="$RUN_CMD -loadEpEmbeddings $TRAINED_EP"
 fi
+if [ "$VOCAB" ]; then
+  RUN_CMD="$RUN_CMD -vocab $VOCAB"
+fi
+
 if [ "$EVAL_FREQ" ]; then
   RUN_CMD="$RUN_CMD -evaluateFrequency $EVAL_FREQ"
 fi
