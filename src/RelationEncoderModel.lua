@@ -122,11 +122,11 @@ function RelationEncoderModel:avg_precision(file, high_score)
 end
 
 
-function RelationEncoderModel:tac_eval(model_file, evalArgs)
+function RelationEncoderModel:tac_eval(model_file, out_dir, eval_args)
     if self.params.vocab ~= '' and self.params.tacYear ~= '' then
         local cmd = '${TH_RELEX_ROOT}/bin/tac-evaluation/tac-eval-tune-thresh.sh ' .. self.params.tacYear .. ' '
                 .. model_file..'-model' .. ' ' .. self.params.vocab .. ' ' .. self.params.gpuid ..' '
-                .. self.params.maxSeq .. ' ' .. self.params.resultDir .. ' "' .. evalArgs .. '"'
+                .. self.params.maxSeq .. ' ' .. out_dir .. ' "' .. eval_args .. '" &'
         print(cmd)
         os.execute(cmd)
     end
@@ -177,7 +177,7 @@ function RelationEncoderModel:save_model(epoch)
     if self.params.saveModel ~= '' then
         torch.save(self.params.saveModel .. '/' .. epoch .. '-model',
             {net = self.net, encoder = self.encoder, rel_table = self.rel_table, ent_table = self.ent_table, opt_state = self.opt_state})
-        self:tac_eval(self.params.saveModel .. '/' .. epoch, self.params.evalArgs)
+        self:tac_eval(self.params.saveModel .. '/' .. epoch, self.params.resultDir .. '/' .. epoch, self.params.evalArgs)
         torch.save(self.params.saveModel .. '/' .. epoch .. '-ent-weights', self.params.gpuid >= 0 and self.ent_table.weight:double() or self.ent_table.weight)
         torch.save(self.params.saveModel .. '/' .. epoch .. '-rel-weights', self.params.gpuid >= 0 and self.rel_table.weight:double() or self.rel_table.weight)
     end
