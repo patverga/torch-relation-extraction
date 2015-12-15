@@ -17,9 +17,11 @@ SCORED_CANDIDATES=`mktemp`
 
 # score candidate file
 SCORE_CMD="th ${TH_RELEX_ROOT}/src/eval/ScoreCandidateFile.lua -candidates $CANDIDATES -vocabFile $VOCAB -model $MODEL -gpuid $GPU -threshold 0 -outFile $SCORED_CANDIDATES -maxSeq $MAX_SEQ $EVAL_ARGS"
-echo $SCORE_CMD
-$SCORE_CMD
+echo ${SCORE_CMD}
+${SCORE_CMD}
 
-${TAC_EVAL_ROOT}/eval-scripts/evaluateScoresTunedThresh $SCORE_SCRIPT $SCORED_CANDIDATES $RUN_DIR $CONFIG $PP $KEY $TUNED_PARAMS $OUT
+EVAL_CMD="${TAC_EVAL_ROOT}/eval-scripts/evaluateScoresTunedThresh $SCORE_SCRIPT $SCORED_CANDIDATES $RUN_DIR $CONFIG $PP $KEY $TUNED_PARAMS $OUT"
+echo ${EVAL_CMD}
+${EVAL_CMD}
 
-rm $SCORED_CANDIDATES
+rm ${SCORED_CANDIDATES}

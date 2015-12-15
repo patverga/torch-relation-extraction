@@ -74,7 +74,7 @@ cmd:option('-freezeRel', 0, 'freeze the rel embeddings for this many epochs')
 
 -- evaluation
 --cmd:option('-k', 0, 'export the top k relations for each of the test relations')
-cmd:option('-tacOut', '', 'tac eval output dir')
+cmd:option('-resultDir', '', 'tac eval output dir')
 cmd:option('-vocab', '', 'vocab file to use for tac eval')
 cmd:option('-tacYear', '', 'tac evaluation year')
 cmd:option('-evalArgs', '', 'other args for tac eval')

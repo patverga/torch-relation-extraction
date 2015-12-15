@@ -19,6 +19,7 @@ RUN_CMD="th ${TH_RELEX_ROOT}/src/${MODEL}.lua
 -gpuid ${GPU_ID}
 -embeddingDim ${EMBED_DIM}
 -numEpochs ${MAX_EPOCHS}
+-resultDir ${SAVE}
 "
 
 if [ "$WORD_DIM" ]; then

@@ -124,8 +124,9 @@ end
 
 function RelationEncoderModel:tac_eval(model_file, evalArgs)
     if self.params.vocab ~= '' and self.params.tacYear ~= '' then
-        local cmd = '${TH_RELEX_ROOT}/bin/tac-evaluation/tac-eval-tune-thresh.sh ' .. self.params.tacYear .. ' ' .. model_file..'-model'
-                .. ' ' .. self.params.vocab .. ' ' .. self.params.gpuid ..' ' .. self.params.maxSeq .. ' "' .. evalArgs .. '"' .. ' ' .. self.params.tacOut
+        local cmd = '${TH_RELEX_ROOT}/bin/tac-evaluation/tac-eval-tune-thresh.sh ' .. self.params.tacYear .. ' '
+                .. model_file..'-model' .. ' ' .. self.params.vocab .. ' ' .. self.params.gpuid ..' '
+                .. self.params.maxSeq .. ' ' .. self.params.resultDir .. ' "' .. evalArgs .. '"'
         print(cmd)
         os.execute(cmd)
     end
