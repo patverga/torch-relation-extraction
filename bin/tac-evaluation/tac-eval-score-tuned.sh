@@ -7,7 +7,7 @@ GPU=$4
 MAX_SEQ=$5
 TUNED_PARAMS=$6
 OUT=$7
-EVAL_ARGS=$8
+EVAL_ARGS=${@:8}
 
 
 TAC_EVAL_ROOT=${TH_RELEX_ROOT}/bin/tac-evaluation

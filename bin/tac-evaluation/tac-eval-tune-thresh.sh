@@ -6,7 +6,7 @@ VOCAB=$3
 GPU=$4
 MAX_SEQ=$5
 OUT=$6
-EVAL_ARGS=$7
+EVAL_ARGS=${@:7}
 
 
 TAC_EVAL_ROOT=${TH_RELEX_ROOT}/bin/tac-evaluation
