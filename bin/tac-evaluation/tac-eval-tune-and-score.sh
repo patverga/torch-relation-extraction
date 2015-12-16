@@ -13,4 +13,4 @@ EVAL_ARGS=${@:8}
 ${TH_RELEX_ROOT}/bin/tac-evaluation/tac-eval-tune-thresh.sh $TUNE_YEAR $MODEL $VOCAB $GPU $MAX_SEQ $OUT $EVAL_ARGS
 
 # use tuned thresholds and evaluate on test year
-${TH_RELEX_ROOT}/bin/tac-evaluation/tac-eval-tune-thresh.sh $TEST_YEAR $MODEL $VOCAB $GPU $MAX_SEQ $OUT/params $OUT $EVAL_ARGS
+${TH_RELEX_ROOT}/bin/tac-evaluation/tac-eval-score-tuned.sh $TEST_YEAR $MODEL $VOCAB $GPU $MAX_SEQ $OUT/params $OUT $EVAL_ARGS
