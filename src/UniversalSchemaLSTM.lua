@@ -17,14 +17,16 @@ require 'rnn'
 local train_data = torch.load(params.train)
 
 local encoder
+local rel_table
 if params.loadModel ~= '' then
-    encoder = torch.load(params.loadModel).encoder
+    local loaded_model = torch.load(params.loadModel)
+    encoder = loaded_model.encoder
+    rel_table = loaded_model.rel_table:clone()
 else
     local inputSize = params.wordDim > 0 and params.wordDim or (params.relDim > 0 and params.relDim or params.embeddingDim)
     local outputSize = params.relDim > 0 and params.relDim or params.embeddingDim
 
     local rel_size = train_data.num_tokens
-    local rel_table
     -- never update word embeddings, these should be preloaded
     if params.noWordUpdate then
         require 'nn-modules/NoUpdateLookupTable'
