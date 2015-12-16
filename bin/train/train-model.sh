@@ -51,6 +51,9 @@ fi
 if [ "$TRAINED_EP" ]; then
   RUN_CMD="$RUN_CMD -loadEpEmbeddings $TRAINED_EP"
 fi
+if [ "$LOAD_MODEL" ]; then
+  RUN_CMD="$RUN_CMD -loadModel $LOAD_MODEL"
+fi
 if [ "$VOCAB" ]; then
   RUN_CMD="$RUN_CMD -vocab $VOCAB"
 fi
