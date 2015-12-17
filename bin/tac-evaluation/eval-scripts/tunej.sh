@@ -11,7 +11,7 @@ SCORE_SCRIPT=$2
 RESPONSE_PREFIX=$3
 OUT=$4
 PARAMS=${@:5}
-mkdir $OUT
+mkdir -p $OUT
 
 RELLIST=`$TAC_ROOT/bin/get_expand_config.sh rellist $TAC_ROOT/config/rellist`
 RESPONSE=$OUT/tuned
