@@ -1,5 +1,5 @@
 MODEL=UniversalSchemaLSTM
-NAME=lstm-full-sentence-bi
+NAME=lstm-full-sentence-bi-double
 
 SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/$NAME"
 TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/training-data/full-sentences"
