@@ -19,7 +19,7 @@ local train_data = torch.load(params.train)
 local encoder
 local rel_table
 if params.loadEncoder ~= '' then
-    local loaded_model = torch.load(params.loadModel)
+    local loaded_model = torch.load(params.loadEncoder)
     encoder = loaded_model.encoder
     rel_table = loaded_model.rel_table:clone()
 else
