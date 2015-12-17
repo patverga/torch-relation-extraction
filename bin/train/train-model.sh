@@ -54,6 +54,9 @@ fi
 if [ "$LOAD_MODEL" ]; then
   RUN_CMD="$RUN_CMD -loadModel $LOAD_MODEL"
 fi
+if [ "$LOAD_ENCODER" ]; then
+  RUN_CMD="$RUN_CMD -loadModel $LOAD_ENCODER"
+fi
 if [ "$VOCAB" ]; then
   RUN_CMD="$RUN_CMD -vocab $VOCAB"
 fi

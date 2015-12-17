@@ -18,7 +18,7 @@ local train_data = torch.load(params.train)
 
 local encoder
 local rel_table
-if params.loadModel ~= '' then
+if params.loadEncoder ~= '' then
     local loaded_model = torch.load(params.loadModel)
     encoder = loaded_model.encoder
     rel_table = loaded_model.rel_table:clone()
@@ -55,17 +55,24 @@ else
     -- recurrent layer
     local lstm = nn.Sequential()
     for i = 1, params.layers do
-        local recurrent_cell
-        if params.rnnCell then
-            recurrent_cell = nn.Recurrent(outputSize, nn.Linear(inputSize, outputSize), nn.Linear(outputSize, outputSize), nn.Sigmoid(), 9999)
-        else
-            recurrent_cell = nn.FastLSTM(i == 1 and inputSize or outputSize, outputSize)
-    --        recurrent_cell.forgetGate:get(1):get(1).bias:fill(1)
-        end
-        if params.bi then
-    --        lstm:add(nn.BiSequencer(recurrent_cell, recurrent_cell:clone()))
-            require 'nn-modules/NoUnReverseBiSequencer'
-            lstm:add(nn.NoUnReverseBiSequencer(recurrent_cell, recurrent_cell:clone()))
+        local layer_output_size = (i < params.layers or not string.find(params.bi, 'concat')) and outputSize or outputSize / 2
+        local layer_input_size = i == 1 and inputSize or outputSize
+        local recurrent_cell =
+        -- regular rnn
+        params.rnnCell and nn.Recurrent(layer_output_size, nn.Linear(layer_input_size, layer_output_size),
+                nn.Linear(layer_output_size, layer_output_size), nn.Sigmoid(), 9999)
+        -- lstm
+        or nn.FastLSTM(layer_input_size, layer_output_size)
+        if params.bi == "add" then
+            lstm:add(nn.BiSequencer(recurrent_cell, recurrent_cell:clone(), nn.CAddTable()))
+        elseif params.bi == "linear" then
+            lstm:add(nn.Sequential():add(nn.BiSequencer(recurrent_cell, recurrent_cell:clone())):add
+            (nn.Sequencer(nn.Linear(layer_output_size*2, layer_output_size))))
+--        elseif params.bi == "concat" then
+--            lstm:add(nn.BiSequencer(recurrent_cell, recurrent_cell:clone()))
+--        elseif params.bi == "no-reverse-concat" then
+--            require 'nn-modules/NoUnReverseBiSequencer'
+--            lstm:add(nn.NoUnReverseBiSequencer(recurrent_cell, recurrent_cell:clone()))
         else
             lstm:add(nn.Sequencer(recurrent_cell))
         end
