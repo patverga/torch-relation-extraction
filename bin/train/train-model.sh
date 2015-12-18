@@ -29,10 +29,13 @@ if [ "$REL_DIM" ]; then
   RUN_CMD="$RUN_CMD -relDim $REL_DIM"
 fi
 if [ "$BI_DIRECTIONAL" ]; then
-  RUN_CMD="$RUN_CMD -bi"
+  RUN_CMD="$RUN_CMD -bi $BI_DIRECTIONAL"
 fi
 if [ "$POOL_RELATIONS" ]; then
   RUN_CMD="$RUN_CMD -poolRelations"
+fi
+if [ "$LAYERS" ]; then
+  RUN_CMD="$RUN_CMD -layers $LAYERS"
 fi
 
 if [ "$DROPOUT" ]; then

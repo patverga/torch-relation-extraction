@@ -1,14 +1,14 @@
 MODEL=UniversalSchemaLSTM
-NAME=lstm-full-sentence-bi
+NAME=lstm-bi-3layer
 
 SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/$NAME"
-TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/training-data/full-sentences"
+TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/training-data/"
 
 TRAINED_EP="/home/pat/canvas/universal-schema/univSchema/torch/models/2015-11-28_12/UniversalSchema_relogged_min5_noramlized.en/15-ent-weights"
-TRAIN_FILE="sentences-min5-max100.en"
-VOCAB="${TH_RELEX_ROOT}/vocabs/full-sentences/sentences-min5-max100.en-tokens.txt"
-TAC_YEAR="2012-full-sentence"
-EVAL_ARGS="-fullPath"
+TRAIN_FILE="no-log_min5_noramlized.en"
+VOCAB="${TH_RELEX_ROOT}/vocabs/no-log_min5_noramlized.en-tokens.txt"
+TAC_YEAR="2012"
+# EVAL_ARGS=""
 
 BATCH_SIZE=128
 LEARN_RATE=.0001
@@ -20,3 +20,4 @@ EVAL_FREQ=1
 DROPOUT=.1
 WORD_DIM=100
 BI_DIRECTIONAL="add"
+LAYERS=3
