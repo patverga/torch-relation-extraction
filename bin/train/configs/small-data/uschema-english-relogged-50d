@@ -1,5 +1,5 @@
 MODEL=UniversalSchema
-NAME="uschema-english-relogged"
+NAME="uschema-english-relogged-50d"
 
 SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/$NAME"
 TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/training-data"
