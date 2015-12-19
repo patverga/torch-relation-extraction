@@ -31,11 +31,9 @@ Training Models
 ------------
 You can run various Universal Schema models located in [src](https://github.com/patverga/torch-relation-extraction/blob/master/src/). Check out the various options in [CmdArgs.lua](https://github.com/patverga/torch-relation-extraction/blob/master/src/CmdArgs.lua)
 
-`th src/UniversalSchemaLSTM.lua -gpuid 0` will train an LSTM Universal Schema model using some sample train data and do map evalution on sample test data.
+You can train models using this [train script](https://github.com/patverga/torch-relation-extraction/blob/master/bin/train/train-model.sh). The script takes two parameters, a gpuid (-1 for cpu) and a [config file](https://github.com/patverga/torch-relation-extraction/tree/master/bin/train/configs). You can run an example base Universal Schema model and evaluate MAP with the following command. 
 
-You can also train models using this [train script](https://github.com/patverga/torch-relation-extraction/blob/master/bin/train/train-model.sh). The script takes two parameters, a gpuid (-1 for cpu) and a [config file](https://github.com/patverga/torch-relation-extraction/tree/master/bin/train/configs). 
-
-`./bin/train/train-model.sh 0 bin/train/configs/your-config`
+`./bin/train/train-model.sh 0 bin/train/configs/example`
 
 Evaluation
 ---------
