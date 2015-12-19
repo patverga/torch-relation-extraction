@@ -3,7 +3,7 @@
 YEAR=$1
 RESPONSES=${@:2}
 
-source tac-configs/${YEAR}
+source ${TH_RELEX_ROOT}/bin/tac-evaluation/configs/${YEAR}
 
 
 echo "Merging responses"
