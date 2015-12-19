@@ -1,5 +1,5 @@
 export MODEL=UniversalSchemaLSTM
-export NAME=lstm-bi-3layer
+export NAME=lstm-bi-paper
 
 export SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/$NAME"
 export TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/training-data/"
@@ -8,7 +8,6 @@ export TRAINED_EP="/home/pat/canvas/universal-schema/univSchema/torch/models/201
 export TRAIN_FILE="no-log_min5_noramlized.en"
 export VOCAB="${TH_RELEX_ROOT}/vocabs/no-log_min5_noramlized.en-tokens.txt"
 export TAC_YEAR="2012"
-export # EVAL_ARGS=""
 
 export BATCH_SIZE=128
 export LEARN_RATE=.0001
