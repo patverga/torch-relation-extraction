@@ -26,6 +26,9 @@ fi
 if [ "$LAYERS" ]; then
   RUN_CMD="$RUN_CMD -layers $LAYERS"
 fi
+if [ "$POOL_LAYER" ]; then
+  RUN_CMD="$RUN_CMD -poolLayer $POOL_LAYER"
+fi
 
 if [ "$DROPOUT" ]; then
   RUN_CMD="$RUN_CMD -dropout $DROPOUT"
