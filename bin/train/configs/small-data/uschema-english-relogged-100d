@@ -1,13 +1,13 @@
-MODEL=UniversalSchema
-NAME="uschema-english-relogged-100d"
+export MODEL=UniversalSchema
+export NAME="uschema-english-relogged-100d"
 
-SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/$NAME"
-TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/training-data"
+export SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/$NAME"
+export TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/training-data"
 
-TRAIN_FILE="relogged_min5_noramlized.en"
-BATCH_SIZE=1024
-LEARN_RATE=.001
-EMBED_DIM=100
-MAX_SEQ=15
-MAX_EPOCHS=15
-EVAL_FREQ=3
+export TRAIN_FILE="relogged_min5_noramlized.en"
+export BATCH_SIZE=1024
+export LEARN_RATE=.001
+export EMBED_DIM=100
+export MAX_SEQ=15
+export MAX_EPOCHS=15
+export EVAL_FREQ=3

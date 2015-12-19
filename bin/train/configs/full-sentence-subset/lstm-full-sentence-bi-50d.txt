@@ -1,5 +1,5 @@
 export MODEL=UniversalSchemaLSTM
-export NAME=subset-lstm-full-sentence-50d
+export NAME=subset-lstm-full-sentence-bi-50d
 
 export SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/$NAME"
 export TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/training-data/full-sentence-subset/"
@@ -20,3 +20,4 @@ export MAX_EPOCHS=15
 export EVAL_FREQ=3
 export DROPOUT=.1
 export WORD_DIM=100
+export BI_DIRECTIONAL="add"

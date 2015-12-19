@@ -1,21 +1,21 @@
-MODEL=UniversalSchemaLSTM
-NAME=subset-lstm-center-nolog-50d
+export MODEL=UniversalSchemaLSTM
+export NAME=subset-lstm-center-nolog-50d
 
-SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/$NAME"
-TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/training-data/full-sentence-subset/"
+export SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/$NAME"
+export TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/training-data/full-sentence-subset/"
 
-TRAINED_EP="/home/pat/canvas/universal-schema/univSchema/torch/data/fixed-2013-tac/fixed-nologs/models/uschema-filtered-reloged-50d/7-ent-weights"
-TRAIN_FILE="center-no-log.fixed-5mil-subset"
-VOCAB="${TH_RELEX_ROOT}/vocabs/full-sentence-subset/center-no-log.fixed-5mil-subset-tokens.txt"
-TAC_YEAR="2012"
+export TRAINED_EP="/home/pat/canvas/universal-schema/univSchema/torch/data/fixed-2013-tac/fixed-nologs/models/uschema-filtered-reloged-50d/7-ent-weights"
+export TRAIN_FILE="center-no-log.fixed-5mil-subset"
+export VOCAB="${TH_RELEX_ROOT}/vocabs/full-sentence-subset/center-no-log.fixed-5mil-subset-tokens.txt"
+export TAC_YEAR="2012"
 
 
-BATCH_SIZE=128
-LEARN_RATE=.0001
-EMBED_DIM=50
-REL_DIM=50
-MAX_SEQ=50
-MAX_EPOCHS=15
-EVAL_FREQ=3
-DROPOUT=.1
-WORD_DIM=100
+export BATCH_SIZE=128
+export LEARN_RATE=.0001
+export EMBED_DIM=50
+export REL_DIM=50
+export MAX_SEQ=50
+export MAX_EPOCHS=15
+export EVAL_FREQ=3
+export DROPOUT=.1
+export WORD_DIM=100

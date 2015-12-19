@@ -1,17 +1,17 @@
-MODEL=UniversalSchema
-NAME="subset-uschema-relogged-50d"
+export MODEL=UniversalSchema
+export NAME="subset-uschema-relogged-50d"
 
-SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/$NAME"
-TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/training-data/full-sentence-subset/"
-TRAIN_FILE="center-relogged-5mil-subset"
+export SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/$NAME"
+export TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/training-data/full-sentence-subset/"
+export TRAIN_FILE="center-relogged-5mil-subset"
 
-VOCAB="${TH_RELEX_ROOT}/vocabs/full-sentence-subset/center-relogged-5mil-subset-relations.txt"
-TAC_YEAR="2012"
-EVAL_ARGS="-relations,-logRelations"
+export VOCAB="${TH_RELEX_ROOT}/vocabs/full-sentence-subset/center-relogged-5mil-subset-relations.txt"
+export TAC_YEAR="2012"
+export EVAL_ARGS="-relations,-logRelations"
 
-BATCH_SIZE=1024
-LEARN_RATE=.001
-EMBED_DIM=50
-MAX_SEQ=15
-MAX_EPOCHS=15
-EVAL_FREQ=3
+export BATCH_SIZE=1024
+export LEARN_RATE=.001
+export EMBED_DIM=50
+export MAX_SEQ=15
+export MAX_EPOCHS=15
+export EVAL_FREQ=3

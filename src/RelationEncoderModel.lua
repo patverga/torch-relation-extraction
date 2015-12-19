@@ -30,10 +30,6 @@ function RelationEncoderModel:train(num_epochs)
     if self.params.saveModel ~= '' then os.execute("mkdir " .. self.params.saveModel) end
     for epoch = 1, num_epochs
     do
-        if (epoch % self.params.evaluateFrequency == 0) then
-            self:evaluate()
-            self:save_model(epoch-1)
-        end
         local startTime = sys.clock()
         local batches = self:gen_training_batches(self.train_data)
         local shuffle = torch.randperm(#batches)
@@ -44,7 +40,8 @@ function RelationEncoderModel:train(num_epochs)
             local batch = self.params.shuffle and batches[shuffle[i]] or batches[i]
             local example = batch.data
             local label = batch.label
-            epoch_error = epoch_error + self:optim_update(self.net, self.crit, example, label, parameters, gradParameters, self.opt_config, self.opt_state, epoch)
+            epoch_error = epoch_error + self:optim_update(self.net, self.crit,
+                example, label, parameters, gradParameters, self.opt_config, self.opt_state, epoch)
 
             if (i % 25 == 0) then
                 io.write(string.format('\r%.2f percent complete\tspeed = %.2f examples/sec\terror = %.4f',
@@ -53,6 +50,10 @@ function RelationEncoderModel:train(num_epochs)
             end
         end
         print(string.format('\nEpoch error = %f', epoch_error))
+        if (epoch % self.params.evaluateFrequency == 0) then
+            self:evaluate()
+            self:save_model(epoch-1)
+        end
     end
     self:evaluate()
     self:save_model(num_epochs)
