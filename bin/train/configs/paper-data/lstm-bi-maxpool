@@ -1,5 +1,5 @@
 export MODEL=UniversalSchemaLSTM
-export NAME=lstm-bi-paper
+export NAME=lstm-bi-maxpool-paper
 
 export SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/$NAME"
 export TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/training-data/"
