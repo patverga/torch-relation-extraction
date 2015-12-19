@@ -76,6 +76,7 @@ else
         else
             lstm:add(nn.Sequencer(recurrent_cell))
         end
+        if params.layerDropout > 0.0 then lstm:add(nn.Sequencer(nn.Dropout(params.layerDropout))) end
     end
     encoder:add(lstm)
 

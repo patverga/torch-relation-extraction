@@ -20,4 +20,3 @@ export EVAL_FREQ=1
 export DROPOUT=.1
 export WORD_DIM=100
 export BI_DIRECTIONAL="add"
-export LAYERS=3

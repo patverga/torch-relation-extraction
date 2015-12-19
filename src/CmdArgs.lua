@@ -39,7 +39,8 @@ cmd:option('-entityModel', false, 'use entity model of uschema')
 cmd:option('-compositional', false, 'add compositional layers to merge entities to entity pair')
 
 -- nn specific
-cmd:option('-dropout', 0.0, 'dropout rate')
+cmd:option('-dropout', 0.0, 'dropout rate after embedding layer')
+cmd:option('-layerDropout', 0.0, 'dropout rate between layers')
 cmd:option('-wordDropout', 0.0, 'word dropout rate')
 cmd:option('-layers', 1, 'number of rnn layers to use')
 cmd:option('-poolLayer', '', 'pool the outputs of each token from the lstm or convolution. valid choices are Mean and Max')
