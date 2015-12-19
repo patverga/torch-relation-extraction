@@ -36,6 +36,10 @@ do
             DROPOUT_ARGS=`echo "$2" | sed 's/,/ /g'`
             shift # past argument
         ;;
+            -p|--layerdropout|--layer-dropout)
+            LAYER_DROPOUT_ARGS=`echo "$2" | sed 's/,/ /g'`
+            shift # past argument
+        ;;
             -w|--worddim|--word-dim)
             WORD_DIM_ARGS=`echo "$2" | sed 's/,/ /g'`
             shift # past argument
@@ -58,6 +62,7 @@ done
 for LEARN_RATE in ${LEARN_RATE_ARGS:-${LEARN_RATE:-""}}; do
 for LAYERS in ${LAYERS_ARGS:-${LAYERS:-""}}; do
 for DROPOUT in ${DROPOUT_ARGS:-${DROPOUT:-""}}; do
+for LAYER_DROPOUT in ${LAYER_DROPOUT_ARGS:-${LAYER_DROPOUT:-""}}; do
 for WORD_DIM in ${WORD_DIM_ARGS:-${WORD_DIM:-""}}; do
 for REL_DIM in ${REL_DIM_ARGS:-${REL_DIM:-""}}; do
 for EMBED_DIM in ${EMBED_DIM_ARGS:-${EMBED_DIM:-""}}; do
@@ -65,11 +70,12 @@ for EMBED_DIM in ${EMBED_DIM_ARGS:-${EMBED_DIM:-""}}; do
     export LEARN_RATE=$LEARN_RATE
     export LAYERS=$LAYERS
     export DROPOUT=$DROPOUT
+    export LAYER_DROPOUT=$LAYER_DROPOUT
     export WORD_DIM=$WORD_DIM
     export REL_DIM=$REL_DIM
     export EMBED_DIM=$EMBED_DIM
 
-    PARAMS="learnrate-${LEARN_RATE}_layers-${LAYERS}_dropout-${DROPOUT}_worddim-${WORD_DIM}_reldim-${REL_DIM}_embeddim-${EMBED_DIM}"
+    PARAMS="learnrate-${LEARN_RATE}_layers-${LAYERS}_dropout-${DROPOUT}_layerdropout-${LAYER_DROPOUT}_worddim-${WORD_DIM}_reldim-${REL_DIM}_embeddim-${EMBED_DIM}"
     echo $PARAMS
 
     export DATE=`date +'%Y-%m-%d_%k'`
@@ -79,4 +85,4 @@ for EMBED_DIM in ${EMBED_DIM_ARGS:-${EMBED_DIM:-""}}; do
     cp ${TH_RELEX_ROOT}/${CONFIG} $SAVE
     ${TH_RELEX_ROOT}/bin/train/run-model.sh
 
-done;done;done;done;done;done
+done;done;done;done;done;done;done

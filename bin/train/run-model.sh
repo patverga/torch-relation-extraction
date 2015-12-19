@@ -30,6 +30,9 @@ fi
 if [ "$DROPOUT" ]; then
   RUN_CMD="$RUN_CMD -dropout $DROPOUT"
 fi
+if [ "$LAYER_DROPOUT" ]; then
+  RUN_CMD="$RUN_CMD -layerDropout $LAYER_DROPOUT"
+fi
 if [ "$WORD_DROPOUT" ]; then
   RUN_CMD="$RUN_CMD -wordDropout $WORD_DROPOUT"
 fi
