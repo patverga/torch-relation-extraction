@@ -114,13 +114,13 @@ USchema+LSTM+AN	& 34.4 & 43.9 & \bf 38.6 \\
 \end{table}
 
 \begin{table}[tb]
-\vspace{-.5cm}
 \begin{center}
 \caption{F1 scores of multilingual models on the English TAC 2013 slot-filling task. Jointly embedding English and Spanish entity pairs results in higher scores on the English evaluation. \label{en-es-tac-table}}
-
+\tabcolsep=0.15cm
 \begin{tabular}{|lrrr|}
+%\hspace{-10pt}
 \hline
-\bf Model & \bf En Only & \bf En (+Es) & \bf En (+Es+dict)  \\
+\bf Model & \bf En & \bf En+Es & \bf En+Es+dict  \\
 \hline\hline
 CNN  & 32.0 & 32.2 & 32.6	 \\
 LSTM & 33.5 & 33.5 & 33.5 \\
@@ -131,18 +131,16 @@ USchema+LSTM+AN & 38.6 & 38.1  & \bf 39.7 \\
 \hline
 \end{tabular}
 \end{center}
-\vspace{-.15cm}
 
 \end{table}
 
 \begin{table}[h!]
-\vspace{-.15cm}
 
 \begin{center}
 \caption{Zero-Annotation transfer learning F1 scores on 2012 Spanish TAC KBP slot-filling task. Adding a translation dictionary improves all encoder-based models. Ensembling LSTM and USchema models performs the best. \label{es-tac-table}}
 \begin{tabular}{|lrr|}
 \hline
-\bf Model & \bf Es (+En) & \bf Es (+En+dict)  \\
+\bf Model & \bf Es+En & \bf Es+En+dict  \\
 \hline\hline
 CNN 		                    & 8.1     & 12.0	\\
 LSTM 	                        & 8.4     & 15.3   \\
@@ -152,7 +150,6 @@ USchema+LSTM                    & 18.0     & \bf 22.4 \\
 \hline
 \end{tabular}
 \end{center}
-\vspace{-.15cm}
 \end{table}
 
 
@@ -175,21 +172,20 @@ Analysis of our English models suggests that our encoder-based models (LSTM) ext
 
 
 \begin{table}[h]
-\vspace{-.15cm}
 \begin{center}
 \caption{Examples of the \emph{per:children} relation discovered by the LSTM and Universal Schema. Entities are bold and patterns italicized. The LSTM can model a richer set of patterns \label{tab:lstm-us-similar-rels}}
 \small
-\begin{tabular}{|p{0.08\textwidth}|p{0.8521\textwidth}|}
+\begin{tabular}{|p{8cm}|}
 \hline
-\multirow{3}{*}{LSTM} 
-& {\bf McGregor} \emph{is survived by his wife, Lori, and four children, daughters Jordan,} { \bf Taylor} and Landri, and a son, Logan. \\ \cline{2-2} 
-& In addition to his wife, {\bf Mays} \emph{is survived by a toddler daughter and a son,} {\bf Billy Mays Jr.}, who is in his 20s. \\ \cline{2-2} 
-& {\bf Anderson} \emph{is survived by his wife Carol, sons Lee and Albert, daughter} {\bf Shirley Englebrecht} and nine grandchildren. \\ 
+\multicolumn{1}{|c|}{\textbf{LSTM}} \\ \hline
+{\bf McGregor} \emph{is survived by his wife, Lori, and four children, daughters Jordan,} { \bf Taylor} and Landri, and a son, Logan. \\ \hline
+In addition to his wife, {\bf Mays} \emph{is survived by a toddler daughter and a son,} {\bf Billy Mays Jr.}, who is in his 20s. \\ \hline
+{\bf Anderson} \emph{is survived by his wife Carol, sons Lee and Albert, daughter} {\bf Shirley Englebrecht} and nine grandchildren. \\
 \hline\hline
-\multirow{3}{*}{USchema} 
-& {\bf Dio} \emph{'s son,} {\bf Dan Padavona}, cautioned the memorial crowd to be screened regularly by a doctor and take care of themselves, something he said his father did not do. \\ \cline{2-2} 
-& But {\bf Marshall} \emph{'s son,} {\bf Philip}, told a different story.  \\ \cline{2-2} 
-& ``I'd rather have Sully doing this than some stranger, or some hotshot trying to 
+\multicolumn{1}{|c|}{\textbf{USchema}}  \\ \hline
+{\bf Dio} \emph{'s son,} {\bf Dan Padavona}, cautioned the memorial crowd to be screened regularly by a doctor and take care of themselves, something he said his father did not do. \\ \hline
+But {\bf Marshall} \emph{'s son,} {\bf Philip}, told a different story.  \\ \hline
+``I'd rather have Sully doing this than some stranger, or some hotshot trying to
 be the next Billy Mays,'' said the guy who actually is the next {\bf Billy Mays}\emph{, his son} {\bf Billy Mays III}. \\ 
 \hline
 \end{tabular}
@@ -201,18 +197,16 @@ Analysis of our multilingual models also suggests that they successfully embed s
 
 \newcommand{\tablespace}{\end{tabular}
 \newline
-\vspace*{.09 cm}
 \newline
 %\hspace*{-21pt}
-\begin{tabular}{|p{.97\textwidth}|}
+\begin{tabular}{|p{8cm}|}
 }
 \begin{table}[h]
-\vspace{-0.15cm}
 \begin{center}
 \caption{Top English patterns for a Spanish query pattern encoded using the dictionary LSTM: For each Spanish query (English translation in italics), a list of English nearest neighbors. \label{tab:cross-lingual-relations}}
 \small
 %\hspace*{-21pt}
-\begin{tabular}{|p{.97\textwidth}|}
+\begin{tabular}{|p{8cm}|}
 \hline
 \argOne y cuatro de sus familias, incluidos su esposa, Wu Shu-chen, su hijo, \argTwo\\
 \it{\argOne and four of his family members, including his wife, Wu Shu-chen, his son, \argTwo} \\
@@ -266,14 +260,13 @@ In addition to embedding semantically similar phrases from English and Spanish t
 
 
 \begin{table}[h]
-\vspace{-.15cm}
 \setlength{\tabcolsep}{3pt}
 \caption{Example English query words (not in translation dictionary) in bold with their top nearest neighbors by cosine similarity listed for the dictionary and no ties LSTM variants. Dictionary-tied nearest neighbors are consistently more relevant to the query word than untied. }
 \label{joint-word}
 \small
 \begin{center}
-\begin{minipage}[b]{0.45\linewidth}
-\hspace*{-17pt}
+%\begin{minipage}[b]{0.45\linewidth}
+%\hspace*{-17pt}
 \begin{tabular}{|ll|}
 \hline
 \multicolumn{2}{|c|}{ \bf CEO}\\
@@ -293,12 +286,12 @@ selectivo (selective) & Geof\'{i}sico(geophysical) \\
 profesional (vocational) & Normand\'{i}a (Normandy)\\
 bas\'{a}ndose (based) & emplea (uses)\\
 \hline
-\end{tabular}
-\end{minipage} 
-\hspace{-12.5pt}
-\begin{minipage}[b]{0.45\linewidth}
-\begin{tabular}{|ll|}
-\hline
+%\end{tabular}
+%\end{minipage}
+%\hspace{-12.5pt}
+%\begin{minipage}[b]{0.45\linewidth}
+%\begin{tabular}{|ll|}
+%\hline
 \multicolumn{2}{|c|}{\bf hubby}\\
 \multicolumn{1}{|c}{Dictionary} & \multicolumn{1}{c|} {No Ties} \\ \hline 
 matrimonio (marriage)  & esposa (wife) \\ 
@@ -318,9 +311,8 @@ privatizaci\'{o}n (privatisation)  & reelecto (reelected) \\
 nombre (name)  & conocido (known)\\
 \hline
 \end{tabular}
-\end{minipage}
+%\end{minipage}
 \end{center}
-\vspace{-.25cm}
 \end{table}
 
 

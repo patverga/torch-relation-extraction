@@ -6,48 +6,52 @@ Our model jointly embeds KB relations together with English and Spanish text. We
 
 \begin{table}[h]
 \begin{center}
-\caption{Top scoring patterns for both Spanish and English given query TAC relations. \label{tab:top-tac-patterns}}
-%\hspace*{-15pt}
-\begin{tabular}{|l|c|p{8.5cm}|}
+\caption{Top scoring patterns for both Spanish (top) and English (bottom) given query TAC relations. \label{tab:top-tac-patterns}}
+\hspace*{-20pt}
+\begin{tabular}{|p{8.3cm}|}
 \hline
- \multirow{3}{*}{per:sibling} &
-   \multirow{3}{*}{ES} 	& 	\argOne, seg\'{u}n petici\'{o}n the primeros ministro, \endgraf \hspace{5pt} su hermano gemelo \argTwo  			\\ %\cline{3-3}
-   &					&  	\argOne, sea the principal favorito para esto oficina que tambi\'{e}n \endgraf \hspace{5pt} ambiciona su hermano \argTwo 	\\%\cline{3-3}
-   &					&  	\argOne, y su hermano gemelo, the primeros ministro \argTwo 	\\
-\cline{2-3}
-&   \multirow{3}{*}{EN} 	& 	\argOne, for whose brother \argTwo  		\\%\cline{3-3}
-   &						&  	\argOne inherited his brother \argTwo 	\\%\cline{3-3}
-   &						&  	\argOne on saxophone and brother \argTwo 	\\
+\textbf{per:sibling} \\
+\hline
+   \argOne, seg\'{u}n petici\'{o}n the primeros ministro, \endgraf \hspace{5pt} su hermano gemelo \argTwo  			\\ %\cline{3-3}
+  \argOne, sea the principal favorito para esto oficina \endgraf \hspace{5pt}que tambi\'{e}n ambiciona su hermano \argTwo 	\\%\cline{3-3}
+  \argOne, y su hermano gemelo, the primeros ministro \argTwo 	\\
+\hline
+  \argOne, for whose brother \argTwo  		\\%\cline{3-3}
+  \argOne inherited his brother \argTwo 	\\%\cline{3-3}
+  \argOne on saxophone and brother \argTwo 	\\
 \hline\hline
 %
- \multirow{3}{*}{org:top\_members\_employees} &
-   \multirow{3}{*}{ES} 	& 	\argTwo, presidente y director generales the \argOne  			\\%\cline{3-3}
-   &					&  	\argTwo, presidente of the negocios especializada \argOne  	\\%\cline{3-3}
-   &					&  	\argTwo (CIA), the director of the entidad, \argOne 	\\
-\cline{2-3}
-&   \multirow{3}{*}{EN} 	& 	\argTwo, vice president and policy director of the \argOne  		\\%\cline{3-3}
-   &						&  	\argTwo, president of the German Soccer \argOne 	\\%\cline{3-3}
-   &						&  	\argTwo, president of the quasi-official \argOne 	\\
+\textbf{org:top\_members\_employees} \\
+\hline
+   \argTwo, presidente y director generales the \argOne  			\\%\cline{3-3}
+   	\argTwo, presidente of the negocios especializada \argOne  	\\%\cline{3-3}
+   	\argTwo (CIA), the director of the entidad, \argOne 	\\
+\hline
+ \argTwo, vice president and policy director of the \argOne  		\\%\cline{3-3}
+ \argTwo, president of the German Soccer \argOne 	\\%\cline{3-3}
+  \argTwo, president of the quasi-official \argOne 	\\
 \hline\hline
-%
- \multirow{3}{*}{per:alternate\_names} &
-   \multirow{3}{*}{ES} 	& 	\argOne(como tambi\'{e}n son sabido para \argTwo 			\\%\cline{3-3}
-   &					&  	\argTwo-cuyos verdaderos nombre sea \argOne 	\\%\cline{3-3}
-   &					&  	\argOne  tambi\'{e}n sabido como \argTwo 	\\
-\cline{2-3}
-&   \multirow{3}{*}{EN} 	& 	\argOne aka \argTwo 		\\%\cline{3-3}
-   &						&  	\argOne, who also creates music under the pseudonym \argTwo 	\\%\cline{3-3}
-   &						&  	\argOne( of Modern Talking fame ) aka \argTwo  	\\
+%%
+\textbf{per:alternate\_names} \\
+\hline
+   \argOne(como tambi\'{e}n son sabido para \argTwo 			\\%\cline{3-3}
+   \argTwo-cuyos verdaderos nombre sea \argOne 	\\%\cline{3-3}
+   	\argOne  tambi\'{e}n sabido como \argTwo 	\\
+\hline
+   \argOne aka \argTwo 		\\%\cline{3-3}
+   \argOne, who also creates music under the pseudonym \argTwo 	\\%\cline{3-3}
+   \argOne( of Modern Talking fame ) aka \argTwo  	\\
 \hline\hline
-%
- \multirow{3}{*}{per:cities\_of\_residence} &
-   \multirow{3}{*}{ES} 	& 	\argOne, poblado d\'{o}nde vive \argTwo 			\\%\cline{3-3}
-   &					&  	\argOne, una ciudadano naturalizado american y nacido in \argTwo 	\\%\cline{3-3}
-   &					&  	\argOne, que vive in \argTwo 	\\
-\cline{2-3}
-&   \multirow{3}{*}{EN} 	& 	\argOne was born Jan. \# , \#\#\#\# in \argTwo 		\\%\cline{3-3}
-   &						&  	\argOne was born on Monday in \argTwo 	\\%\cline{3-3}
-   &						&  	\argOne was born at Keighley in \argTwo 	\\
+%%
+\textbf{per:cities\_of\_residence} \\
+ \hline
+  \argOne, poblado d\'{o}nde vive \argTwo 			\\%\cline{3-3}
+   \argOne, una ciudadano naturalizado american y nacido in \argTwo 	\\%\cline{3-3}
+   \argOne, que vive in \argTwo 	\\
+\hline
+   \argOne was born Jan. \# , \#\#\#\# in \argTwo 		\\%\cline{3-3}
+   	\argOne was born on Monday in \argTwo 	\\%\cline{3-3}
+   \argOne was born at Keighley in \argTwo 	\\
 \hline
 \end{tabular}
 \end{center}

@@ -20,7 +20,6 @@ In extensive experiments on the TAC Knowledge Base Population (KBP) slot-filling
 \def\firstcircle{(0,0) circle (1.5cm)}
 \def\secondcircle{(0:2cm) circle (1.5cm)}
 \def\midline{[line width=1pt, dashed] node[label={[label distance=-3cm]-15:in KB}] {} node[label={[label distance=-3.5cm]15:not in KB}] {} (-3,0) -- (5,0)}
-\vspace{-1.5cm}
 \begin{tikzpicture}
 
 	\begin{scope}
@@ -43,7 +42,6 @@ In extensive experiments on the TAC Knowledge Base Population (KBP) slot-filling
 \end{tikzpicture}
 \end{center}
 \end{figure}
-\vspace{-.75cm}
 
 \section{Background \label{sec:background}}
 
@@ -68,19 +66,22 @@ In the previous two approaches, prediction is carried out with respect to a fixe
 Table~\ref{tab:patterns} provides examples of OpenIE patterns. The examples in row two and three illustrate relational contexts for which similarity is diffult to be captured by an OpenIE approach because of their syntactically complex constructions. This motivates the technique in Section~\ref{sec:encoder}, which uses a deep architecture applied to the raw tokens, instead of rigid rules for normalizing text to obtain patterns. 
 
 \begin{table}[h!]
-\vspace{-.15cm}
 \small
 \begin{center}
-\caption{Examples of sentences expressing relations. Context tokens (italicized) consist of the text occurring between entities (bold) in a sentence. OpenIE patterns are obtained by normalizing the context tokens using hand-coded rules. \label{tab:patterns}}
+\caption{Examples of sentences expressing relations. Context tokens (italicized) consist of the text occurring between entities (bold) in a sentence. OpenIE patterns are obtained by normalizing the context tokens using hand-coded rules. The top example expresses the per:siblings relation and the bottom two examples both express the per:cities\_of\_residence  relation. \label{tab:patterns}}
 %\hspace{-1cm}
-\begin{tabular}{|p{0.2\textwidth}|p{0.5\textwidth}| p{0.2\textwidth} | }
+\begin{tabular}{|p{5cm}| p{2.5cm} | }
 \hline
-Relation & Sentence (context tokens italicized) & OpenIE pattern\\ \hline
-per:siblings & {\bf Khan} \emph{'s younger sister,} {\bf Annapurna Devi}, who later married Shankar, developed into an equally accomplished master of the surbahar, but custom prevented her from performing in public. &  \argOne 's * sister \argTwo \\ \hline
+%Relation &
+Sentence (context tokens italicized) & OpenIE pattern\\ \hline
+%per:siblings &
+{\bf Khan} \emph{'s younger sister,} {\bf Annapurna Devi}, who later married Shankar, developed into an equally accomplished master of the surbahar, but custom prevented her from performing in public. &  \argOne 's * sister \argTwo \\ \hline
 
-per:cities\_of\_residence & A professor emeritus at Yale, {\bf Mandelbrot} \emph{was born in Poland but as a child moved with his family to} {\bf Paris} where he was educated. &  \argOne * moved with * family to \argTwo \\ \hline
+%per:cities\_of\_residence &
+A professor emeritus at Yale, {\bf Mandelbrot} \emph{was born in Poland but as a child moved with his family to} {\bf Paris} where he was educated. &  \argOne * moved with * family to \argTwo \\ \hline
 
-per:cities\_of\_residence & {\bf Kissel} \emph{was born in Provo, Utah, but her family also lived in} {\bf Reno}. & \argOne * lived in \argTwo \\  \hline
+%per:cities\_of\_residence &
+{\bf Kissel} \emph{was born in Provo, Utah, but her family also lived in} {\bf Reno}. & \argOne * lived in \argTwo \\  \hline
 \end{tabular}
 \end{center}
 \end{table}
