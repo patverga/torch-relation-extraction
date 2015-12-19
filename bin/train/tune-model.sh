@@ -13,7 +13,8 @@ shift
 
 source ${TH_RELEX_ROOT}/${CONFIG}
 
-export MAX_EPOCHS=5
+export MAX_EPOCHS=4
+export EVAL_FREQ=2
 
 while [[ $# > 1 ]]
 do
