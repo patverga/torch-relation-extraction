@@ -13,7 +13,7 @@ Dependencies
 - [nn](https://github.com/torch/nn)
 - [rnn](https://github.com/Element-Research/rnn)
 - [optim](https://github.com/torch/optim)
-- set this enivorment variable : TH_RELEX_ROOT=/path/to/this/proj
+- set this environment variable : TH_RELEX_ROOT=/path/to/this/proj
 
 
 Data Processing
@@ -33,7 +33,7 @@ You can run various Universal Schema models located in [src](https://github.com/
 
 You can train models using this [train script](https://github.com/patverga/torch-relation-extraction/blob/master/bin/train/train-model.sh). The script takes two parameters, a gpuid (-1 for cpu) and a [config file](https://github.com/patverga/torch-relation-extraction/tree/master/bin/train/configs). You can run an example base Universal Schema model and evaluate MAP with the following command. 
 
-`./bin/train/train-model.sh 0 bin/train/configs/example`
+`./bin/train/train-model.sh 0 bin/train/configs/uschema-example`
 
 Evaluation
 ---------

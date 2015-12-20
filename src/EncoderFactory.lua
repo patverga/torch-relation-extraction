@@ -232,14 +232,19 @@ end
 
 function EncoderFactory:build_encoder(params)
     local encoder_type = params.encoder
+    -- lstm encoder
     if encoder_type == 'lstm' then
         return self:lstm_encoder(params)
+    -- conv net
     elseif encoder_type == 'cnn' then
         return self:cnn_encoder(params)
+    -- simple token averaging
     elseif encoder_type == 'we-avg' then
         return self:we_avg_encoder(params)
+    -- lstm for text, lookup-table for kb relations
     elseif encoder_type == 'lstm-joint' then
         return self:lstm_joint_encoder(params)
+    -- lookup table (vector per relation)
     elseif encoder_type == 'lookup-table' then
         params.relations = true
         return self:lookup_table_encoder(params)

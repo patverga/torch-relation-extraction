@@ -20,12 +20,17 @@ if params.gpuid >= 0 then require 'cunn'; cutorch.manualSeed(0); cutorch.setDevi
 local encoder, rel_table = EncoderFactory:build_encoder(params)
 
 local model
+-- learn vectors for each entity rather than entity pair
 if params.modelType == 'entity' then
     require 'UniversalSchemaEntityEncoder'
     model = UniversalSchemaEntityEncoder(params, rel_table, encoder)
+
+-- use a lookup table for kb relations and encoder for text patterns (entity pair vectors)
 elseif params.modelType == 'joint' then
     require 'UniversalSchemaJointEncoder'
     model = UniversalSchemaJointEncoder(params, rel_table, encoder)
+
+-- standard uschema with entity pair vectors
 else
     require 'UniversalSchemaEncoder'
     model = UniversalSchemaEncoder(params, rel_table, encoder)
