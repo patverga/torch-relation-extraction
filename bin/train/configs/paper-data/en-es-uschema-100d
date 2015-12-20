@@ -5,7 +5,7 @@ export SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/$NAME"
 export TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/training-data/"
 export TRAIN_FILE="relogged_min5_noramlized.en-es_es-appended"
 
-export VOCAB="relogged_min5_noramlized.en-es_es-appended-relations.txt"
+export VOCAB="${TH_RELEX_ROOT}/vocabs/relogged_min5_noramlized.en-es_es-appended-relations.txt"
 export TAC_YEAR="2012"
 export EVAL_ARGS="-appendEs,-relations,-logRelations"
 
