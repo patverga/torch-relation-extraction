@@ -6,8 +6,10 @@ export TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/training-data/"
 
 export TRAINED_EP="/home/pat/canvas/universal-schema/univSchema/torch/models/2015-11-28_12/UniversalSchema_relogged_min5_noramlized.en/15-ent-weights"
 export TRAIN_FILE="no-log_min5_noramlized.en-es_no-ties"
+
 export VOCAB="${TH_RELEX_ROOT}/vocabs/no-log_min5_noramlized.en-es_no-ties-tokens.txt"
 export TAC_YEAR="2012"
+#export EVAL_ARGS="-tokenAppend,@es"
 
 export BATCH_SIZE=128
 export LEARN_RATE=.0001
@@ -15,8 +17,7 @@ export EMBED_DIM=100
 export REL_DIM=100
 export MAX_SEQ=20
 export MAX_EPOCHS=15
-export EVAL_FREQ=3
+export EVAL_FREQ=1
 export DROPOUT=.1
 export WORD_DIM=100
-export EVAL_ARGS="-tokenAppend,@es"
 export ENCODER="cnn"

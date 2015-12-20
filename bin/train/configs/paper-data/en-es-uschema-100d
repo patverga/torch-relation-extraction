@@ -1,5 +1,5 @@
 export MODEL=UniversalSchema
-export NAME="uschema-english-relogged-100d"
+export NAME="en-es-uschema-100d"
 
 export SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/$NAME"
 export TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/training-data/"
@@ -7,7 +7,7 @@ export TRAIN_FILE="relogged_min5_noramlized.en-es_es-appended"
 
 export VOCAB="${TH_RELEX_ROOT}/vocabs/relogged_min5_noramlized.en-es_es-appended-relations.txt"
 export TAC_YEAR="2012"
-export EVAL_ARGS="-appendEs,-relations,-logRelations"
+#export EVAL_ARGS="-appendEs,-relations,-logRelations"
 
 
 export BATCH_SIZE=1024
@@ -15,5 +15,5 @@ export LEARN_RATE=.001
 export EMBED_DIM=100
 export MAX_SEQ=15
 export MAX_EPOCHS=15
-export EVAL_FREQ=3
+export EVAL_FREQ=1
 export ENCODER="lookup-table"
