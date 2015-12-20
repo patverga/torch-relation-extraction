@@ -20,9 +20,12 @@ if params.gpuid >= 0 then require 'cunn'; cutorch.manualSeed(0); cutorch.setDevi
 local encoder, rel_table = EncoderFactory:build_encoder(params)
 
 local model
-if params.entityModel then
+if params.modelType == 'entity' then
     require 'UniversalSchemaEntityEncoder'
     model = UniversalSchemaEntityEncoder(params, rel_table, encoder)
+elseif params.modelType == 'joint' then
+    require 'UniversalSchemaJointEncoder'
+    model = UniversalSchemaJointEncoder(params, rel_table, encoder)
 else
     require 'UniversalSchemaEncoder'
     model = UniversalSchemaEncoder(params, rel_table, encoder)

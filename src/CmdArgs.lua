@@ -36,7 +36,7 @@ cmd:option('-maxSeq', 100, 'maximum sequence length')
 cmd:option('-shuffle', true, 'shuffle data, read in sequence length order otherwise')
 
 -- uschema specific
-cmd:option('-entityModel', false, 'use entity model of uschema')
+cmd:option('-modelType', 'entity-pair', 'which type of model to use. (entity-pair, entity, joint)')
 cmd:option('-compositional', false, 'add compositional layers to merge entities to entity pair')
 
 -- nn specific

@@ -176,6 +176,15 @@ function EncoderFactory:lookup_table_encoder(params)
     return rel_table, rel_table
 end
 
+function EncoderFactory:lstm_joint_encoder(params)
+    local text_encoder, _ = self:lstm_encoder(params)
+    local kb_rel_table, _ = self:lookup_table_encoder(params)
+    return text_encoder, kb_rel_table
+
+end
+
+
+
 -- TODO set this up
 --function EncoderFactory:attention_encoder(params)
 --    if params.attention then
@@ -229,12 +238,14 @@ function EncoderFactory:build_encoder(params)
         return self:cnn_encoder(params)
     elseif encoder_type == 'we-avg' then
         return self:we_avg_encoder(params)
+    elseif encoder_type == 'lstm-joint' then
+        return self:lstm_joint_encoder(params)
     elseif encoder_type == 'lookup-table' then
         params.relations = true
         return self:lookup_table_encoder(params)
     else
         print('Must supply option to encoder. ' ..
-        'Valid options are: lstm, cnn, we-avg, and loopup-table')
+        'Valid options are: lstm, cnn, we-avg, lstm-joint, and loopup-table')
         os.exit()
     end
 end
