@@ -10,11 +10,11 @@ require 'RelationEncoderModel'
 
 local UniversalSchemaEntityEncoder, parent = torch.class('UniversalSchemaEntityEncoder', 'RelationEncoderModel')
 
-function UniversalSchemaEntityEncoder:__init(params, rel_table, encoder, squeeze_rel)
+function UniversalSchemaEntityEncoder:__init(params, rel_table, encoder)
     self.__index = self
     self.params = params
     self:init_opt()
-    self.squeeze_rel = squeeze_rel or false
+    self.squeeze_rel = params.relations or false
     self.train_data = self:load_entity_data(params.train)
 
     -- cosine distance network for evaluation
@@ -135,7 +135,7 @@ function UniversalSchemaEntityEncoder:gen_subdata_batches(sub_data, batches, max
 --        neg_e2_batch:add(neg_ent_batch:clone():cmul(self:to_cuda(neg_e2_batch:eq(0):double())))
 
 
-        local rel_batch = self:to_cuda(self.params.testing and sub_data.rel:index(1, batch_indices) or sub_data.seq:index(1, batch_indices))
+        local rel_batch = self:to_cuda(self.params.relations and sub_data.rel:index(1, batch_indices) or sub_data.seq:index(1, batch_indices))
         if self.squeeze_rel then rel_batch = rel_batch:squeeze() end
         local batch = { pos_e1_batch, pos_e2_batch, rel_batch, neg_e1_batch, neg_e2_batch }
         table.insert(batches, { data = batch, label = 1 })
@@ -208,7 +208,7 @@ function UniversalSchemaEntityEncoder:score_subdata(sub_data)
     local scores = {}
     for i = 1, #batches do
         local e1_batch, e2_batch, rel_batch, _, _ = unpack(batches[i].data)
-        if self.params.testing then rel_batch = rel_batch:contiguous():view(rel_batch:size(1), 1) end
+        if self.params.relations then rel_batch = rel_batch:contiguous():view(rel_batch:size(1), 1) end
         local encoded_rel = self.encoder:forward(self:to_cuda(rel_batch))
         if encoded_rel:dim() == 3 then encoded_rel = encoded_rel:view(encoded_rel:size(1), encoded_rel:size(3)) end
         local e1 = self.ent_table(self:to_cuda(e1_batch:contiguous())):clone()

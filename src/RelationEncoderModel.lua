@@ -146,7 +146,7 @@ function RelationEncoderModel:load_train_data(data_file, entities)
                 else
                     train[i].ep = self:to_cuda(train[i].ep):contiguous():view(train[i].ep:size(1))
                 end
-                if self.params.testing then train[i].rel = self:to_cuda(train[i].rel):contiguous():view(train[i].rel:size(1), 1)
+                if self.params.relations then train[i].rel = self:to_cuda(train[i].rel):contiguous():view(train[i].rel:size(1), 1)
                 else train[i].seq = self:to_cuda(train[i].seq):contiguous()
                 end
             end
@@ -158,7 +158,7 @@ function RelationEncoderModel:load_train_data(data_file, entities)
         else
             train.ep = self:to_cuda(train.ep):contiguous():view(train.ep:size(1))
         end
-        if self.params.testing then train.rel = self:to_cuda(train.rel):contiguous():view(train.rel:size(1), 1)
+        if self.params.relations then train.rel = self:to_cuda(train.rel):contiguous():view(train.rel:size(1), 1)
         else train.seq = self:to_cuda(train.seq):contiguous()
         end
     end

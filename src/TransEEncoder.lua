@@ -9,10 +9,10 @@ require 'RelationEncoderModel'
 
 local TransEEncoder, parent = torch.class('TransEEncoder', 'RelationEncoderModel')
 
-function TransEEncoder:__init(params, rel_table, encoder, squeeze_rel)
+function TransEEncoder:__init(params, rel_table, encoder)
     self.__index = self
     self.params = params
-    self.squeeze_rel = squeeze_rel or false
+    self.squeeze_rel = params.relations or false
     self.encoder = encoder
     self.train_data = self:load_entity_data(params.train)
 
@@ -127,7 +127,7 @@ function TransEEncoder:gen_subdata_batches(sub_data, batches, max_neg, shuffle)
 --        neg_e2_batch:add(neg_ent_batch:clone():cmul(self:to_cuda(neg_e2_batch:eq(0):double())))
 
 
-        local rel_batch = self.params.testing and sub_data.rel:index(1, batch_indices) or sub_data.seq:index(1, batch_indices)
+        local rel_batch = self.params.relations and sub_data.rel:index(1, batch_indices) or sub_data.seq:index(1, batch_indices)
         if self.squeeze_rel then rel_batch = rel_batch:squeeze() end
         local batch = { pos_e2_batch, pos_e1_batch, rel_batch, neg_e1_batch, neg_e2_batch }
         table.insert(batches, { data = batch, label = -1 })

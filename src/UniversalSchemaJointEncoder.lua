@@ -155,7 +155,7 @@ function UniversalSchemaJointEncoder:score_subdata(sub_data)
     local scores = {}
     for i = 1, #batches do
         local ep_batch, rel_batch, _ = unpack(batches[i].data)
-        if self.params.testing then rel_batch = rel_batch:contiguous():view(rel_batch:size(1), 1) end
+        if self.params.relations then rel_batch = rel_batch:contiguous():view(rel_batch:size(1), 1) end
         local encoded_rel = self.kb_rel_table:forward(self:to_cuda(rel_batch))
 --        local encoded_rel = self.text_encoder:forward(self:to_cuda(rel_batch))
         local x = { encoded_rel, self.ent_table(self:to_cuda(ep_batch:contiguous():view(ep_batch:size(1), 1))) }

@@ -9,6 +9,7 @@ RUN_CMD="th ${TH_RELEX_ROOT}/src/${MODEL}.lua
 -embeddingDim ${EMBED_DIM}
 -numEpochs ${MAX_EPOCHS}
 -resultDir ${SAVE}
+-encoder ${ENCODER}
 "
 
 if [ "$WORD_DIM" ]; then
