@@ -8,6 +8,7 @@ export TRAIN_FILE="relogged_min5_noramlized.en-es_es-appended"
 export VOCAB="${TH_RELEX_ROOT}/vocabs/relogged_min5_noramlized.en-es_es-appended-relations.txt"
 export TAC_YEAR="2012"
 #export EVAL_ARGS="-appendEs,-relations,-logRelations"
+export EVAL_ARGS="-relations,-logRelations"
 
 
 export BATCH_SIZE=1024
