@@ -1,4 +1,4 @@
-export MODEL=UniversalSchemaLSTM
+export MODEL=UniversalSchema
 export NAME=subset-lstm-center-nolog-50d
 
 export SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/$NAME"
@@ -19,3 +19,4 @@ export MAX_EPOCHS=15
 export EVAL_FREQ=3
 export DROPOUT=.1
 export WORD_DIM=100
+export ENCODER="lstm"

@@ -16,3 +16,4 @@ export EMBED_DIM=100
 export MAX_SEQ=15
 export MAX_EPOCHS=15
 export EVAL_FREQ=3
+export ENCODER="lookup-table"

@@ -1,10 +1,10 @@
-export MODEL=UniversalSchemaLSTM
+export MODEL=UniversalSchema
 export NAME="lstm-example"
 
 export SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/$NAME"
 export TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/data/"
 export TRAIN_FILE="train-mtx.torch"
-export TRAINED_EP="/home/pv/torch-relation-extraction/models/uschema-example/2015-12-20_12/11-ent-weights"
+export TRAINED_EP="${TH_RELEX_ROOT}/data/pretrained-ent-weights"
 export TEST_FILE=`ls $TH_RELEX_ROOT/data/test-mtx-torch/* | tr '\n' ','`
 
 export BATCH_SIZE=128

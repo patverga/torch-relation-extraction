@@ -1,4 +1,4 @@
-export MODEL=UniversalSchemaLSTM
+export MODEL=UniversalSchema
 export NAME=lstm-50d-paper
 
 export SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/$NAME"
@@ -18,3 +18,4 @@ export MAX_EPOCHS=3
 export EVAL_FREQ=1
 export DROPOUT=.1
 export WORD_DIM=100
+export ENCODER="lstm"

@@ -1,4 +1,4 @@
-export MODEL=UniversalSchemaLSTM
+export MODEL=UniversalSchema
 export NAME=en-es-noties-lstm-bi-maxpool-paper
 
 export SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/$NAME"
@@ -21,3 +21,4 @@ export WORD_DIM=100
 export BI_DIRECTIONAL="add"
 export POOL_LAYER=Max
 export EVAL_ARGS="-tokenAppend,@es"
+export ENCODER="lstm"

@@ -1,4 +1,4 @@
-export MODEL=UniversalSchemaConv
+export MODEL=UniversalSchema
 export NAME=en-es-dictionary-cnn-paper
 
 export SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/$NAME"
@@ -19,3 +19,4 @@ export EVAL_FREQ=3
 export DROPOUT=.1
 export WORD_DIM=100
 export EVAL_ARGS="-tokenAppend,@es,-dictionary,vocabs/en_es.dictionary.uniq"
+export ENCODER="cnn"
