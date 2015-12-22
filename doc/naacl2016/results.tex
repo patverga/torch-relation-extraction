@@ -50,8 +50,7 @@ See Section~\ref{sec:details} for a discussion of the hyper-parameters, optimiza
 
 \begin{table}[tb]
 \begin{center}
-\caption{Precision, recall and F1 of English-only models on the English TAC 2013 slot-filling task. LSTM+USchema ensemble outperforms any single model. Our system uses no handwritten patterns and we are able to match %\citet{roth2014relationfactory} and \citet{angeli2014stanford} both of which use hand written patterns. \citet{angeli2014stanford} reports optimally tuned per-relation thresholds.
- \label{en-tac-table}}
+\caption{Precision, recall and F1 of English-only models on the English TAC 2013 slot-filling task. LSTM+USchema ensemble outperforms any single model. Our system uses no handwritten patterns and we are able to match \protect\citet{roth2014relationfactory} and \protect\citet{angeli2014stanford} both use hand written patterns. * = optimal per relation tuning\label{en-tac-table}}
 \begin{tabular}{|lrrr|}
 \hline
 \bf Model & \bf Recall & \bf Precision & \bf F1 \\
@@ -62,17 +61,36 @@ LSTM                & \bf 32.2 & 39.6 & \bf 35.5  \\
 USchema             & 29.4 & \bf 42.6 & 34.8 \\
 \hline\hline
 USchema+LSTM        & 34.4 & 41.9 & 37.7 \\
-USchema+LSTM+Es        & 38.1 & 40.2 & 39.2 \\
 USchema+LSTM+AN	& 36.7 & 43.1 & 39.7 \\
+USchema+LSTM+Es        & 38.1 & 40.2 & 39.2 \\
 USchema+LSTM+Es+AN & 40.2 & 41.2 & \bf 40.7 \\
-% USchema+LSTM+AN+ES (pbias)	& 35.9 & 47.4 & \bf 40.9 \\
+\citet{roth2014relationfactory} & 35.8 & 45.7 & 40.2 \\
 \hline\hline
-\citet{roth2014relationfactory}* & 35.8 & 45.7 & 40.2 \\
 \citet{angeli2014stanford}* & --- & --- & 40.9 \\
+USchema+LSTM+Es+AN * &	43.1 & 41.2	& \bf 42.1 \\
+
 \hline
 \end{tabular}
 \end{center}
 \end{table}
+
+%\begin{table}[tb]
+%\begin{center}
+%\caption{Precision, recall and F1 of English-only models on the English TAC 2012 slot-filling task. \label{2012-en-tac-table}}
+%\begin{tabular}{|lrrr|}
+%\hline
+%\bf Model & \bf Recall & \bf Precision & \bf F1 \\
+%\hline\hline
+%CNN                 & 28.5 & 26.0 & 27.2 \\
+%LSTM                & 26.9 & 27.1 & 27.0  \\
+%USchema             & 22.0 & 34.2 & 26.8 \\
+%\hline\hline
+%USchema+LSTM        & 30.2 & 26.7 & 29.1 \\
+%\citet{angeli2014stanford}* & --- & --- & 30.7 \\
+%\hline
+%\end{tabular}
+%\end{center}
+%\end{table}
 
 
 

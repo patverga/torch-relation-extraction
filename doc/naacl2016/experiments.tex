@@ -37,3 +37,7 @@ As discussed in Section~\ref{sec:non-comp}, models using a deep sentence encoder
 
 
 Finally, note both~\citet{toutanova2015representing} and~\citet{limin} explore the pros and cons of learning embeddings for entity pairs vs. separate embeddings for each entity. As this is orthogonal to our contributions, we only consider entity pair embeddings, which performed best in both works.
+
+We also report results including an alternate names (AN) heuristic, which uses automatically-extracted rules to detect the `alternate name' relation.
+For this, frequent Wikipedia link anchor texts are collected for each query entity.
+If a high probability anchor text co-occurs with the canonical name of the query in the same document, we return the anchor text as a slot fill.
