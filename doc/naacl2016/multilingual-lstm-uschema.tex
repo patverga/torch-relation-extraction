@@ -8,7 +8,7 @@
 \usepackage{multirow}
 \usepackage{xspace}
 \usepackage{tikz}
-\usepackage{natbib}
+% \usepackage{natbib}
 \usetikzlibrary{shapes,backgrounds,patterns}
 
 
@@ -20,6 +20,10 @@
 % named as such because `\arg1' apparently isn't valid
 \newcommand{\argOne}{\emph{arg1}\xspace}
 \newcommand{\argTwo}{\emph{arg2}\xspace}
+
+\newcommand{\citep}[1]{\cite{#1}}
+\newcommand{\citet}[1]{\newcite{#1}}
+
 
 
 % \title{Broad Coverage Knowledge Base Construction using Cross-Lingual Transfer}
