@@ -137,16 +137,17 @@ USchema+LSTM+AN & 38.6 & 38.1  & \bf 39.7 \\
 \begin{table}[h!]
 
 \begin{center}
+\todo{say that we tuned these on sample training queries}
 \caption{Zero-Annotation transfer learning F1 scores on 2012 Spanish TAC KBP slot-filling task. Adding a translation dictionary improves all encoder-based models. Ensembling LSTM and USchema models performs the best. \label{es-tac-table}}
 \begin{tabular}{|lrr|}
 \hline
 \bf Model & \bf Es+En & \bf Es+En+dict  \\
 \hline\hline
-CNN 		                    & 8.1     & 12.0	\\
-LSTM 	                        & 8.4     & 15.3   \\
-USchema                         & 18.6     & --- \\
+CNN 		                    & 11.4     & 13.8	\\
+LSTM 	                        & 10.7     & 15.2   \\
+USchema                         & 16.3     & --- \\
 \hline
-USchema+LSTM                    & 18.0     & \bf 22.4 \\
+USchema+LSTM                    & 17.3     & \bf 20.0 \\
 \hline
 \end{tabular}
 \end{center}
