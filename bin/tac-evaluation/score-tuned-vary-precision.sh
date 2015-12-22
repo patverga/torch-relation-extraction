@@ -9,7 +9,7 @@ TUNED_PARAMS=$6
 OUT=$7
 EVAL_ARGS=${@:8}
 
-PARAM_P_BIAS="0.0 0.05 0.1 0.15 0.2 0.25"
+PARAM_P_BIAS="0.0 0.05 0.1 0.15"
 
 TAC_EVAL_ROOT=${TH_RELEX_ROOT}/bin/tac-evaluation
 source ${TAC_EVAL_ROOT}/configs/${YEAR}
