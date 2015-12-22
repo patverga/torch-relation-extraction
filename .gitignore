@@ -10,3 +10,5 @@ target/*
 *.out
 *.bbl
 *.blg
+*.pdf
+*.aux

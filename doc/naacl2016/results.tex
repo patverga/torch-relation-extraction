@@ -3,95 +3,49 @@
 
 See Section~\ref{sec:details} for a discussion of the hyper-parameters, optimization techniques, etc. used in all experiments. As in~\citet{limin}, we train using the BPR loss of~\citet{rendle2009bpr}. 
 
-%\begin{center}
-%\begin{table}[h]
-%\caption{english only models Results on english Tac.}
-%\label{en-tac-table}
-%\begin{tabular}{|l|l|l|l|}
-%\hline
-%\bf Model & \bf Recall & \bf Precision & \bf F1 \\
-%\hline
-%CNN & 28.86 & 35.89 & 31.99 \\
-%CNN-parse & ?	 & ? & ? \\
-%LSTM & 34.27 & 32.74 & 33.49  \\
-%uschema:en & 29.40 & 42.60 & 34.79 \\
-%uschema:en+LSTM+.1	    & ? & ? & ? \\
-%uschema:en+LSTM+.1+alts	& ? & ? & ? \\
-%\hline
-%\end{tabular}
-%\end{table}
-%\end{center}
 
+% \begin{table}[tb]
+% \begin{center}
+% \caption{Precision, recall and F1 of English-only models on the English TAC 2013 slot-filling task. LSTM+USchema ensemble outperforms any single model. \label{en-tac-table}}
+% \begin{tabular}{|lrrr|}
+% \hline
+% \bf Model & \bf Recall & \bf Precision & \bf F1 \\
+% \hline\hline
+% CNN                 & 31.6 & 36.8 & 34.1 \\
+% %CNN-parse           & ?	& ? & ? \\
+% LSTM                & \bf 32.2 & 39.6 & 35.5  \\
+% USchema             & 29.4 & \bf 42.6 & 34.8 \\
+% \hline
+% USchema+LSTM        & 34.4 & 41.9 & 37.7 \\
+% USchema+LSTM+AN	& 36.7 & 43.1 & \bf 39.7 \\
+% \hline
+% \end{tabular}
+% \end{center}
+% \end{table}
 
-%\begin{center}
-%\begin{table}[h]
-%\caption{english + spanish models Results on english Tac. -D means dictionary, -N means no dictionary}
-%\label{en-tac-table}
-%\begin{tabular}{|l|l|l|l|}
-%\hline
-%\bf Model & \bf Recall & \bf Precision & \bf F1 \\
-%\hline
-%CNN-N & 28.86	 & 36.36	 & 32.17	 \\
-%CNN-D & 29.75	 & 36.05	 & 32.59	 \\
-%LSTM-N & 33.10 & 33.99 & 33.54 \\
-%LSTM-D & 33.58 & 33.38 & 33.48 \\
-%uschema:en-es & 29.68 & 44.78 & 35.70 \\
-%uschema:en-es+LSTM-D+.1	        & 35.44 & 41.13 & 38.07 \\
-%uschema:en-es+LSTM-D+.1+alts	& 37.49 & 42.14 & 39.68 \\
-%\hline
-%\end{tabular}
-%\end{table}
-%\end{center}
+% \begin{table}[tb]
+% \begin{center}
+% \caption{F1 scores of multilingual models on the English TAC 2013 slot-filling task. Jointly embedding English and Spanish entity pairs results in higher scores on the English evaluation. Our system uses no handwritten patterns and we are able to match \cite{roth2014relationfactory} and \cite{angeli2014stanford} both of which use hand written patterns. \label{en-es-tac-table}}
+% \tabcolsep=0.15cm
+% \begin{tabular}{|lrrr|}
+% %\hspace{-10pt}
+% \hline
+% \bf Model & \bf En & \bf En+Es &\bf En+Es+dict\\
+% \hline\hline
+% CNN  & 34.1 & 34.0 & 33.9	\\
+% LSTM & 35.5 & 35.2 & 35.8 \\
+% USchema & 34.8 & 35.7  & --- \\
+% \hline
+% USchema+LSTM & 37.7 & 39.0 & 38.2 \\
+% USchema+LSTM+AN & 39.7 & \bf 40.9  &  40.2 \\
+% \hline
+% \cite{roth2014relationfactory}* & 40.2 &--- & --- \\
+% \cite{angeli2014stanford}* & 40.9 & --- & --- \\
+% \hline
+% \end{tabular}
+% \end{center}
+% \end{table}
 
-
-
-%% full english  + spanish results
-%\begin{center}
-%\begin{table}[h]
-%\caption{ensemble results on english Tac. -D means dictionary, -N means no dictionary}
-%\label{en-tac-ensemble-table}
-%\begin{tabular}{|l|l|l|l|}
-%\hline
-%\bf Model & \bf Recall & \bf Precision & \bf F1 \\
-%\hline
-%%LSTM-D + .1 : & 22.48 & 42.99 & 29.52 \\
-%%LSTM-D + .2 : & 13.64 & 52.93 & 21.69 \\
-%uschema:en-es+LSTM-D	        & 39.75 & 33.03 & 36.08 \\
-%uschema:en-es+LSTM-D+.1	        & 35.44 & 41.13 & 38.07 \\
-%uschema:en-es+LSTM-D+.2	        & 32.08 & 44.40 & 37.25 \\
-%uschema:en-es+LSTM-D+.1+alts	& 37.49 & 42.14 & 39.68 \\
-%rel-factory                     & 35.02 & 46.97 & 40.13 \\
-%rel-factory + LSTM-D+.1	        & 36.81 & 44.94 & 40.47 \\
-%\hline
-%\end{tabular}
-%\end{table}
-%\end{center}
-
-
-%% full spanish results
-%\subsection{Spanish Tac}
-%\begin{center}
-%\begin{table}[h]
-%\caption{Results on spanish Tac}
-%\label{es-tac-table}
-%\begin{tabular}{|l|l|l|l|}
-%\hline
-%\bf Model & \bf Recall & \bf Precision & \bf F1 \\
-%\hline
-%CNN-N 		                    &  11.13       & 06.31        & 08.06   \\
-%CNN-D 	                        &  12.78       & 11.21        & 11.95	\\
-%LSTM-N 	                        &  07.37       & 09.80        & 08.41   \\
-%LSTM-D  	                    &  10.38       & 28.87        & 15.27   \\
-%%uschema    	                    &  26.17       & 14.37        & 18.55   \\
-%%uschema +.1                     &  08.72       & 16.25        & 11.35   \\
-%%uschema+.1+LSTM-D               &  15.64       & 18.94        & 17.13   \\
-%uschema+.05                     &  20.90       & 17.64        & 19.13   \\
-%uschema+.05+LSTM-N              &  ?       & ?        & ?   \\
-%uschema+.05+LSTM-D              &  27.52       & 18.83        & 22.36   \\
-%\hline
-%\end{tabular}
-%\end{table}
-%\end{center}
 
 
 \begin{table}[tb]
@@ -101,38 +55,24 @@ See Section~\ref{sec:details} for a discussion of the hyper-parameters, optimiza
 \hline
 \bf Model & \bf Recall & \bf Precision & \bf F1 \\
 \hline\hline
-CNN                 & 28.9 & 35.9 & 32.0 \\
-%CNN-parse           & ?	 & ? & ? \\
-LSTM                & \bf 34.3 & 32.7 & 33.5  \\
+CNN                 & 31.6 & 36.8 & 34.1 \\
+%CNN-parse           & ?	& ? & ? \\
+LSTM                & \bf 32.2 & 39.6 & 35.5  \\
 USchema             & 29.4 & \bf 42.6 & 34.8 \\
 \hline
-USchema+LSTM        & 32.1 & 42.6 & 36.6 \\
-USchema+LSTM+AN	& 34.4 & 43.9 & \bf 38.6 \\
+USchema+LSTM        & 34.4 & 41.9 & 37.7 \\
+USchema+LSTM+AN	& 36.7 & 43.1 & \bf 39.7 \\
+USchema+LSTM+AN+ES	& --- & --- & \bf 40.9 \\
+\hline
+\hline
+\cite{roth2014relationfactory}* & --- &--- & 40.2 \\
+\cite{angeli2014stanford}* & --- & --- & 40.9 \\
 \hline
 \end{tabular}
 \end{center}
 \end{table}
 
-\begin{table}[tb]
-\begin{center}
-\caption{F1 scores of multilingual models on the English TAC 2013 slot-filling task. Jointly embedding English and Spanish entity pairs results in higher scores on the English evaluation. \label{en-es-tac-table}}
-\tabcolsep=0.15cm
-\begin{tabular}{|lrrr|}
-%\hspace{-10pt}
-\hline
-\bf Model & \bf En & \bf En+Es & \bf En+Es+dict  \\
-\hline\hline
-CNN  & 32.0 & 32.2 & 32.6	 \\
-LSTM & 33.5 & 33.5 & 33.5 \\
-USchema & 34.8 & 35.7  & --- \\
-\hline
-USchema+LSTM & 36.6 & 36.5 & 38.1 \\
-USchema+LSTM+AN & 38.6 & 38.1  & \bf 39.7 \\
-\hline
-\end{tabular}
-\end{center}
 
-\end{table}
 
 \begin{table}[h!]
 
