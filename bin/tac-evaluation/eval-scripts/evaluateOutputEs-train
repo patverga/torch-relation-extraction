@@ -1,9 +1,0 @@
-#!/bin/bash
-PRED=$1
-KEY=/home/pat/canvas/universal-schema/relationfactory-es/evaluation/es-13-train.key
-
-/iesl/canvas/belanger/relationfactory/myEvaluation/bin/score2013.sh $PRED $KEY
-
-
-
-
