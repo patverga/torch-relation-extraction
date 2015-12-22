@@ -4,3 +4,4 @@ KEY=/iesl/canvas/beroth/workspace/tackbp2014/eval/2014/eval_2014
 SCORE_SCRIPT=${TH_RELEX_ROOT}/bin/tac-evaluation/eval-scripts/score2014.sh
 CONFIG=2014.config
 PP=pp14
+TAC_ROOT=/iesl/canvas/beroth/workspace/relationfactory_iesl/
