@@ -1,6 +1,6 @@
 CANDIDATES=/iesl/canvas/beroth/workspace/relationfactory_iesl/runs/run2014/candidates
 RUN_DIR=/iesl/canvas/beroth/workspace/relationfactory_iesl/runs/run2014/
 KEY=/iesl/canvas/beroth/workspace/tackbp2014/eval/2014/eval_2014
-SCORE_SCRIPT=/home/pat/canvas/universal-schema/univSchema/torch/david-evaluation/score2012.sh
+SCORE_SCRIPT=${TH_RELEX_ROOT}/bin/tac-evaluation/eval-scripts/score2014.sh
 CONFIG=2014.config
 PP=pp14
