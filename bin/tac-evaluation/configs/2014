@@ -2,5 +2,5 @@ CANDIDATES=/iesl/canvas/beroth/workspace/relationfactory_iesl/runs/run2014/candi
 RUN_DIR=/iesl/canvas/beroth/workspace/relationfactory_iesl/runs/run2014/
 KEY=/iesl/canvas/beroth/workspace/tackbp2014/eval/2014/eval_2014
 SCORE_SCRIPT=/home/pat/canvas/universal-schema/univSchema/torch/david-evaluation/score2012.sh
-CONFIG=/iesl/canvas/beroth/workspace/relationfactory_iesl/config/system2014.config
+CONFIG=2014.config
 PP=pp14
