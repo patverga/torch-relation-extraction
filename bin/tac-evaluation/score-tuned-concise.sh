@@ -29,7 +29,7 @@ RESPONSE=`mktemp`
 ${TAC_ROOT}/components/bin/response.sh ${RUN_DIR}/query_expanded.xml ${THRESHOLD_CANDIDATE} ${RESPONSE}
 
 echo "Post processing response for year $YEAR"
-TAC_EVAL_ROOT/post-process-response.sh $YEAR $PP $RUN_DIR $RESPONSE $RESPONSE_OUT
+${TAC_EVAL_ROOT}/post-process-response.sh $YEAR $PP $RUN_DIR $RESPONSE $RESPONSE_OUT
 
 echo "Evaluating response"
 echo "`$SCORE_SCRIPT $RESPONSE_OUT $KEY | grep -e F1 -e Recall -e Precision | tr '\n' '\t'`"
