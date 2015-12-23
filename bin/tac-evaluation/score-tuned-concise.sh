@@ -20,17 +20,14 @@ ${CAND_SCORE_CMD}
 
 # threshold candidate file using tuned params
 THRESHOLD_CANDIDATE=`mktemp`
-THRESHOLD_CMD=`${TAC_EVAL_ROOT}/eval-scripts/threshold-scored-candidates.sh ${SCORED_CANDIDATES} ${TUNED_PARAMS} ${THRESHOLD_CANDIDATE}`
-echo "Thresholding candidate file : ${THRESHOLD_CMD}"
-${THRESHOLD_CMD}
+echo "Thresholding candidate file :"
+${TAC_EVAL_ROOT}/eval-scripts/threshold-scored-candidates.sh ${SCORED_CANDIDATES} ${TUNED_PARAMS} ${THRESHOLD_CANDIDATE}
 
 # convert scored candidate to response file
 RESPONSE=`mktemp`
-RESPONSE_CMD=`${TAC_ROOT}/components/bin/response.sh ${RUN_DIR}/query_expanded.xml ${THRESHOLD_CANDIDATE} ${RESPONSE}`
-echo "Converting scored candidate to response file : ${RESPONSE_CMD}"
-${RESPONSE_CMD}
+echo "Converting scored candidate to response file"
+${TAC_ROOT}/components/bin/response.sh ${RUN_DIR}/query_expanded.xml ${THRESHOLD_CANDIDATE} ${RESPONSE}
 
 # post process and score response
-RES_SCORE_CMD=`${TAC_EVAL_ROOT}/score-responses.sh ${YEAR} ${RESPONSE}`
-echo "Evaluating response file : ${RES_SCORE_CMD}"
-${RES_SCORE_CMD}
+echo "Evaluating response file"
+${TAC_EVAL_ROOT}/score-responses.sh ${YEAR} ${RESPONSE}
