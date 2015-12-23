@@ -14,18 +14,9 @@ else
   MERGED_RESPONSE=$2
 fi
 
-echo "Post processing for year $YEAR"
-RESPONSE_PP=`mktemp`
-if [[ $PP == "pp14" ]]; then
-  $TAC_ROOT/components/bin/postprocess2014.sh $MERGED_RESPONSE $RUN_DIR/query_expanded.xml /dev/null $RESPONSE_PP
-elif [[ $PP == "pp13" ]]; then
-  $TAC_ROOT/components/bin/postprocess2013.sh $MERGED_RESPONSE $RUN_DIR/query_expanded.xml /dev/null $RESPONSE_PP
-elif [[ $PP == "pp12" ]]; then
- # $TAC_ROOT/components/bin/postprocess2012.sh $MERGED_RESPONSE $RUN_DIR/query_expanded.xml /dev/null $RESPONSE_PP
-  $TAC_ROOT/components/bin/postprocess2013-12.sh $MERGED_RESPONSE $RUN_DIR/query_expanded.xml /dev/null $RESPONSE_PP
-else
-  cat $MERGED_RESPONSE > $RESPONSE_PP
-fi  
+TAC_EVAL_ROOT=${TH_RELEX_ROOT}/bin/tac-evaluation
+${TAC_EVAL_ROOT}/post-process-response.sh $YEAR $PP $RUN_DIR $MERGED_RESPONSE $RESPONSE_PP
+
 
 echo "Scoring merged response"
 echo "`$SCORE_SCRIPT $RESPONSE_PP $KEY | grep -e F1 -e Recall -e Precision | tr '\n' '\t'`"
