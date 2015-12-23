@@ -6,7 +6,7 @@ VOCAB=$3
 GPU=$4
 MAX_SEQ=$5
 TUNED_PARAMS=$6
-OUT=$7
+RESPONSE_OUT=$7
 EVAL_ARGS=${@:8}
 
 TAC_EVAL_ROOT=${TH_RELEX_ROOT}/bin/tac-evaluation
@@ -24,10 +24,10 @@ echo "Thresholding candidate file :"
 ${TAC_EVAL_ROOT}/eval-scripts/threshold-scored-candidates.sh ${SCORED_CANDIDATES} ${TUNED_PARAMS} ${THRESHOLD_CANDIDATE}
 
 # convert scored candidate to response file
-RESPONSE=`mktemp`
 echo "Converting scored candidate to response file"
-${TAC_ROOT}/components/bin/response.sh ${RUN_DIR}/query_expanded.xml ${THRESHOLD_CANDIDATE} ${RESPONSE}
+${TAC_ROOT}/components/bin/response.sh ${RUN_DIR}/query_expanded.xml ${THRESHOLD_CANDIDATE} ${RESPONSE_OUT}
 
 # post process and score response
 echo "Evaluating response file"
-${TAC_EVAL_ROOT}/score-responses.sh ${YEAR} ${RESPONSE}
+${TAC_EVAL_ROOT}/score-responses.sh ${YEAR} ${RESPONSE_OUT}
+
