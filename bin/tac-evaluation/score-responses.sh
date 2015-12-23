@@ -16,6 +16,8 @@ fi
 
 echo "Post processing for year $YEAR"
 RESPONSE_PP=`mktemp`
+if [[ $PP == "pp14" ]]; then
+  $TAC_ROOT/components/bin/postprocess2014.sh $MERGED_RESPONSE $RUN_DIR/query_expanded.xml /dev/null $RESPONSE_PP
 if [[ $PP == "pp13" ]]; then
   $TAC_ROOT/components/bin/postprocess2013.sh $MERGED_RESPONSE $RUN_DIR/query_expanded.xml /dev/null $RESPONSE_PP
 elif [[ $PP == "pp12" ]]; then
