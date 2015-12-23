@@ -6,7 +6,7 @@ VOCAB=$3
 GPU=$4
 MAX_SEQ=$5
 TUNED_PARAMS=$6
-RESPONSE_OUT=$7
+OUT=$7
 EVAL_ARGS=${@:8}
 
 TAC_EVAL_ROOT=${TH_RELEX_ROOT}/bin/tac-evaluation
@@ -29,8 +29,9 @@ RESPONSE=`mktemp`
 ${TAC_ROOT}/components/bin/response.sh ${RUN_DIR}/query_expanded.xml ${THRESHOLD_CANDIDATE} ${RESPONSE}
 
 echo "Post processing response for year $YEAR"
-${TAC_EVAL_ROOT}/post-process-response.sh $YEAR $PP $RUN_DIR $RESPONSE $RESPONSE_OUT
+${TAC_EVAL_ROOT}/post-process-response.sh $YEAR $PP $RUN_DIR $RESPONSE $RESPONSE_PP
 
 echo "Evaluating response"
-echo "`$SCORE_SCRIPT $RESPONSE_OUT $KEY | grep -e F1 -e Recall -e Precision | tr '\n' '\t'`"
+echo "`$SCORE_SCRIPT $RESPONSE_PP $KEY | grep -e F1 -e Recall -e Precision | tr '\n' '\t'`"
 
+cp $RESPONSE $OUT
