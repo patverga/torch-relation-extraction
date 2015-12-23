@@ -14,6 +14,7 @@ else
   MERGED_RESPONSE=$2
 fi
 
+RESPONSE_PP=`mktemp`
 TAC_EVAL_ROOT=${TH_RELEX_ROOT}/bin/tac-evaluation
 ${TAC_EVAL_ROOT}/post-process-response.sh $YEAR $PP $RUN_DIR $MERGED_RESPONSE $RESPONSE_PP
 
