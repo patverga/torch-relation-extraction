@@ -14,12 +14,10 @@ else
    slotlist=$3
 fi
 
-java -cp /iesl/canvas/beroth/workspace/tackbp2014/eval/2014/eval_2014 SFScore $response $key  nocase anydoc | grep -P '\tRecall:|\tPrecision:|\tF1:'
+java -cp /iesl/canvas/beroth/workspace/tackbp2014/eval/2014/ SFScore $response $key  nocase anydoc | grep -P '\tRecall:|\tPrecision:|\tF1:'
 
 # Delete generated slotlist.
 if [ $# -lt 3 ]
 then
    rm $slotlist
 fi
-
-
