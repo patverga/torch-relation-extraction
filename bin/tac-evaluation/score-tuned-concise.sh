@@ -18,9 +18,15 @@ CAND_SCORE_CMD="th ${TH_RELEX_ROOT}/src/eval/ScoreCandidateFile.lua -candidates 
 echo "Scoring candidate file: ${CAND_SCORE_CMD}"
 ${CAND_SCORE_CMD}
 
+# threshold candidate file using tuned params
+THRESHOLD_CANDIDATE=`mktemp`
+THRESHOLD_CMD=`${TAC_EVAL_ROOT}/eval-scripts/threshold-scored-candidates.sh ${SCORED_CANDIDATES} ${TUNED_PARAMS} ${THRESHOLD_CANDIDATE}`
+echo "Thresholding candidate file : ${THRESHOLD_CMD}"
+${THRESHOLD_CMD}
+
 # convert scored candidate to response file
 RESPONSE=`mktemp`
-RESPONSE_CMD=`${TAC_ROOT}/components/bin/response.sh ${RUN_DIR}/query_expanded.xml ${SCORED_CANDIDATES} ${RESPONSE}`
+RESPONSE_CMD=`${TAC_ROOT}/components/bin/response.sh ${RUN_DIR}/query_expanded.xml ${THRESHOLD_CANDIDATE} ${RESPONSE}`
 echo "Converting scored candidate to response file : ${RESPONSE_CMD}"
 ${RESPONSE_CMD}
 
