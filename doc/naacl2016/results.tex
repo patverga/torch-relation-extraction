@@ -45,6 +45,7 @@
 
 
 \begin{table}[tb]
+\setlength{\tabcolsep}{4.1pt}
 \begin{center}
 \begin{tabular}{|lrrr|}
 \hline
@@ -84,17 +85,17 @@ LSTM                & 27.3 & 32.9 & \bf 29.8  \\
 USchema             & 24.3 & 35.5 & 28.8 \\
 \hline\hline
 USchema+LSTM        & 34.1 & 29.3 & 31.5 \\
-USchema+LSTM+Es        & 34.4 & 31.0 & 32.6 \\
-USchema+LSTM+AN        & 34.7 & 29.3 & 31.7 \\
-USchema+LSTM+AN+Es        & 33.5 & 32.2 & \bf 32.8 \\
+USchema+LSTM+Es        & 34.4 & 31.0 & \bf 32.6 \\
+%USchema+LSTM+AN        & 34.7 & 29.3 & 31.7 \\
+%USchema+LSTM+AN+Es        & 33.5 & 32.2 & \bf 32.8 \\
 \hline\hline
-\citet{angeli2014stanford} & 29.8 & 58.5 & 39.5 \\
+\citet{angeli2014stanford} & 29.8 & 58.5 & \bf 39.5 \\
 RPI Blender & 29.4 & 47.8 & 36.4 \\
 ICTAS\_OKN & 24.3 & 59.0 & 34.4 \\
 UT Austin & 25.7 & 42.8 & 32.1 \\
 \hline
 \end{tabular}
-\caption{Precision, recall and F1 of English-only models on the English TAC 2014 slot-filling task. Es referes to using additional spanish raw text at train time and AN is alternative names heuristic. We also show results for the top 4 performing systems in the official TAC 2014 scoring. Our system would rank 4/18 in the 2014 TAC Slot Filling competition behind systems that use both hand written patterns and active learning. Our system uses niether of these addtional annotations. -see  \protect\cite{SurdeanuMihai2014}. \label{2014-en-tac-table}}
+\caption{Precision, recall and F1 of English-only models on the English TAC 2014 slot-filling task. Es referes to using additional spanish raw text at train time.The AN alternative names heuristic is mostly ineffective on 2014 adding only .2 to F1. We also show results for the top 4 performing systems in the official TAC 2014 scoring. Our system would rank 4/18 in the 2014 TAC Slot Filling competition behind systems that use both hand written patterns and active learning despite using neither of these additional annotations \protect\citep{SurdeanuMihai2014}.\label{2014-en-tac-table}}
 \end{center}
 \end{table}
 
