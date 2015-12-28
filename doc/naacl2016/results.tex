@@ -50,7 +50,8 @@ See Section~\ref{sec:details} for a discussion of the hyper-parameters, optimiza
 
 \begin{table}[tb]
 \begin{center}
-\caption{Precision, recall and F1 of English-only models on the English TAC 2013 slot-filling task. AN refers to alternative names heuristic and Es referes to using additional spanish raw text at train time. LSTM+USchema ensemble outperforms any single model. Our system uses no handwritten patterns is able to out-perform all highly tuned competitive systems. \protect\citet{roth2014relationfactory} and \protect\citet{angeli2014stanford} both use hand written patterns. * = optimal per relation tuning\label{en-tac-table}}
+\caption{Precision, recall and F1 of English-only models on the English TAC 2013 slot-filling task. AN refers to alternative names heuristic and Es referes to using additional spanish raw text at train time. LSTM+USchema ensemble outperforms any single model. Our system uses no handwritten patterns is able to out-perform all highly tuned competitive systems. \protect\citet{roth2014relationfactory} and \protect\citet{angeli2014stanford} %both use hand written patterns. * = optimal per relation tuning
+\label{en-tac-table}}
 \begin{tabular}{|lrrr|}
 \hline
 \bf Model & \bf Recall & \bf Precision & \bf F1 \\
@@ -61,13 +62,14 @@ LSTM                & 32.2 & 39.6 & \bf 35.5  \\
 USchema             & 29.4 & 42.6 & 34.8 \\
 \hline\hline
 USchema+LSTM        & 34.4 & 41.9 & 37.7 \\
+USchema+LSTM+Es        & 38.1 & 40.2 & \bf 39.2 \\
+\hline\hline
 USchema+LSTM+AN	& 36.7 & 43.1 & 39.7 \\
-USchema+LSTM+Es        & 38.1 & 40.2 & 39.2 \\
 USchema+LSTM+Es+AN & 40.2 & 41.2 & \bf 40.7 \\
 \citet{roth2014relationfactory} & 35.8 & 45.7 & 40.2 \\
-\hline\hline
-\citet{angeli2014stanford}* & --- & --- & 40.9 \\
-USchema+LSTM+Es+AN * &	43.1 & 41.2	& \bf 42.1 \\
+%\hline\hline
+%\citet{angeli2014stanford}* & --- & --- & 40.9 \\
+%USchema+LSTM+Es+AN * &	43.1 & 41.2	& \bf 42.1 \\
 
 \hline
 \end{tabular}
@@ -76,7 +78,7 @@ USchema+LSTM+Es+AN * &	43.1 & 41.2	& \bf 42.1 \\
 
 \begin{table}[tb]
 \begin{center}
-\caption{Precision, recall and F1 of English-only models on the English TAC 2014 slot-filling task. Es referes to using additional spanish raw text at train time. Our system uses no handwritten patterns and would rank 4/18 in the 2014 TAC Slot Filling competition -see  \protect\cite{SurdeanuMihai2014}. \label{2014-en-tac-table}}
+\caption{Precision, recall and F1 of English-only models on the English TAC 2014 slot-filling task. Es referes to using additional spanish raw text at train time and AN is alternative names heuristic. We also show results for the top 4 performing systems in the official TAC 2014 scoring. Our system would rank 4/18 in the 2014 TAC Slot Filling competition behind systems that use both hand written patterns and active learning. Our system uses niether of these addtional annotations. -see  \protect\cite{SurdeanuMihai2014}. \label{2014-en-tac-table}}
 \begin{tabular}{|lrrr|}
 \hline
 \bf Model & \bf Recall & \bf Precision & \bf F1 \\
@@ -87,10 +89,9 @@ LSTM                & 27.3 & 32.9 & \bf 29.8  \\
 USchema             & 24.3 & 35.5 & 28.8 \\
 \hline\hline
 USchema+LSTM        & 34.1 & 29.3 & 31.5 \\
-USchema+LSTM+AN        & 34.7 & 29.3 & 31.7 \\
 USchema+LSTM+Es        & 34.4 & 31.0 & 32.6 \\
+USchema+LSTM+AN        & 34.7 & 29.3 & 31.7 \\
 USchema+LSTM+AN+Es        & 33.5 & 32.2 & \bf 32.8 \\
-
 \hline\hline
 \citet{angeli2014stanford} & 29.8 & 58.5 & 39.5 \\
 RPI Blender & 29.4 & 47.8 & 36.4 \\
@@ -149,7 +150,9 @@ Table \ref{en-tac-table} presents the performance of our English models. First, 
 %US, which matches more short, non-compositional patterns, makes more precise predictions at the cost of an inability to predict when entities are connected by a pattern unseen during training. The LSTM can predict a relation using any text between entities observes at test time, gaining recall at the loss of precision. 
 Unsurprisingly, ensembling the LSTM and USchema improves F1 by nearly 2 points over the strongest single model, USchema. Adding the alternative names (AN) technique described in Section \ref{sec:ds-el} increases F1 by an additional 2 points, resulting in an F1 score that is competitive with the state-of-the-art.
 
-In Table \ref{en-es-tac-table}, we analyze the effect of jointly learning English and Spanish models on English slot filling performance.  Adding Spanish data improves scores of USchema and CNN, though the LSTM remains unaffected. Further tying the parameters of English and Spanish data by adding a translation dictionary further improves the CNN, and greatly improves the ensemble of USchema and LSTM, leading to 1.5 point increase in F1 over the ensemble of models trained on English alone. The boost in score resulting from dictionary typing suggests that with dictionary-tied parameters the LSTM can better leverage the Spanish data to find good relations that USchema is unable to find with only parameter tying through entities. Since USchema embeds entire OpenIE patterns, and not single words, parameters cannot be tied at the word level and so dictionary-tied results are not applicable to this model. The final rows shows that the alternate names heuristic is complementary to improvements from including Spanish. 
+\todo{description of 2014 results}
+
+In Tables \ref{en-tac-table} and \ref{2014-en-tac-table}, we demonstrate the effect of jointly learning English and Spanish models on English slot filling performance. Adding Spanish data improves our F1 scores by 1.5 points on 2013 and 1.1 on 2014 over using English alone.
 
 Table \ref{es-tac-table} presents results for our Spanish relation extractors trained using zero-annotation transfer learning. For both the CNN and LSTM, tying word embeddings between the two languages results in substantial improvements. We see that ensembling the non-dictionary LSTM with USchema leads to a lower score than just USchema alone, but ensembling the dictionary-tied LSTM with USchema provides a significant increase of nearly 4 F1 points over the highest-scoring single model, USchema. Clearly, grounding the Spanish data using a translation dictionary provides much better Spanish word representations. These improvements are complementary to the baseline USchema model, and yield impressive results when ensembled. 
 
