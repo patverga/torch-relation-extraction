@@ -81,7 +81,7 @@ USchema+LSTM+Es+AN & 40.2 & 41.2 & \bf 40.7 \\
 \caption{Precision, recall and F1 of English-only models on the English TAC 2014 slot-filling task. Es referes to using additional spanish raw text at train time and AN is alternative names heuristic. We also show results for the top 4 performing systems in the official TAC 2014 scoring. Our system would rank 4/18 in the 2014 TAC Slot Filling competition behind systems that use both hand written patterns and active learning. Our system uses niether of these addtional annotations. -see  \protect\cite{SurdeanuMihai2014}. \label{2014-en-tac-table}}
 \begin{tabular}{|lrrr|}
 \hline
-\bf Model & \bf Recall & \bf Precision & \bf F1 \\
+\bf Model & \bf Recall & \bf Prec. & \bf F1 \\
 \hline\hline
 CNN                 & 28.1 & 29.0 & 28.5 \\
 %CNN-parse           & ?	& ? & ? \\
@@ -153,6 +153,13 @@ Unsurprisingly, ensembling the LSTM and USchema improves F1 by nearly 2 points o
 \todo{description of 2014 results}
 
 In Tables \ref{en-tac-table} and \ref{2014-en-tac-table}, we demonstrate the effect of jointly learning English and Spanish models on English slot filling performance. Adding Spanish data improves our F1 scores by 1.5 points on 2013 and 1.1 on 2014 over using English alone.
+
+\begin{figure}
+% \begin{center}
+\includegraphics[scale=0.45]{f1-vary-sent-length}
+\caption{F1 achieved by USchema vs. LSTM models for varying sentence lengths. LSTM performs better on longer sentences ($\geq$ 5 tokens) whereas USchema performs better on shorter sentences ($\leq 5$). \label{fig:f1-vary-sents}}
+% \end{center}
+\end{figure}
 
 Table \ref{es-tac-table} presents results for our Spanish relation extractors trained using zero-annotation transfer learning. For both the CNN and LSTM, tying word embeddings between the two languages results in substantial improvements. We see that ensembling the non-dictionary LSTM with USchema leads to a lower score than just USchema alone, but ensembling the dictionary-tied LSTM with USchema provides a significant increase of nearly 4 F1 points over the highest-scoring single model, USchema. Clearly, grounding the Spanish data using a translation dictionary provides much better Spanish word representations. These improvements are complementary to the baseline USchema model, and yield impressive results when ensembled. 
 
