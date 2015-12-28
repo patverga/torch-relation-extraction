@@ -15,7 +15,6 @@ In extensive experiments on the TAC Knowledge Base Population (KBP) slot-filling
 
 \begin{figure}[h!]
 \begin{center}
-\caption{Splitting the entities in a multilingual AKBC training set into parts. We only require that entities in the two corpora overlap. Remarkably, we can train a model for the low-resource language even if entities in the low-resource language do not occur in the KB. \label{tab:multilingual-corpora}}
 
 \def\firstcircle{(0,0) circle (1.5cm)}
 \def\secondcircle{(0:2cm) circle (1.5cm)}
@@ -40,6 +39,7 @@ In extensive experiments on the TAC Knowledge Base Population (KBP) slot-filling
 	\draw \midline;
 
 \end{tikzpicture}
+\caption{Splitting the entities in a multilingual AKBC training set into parts. We only require that entities in the two corpora overlap. Remarkably, we can train a model for the low-resource language even if entities in the low-resource language do not occur in the KB. \label{tab:multilingual-corpora}}
 \end{center}
 \end{figure}
 
@@ -68,7 +68,6 @@ Table~\ref{tab:patterns} provides examples of OpenIE patterns. The examples in r
 \begin{table}[h!]
 \small
 \begin{center}
-\caption{Examples of sentences expressing relations. Context tokens (italicized) consist of the text occurring between entities (bold) in a sentence. OpenIE patterns are obtained by normalizing the context tokens using hand-coded rules. The top example expresses the per:siblings relation and the bottom two examples both express the per:cities\_of\_residence  relation. \label{tab:patterns}}
 %\hspace{-1cm}
 \begin{tabular}{|p{5cm}| p{2.5cm} | }
 \hline
@@ -83,6 +82,7 @@ A professor emeritus at Yale, {\bf Mandelbrot} \emph{was born in Poland but as a
 %per:cities\_of\_residence &
 {\bf Kissel} \emph{was born in Provo, Utah, but her family also lived in} {\bf Reno}. & \argOne * lived in \argTwo \\  \hline
 \end{tabular}
+\caption{Examples of sentences expressing relations. Context tokens (italicized) consist of the text occurring between entities (bold) in a sentence. OpenIE patterns are obtained by normalizing the context tokens using hand-coded rules. The top example expresses the per:siblings relation and the bottom two examples both express the per:cities\_of\_residence  relation. \label{tab:patterns}}
 \end{center}
 \end{table}
 

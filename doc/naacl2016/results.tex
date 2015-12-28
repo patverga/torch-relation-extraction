@@ -46,8 +46,6 @@
 
 \begin{table}[tb]
 \begin{center}
-\caption{Precision, recall and F1 of English-only models on the English TAC 2013 slot-filling task. AN refers to alternative names heuristic and Es referes to using additional spanish raw text at train time. LSTM+USchema ensemble outperforms any single model. Our system uses no handwritten patterns is able to out-perform all highly tuned competitive systems. \protect\citet{roth2014relationfactory} and \protect\citet{angeli2014stanford} %both use hand written patterns. * = optimal per relation tuning
-\label{en-tac-table}}
 \begin{tabular}{|lrrr|}
 \hline
 \bf Model & \bf Recall & \bf Precision & \bf F1 \\
@@ -69,12 +67,13 @@ USchema+LSTM+Es+AN & 40.2 & 41.2 & \bf 40.7 \\
 
 \hline
 \end{tabular}
+\caption{Precision, recall and F1 of English-only models on the English TAC 2013 slot-filling task. AN refers to alternative names heuristic and Es referes to using additional spanish raw text at train time. LSTM+USchema ensemble outperforms any single model. Our system uses no handwritten patterns is able to out-perform all highly tuned competitive systems. \protect\citet{roth2014relationfactory} and \protect\citet{angeli2014stanford} %both use hand written patterns. * = optimal per relation tuning
+\label{en-tac-table}}
 \end{center}
 \end{table}
 
 \begin{table}[tb]
 \begin{center}
-\caption{Precision, recall and F1 of English-only models on the English TAC 2014 slot-filling task. Es referes to using additional spanish raw text at train time and AN is alternative names heuristic. We also show results for the top 4 performing systems in the official TAC 2014 scoring. Our system would rank 4/18 in the 2014 TAC Slot Filling competition behind systems that use both hand written patterns and active learning. Our system uses niether of these addtional annotations. -see  \protect\cite{SurdeanuMihai2014}. \label{2014-en-tac-table}}
 \begin{tabular}{|lrrr|}
 \hline
 \bf Model & \bf Recall & \bf Prec. & \bf F1 \\
@@ -95,6 +94,7 @@ ICTAS\_OKN & 24.3 & 59.0 & 34.4 \\
 UT Austin & 25.7 & 42.8 & 32.1 \\
 \hline
 \end{tabular}
+\caption{Precision, recall and F1 of English-only models on the English TAC 2014 slot-filling task. Es referes to using additional spanish raw text at train time and AN is alternative names heuristic. We also show results for the top 4 performing systems in the official TAC 2014 scoring. Our system would rank 4/18 in the 2014 TAC Slot Filling competition behind systems that use both hand written patterns and active learning. Our system uses niether of these addtional annotations. -see  \protect\cite{SurdeanuMihai2014}. \label{2014-en-tac-table}}
 \end{center}
 \end{table}
 
@@ -122,7 +122,6 @@ UT Austin & 25.7 & 42.8 & 32.1 \\
 \begin{table}[h!]
 
 \begin{center}
-\caption{Zero-Annotation transfer learning F1 scores on 2012 Spanish TAC KBP slot-filling task. Adding a translation dictionary improves all encoder-based models. Ensembling LSTM and USchema models performs the best. \label{es-tac-table}}
 \begin{tabular}{|lrr|}
 \hline
 \bf Model & \bf Es+En & \bf Es+En+dict  \\
@@ -134,6 +133,7 @@ USchema                         & 16.3     & --- \\
 USchema+LSTM                    & 17.3     & \bf 20.0 \\
 \hline
 \end{tabular}
+\caption{Zero-Annotation transfer learning F1 scores on 2012 Spanish TAC KBP slot-filling task. Adding a translation dictionary improves all encoder-based models. Ensembling LSTM and USchema models performs the best. \label{es-tac-table}}
 \end{center}
 \end{table}
 
@@ -150,10 +150,10 @@ Unsurprisingly, ensembling the LSTM and USchema improves F1 by nearly 2 points o
 In Tables \ref{en-tac-table} and \ref{2014-en-tac-table}, we demonstrate the effect of jointly learning English and Spanish models on English slot filling performance. Adding Spanish data improves our F1 scores by 1.5 points on 2013 and 1.1 on 2014 over using English alone.
 
 \begin{figure}
-% \begin{center}
+\begin{center}
 \includegraphics[scale=0.45]{f1-vary-sent-length}
 \caption{F1 achieved by USchema vs. LSTM models for varying sentence lengths. LSTM performs better on longer sentences ($\geq$ 5 tokens) whereas USchema performs better on shorter sentences ($\leq 5$). \label{fig:f1-vary-sents}}
-% \end{center}
+\end{center}
 \end{figure}
 
 Table \ref{es-tac-table} presents results for our Spanish relation extractors trained using zero-annotation transfer learning. For both the CNN and LSTM, tying word embeddings between the two languages results in substantial improvements. We see that ensembling the non-dictionary LSTM with USchema leads to a lower score than just USchema alone, but ensembling the dictionary-tied LSTM with USchema provides a significant increase of nearly 4 F1 points over the highest-scoring single model, USchema. Clearly, grounding the Spanish data using a translation dictionary provides much better Spanish word representations. These improvements are complementary to the baseline USchema model, and yield impressive results when ensembled. 
@@ -167,7 +167,6 @@ Analysis of our English models suggests that our encoder-based models (LSTM) ext
 
 \begin{table}[h]
 \begin{center}
-\caption{Examples of the \emph{per:children} relation discovered by the LSTM and Universal Schema. Entities are bold and patterns italicized. The LSTM can model a richer set of patterns \label{tab:lstm-us-similar-rels}}
 \small
 \begin{tabular}{|p{8cm}|}
 \hline
@@ -183,6 +182,7 @@ But {\bf Marshall} \emph{'s son,} {\bf Philip}, told a different story.  \\ \hli
 be the next Billy Mays,'' said the guy who actually is the next {\bf Billy Mays}\emph{, his son} {\bf Billy Mays III}. \\ 
 \hline
 \end{tabular}
+\caption{Examples of the \emph{per:children} relation discovered by the LSTM and Universal Schema. Entities are bold and patterns italicized. The LSTM can model a richer set of patterns \label{tab:lstm-us-similar-rels}}
 \end{center}
 \end{table}
 
@@ -197,7 +197,6 @@ Analysis of our multilingual models also suggests that they successfully embed s
 }
 \begin{table}[h]
 \begin{center}
-\caption{Top English patterns for a Spanish query pattern encoded using the dictionary LSTM: For each Spanish query (English translation in italics), a list of English nearest neighbors. \label{tab:cross-lingual-relations}}
 \small
 %\hspace*{-21pt}
 \begin{tabular}{|p{8cm}|}
@@ -246,6 +245,7 @@ Analysis of our multilingual models also suggests that they successfully embed s
 %{\it E2} province , is the headquarters of {\it E1} \\
 %\hline
 \end{tabular}
+\caption{Top English patterns for a Spanish query pattern encoded using the dictionary LSTM: For each Spanish query (English translation in italics), a list of English nearest neighbors. \label{tab:cross-lingual-relations}}
 \end{center}
 \end{table}
 
@@ -255,7 +255,6 @@ In addition to embedding semantically similar phrases from English and Spanish t
 
 \begin{table}[h]
 \setlength{\tabcolsep}{3pt}
-\caption{Example English query words (not in translation dictionary) in bold with their top nearest neighbors by cosine similarity listed for the dictionary and no ties LSTM variants. Dictionary-tied nearest neighbors are consistently more relevant to the query word than untied. }
 \label{joint-word}
 \small
 \begin{center}
@@ -305,6 +304,7 @@ privatizaci\'{o}n (privatisation)  & reelecto (reelected) \\
 nombre (name)  & conocido (known)\\
 \hline
 \end{tabular}
+\caption{Example English query words (not in translation dictionary) in bold with their top nearest neighbors by cosine similarity listed for the dictionary and no ties LSTM variants. Dictionary-tied nearest neighbors are consistently more relevant to the query word than untied. }
 %\end{minipage}
 \end{center}
 \end{table}
