@@ -51,7 +51,7 @@ We now describe prior work on approaches to AKBC. They all aim to predict (\emph
 
 \subsection{Relation Extraction as Link Prediction \label{sec:prediction}}
 A knowledge base is naturally described as a graph, in which entities are nodes and relations are labeled edges~\citep{yago,freebase}. In the case of \emph{knowledge graph completion}, the task is akin to link prediction, assuming an initial set of (\emph{s, r, o}) triples. See~\citet{nickel2015review} for a review. No accompanying text data is necessary, since links can be predicted using properties of the graph, such as transitivity. In order to generalize well, prediction is often posed as low-rank matrix or tensor factorization. A variety of model variants have been suggested, where the probability of a given edge existing depends on a multi-linear form~\citep{rescal,DBLP:journals/corr/Garcia-DuranBUG15,bishan,transe,wang2014knowledge,lin2015learning}, or non-linear interactions between $s$, $r$, and $o$~\citep{socherkb}.
-\todo{gu2015traversing reviever who probably wrote this irrelevant paper wants to be cited.}
+Other approaches model the compositionality of multi hop paths, typically for question answering \citep{bordes2014question,gu2015traversing,neelakantan2015compositional}.
 
 \subsection{Relation Extraction as Sentence Classification}
 \label{seq:dist}
