@@ -71,9 +71,6 @@ This is necessary for the baseline US model, as otherwise learning decouples int
 Though the components are connected when using sentence encoders, we use only a single component to facilitate a fair comparison between modeling approaches.
 We add the distant supervision training facts from the RelationFactory system, i.e. 352,236 entity-pair-relation tuples obtained from Freebase and high precision seed patterns.
 The final training data contains a set of 3,980,164 (KB and openIE) facts made up of 549,760 unique entity pairs, 1,285,258 unique relations and 62,841 unique tokens.
-For entity linking, we make use of the fact that most Freebase entries contain a link to the corresponding Wikipedia page, and we heuristically link all entity mentions from our text corpora to a Freebase entity by the following process:
-First, a set of candidate entities is obtained by following frequent link anchor text statistics.
-We then select that candidate entity for which the cosine similarity between the respective Wikipedia and the sentence context of the mention is highest, and link to that entity if a threshold is exceeded.
 
 We perform the same preprocessing on the Spanish data, resulting in 34 million raw surface patterns between entities.
 We then filter patterns that never occur with an entity pair found in the English data.  This yields 860,502 Spanish patterns.
