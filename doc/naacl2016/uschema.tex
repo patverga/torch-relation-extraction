@@ -27,7 +27,7 @@ Prior work has applied deep learning to small-scale relation extraction problem,
 Despite the coverage advantages of using a deep sentence encoder, separately embedding each OpenIE pattern, as in~\citet{limin}, has key advantages. In practice, we have found that many high-precision patterns occur quite frequently. For these, there is sufficient data to model them with independent embeddings per pattern, which imposes minimal restrictions on the relationship between embeddings. On the other hand, Some discriminative phrases are idiomatic, i.e.. their meaning is not constructed compositionally from their constituents. For these, the inductive bias of a sentence encoder is inappropriate. 
 %using a sentence encoder induces shared structure across different patterns' representations. 
 
-Therefore, using pattern embeddings and deep token-based encoders have very different strengths and weaknesses. One values specificity, and models the head of the text distribution well, while the other has high coverage and captures the tail. In our experiments, we demonstrate that the lookup table approach outperforms using an encoder, but that an ensemble of both models performs substantially better than either in isolation.
+Therefore, using pattern embeddings and deep token-based encoders have very different strengths and weaknesses. One values specificity, and models the head of the text distribution well, while the other has high coverage and captures the tail. \todo{ this is no longer true} In our experiments, we demonstrate that the lookup table approach outperforms using an encoder, but that an ensemble of both models performs substantially better than either in isolation.
 
 %\begin{table}[h!]
 %\begin{center}
