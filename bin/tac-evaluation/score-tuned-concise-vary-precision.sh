@@ -8,7 +8,7 @@ MAX_SEQ=$5
 TUNED_PARAMS=$6
 EVAL_ARGS=${@:7}
 
-PARAM_P_BIAS="-0.25 -0.2 -0.15 -0.1 -.05 0.0 0.05 0.1 0.15 0.2 0.25"
+PARAM_P_BIAS="-0.5 -0.45 -0.4 -0.35 -0.3 -0.25 -0.2 -0.15 -0.1 -.05 0.0 0.05 0.1 0.15 0.2 0.25 0.3 0.35 0.4 0.45 0.5"
 
 TAC_EVAL_ROOT=${TH_RELEX_ROOT}/bin/tac-evaluation
 source ${TAC_EVAL_ROOT}/configs/${YEAR}
