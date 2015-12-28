@@ -168,7 +168,7 @@ Analysis of our English models suggests that our encoder-based models (LSTM) ext
 \begin{table}[h]
 \begin{center}
 \small
-\begin{tabular}{|p{8cm}|}
+\begin{tabular}{|p{7.6cm}|}
 \hline
 \multicolumn{1}{|c|}{\textbf{LSTM}} \\ \hline
 {\bf McGregor} \emph{is survived by his wife, Lori, and four children, daughters Jordan,} { \bf Taylor} and Landri, and a son, Logan. \\ \hline
@@ -189,51 +189,111 @@ be the next Billy Mays,'' said the guy who actually is the next {\bf Billy Mays}
 % cross lingual relations
 Analysis of our multilingual models also suggests that they successfully embed semantically similar relations across languages using tied entity pairs and translation dictionary as grounding. Table \ref{tab:cross-lingual-relations} lists three top nearest neighbors in English for several Spanish patterns from the text. In each case, the English patterns capture the relation represented in the Spanish text. 
 
+%\newcommand{\tablespace}{\end{tabular}
+%\newline
+%\newline
+%%\hspace*{-21pt}
+%\begin{tabular}{|p{7.6cm}|}
+%}
+%\begin{table}[h]
+%\begin{center}
+%\small
+%%\hspace*{-21pt}
+%\begin{tabular}{|p{7.6cm}|}
+%\hline
+%\argOne y cuatro de sus familias, incluidos su esposa, Wu Shu-chen, su hijo, \argTwo\\
+%\it{\argOne and four of his family members, including his wife, Wu Shu-chen, his son, \argTwo} \\
+%\hline
+%\argOne and his son \argTwo \\
+%\argOne is survived by his wife, Sybil MacKenzie and a son, \argTwo \\
+%\argOne gave birth to a baby last week -- son \argTwo \\
+%\hline
+%\tablespace
+%\hline
+%\argOne (Puff Daddy, cuyos verdaderos nombre sea \argTwo \\
+%\it{\argOne (Puff Daddy, whose real name is \argTwo} \\
+%\hline%\hline
+%\argOne (usually credited as {\it E1} \\
+%\argOne (also known as Gero \#\#, real name \argTwo \\
+%\argOne and (after changing his name to \argTwo \\
+%\hline
+%\tablespace
+%%\hline
+%%\argOne, Tian Tian, de \#\# a\~{n}os de edad, y su madre \argTwo\\
+%%\it{\argOne, Tian Tian, \#\# years old, and his mother \argTwo} \\
+%%\hline%\hline
+%%\argOne Gyllenhaal's parents -- screenwriter Naomi Foner and director \argTwo \\
+%%\argOne Brando's mother, actress Anna Kashfi, divorced \argTwo \\
+%%\argOne Cash, his mom was \argTwo \\
+%%\hline
+%%\tablespace
+%\hline
+%\argOne lleg\'{o} a la alfombra roja en compa\~{n}\'{i}a de su esposa, la actriz Suzy Amis, casi una hora antes que su ex esposa, \argTwo\\
+%\it{\argOne arrived on the red carpet with his wife, actress Suzy Amis, nearly an hour before his ex-wife , \argTwo} \\
+%\hline%\hline
+%\argOne, who may or may not be having twins with husband \argTwo \\
+%\argOne, aged twenty, Kirk married \argTwo\\
+%\argOne went to elaborate lengths to keep his wedding to former supermodel \argTwo\\
+%\hline
+%%\tablespace
+%%\hline
+%%\bf{{\it E1} , una firmes of estudios económicos lleven sede in {\it E2}}\\
+%%\it{{\it E1} an economic studies firm with headquarters in {\it E2}} \\
+%%\hline\hline
+%%{\it E2} offices of BP and {\it E1} \\
+%%{\it E2} , the Paris - based {\it E1} \\
+%%{\it E2} province , is the headquarters of {\it E1} \\
+%%\hline
+%\end{tabular}
+%\caption{Top English patterns for a Spanish query pattern encoded using the dictionary LSTM: For each Spanish query (English translation in italics), a list of English nearest neighbors. \label{tab:cross-lingual-relations}}
+%\end{center}
+%\end{table}
+
 \newcommand{\tablespace}{\end{tabular}
 \newline
 \newline
 %\hspace*{-21pt}
-\begin{tabular}{|p{8cm}|}
+\begin{tabular}{|p{7.6cm}|}
 }
 \begin{table}[h]
 \begin{center}
 \small
 %\hspace*{-21pt}
-\begin{tabular}{|p{8cm}|}
+\begin{tabular}{|p{7.6cm}|}
 \hline
-\argOne y cuatro de sus familias, incluidos su esposa, Wu Shu-chen, su hijo, \argTwo\\
-\it{\argOne and four of his family members, including his wife, Wu Shu-chen, his son, \argTwo} \\
+ \bf y cuatro de sus familias, incluidos su esposa, \endgraf \hspace{5pt}Wu Shu-chen, su hijo, \\
+\it{ and four of his family members, including his wife, \endgraf \hspace{5pt}Wu Shu-chen, his son, } \\
 \hline
-\argOne and his son \argTwo \\
-\argOne is survived by his wife, Sybil MacKenzie and a son, \argTwo \\
-\argOne gave birth to a baby last week -- son \argTwo \\
+ and his son  \\
+ is survived by his wife, Sybil MacKenzie and a son,  \\
+ gave birth to a baby last week -- son  \\
 \hline
 \tablespace
 \hline
-\argOne (Puff Daddy, cuyos verdaderos nombre sea \argTwo \\
-\it{\argOne (Puff Daddy, whose real name is \argTwo} \\
+ \bf (Puff Daddy, cuyos verdaderos nombre sea  \\
+\it{ (Puff Daddy, whose real name is } \\
 \hline%\hline
-\argOne (usually credited as {\it E1} \\
-\argOne (also known as Gero \#\#, real name \argTwo \\
-\argOne and (after changing his name to \argTwo \\
+ (usually credited as {\it E1} \\
+ (also known as Gero \#\#, real name  \\
+ and (after changing his name to  \\
 \hline
 \tablespace
 %\hline
-%\argOne, Tian Tian, de \#\# a\~{n}os de edad, y su madre \argTwo\\
-%\it{\argOne, Tian Tian, \#\# years old, and his mother \argTwo} \\
+%, Tian Tian, de \#\# a\~{n}os de edad, y su madre \\
+%\it{, Tian Tian, \#\# years old, and his mother } \\
 %\hline%\hline
-%\argOne Gyllenhaal's parents -- screenwriter Naomi Foner and director \argTwo \\
-%\argOne Brando's mother, actress Anna Kashfi, divorced \argTwo \\
-%\argOne Cash, his mom was \argTwo \\
+% Gyllenhaal's parents -- screenwriter Naomi Foner and director  \\
+% Brando's mother, actress Anna Kashfi, divorced  \\
+% Cash, his mom was  \\
 %\hline
 %\tablespace
 \hline
-\argOne lleg\'{o} a la alfombra roja en compa\~{n}\'{i}a de su esposa, la actriz Suzy Amis, casi una hora antes que su ex esposa, \argTwo\\
-\it{\argOne arrived on the red carpet with his wife, actress Suzy Amis, nearly an hour before his ex-wife , \argTwo} \\
+ \bf lleg\'{o} a la alfombra roja en compa\~{n}\'{i}a de su esposa, la \endgraf \hspace{5pt} actriz  Suzy Amis, casi una hora antes que su ex esposa, \\
+\it{ arrived on the red carpet with his wife, \endgraf \hspace{5pt} actress  Suzy Amis, nearly an hour before his ex-wife , } \\
 \hline%\hline
-\argOne, who may or may not be having twins with husband \argTwo \\
-\argOne, aged twenty, Kirk married \argTwo\\
-\argOne went to elaborate lengths to keep his wedding to former supermodel \argTwo\\
+, who may or may not be having twins with husband  \\
+, aged twenty, Kirk married \\
+ went to elaborate lengths to keep his wedding to former \endgraf \hspace{5pt}supermodel \\
 \hline
 %\tablespace
 %\hline
