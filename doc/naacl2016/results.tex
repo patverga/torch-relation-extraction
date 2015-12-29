@@ -142,10 +142,9 @@ USchema+LSTM                    & 17.3     & \bf 20.0 \\
 
 %In experiments on the English and Spanish TAC KBC slot-filling tasks, we find that both USchema and LSTM models outperform the CNN across languages, and that USchema tends to perform slightly better than the LSTM as the only model. Ensembling the LSTM and USchema models further increases final F1 scores in all experiments, suggesting that the two different types of model compliment each other well. In Section \ref{sec:qual-anal} we present a qualitative analysis of our results which further confirms this hypothesis.
 
-Table \ref{en-tac-table} presents the performance of our English models. First, observe that the LSTM substantially outperforms a CNN. Second, note that the LSTM achieves higher recall than USchema whereas USchema is more precision-biased. This confirms our hypothesis in Section~\ref{sec:non-comp} about the strengths and weaknesses of the two approaches. 
+Tables \ref{en-tac-table} and \ref{2014-en-tac-table} presents the performance of our models on the 2013 and 2014 TAC slot-filling tasks.
 
-%US, which matches more short, non-compositional patterns, makes more precise predictions at the cost of an inability to predict when entities are connected by a pattern unseen during training. The LSTM can predict a relation using any text between entities observes at test time, gaining recall at the loss of precision. 
-Unsurprisingly, ensembling the LSTM and USchema improves F1 by nearly 2 points over the strongest single model, USchema. Adding the alternative names (AN) technique described in Section \ref{sec:models} increases F1 by an additional 2 points, resulting in an F1 score that is competitive with the state-of-the-art.
+Unsurprisingly, ensembling the LSTM and USchema improves F1 by 2.2 points for 2013 and 1.7 points for 2014 over the strongest single model, LSTM. Adding the alternative names (AN) technique described in Section \ref{sec:models} increases F1 by an additional 2 points for 2013, resulting in an F1 score that is competitive with the state-of-the-art. Also observe that the LSTM substantially outperforms a CNN.
 
 The state of the art systems on this task all rely on matching of handwritten patterns to find additional answers and the the top 2014 systems use additional active learning annotation to get higher quality training data. Our models use only automatically generated indirect supervision via entity pairs; even our AN heuristics (\ref{sec:pipeline}) are automatically generated.
 
@@ -153,19 +152,19 @@ The state of the art systems on this task all rely on matching of handwritten pa
 
 In Tables \ref{en-tac-table} and \ref{2014-en-tac-table}, we demonstrate the effect of jointly learning English and Spanish models on English slot filling performance. Adding Spanish data improves our F1 scores by 1.5 points on 2013 and 1.1 on 2014 over using English alone. This places are system higher than the top performer at the 2013 TAC slot-filling task even though our system uses no hand-written rules.
 
-We further analyze differences between USchema and LSTM in figure \ref{fig:f1-vary-pats}.
+We further analyze differences between USchema and LSTM. USchema, which matches more short, non-compositional patterns, makes more precise predictions at the cost of an inability to predict when entities are connected by a pattern unseen during training. The LSTM can predict a relation using any text between entities observes at test time, gaining recall at the loss of precision Figure \ref{fig:pr-curve}. This is further demonstrated in figure \ref{fig:f1-vary-pats} where USchema achieves higher F1 on shorter patterns while LSTM has higher scores on longer sequences. Note that all of these F1 scores are calculated over the entire answer key.
 
 \begin{figure}
 \begin{center}
 \includegraphics[scale=0.45]{f1-vary-pat-length}
-\caption{F1 achieved by US  chema vs. LSTM models for varying pattern lengths. LSTM performs better on longer patterns ($\geq$ 5 tokens) whereas USchema performs better on shorter patterns ($\leq 5$). \label{fig:f1-vary-pats}}
+\caption{F1 achieved by USchema vs. LSTM models for varying pattern lengths on 2013 TAC slot-filling. LSTM performs better on longer patterns ($\geq$ 5 tokens) whereas USchema performs better on shorter patterns ($\leq 5$). \label{fig:f1-vary-pats}}
 \end{center}
 \end{figure}
 
 \begin{figure}
 \begin{center}
 \includegraphics[scale=0.45]{pr-curve}
-\caption{F1 achieved by US  chema vs. LSTM models for varying pattern lengths. LSTM performs better on longer patterns ($\geq$ 5 tokens) whereas USchema performs better on shorter patterns ($\leq 5$). \label{fig:pr-curve}}
+\caption{Precision-Recall curves for Uschema vs LSTM on 2013 TAC slot-filling. USchema is able to achieve higher precisions in general while LSTM has greater recall. \label{fig:pr-curve}}
 \end{center}
 \end{figure}
 
