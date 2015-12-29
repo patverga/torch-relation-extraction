@@ -7,6 +7,11 @@ import pickle
 from collections import defaultdict
 
 
+###
+# Takes a 4 col mtx file and maps string entries to int id's
+# use -v to export string-int maps
+###
+
 def process_line(chars, ent_map, ep_map, line, rel_map, token_counter, double_vocab, replace_digits):
     e1_str, e2_str, rel_str, label = line.strip().split('\t')
     ep_str = e1_str + '\t' + e2_str
