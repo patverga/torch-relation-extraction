@@ -1,4 +1,4 @@
-\subsection{Results\label{sec:results}}
+\section{Experimental Results\label{sec:results}}
 
 % \begin{table}[tb]
 % \begin{center}
@@ -95,7 +95,7 @@ ICTAS\_OKN & 24.3 & 59.0 & 34.4 \\
 UT Austin & 25.7 & 42.8 & 32.1 \\
 \hline
 \end{tabular}
-\caption{Precision, recall and F1 of English-only models on the English TAC 2014 slot-filling task. Es referes to using additional spanish raw text at train time.The AN alternative names heuristic is mostly ineffective on 2014 adding only .2 to F1. We also show results for the top 4 performing systems in the official TAC 2014 scoring. Our system would rank 4/18 in the 2014 TAC Slot Filling competition behind systems that use both hand written patterns and active learning despite using neither of these additional annotations \protect\citep{SurdeanuMihai2014}.\label{2014-en-tac-table}}
+\caption{Precision, recall and F1 of English-only models on the English TAC 2014 slot-filling task. Es referes to using additional spanish raw text at train time.The AN alternative names heuristic is mostly ineffective on 2014 adding only 0.2 to F1. We also show results for the top 4 performing systems in the official TAC 2014 scoring. Our system would rank 4/18 in the 2014 TAC slot-filling competition behind systems that use both hand written patterns and active learning despite using neither of these additional annotations \protect\citep{SurdeanuMihai2014}.\label{2014-en-tac-table}}
 \end{center}
 \end{table}
 
@@ -139,12 +139,9 @@ USchema+LSTM                    & 17.3     & \bf 20.0 \\
 \end{table}
 
 
+In experiments on the English and Spanish TAC KBC slot-filling tasks, we find that both USchema and LSTM models outperform the CNN across languages, and that the LSTM tends to perform slightly better than USchema as the only model. Ensembling the LSTM and USchema models further increases final F1 scores in all experiments, suggesting that the two different types of model compliment each other well. Indeed, in experiments characterizing the behavior of the LSTM and USchema models we find that they perform better on different pattern lengths and are characterized by different precision-recall tradeoffs. In Section \ref{sec:qual-anal} we present a qualitative analysis of our results which further confirms this hypothesis.
 
-%In experiments on the English and Spanish TAC KBC slot-filling tasks, we find that both USchema and LSTM models outperform the CNN across languages, and that USchema tends to perform slightly better than the LSTM as the only model. Ensembling the LSTM and USchema models further increases final F1 scores in all experiments, suggesting that the two different types of model compliment each other well. In Section \ref{sec:qual-anal} we present a qualitative analysis of our results which further confirms this hypothesis.
-
-Tables \ref{en-tac-table} and \ref{2014-en-tac-table} presents the performance of our models on the 2013 and 2014 TAC slot-filling tasks.
-
-Unsurprisingly, ensembling the LSTM and USchema improves F1 by 2.2 points for 2013 and 1.7 points for 2014 over the strongest single model, LSTM. Adding the alternative names (AN) technique described in Section \ref{sec:models} increases F1 by an additional 2 points for 2013, resulting in an F1 score that is competitive with the state-of-the-art. Also observe that the LSTM substantially outperforms a CNN.
+Tables \ref{en-tac-table} and \ref{2014-en-tac-table} present the performance of our models on the 2013 and 2014 TAC slot-filling tasks. Unsurprisingly, ensembling the LSTM and USchema improves F1 by 2.2 points for 2013 and 1.7 points for 2014 over the strongest single model, LSTM. Adding the alternative names (AN) technique described in Section \ref{sec:models} increases F1 by an additional 2 points for 2013, resulting in an F1 score that is competitive with the state-of-the-art. Also observe that the LSTM substantially outperforms a CNN.
 
 The state of the art systems on this task all rely on matching of handwritten patterns to find additional answers and the the top 2014 systems use additional active learning annotation to get higher quality training data. Our models use only automatically generated indirect supervision via entity pairs; even our AN heuristics (\ref{sec:pipeline}) are automatically generated.
 
@@ -164,7 +161,7 @@ We further analyze differences between USchema and LSTM. USchema, which matches 
 \begin{figure}
 \begin{center}
 \includegraphics[scale=0.45]{pr-curve}
-\caption{Precision-Recall curves for Uschema vs LSTM on 2013 TAC slot-filling. USchema is able to achieve higher precisions in general while LSTM has greater recall. \label{fig:pr-curve}}
+\caption{Precision-Recall curves for USchema and LSTM on 2013 TAC slot-filling. USchema achieves higher precision values whereas LSTM has higher recall. \label{fig:pr-curve}}
 \end{center}
 \end{figure}
 
