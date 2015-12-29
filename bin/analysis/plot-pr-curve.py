@@ -24,7 +24,7 @@ print labels
 data = np.loadtxt(data_fname, converters = {2: lambda y: np.where(labels==y)[0]})
 
 labels = ["LSTM", "USchema"]
-colors = ['0.75', '0.25']
+colors = ['0.6', '0.25']
 width = 4
 
 print data
