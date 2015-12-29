@@ -45,6 +45,6 @@ ax1.yaxis.set_major_formatter(ticker.FuncFormatter(lambda y, pos: ('%.2f')%(y)))
 # add legend
 ax1.legend()
 
-#fig1.savefig("%s/pr-curve.pdf" % (output_dir), bbox_inches='tight')
+fig1.savefig("%s/pr-curve.pdf" % (output_dir), bbox_inches='tight')
 
 plt.show()
