@@ -68,7 +68,7 @@ USchema+LSTM+Es+AN & 40.2 & 41.2 & \bf 40.7 \\
 
 \hline
 \end{tabular}
-\caption{Precision, recall and F1 of English-only models on the English TAC 2013 slot-filling task. AN refers to alternative names heuristic and Es referes to using additional spanish raw text at train time. LSTM+USchema ensemble outperforms any single model. Our system uses no handwritten patterns is able to out-perform all highly tuned competitive systems. \protect\citet{roth2014relationfactory} and \protect\citet{angeli2014stanford} %both use hand written patterns. * = optimal per relation tuning
+\caption{Precision, recall and F1 on the English TAC 2013 slot-filling task. AN refers to alternative names heuristic and Es refers to the addition of Spanish text at train time. LSTM+USchema ensemble outperforms any single model, including highly-tuned competitive systems of \protect\citet{roth2014relationfactory} and \protect\citet{angeli2014stanford}, despite using no handwritten patterns.  %both use hand written patterns. * = optimal per relation tuning
 \label{en-tac-table}}
 \end{center}
 \end{table}
@@ -143,8 +143,11 @@ USchema+LSTM                    & 17.3     & \bf 20.0 \\
 %In experiments on the English and Spanish TAC KBC slot-filling tasks, we find that both USchema and LSTM models outperform the CNN across languages, and that USchema tends to perform slightly better than the LSTM as the only model. Ensembling the LSTM and USchema models further increases final F1 scores in all experiments, suggesting that the two different types of model compliment each other well. In Section \ref{sec:qual-anal} we present a qualitative analysis of our results which further confirms this hypothesis.
 
 Table \ref{en-tac-table} presents the performance of our English models. First, observe that the LSTM substantially outperforms a CNN. Second, note that the LSTM achieves higher recall than USchema whereas USchema is more precision-biased. This confirms our hypothesis in Section~\ref{sec:non-comp} about the strengths and weaknesses of the two approaches. 
+
 %US, which matches more short, non-compositional patterns, makes more precise predictions at the cost of an inability to predict when entities are connected by a pattern unseen during training. The LSTM can predict a relation using any text between entities observes at test time, gaining recall at the loss of precision. 
 Unsurprisingly, ensembling the LSTM and USchema improves F1 by nearly 2 points over the strongest single model, USchema. Adding the alternative names (AN) technique described in Section \ref{sec:models} increases F1 by an additional 2 points, resulting in an F1 score that is competitive with the state-of-the-art.
+
+The state of the art systems on this task all rely on matching of handwritten patterns to find additional answers and the the top 2014 systems use additional active learning annotation to get higher quality training data. Our models use only automatically generated indirect supervision via entity pairs; even our AN heuristics (\ref{sec:pipeline}) are automatically generated.
 
 \todo{description of 2014 results}
 
@@ -192,7 +195,7 @@ But {\bf Marshall} \emph{'s son,} {\bf Philip}, told a different story.  \\ \hli
 be the next Billy Mays,'' said the guy who actually is the next {\bf Billy Mays}\emph{, his son} {\bf Billy Mays III}. \\ 
 \hline
 \end{tabular}
-\caption{Examples of the \emph{per:children} relation discovered by the LSTM and Universal Schema. Entities are bold and patterns italicized. The LSTM can model a richer set of patterns \label{tab:lstm-us-similar-rels}}
+\caption{Examples of the \emph{per:children} relation discovered by the LSTM and Universal Schema. Entities are bold and patterns italicized. The LSTM models a richer set of patterns \label{tab:lstm-us-similar-rels}}
 \end{center}
 \end{table}
 

@@ -22,8 +22,6 @@ The aim of the TAC benchmark is to improve both coverage and quality of relation
 
  %Some slots, such as \emph{per:countries\_of\_residence} can be filled by multiple entities, whereas others, such as \emph{per:country\_of\_birth} can contain only one filler. The query entities are restricted to people (PER) and organizations (ORG) (rather than locations or other noun types, such as religion, which may fill query slots), and the 2013 English evaluation query set is made up of 50 PER entities and 50 ORG entities.
 
-\todo{move down to experiments when discussing table which contains these scores?} The state of the art systems on this task all rely on matching of handwritten patterns to find additional answers and the the top 2014 systems use additional active learning annotation to get higher quality training data. Our models use only automatically generated indirect supervision via entity pairs; even our AN heuristics (\ref{sec:pipeline}) are automatically generated.
-
 In addition to verifying our models on the 2013 and 2014 English slot-filling task, we evaluate our Spanish models on the 2012 TAC Spanish slot-filling evaluation. Because this TAC track was never officially run, the coverage of facts in the available annotation is very small, resulting in many correct predictions being marked incorrectly as precision errors. In response, we manually annotated all results returned by the five models considered in Table~\ref{es-tac-table}. Precision and recall are calculated with respect to the union of the TAC annotation and our new labeling\footnote{Following \citet{surdeanu2012multi} we remove facts about undiscovered entities to correct for recall.}.
 
 
