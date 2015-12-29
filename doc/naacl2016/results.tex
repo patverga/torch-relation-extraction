@@ -144,7 +144,7 @@ In experiments on the English and Spanish TAC KBC slot-filling tasks, we find th
 
 Tables \ref{en-tac-table} and \ref{2014-en-tac-table} present the performance of our models on the 2013 and 2014 TAC slot-filling tasks. Unsurprisingly, ensembling the LSTM and USchema improves F1 by 2.2 points for 2013 and 1.7 points for 2014 over the strongest single model, LSTM. Adding the alternative names (AN) technique described in Section \ref{sec:models} increases F1 by an additional 2 points for 2013, resulting in an F1 score that is competitive with the state-of-the-art. Also observe that the LSTM substantially outperforms a CNN.
 
-The state of the art systems on this task all rely on matching of handwritten patterns to find additional answers and the the top 2014 systems use additional active learning annotation to get higher quality training data. Our models use only automatically generated indirect supervision via entity pairs; even our AN heuristics (\ref{sec:pipeline}) are automatically generated.
+The state of the art systems on this task all rely on matching of handwritten patterns to find additional answers and the the top 2014 systems use additional active learning annotation to get higher quality training data. Our models use only automatically generated indirect supervision via entity pairs; even our AN heuristics (Section \ref{sec:pipeline}) are automatically generated.
 
 \todo{description of 2014 results}
 
