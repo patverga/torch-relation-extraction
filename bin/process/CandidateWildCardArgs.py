@@ -1,6 +1,9 @@
 import sys
 import getopt
 
+####
+#    given a candidate file, replaces the entity surface forms with wild card $ARG tokens
+####
 
 def process_line(line):
     arg1, tac_rel, arg2, doc_info, s1_str, e1_str, s2_str, e2_str, sentence = line.strip().split('\t')

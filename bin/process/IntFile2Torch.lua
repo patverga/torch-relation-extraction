@@ -6,7 +6,7 @@
 
 require 'torch'
 
-
+-- converts a 4 col mtx file to torch tensors
 -- note : in data is assumed to be 0 indexed but all output is 1 indxed
 local cmd = torch.CmdLine()
 cmd:option('-inFile', '', 'input file')

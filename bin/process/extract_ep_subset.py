@@ -1,6 +1,11 @@
 from __future__ import print_function
 import sys
 
+###
+#  given two 4 col mtx files, takes a subset of file 2 where each
+#  entity pair is contained in file 1
+###
+
 fname1 = sys.argv[1]
 fname2 = sys.argv[2]
 output = sys.argv[3]
