@@ -16,7 +16,7 @@ Fortunately, the cold start problem for context tokens is more benign than that 
 \begin{equation}
 \Prob \left((s,r,o)\right) = \sigma\left( u_{s,o}^\top \text{Encoder}(r) \right).
 \end{equation}
-Here, if $r$ is raw text, then $\text{Encoder}(r)$ is parametrized by a deep architecture. If $r$ is from the target schema, $\text{Encoder}(r)$ is a produced by a lookup table (as in traditional USchema). Though such an encoder increases the computational cost of test-time prediction over straightforward pattern matching, evaluating a deep architecture can be done in large batches in parallel on a GPU.
+Here, if $r$ is raw text, then $\text{Encoder}(r)$ is parameterized by a deep architecture. If $r$ is from the target schema, $\text{Encoder}(r)$ is a produced by a lookup table (as in traditional USchema). Though such an encoder increases the computational cost of test-time prediction over straightforward pattern matching, evaluating a deep architecture can be done in large batches in parallel on a GPU.
 
 Both convolutional networks (CNNs) and recurrent networks (RNNs) are reasonable encoder architectures, and we consider both in our experiments. CNNs have been useful in a variety of NLP applications~\citep{collobert2011natural,KalchbrennerACL2014,kim2014convolutional}. Unlike~\citet{toutanova2015representing}, we also consider RNNs, specifically Long-Short Term Memory Networks (LSTMs)~\citep{lstm}. LSTMs have proven successful in a variety of tasks requiring encoding sentences as vectors~\citep{rnnmt,rnnparse}. In our experiments, LSTMs outperform CNNs.
 
