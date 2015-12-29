@@ -4,7 +4,6 @@ import matplotlib.ticker as ticker
 import matplotlib.colors
 import sys
 
-# change font family to match math
 matplotlib.rc('text', usetex=True)
 
 fontsize = 22
