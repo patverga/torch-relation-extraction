@@ -26,9 +26,9 @@ bar_width = 0.25
 # initialize figures
 fig1 = plt.figure()
 ax1 = fig1.add_subplot(111)
-ax1.set_title("LSTM + USchema F1: Varying Sentence Length", fontsize=fontsize)
+ax1.set_title("LSTM + USchema F1: Varying Pattern Length", fontsize=fontsize)
 ax1.set_ylabel("F1")
-ax1.set_xlabel("Sentence length")
+ax1.set_xlabel("Pattern Length")
 inds = np.arange(len(uschema_f1s))
 ax1.set_xticks(inds + bar_width)
 ax1.set_xticklabels(xlabels)
@@ -40,6 +40,6 @@ plt.tight_layout()
 # add legend
 ax1.legend((uschema_bar[0], lstm_bar[0]), ('USchema', 'LSTM'), fontsize=18)
 
-fig1.savefig("%s/f1-vary-sent-length.pdf" % (output_dir), bbox_inches='tight')
+fig1.savefig("%s/f1-vary-pat-length.pdf" % (output_dir), bbox_inches='tight')
 
 plt.show()
