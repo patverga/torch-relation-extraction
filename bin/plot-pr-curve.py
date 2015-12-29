@@ -13,7 +13,7 @@ font = {'family' : 'sans-serif',
         'size'   : fontsize}
 matplotlib.rc('font', **font)
 
-output_dir = "plots"
+output_dir = "doc/naacl2016/"
 
 # load in data
 data_fname = sys.argv[1]
@@ -45,6 +45,6 @@ ax1.yaxis.set_major_formatter(ticker.FuncFormatter(lambda y, pos: ('%.2f')%(y)))
 # add legend
 ax1.legend()
 
-#fig1.savefig("%s/compare-accuracy-speed-margin.pdf" % (output_dir), bbox_inches='tight')
+#fig1.savefig("%s/pr-curve.pdf" % (output_dir), bbox_inches='tight')
 
 plt.show()
