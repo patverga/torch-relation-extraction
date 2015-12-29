@@ -16,7 +16,7 @@ fi
 
 RESPONSE_PP=`mktemp`
 TAC_EVAL_ROOT=${TH_RELEX_ROOT}/bin/tac-evaluation
-${TAC_EVAL_ROOT}/post-process-response.sh $YEAR $PP $RUN_DIR $MERGED_RESPONSE $RESPONSE_PP
+${TAC_EVAL_ROOT}/post-process-response.sh $YEAR $PP ${RUN_DIR}/query_expanded.xml $MERGED_RESPONSE $RESPONSE_PP
 
 
 echo "Scoring merged response"
