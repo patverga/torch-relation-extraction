@@ -8,7 +8,7 @@
 
 
 
-\section{Experiments}
+\section{Task and System Description}
 
 We focus on the TAC KBP slot-filling task. Much of the related work on embedding knowledge bases evaluates on the FB15k dataset \citep{transe,wang2014knowledge,lin2015learning,bishan,toutanova2015representing}. Here, relation extraction is posed as link prediction on a subset of Freebase.  This task does not capture the particular difficulties we address in this work: (1) evaluation on entities and text unseen during training, and (2) zero-annotation learning of a predictor for a low-resource language.
 
@@ -29,7 +29,7 @@ In addition to verifying our models on the 2013 and 2014 English slot-filling ta
 % pooled and annotated - not just evaluated against (incomplete) knowledge base, and checked whether fact is actually expressed by text
 %  \todo{Ben: something about the popularity of this task. Why  it is a good benchmark. }
 
-\subsection { System Pipeline \label{sec:pipeline}}
+\subsection{Retrieval Pipeline \label{sec:pipeline}}
 Our retrieval pipeline works by first generating all valid slot filler candidates for each query entity and slot, based on entities extracted from the corpus using {\sc Factorie} ~\citep{mccallum09:factorie:} to perform tokenization, segmentation, and entity extraction. We perform entity linking by heuristically linking all entity mentions from our text corpora to a Freebase entity using anchor text in Wikipedia. Making use of the fact that most Freebase entries contain a link to the corresponding Wikipedia page, we link all entity mentions from our text corpora to a Freebase entity by the following process:
 First, a set of candidate entities is obtained by following frequent link anchor text statistics.
 We then select that candidate entity for which the cosine similarity between the respective Wikipedia and the sentence context of the mention is highest, and link to that entity if a threshold is exceeded.
@@ -41,10 +41,8 @@ An entity pair qualifies as a candidate prediction if it meets the type criteria
 As discussed in Section~\ref{sec:non-comp}, models using a deep sentence encoder and using a pattern lookup table have complementary strengths and weaknesses. In response, we present results where we ensemble the outputs of the two models by simply taking the union of their individual outputs. Slightly higher results could be obtained through more sophisticated ensembling schemes. % We manually shift the models' thresholds to be more precision-biased, and take the union of the predictions returned by the two models. In contrast,~\citet{toutanova2015representing}, add the confidence scores of the systems and then apply a threshold. We found that this ensembling approach does not adequately account for the qualitative distinction in types of prediction that each technique can make accurately.
 
 
-\subsection {Model Details}
-\label{sec:models}
-All models are implemented in Torch\footnote{\url{http://torch.ch}} and tuned to maximize F1 on 2012 TAC KBP slot filling evaluation. We additionally tune the thresholds of our pattern scorer on a per-relation basis to maximize F1 using the 2012 TAC KBP slot filling for our English results and the 2012 Spanish slot-filling development set for our Spanish results. As in~\citet{limin}, we train using the BPR loss of~\citet{rendle2009bpr}. See Section \ref{sec:details} for further hyperparameter and optimization details. Our CNN is implemented as described in \cite{toutanova2015representing}, using width-3 convolutions, followed by tanh and max pool layers. The LSTM uses a bi-directional architecture where the forward and backward representations of each hidden state are averaged. This is followed by a max pooling layer.
+\subsection {Model Details \label{sec:models}}
+All models are implemented in Torch\footnote{\url{http://torch.ch}} and tuned to maximize F1 on 2012 TAC KBP slot filling evaluation. We additionally tune the thresholds of our pattern scorer on a per-relation basis to maximize F1 using the 2012 TAC KBP slot filling for our English results and the 2012 Spanish slot-filling development set for our Spanish results. As in~\citet{limin}, we train using the BPR loss of~\citet{rendle2009bpr}. See Section \ref{sec:details} for further hyperparameter and optimization details. Our CNN is implemented as described in \citet{toutanova2015representing}, using width-3 convolutions, followed by tanh and max pool layers. The LSTM uses a bi-directional architecture where the forward and backward representations of each hidden state are averaged, followed by a max pooling layer.
 
-We also report results including an alternate names (AN) heuristic, which uses automatically-extracted rules to detect the `alternate name' relation.
-For this, frequent Wikipedia link anchor texts are collected for each query entity.
+We also report results including an alternate names (AN) heuristic, which uses automatically-extracted rules to detect the TAC `alternate name' relation. To achieve this, we collect frequent Wikipedia link anchor texts for each query entity.
 If a high probability anchor text co-occurs with the canonical name of the query in the same document, we return the anchor text as a slot filler.
