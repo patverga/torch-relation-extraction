@@ -2,7 +2,7 @@
 
 In experiments on the English and Spanish TAC KBC slot-filling tasks, we find that both USchema and LSTM models outperform the CNN across languages, and that the LSTM tends to perform slightly better than USchema as the only model. Ensembling the LSTM and USchema models further increases final F1 scores in all experiments, suggesting that the two different types of model compliment each other well. Indeed, in Section \ref{sec:uschema-lstm} we present quantitative and qualitative analysis of our results which further confirms this hypothesis: In experiments characterizing the behavior of the LSTM and USchema models we find that they perform better on different pattern lengths and are characterized by different precision-recall tradeoffs.
 
-\subsection {TAC Slot-filling Results}
+\subsection {English TAC Slot-filling Results}
 
 
 \begin{table}[t!]
@@ -61,7 +61,7 @@ RPI Blender & 29.4 & 47.8 & 36.4 \\
 \end{center}
 \end{table}
 
-Tables \ref{en-tac-table} and \ref{2014-en-tac-table} present the performance of our models on the 2013 and 2014 TAC slot-filling tasks. Ensembling the LSTM and USchema models improves F1 by 2.2 points for 2013 and 1.7 points for 2014 over the strongest single model on both evaluations, LSTM. Adding the alternative names (AN) heuristic described in Section \ref{sec:models} increases F1 by an additional 2 points on 2013, resulting in an F1 score that is competitive with the state-of-the-art. We also demonstrate the effect of jointly learning English and Spanish models on English slot-filling performance. Adding Spanish data improves our F1 scores by 1.5 points on 2013 and 1.1 on 2014 over using English alone. This places are system higher than the top performer at the 2013 TAC slot-filling task even though our system uses no hand-written rules.
+Tables \ref{en-tac-table} and \ref{2014-en-tac-table} present the performance of our models on the 2013 and 2014 English TAC slot-filling tasks. Ensembling the LSTM and USchema models improves F1 by 2.2 points for 2013 and 1.7 points for 2014 over the strongest single model on both evaluations, LSTM. Adding the alternative names (AN) heuristic described in Section \ref{sec:models} increases F1 by an additional 2 points on 2013, resulting in an F1 score that is competitive with the state-of-the-art. We also demonstrate the effect of jointly learning English and Spanish models on English slot-filling performance. Adding Spanish data improves our F1 scores by 1.5 points on 2013 and 1.1 on 2014 over using English alone. This places are system higher than the top performer at the 2013 TAC slot-filling task even though our system uses no hand-written rules.
 
 The state of the art systems on this task all rely on matching handwritten patterns to find additional answers and the top 2014 system uses additional active learning annotation to get higher quality training data. Our models use only automatically generated, indirect supervision; even our AN heuristics (Section \ref{sec:pipeline}) are automatically generated. Our model performs substantially better on 2013 than 2014 for two reasons. First, our RelationFactory\citep{roth2014relationfactory} retrieval pipeline was designed for the 2013 task, but the 2014 task introduced new challenges such as confusable entities. Second, improved training using active learning gave the top 2014 systems a very large boost in performance. No 2013 systems, including ours, use active learning. \todo{do we need more justification for our less good 2014 results?}
 
@@ -87,14 +87,14 @@ The state of the art systems on this task all rely on matching handwritten patte
 
 \subsection{USchema vs LSTM \label{sec:uschema-lstm}}
 
-\begin{figure}
+\begin{figure}[t!]
 \begin{center}
 \includegraphics[scale=0.45]{pr-curve}
 \caption{Precision-Recall curves for USchema and LSTM on 2013 TAC slot-filling. USchema achieves higher precision values whereas LSTM has higher recall. \label{fig:pr-curve}}
 \end{center}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[t!]
 \begin{center}
 \includegraphics[scale=0.45]{f1-vary-pat-length}
 \caption{F1 achieved by USchema vs. LSTM models for varying pattern lengths on 2013 TAC slot-filling. LSTM performs better on longer patterns ($\geq$ 5 tokens) whereas USchema performs better on shorter patterns ($\leq 5$). \label{fig:f1-vary-pats}}
@@ -105,7 +105,7 @@ We further analyze differences between USchema and LSTM in order to better under
 
 
 % error analysis
-Analysis of our English models suggests that our encoder-based models (LSTM) extract relations based on a wide range of semantically similar patterns that the pattern-matching model (USchema) is unable to score due to a lack of exact string match in the test data. For example, Table \ref{tab:lstm-us-similar-rels} lists three examples of the \emph{per:children} relation that the LSTM finds which USchema does not, as well as three patterns that USchema does find. Though the LSTM patterns are all semantically and syntactically similar, they each contain different specific noun phrases, e.g. \emph{Lori}, \emph{four children}, \emph{toddler daughter}, \emph{Lee and Albert}, etc. Because these specific nouns weren't seen during training, USchema fails to find these patterns whereas the LSTM learns to ignore the specific nouns in favor of the overall pattern, that of a parent-child relationship in an obituary. USchema is limited to finding the relations represented by patterns observed during training, which limits the patterns matched at test-time to short and common patterns; all the USchema patterns matched at test time were similar to those listed in Table \ref{tab:lstm-us-similar-rels}: variants of \emph{'s son, '}.
+Qualitative analysis of our English models also suggests that our encoder-based models (LSTM) extract relations based on a wide range of semantically similar patterns that the pattern-matching model (USchema) is unable to score due to a lack of exact string match in the test data. For example, Table \ref{tab:lstm-us-similar-rels} lists three examples of the \emph{per:children} relation that the LSTM finds which USchema does not, as well as three patterns that USchema does find. Though the LSTM patterns are all semantically and syntactically similar, they each contain different specific noun phrases, e.g. \emph{Lori}, \emph{four children}, \emph{toddler daughter}, \emph{Lee and Albert}, etc. Because these specific nouns weren't seen during training, USchema fails to find these patterns whereas the LSTM learns to ignore the specific nouns in favor of the overall pattern, that of a parent-child relationship in an obituary. USchema is limited to finding the relations represented by patterns observed during training, which limits the patterns matched at test-time to short and common patterns; all the USchema patterns matched at test time were similar to those listed in Table \ref{tab:lstm-us-similar-rels}: variants of \emph{'s son, '}.
 
 
 \begin{table}[h]
@@ -132,7 +132,7 @@ be the next Billy Mays,'' said the guy who actually is the next {\bf Billy Mays}
 
 
 
-\subsection{Multilingual Relation Extraction Results \label{sec:qual-anal}}
+\subsection{Spanish TAC Slot-filling Results \label{sec:qual-anal}}
 
 \begin{table}
 \begin{center}
@@ -151,12 +151,10 @@ USchema+LSTM                    & 17.3     & \bf 20.0 \\
 \end{center}
 \end{table}
 
-Table \ref{es-tac-table} presents results for our Spanish relation extractors trained using zero-annotation transfer learning. For both the CNN and LSTM, tying word embeddings between the two languages results in substantial improvements. We see that ensembling the non-dictionary LSTM with USchema gives a slight boost over USchema alone, but ensembling the dictionary-tied LSTM with USchema provides a significant increase of nearly 4 F1 points over the highest-scoring single model, USchema. Clearly, grounding the Spanish data using a translation dictionary provides much better Spanish word representations. These improvements are complementary to the baseline USchema model, and yield impressive results when ensembled.
-
-
+Table \ref{es-tac-table} presents 2012 Spanish TAC slot-filling results for our multilingual relation extractors trained using zero-annotation transfer learning. For both the CNN and LSTM, tying word embeddings between the two languages results in substantial improvements. We see that ensembling the non-dictionary LSTM with USchema gives a slight boost over USchema alone, but ensembling the dictionary-tied LSTM with USchema provides a significant increase of nearly 4 F1 points over the highest-scoring single model, USchema. Clearly, grounding the Spanish data using a translation dictionary provides much better Spanish word representations. These improvements are complementary to the baseline USchema model, and yield impressive results when ensembled.
 
 % cross lingual relations
-Analysis of our multilingual models also suggests that they successfully embed semantically similar relations across languages using tied entity pairs and translation dictionary as grounding. Table \ref{tab:cross-lingual-relations} lists three top nearest neighbors in English for several Spanish patterns from the text. In each case, the English patterns capture the relation represented in the Spanish text. 
+Qualitative analysis of our multilingual models further suggests that they successfully embed semantically similar relations across languages using tied entity pairs and translation dictionary as grounding. Table \ref{tab:cross-lingual-relations} lists three top nearest neighbors in English for several Spanish patterns from the text. In each case, the English patterns capture the relation represented in the Spanish text. 
 
 \newcommand{\tablespace}{\end{tabular}
 \newline
@@ -219,7 +217,7 @@ Analysis of our multilingual models also suggests that they successfully embed s
 \end{table}
 
 
-In addition to embedding semantically similar phrases from English and Spanish to have high similarity, our models also learn high-quality multilingual word embeddings. In Table \ref{joint-word} we compare Spanish nearest neighbors of English query words learned by the LSTM with dictionary ties versus the LSTM with no ties, using no unsupervised pre-training for the embeddings. Both approaches jointly embed Spanish and English word types, using shared entity embeddings, but the dictionary-tied model learns qualitatively better multilingual embeddings. See Section \ref{sec:more-qual-anal} for additional qualititave analysis.
+In addition to embedding semantically similar phrases from English and Spanish to have high similarity, our models also learn high-quality multilingual word embeddings. In Table \ref{joint-word} we compare Spanish nearest neighbors of English query words learned by the LSTM with dictionary ties versus the LSTM with no ties, using no unsupervised pre-training for the embeddings. Both approaches jointly embed Spanish and English word types, using shared entity embeddings, but the dictionary-tied model learns qualitatively better multilingual embeddings. See Section \ref{sec:more-qual-anal} for additional qualititave results.
 
 
 \begin{table}[h]
