@@ -1,48 +1,8 @@
 \section{Experimental Results\label{sec:results}}
 
-% \begin{table}[tb]
-% \begin{center}
-% \caption{Precision, recall and F1 of English-only models on the English TAC 2013 slot-filling task. LSTM+USchema ensemble outperforms any single model. \label{en-tac-table}}
-% \begin{tabular}{|lrrr|}
-% \hline
-% \bf Model & \bf Recall & \bf Precision & \bf F1 \\
-% \hline\hline
-% CNN                 & 31.6 & 36.8 & 34.1 \\
-% %CNN-parse           & ?	& ? & ? \\
-% LSTM                & \bf 32.2 & 39.6 & 35.5  \\
-% USchema             & 29.4 & \bf 42.6 & 34.8 \\
-% \hline
-% USchema+LSTM        & 34.4 & 41.9 & 37.7 \\
-% USchema+LSTM+AN	& 36.7 & 43.1 & \bf 39.7 \\
-% \hline
-% \end{tabular}
-% \end{center}
-% \end{table}
+In experiments on the English and Spanish TAC KBC slot-filling tasks, we find that both USchema and LSTM models outperform the CNN across languages, and that the LSTM tends to perform slightly better than USchema as the only model. Ensembling the LSTM and USchema models further increases final F1 scores in all experiments, suggesting that the two different types of model compliment each other well. Indeed, in experiments characterizing the behavior of the LSTM and USchema models we find that they perform better on different pattern lengths and are characterized by different precision-recall tradeoffs. In Section \ref{sec:uschema-lstm} we present a quantitative and qualitative analysis of our results which further confirms this hypothesis.
 
-% \begin{table}[tb]
-% \begin{center}
-% \caption{F1 scores of multilingual models on the English TAC 2013 slot-filling task. Jointly embedding English and Spanish entity pairs results in higher scores on the English evaluation. Our system uses no handwritten patterns and we are able to match \cite{roth2014relationfactory} and \cite{angeli2014stanford} both of which use hand written patterns. \label{en-es-tac-table}}
-% \tabcolsep=0.15cm
-% \begin{tabular}{|lrrr|}
-% %\hspace{-10pt}
-% \hline
-% \bf Model & \bf En & \bf En+Es &\bf En+Es+dict\\
-% \hline\hline
-% CNN  & 34.1 & 34.0 & 33.9	\\
-% LSTM & 35.5 & 35.2 & 35.8 \\
-% USchema & 34.8 & 35.7  & --- \\
-% \hline
-% USchema+LSTM & 37.7 & 39.0 & 38.2 \\
-% USchema+LSTM+AN & 39.7 & \bf 40.9  &  40.2 \\
-% \hline
-% \cite{roth2014relationfactory}* & 40.2 &--- & --- \\
-% \cite{angeli2014stanford}* & 40.9 & --- & --- \\
-% \hline
-% \end{tabular}
-% \end{center}
-% \end{table}
-
-In experiments on the English and Spanish TAC KBC slot-filling tasks, we find that both USchema and LSTM models outperform the CNN across languages, and that the LSTM tends to perform slightly better than USchema as the only model. Ensembling the LSTM and USchema models further increases final F1 scores in all experiments, suggesting that the two different types of model compliment each other well. Indeed, in experiments characterizing the behavior of the LSTM and USchema models we find that they perform better on different pattern lengths and are characterized by different precision-recall tradeoffs. In Section \ref{sec:qual-anal} we present a qualitative analysis of our results which further confirms this hypothesis.
+\subsection {TAC Slot-filling Results}
 
 
 \begin{table}[t!]
@@ -125,21 +85,6 @@ The state of the art systems on this task all rely on matching of handwritten pa
 %\end{center}
 %\end{table}
 
-\begin{figure}
-\begin{center}
-\includegraphics[scale=0.45]{f1-vary-pat-length}
-\caption{F1 achieved by USchema vs. LSTM models for varying pattern lengths on 2013 TAC slot-filling. LSTM performs better on longer patterns ($\geq$ 5 tokens) whereas USchema performs better on shorter patterns ($\leq 5$). \label{fig:f1-vary-pats}}
-\end{center}
-\end{figure}
-
-\begin{figure}
-\begin{center}
-\includegraphics[scale=0.45]{pr-curve}
-\caption{Precision-Recall curves for USchema and LSTM on 2013 TAC slot-filling. USchema achieves higher precision values whereas LSTM has higher recall. \label{fig:pr-curve}}
-\end{center}
-\end{figure}
-
-We further analyze differences between USchema and LSTM in order to better understand why ensembling the models results in the best performing system. Figure \ref{fig:pr-curve} depicts predicion-recall curves for the two models on the 2013 slot-filling task. As observed in earlier results, we see that the LSTM achieves higher recall at the loss of some precision, whereas USchema can make more precise predictions at a lower threshold for recall. In Figure \ref{fig:f1-vary-pats} we observe evidence for these different precision-recall tradeoffs: USchema scores higher in terms of F1 on shorter patterns whereas the LSTM scores higher on longer patterns. As one would expect, USchema successfully matches more shorter patterns on average than the LSTM, making more precise predictions at the cost of being unable to predict on patterns unseen during training. The LSTM can predict using any text between entities observed at test time, gaining recall at the loss of precision. Combining the two models makes the most of their strengths and weaknesses, leading to the highest overall F1.
 
 \begin{table}
 \begin{center}
@@ -158,13 +103,32 @@ USchema+LSTM                    & 17.3     & \bf 20.0 \\
 \end{center}
 \end{table}
 
-Table \ref{es-tac-table} presents results for our Spanish relation extractors trained using zero-annotation transfer learning. For both the CNN and LSTM, tying word embeddings between the two languages results in substantial improvements. We see that ensembling the non-dictionary LSTM with USchema leads to a lower score than just USchema alone, but ensembling the dictionary-tied LSTM with USchema provides a significant increase of nearly 4 F1 points over the highest-scoring single model, USchema. Clearly, grounding the Spanish data using a translation dictionary provides much better Spanish word representations. These improvements are complementary to the baseline USchema model, and yield impressive results when ensembled. 
+Table \ref{es-tac-table} presents results for our Spanish relation extractors trained using zero-annotation transfer learning. For both the CNN and LSTM, tying word embeddings between the two languages results in substantial improvements. We see that ensembling the non-dictionary LSTM with USchema gives a slight boost over USchema alone, but ensembling the dictionary-tied LSTM with USchema provides a significant increase of nearly 4 F1 points over the highest-scoring single model, USchema. Clearly, grounding the Spanish data using a translation dictionary provides much better Spanish word representations. These improvements are complementary to the baseline USchema model, and yield impressive results when ensembled.
 
 
-\subsection{Qualitative Analysis \label{sec:qual-anal}}
+
+
+\subsection{USchema vs LSTM \label{sec:uschema-lstm}}
+
+\begin{figure}
+\begin{center}
+\includegraphics[scale=0.45]{pr-curve}
+\caption{Precision-Recall curves for USchema and LSTM on 2013 TAC slot-filling. USchema achieves higher precision values whereas LSTM has higher recall. \label{fig:pr-curve}}
+\end{center}
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\includegraphics[scale=0.45]{f1-vary-pat-length}
+\caption{F1 achieved by USchema vs. LSTM models for varying pattern lengths on 2013 TAC slot-filling. LSTM performs better on longer patterns ($\geq$ 5 tokens) whereas USchema performs better on shorter patterns ($\leq 5$). \label{fig:f1-vary-pats}}
+\end{center}
+\end{figure}
+
+We further analyze differences between USchema and LSTM in order to better understand why ensembling the models results in the best performing system. Figure \ref{fig:pr-curve} depicts predicion-recall curves for the two models on the 2013 slot-filling task. As observed in earlier results, we see that the LSTM achieves higher recall at the loss of some precision, whereas USchema can make more precise predictions at a lower threshold for recall. In Figure \ref{fig:f1-vary-pats} we observe evidence for these different precision-recall tradeoffs: USchema scores higher in terms of F1 on shorter patterns whereas the LSTM scores higher on longer patterns. As one would expect, USchema successfully matches more shorter patterns on average than the LSTM, making more precise predictions at the cost of being unable to predict on patterns unseen during training. The LSTM can predict using any text between entities observed at test time, gaining recall at the loss of precision. Combining the two models makes the most of their strengths and weaknesses, leading to the highest overall F1.
+
 
 % error analysis
-Analysis of our English models suggests that our encoder-based models (LSTM) extract relations based on a wide range of semantically similar patterns that the pattern-matching model (USchema) is unable to score due to a lack of exact string match in the test data. For example, Table \ref{tab:lstm-us-similar-rels} lists three examples of the \emph{per:children} relation that the LSTM finds which USchema does not, as well as three patterns that USchema does find. Though the LSTM patterns are all semantically and syntactically similar, they each contain different specific noun phrases, e.g. \emph{Lori}, \emph{four children}, \emph{toddler daughter}, \emph{Lee and Albert}, etc. Because these specific nouns weren't seen during training, USchema fails to find these patterns whereas the LSTM learns to ignore the specific nouns in favor of the overall pattern, that of a parent-child relationship in an obituary. USchema is limited to finding the relations represented by patterns observed during training, which limits the patterns matched at test-time to short and common patterns; all the USchema patterns matched at test time were similar to those listed in Table \ref{tab:lstm-us-similar-rels}: variants of \emph{'s son, '}. 
+Analysis of our English models suggests that our encoder-based models (LSTM) extract relations based on a wide range of semantically similar patterns that the pattern-matching model (USchema) is unable to score due to a lack of exact string match in the test data. For example, Table \ref{tab:lstm-us-similar-rels} lists three examples of the \emph{per:children} relation that the LSTM finds which USchema does not, as well as three patterns that USchema does find. Though the LSTM patterns are all semantically and syntactically similar, they each contain different specific noun phrases, e.g. \emph{Lori}, \emph{four children}, \emph{toddler daughter}, \emph{Lee and Albert}, etc. Because these specific nouns weren't seen during training, USchema fails to find these patterns whereas the LSTM learns to ignore the specific nouns in favor of the overall pattern, that of a parent-child relationship in an obituary. USchema is limited to finding the relations represented by patterns observed during training, which limits the patterns matched at test-time to short and common patterns; all the USchema patterns matched at test time were similar to those listed in Table \ref{tab:lstm-us-similar-rels}: variants of \emph{'s son, '}.
 
 
 \begin{table}[h]
@@ -181,75 +145,21 @@ In addition to his wife, {\bf Mays} \emph{is survived by a toddler daughter and 
 {\bf Dio} \emph{'s son,} {\bf Dan Padavona}, cautioned the memorial crowd to be screened regularly by a doctor and take care of themselves, something he said his father did not do. \\ \hline
 But {\bf Marshall} \emph{'s son,} {\bf Philip}, told a different story.  \\ \hline
 ``I'd rather have Sully doing this than some stranger, or some hotshot trying to
-be the next Billy Mays,'' said the guy who actually is the next {\bf Billy Mays}\emph{, his son} {\bf Billy Mays III}. \\ 
+be the next Billy Mays,'' said the guy who actually is the next {\bf Billy Mays}\emph{, his son} {\bf Billy Mays III}. \\
 \hline
 \end{tabular}
 \caption{Examples of the \emph{per:children} relation discovered by the LSTM and Universal Schema. Entities are bold and patterns italicized. The LSTM models a richer set of patterns \label{tab:lstm-us-similar-rels}}
 \end{center}
 \end{table}
 
+
+
+
+\subsection{Qualitative Analysis \label{sec:qual-anal}}
+
+
 % cross lingual relations
 Analysis of our multilingual models also suggests that they successfully embed semantically similar relations across languages using tied entity pairs and translation dictionary as grounding. Table \ref{tab:cross-lingual-relations} lists three top nearest neighbors in English for several Spanish patterns from the text. In each case, the English patterns capture the relation represented in the Spanish text. 
-
-%\newcommand{\tablespace}{\end{tabular}
-%\newline
-%\newline
-%%\hspace*{-21pt}
-%\begin{tabular}{|p{7.6cm}|}
-%}
-%\begin{table}[h]
-%\begin{center}
-%\small
-%%\hspace*{-21pt}
-%\begin{tabular}{|p{7.6cm}|}
-%\hline
-%\argOne y cuatro de sus familias, incluidos su esposa, Wu Shu-chen, su hijo, \argTwo\\
-%\it{\argOne and four of his family members, including his wife, Wu Shu-chen, his son, \argTwo} \\
-%\hline
-%\argOne and his son \argTwo \\
-%\argOne is survived by his wife, Sybil MacKenzie and a son, \argTwo \\
-%\argOne gave birth to a baby last week -- son \argTwo \\
-%\hline
-%\tablespace
-%\hline
-%\argOne (Puff Daddy, cuyos verdaderos nombre sea \argTwo \\
-%\it{\argOne (Puff Daddy, whose real name is \argTwo} \\
-%\hline%\hline
-%\argOne (usually credited as {\it E1} \\
-%\argOne (also known as Gero \#\#, real name \argTwo \\
-%\argOne and (after changing his name to \argTwo \\
-%\hline
-%\tablespace
-%%\hline
-%%\argOne, Tian Tian, de \#\# a\~{n}os de edad, y su madre \argTwo\\
-%%\it{\argOne, Tian Tian, \#\# years old, and his mother \argTwo} \\
-%%\hline%\hline
-%%\argOne Gyllenhaal's parents -- screenwriter Naomi Foner and director \argTwo \\
-%%\argOne Brando's mother, actress Anna Kashfi, divorced \argTwo \\
-%%\argOne Cash, his mom was \argTwo \\
-%%\hline
-%%\tablespace
-%\hline
-%\argOne lleg\'{o} a la alfombra roja en compa\~{n}\'{i}a de su esposa, la actriz Suzy Amis, casi una hora antes que su ex esposa, \argTwo\\
-%\it{\argOne arrived on the red carpet with his wife, actress Suzy Amis, nearly an hour before his ex-wife , \argTwo} \\
-%\hline%\hline
-%\argOne, who may or may not be having twins with husband \argTwo \\
-%\argOne, aged twenty, Kirk married \argTwo\\
-%\argOne went to elaborate lengths to keep his wedding to former supermodel \argTwo\\
-%\hline
-%%\tablespace
-%%\hline
-%%\bf{{\it E1} , una firmes of estudios económicos lleven sede in {\it E2}}\\
-%%\it{{\it E1} an economic studies firm with headquarters in {\it E2}} \\
-%%\hline\hline
-%%{\it E2} offices of BP and {\it E1} \\
-%%{\it E2} , the Paris - based {\it E1} \\
-%%{\it E2} province , is the headquarters of {\it E1} \\
-%%\hline
-%\end{tabular}
-%\caption{Top English patterns for a Spanish query pattern encoded using the dictionary LSTM: For each Spanish query (English translation in italics), a list of English nearest neighbors. \label{tab:cross-lingual-relations}}
-%\end{center}
-%\end{table}
 
 \newcommand{\tablespace}{\end{tabular}
 \newline
