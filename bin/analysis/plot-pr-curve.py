@@ -24,7 +24,7 @@ print labels
 data = np.loadtxt(data_fname, converters = {2: lambda y: np.where(labels==y)[0]})
 
 labels = ["LSTM", "USchema"]
-colors = ['0.6', '0.25']
+colors = ['0.25', '0.6']
 width = 4
 
 print data
@@ -49,11 +49,11 @@ for i in range(len(labels)):
 	indices = np.where(data[:,model_idx] == i)
 	ax1.plot(data[indices,recall_idx][0], data[indices,precision_idx][0], label=labels[i], color=colors[i], lw=width)
 
-ax1.yaxis.set_major_formatter(ticker.FuncFormatter(lambda y, pos: ('%.2f')%(y)))
-ax1.xaxis.set_major_formatter(ticker.FuncFormatter(lambda x, pos: ('%.2f')%(x)))
+ax1.yaxis.set_major_formatter(ticker.FuncFormatter(lambda y, pos: ('%.1f')%(y)))
+ax1.xaxis.set_major_formatter(ticker.FuncFormatter(lambda x, pos: ('%.1f')%(x)))
 
 # add legend
-ax1.legend()
+ax1.legend(fontsize=18)
 
 plt.tight_layout()
 
