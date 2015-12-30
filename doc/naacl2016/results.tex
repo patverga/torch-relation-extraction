@@ -136,22 +136,27 @@ be the next Billy Mays,'' said the guy who actually is the next {\bf Billy Mays}
 
 \begin{table}
 \begin{center}
-\begin{tabular}{|lrr|}
+\begin{tabular}{|lrrr|}
 \hline
-\bf Model & \bf Es+En & \bf Es+En+dict  \\
+\bf Model & \bf Recall & \bf Precision & \bf F1 \\
 \hline\hline
-CNN 		                    & 11.4     & 13.8	\\
-LSTM 	                        & 10.7     & 15.2   \\
-USchema                         & 16.3     & --- \\
+%CNN               &  24.5 & 7.5   & 11.4 \\
+%CNN +Dict	      &  10.5 & 20.3  & 13.8	\\
+LSTM 		      &  9.3 & 12.5   & 10.7   \\
+LSTM+Dict	      &  14.7 & 15.7  & 15.2   \\
+USchema           &  15.2 & 17.5  & 16.3  \\
 \hline
-USchema+LSTM                    & 17.3     & \bf 20.0 \\
+USchema+LSTM       & 21.7 & 14.5  & 17.3  \\
+USchema+LSTM+Dict  & 26.9 & 15.9  & \bf 20.0 \\
 \hline
 \end{tabular}
 \caption{Zero-annotation transfer learning F1 scores on 2012 Spanish TAC KBP slot-filling task. Adding a translation dictionary improves all encoder-based models. Ensembling LSTM and USchema models performs the best. \label{es-tac-table}}
 \end{center}
 \end{table}
 
-Table \ref{es-tac-table} presents 2012 Spanish TAC slot-filling results for our multilingual relation extractors trained using zero-annotation transfer learning. For both the CNN and LSTM, tying word embeddings between the two languages results in substantial improvements. We see that ensembling the non-dictionary LSTM with USchema gives a slight boost over USchema alone, but ensembling the dictionary-tied LSTM with USchema provides a significant increase of nearly 4 F1 points over the highest-scoring single model, USchema. Clearly, grounding the Spanish data using a translation dictionary provides much better Spanish word representations. These improvements are complementary to the baseline USchema model, and yield impressive results when ensembled.
+%Table \ref{es-tac-table} presents 2012 Spanish TAC slot-filling results for our multilingual relation extractors trained using zero-annotation transfer learning. For both the CNN and LSTM, tying word embeddings between the two languages results in substantial improvements. We see that ensembling the non-dictionary LSTM with USchema gives a slight boost over USchema alone, but ensembling the dictionary-tied LSTM with USchema provides a significant increase of nearly 4 F1 points over the highest-scoring single model, USchema. Clearly, grounding the Spanish data using a translation dictionary provides much better Spanish word representations. These improvements are complementary to the baseline USchema model, and yield impressive results when ensembled.
+
+Table \ref{es-tac-table} presents 2012 Spanish TAC slot-filling results for our multilingual relation extractors trained using zero-annotation transfer learning. Tying word embeddings between the two languages results in substantial improvements for the LSTM. We see that ensembling the non-dictionary LSTM with USchema gives a slight boost over USchema alone, but ensembling the dictionary-tied LSTM with USchema provides a significant increase of nearly 4 F1 points over the highest-scoring single model, USchema. Clearly, grounding the Spanish data using a translation dictionary provides much better Spanish word representations. These improvements are complementary to the baseline USchema model, and yield impressive results when ensembled.
 
 % cross lingual relations
 Qualitative analysis of our multilingual models further suggests that they successfully embed semantically similar relations across languages using tied entity pairs and translation dictionary as grounding. Table \ref{tab:cross-lingual-relations} lists three top nearest neighbors in English for several Spanish patterns from the text. In each case, the English patterns capture the relation represented in the Spanish text. 
