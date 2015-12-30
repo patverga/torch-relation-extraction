@@ -39,11 +39,17 @@ ax1 = fig1.add_subplot(111)
 ax1.set_title("LSTM + USchema: Recall vs. Precision", fontsize=fontsize)
 ax1.set_xlabel("Recall")
 ax1.set_ylabel("Precision")
+
+plt.xlim((0.05, 0.5,))
+plt.ylim((0.05, 0.7,))
+plt.yticks((0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7))
+plt.xticks((0.1, 0.2, 0.3, 0.4, 0.5))
+
 for i in range(len(labels)):
 	indices = np.where(data[:,model_idx] == i)
 	ax1.plot(data[indices,recall_idx][0], data[indices,precision_idx][0], label=labels[i], color=colors[i], lw=width)
 
-ax1.yaxis.set_major_formatter(ticker.FuncFormatter(lambda y, pos: ('%.2f')%(y)))
+ax1.yaxis.set_major_formatter(ticker.FuncFormatter(lambda y, pos: ('%.1f')%(y)))
 
 # add legend
 ax1.legend()
