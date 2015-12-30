@@ -1,6 +1,6 @@
 \section{Appendix}
 
-\subsection{Additional Qualitative Results}
+\subsection{Additional Qualitative Results \label{sec:more-qual-anal}}
 
 Our model jointly embeds KB relations together with English and Spanish text. We demonstrate that plausible textual patterns are embedded close to the KB relations they express. Table \ref{tab:top-tac-patterns} shows top scoring English and Spanish patterns given sample relations from our TAC KB.
 
@@ -57,12 +57,10 @@ Our model jointly embeds KB relations together with English and Spanish text. We
 \end{center}
 \end{table}
 
-\subsection {Implementation and Hyperparameters}
-\label{sec:details}
+\subsection {Implementation and Hyperparameters \label{sec:details}}
 We performed a small grid search over learning rate {0.0001, 0.005, 0.001}, dropout {0.0, 0.01, 0.25, 0.5}, dimension {50, 100}, $\ell_2$ gradient clipping {1, 10, 50}, and epsilon {1e-8, 1e-6, 1e-4}. All models are trained for a maximum of 15 epochs. The CNN and LSTM both use 100d embeddings while USchema uses 50d. The CNN and LSTM both learned 100-dimensional word embeddings which were randomly initialized. Using pre-trained embeddings did not substantially affect the results. Entity pair embeddings for the baseline USchema model are randomly initialized. For the models with LSTM and CNN text encoders, entity pair embeddings are initialized using vectors from the baseline USchema model. This performs better than random initialization. We perform $\ell_2$ gradient clipping to 1 on all models. Universal Schema uses a batch size of 1024 while the CNN and LSTM use 128. All models are optimized using ADAM \citep{kingma2014adam} with $\epsilon=1e-8$, $\beta_1=0.9$, and $\beta_2=0.999$ with a learning rate of .001 for USchema and .0001 for CNN and LSTM. The CNN and LSTM also use dropout of 0.1 after the embedding layer.
 
-\subsection{Details Concerning Cosine Similarity Computation}
-\label{app:cosine}
+\subsection{Details Concerning Cosine Similarity Computation \label{app:cosine}}
 We measure the similarity between $r_{\text{text}}$ and $r_{\text{schema}}$ by computing the vectors' cosine similarity. However, such a distance is not well-defined, since the model was trained using inner products between entity vectors and relation vectors, not between two relation vectors. The US likelihood is invariant to invertible transformations of the latent coordinate system, since $\sigma\left( u_{s,o}^\top v_r \right) = \sigma\left( (A^\top u_{s,o})^\top A^{-1} v_r \right)$ for any invertible $A$. When taking inner products between two $v$ terms, however, the implicit $A^{-1}$ terms do not cancel out. We found that this issue can be minimized, and high quality predictive accuracy can be achieved, simply by using sufficient $\ell_2$ regularization to avoid implicitly learning an $A$ that substantially stretches the space.
 
 \subsection{Data Pre-processing, Distant Supervision and Extraction Pipeline \label{sec:ds-el}}
