@@ -38,7 +38,7 @@ USchema+LSTM+Es+AN & 40.2 & 41.2 & \bf 40.7 \\
 \begin{center}
 \begin{tabular}{|lrrr|}
 \hline
-\bf Model & \bf Recall & \bf Prec. & \bf F1 \\
+\bf Model & \bf Recall & \bf Precision & \bf F1 \\
 \hline\hline
 CNN                 & 28.1 & 29.0 & 28.5 \\
 %CNN-parse           & ?	& ? & ? \\
@@ -63,7 +63,7 @@ RPI Blender & 29.4 & 47.8 & 36.4 \\
 
 Tables \ref{en-tac-table} and \ref{2014-en-tac-table} present the performance of our models on the 2013 and 2014 TAC slot-filling tasks. Ensembling the LSTM and USchema models improves F1 by 2.2 points for 2013 and 1.7 points for 2014 over the strongest single model on both evaluations, LSTM. Adding the alternative names (AN) heuristic described in Section \ref{sec:models} increases F1 by an additional 2 points on 2013, resulting in an F1 score that is competitive with the state-of-the-art. We also demonstrate the effect of jointly learning English and Spanish models on English slot-filling performance. Adding Spanish data improves our F1 scores by 1.5 points on 2013 and 1.1 on 2014 over using English alone. This places are system higher than the top performer at the 2013 TAC slot-filling task even though our system uses no hand-written rules.
 
-The state of the art systems on this task all rely on matching handwritten patterns to find additional answers and the top 2014 system uses additional active learning annotation to get higher quality training data. Our models use only automatically generated, indirect supervision; even our AN heuristics (Section \ref{sec:pipeline}) are automatically generated. Our model performs substantially better on 2013 than 2014 for two reasons. First, our RelationFactory\citep{roth2014relationfactory} retrieval pipeline was designed for the 2013 task, but the 2014 task introduced new challenges such as confusable entities. Second, improved training using active learning gave the top 2014 systems a very large boost in performance. No 2013 systems, including ours, use active learning.
+The state of the art systems on this task all rely on matching handwritten patterns to find additional answers and the top 2014 system uses additional active learning annotation to get higher quality training data. Our models use only automatically generated, indirect supervision; even our AN heuristics (Section \ref{sec:pipeline}) are automatically generated. Our model performs substantially better on 2013 than 2014 for two reasons. First, our RelationFactory\citep{roth2014relationfactory} retrieval pipeline was designed for the 2013 task, but the 2014 task introduced new challenges such as confusable entities. Second, improved training using active learning gave the top 2014 systems a very large boost in performance. No 2013 systems, including ours, use active learning. \todo{do we need more justification for our less good 2014 results?}
 
 
 %\begin{table}[tb]
