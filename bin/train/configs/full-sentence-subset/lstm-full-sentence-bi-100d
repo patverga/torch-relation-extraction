@@ -1,5 +1,5 @@
 export MODEL=UniversalSchema
-export NAME=subset-lstm-full-sentence-bi-50d
+export NAME=subset-lstm-full-sentence-bi-100d
 
 export SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/$NAME"
 export TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/training-data/full-sentence-subset/"
