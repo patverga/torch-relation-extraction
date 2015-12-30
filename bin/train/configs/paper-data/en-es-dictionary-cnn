@@ -4,7 +4,7 @@ export NAME=en-es-dictionary-cnn-paper
 export SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/$NAME"
 export TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/training-data/"
 export TRAIN_FILE="no-log_min5_noramlized.en-es_dictionary"
-export TRAINED_EP="/home/pat/canvas/universal-schema/univSchema/torch/models/2015-11-28_12/UniversalSchema_relogged_min5_noramlized.en/15-ent-weights"
+export TRAINED_EP="${TH_RELEX_ROOT}/models/uschema-english-relogged-100d/2015-12-18_11/5-ent-weights"
 
 export VOCAB="${TH_RELEX_ROOT}/vocabs/no-log_min5_noramlized.en-es_dictionary-tokens.txt"
 export TAC_YEAR="2012"
