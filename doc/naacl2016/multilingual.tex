@@ -1,9 +1,6 @@
-\section{Multilingual Relation Extraction with Zero Annotation}
+\section{Multilingual Relation Extraction with Zero Annotation \label{sec:multilingual}}
 
-\label{sec:multilingual}
-
-The models described in previous two sections provide broad-coverage relation extraction that can generalize to all possible input entities and text patterns, while avoiding error-prone alignment of distant supervision to a corpus. Next, we describe techniques for an even more challenging generalization task: relation classification for input sentences in completely different languages. 
-
+The models described in previous two sections provide broad-coverage relation extraction that can generalize to all possible input entities and text patterns, while avoiding error-prone alignment of distant supervision to a corpus. Next, we describe techniques for an even more challenging generalization task: relation classification for input sentences in completely different languages.
 
 Training a sentence-level relation classifier, either using the alignment-based techniques of Section~\ref{seq:dist}, or the alignment-free method of Section~\ref{sec:uschema}, requires an available KB of seed facts that have supporting evidence in the corpus.  Unfortunately, available KBs have low overlap with corpora in many languages, since KBs have cultural and geographical biases. In response, we perform multilingual relation extraction by jointly modeling a high-resource language, such as English, and an alternative language with no KB annotation. This approach provides via transfer learning of a predictive model to the alternative language, and generalizes naturally to modeling more languages. 
 
@@ -12,28 +9,14 @@ Extending the training technique of Section~\ref{sec:uschema} to corpora in mult
 
 In Section~\ref{sec:results}, we demonstrate that jointly learning models for English and Spanish, with no annotation for the Spanish data, provides fairly accurate Spanish AKBC, and even improves the performance of the English model. Note that we are not performing \textit{zero-shot} learning of a Spanish relation extraction model~\citep{zeroshot}. The relations in the target schema are language-independent concepts, and we have supervision for these in English. 
 
- 
-% \begin{table}[h!]
-% \begin{center}
-% \begin{tabular}{| c | c |  c |}
-%  \hline
-%  Language & Has annotation in the seed KB & No annotation in the seed KB \\
-% \hline
-% English & A & B \\
-% \hline
-% Low-Resource & C  & D \\
-% \hline
-% \end{tabular}
-% \caption{Splitting the entities in a multilingual AKBC training set into parts. We only require that sets B and D overlap. Remarkably, we can train a model for the low-resource language even if C is empty.}
-% \label{tab:multilingual-corpora}
-% \end{center}
-% \end{table}
+ There has been very little work done on multilingual relation extraction. \citet{faruqui2015multilingual} performed multilingual OpenIE relation extraction by projecting all languages to English using Google translate. However, as explained in Section~\ref{sec:openIE} the OpenIE paradigm is not amenable to prediction within a fixed schema. \todo{Is this a good place to cite this?}. Further, this does not generalize to low resources languages where a translation tool does not exist (While we use dictionaries to improve our results, our method is effective even without this resource).
+
 
 
 \subsection{Tied Sentence Encoders \label{sec:tie-words}}
 The sentence encoder approach of Section~\ref{sec:encoder} is complementary to our multilingual modeling technique: we simply use a separate encoder for each language.  This approach is sub-optimal, however, because each sentence encoder will have a separate matrix of word embeddings for its vocabulary, despite the fact that there may be considerable shared structure between the languages. In response, we propose a simple method for tying the parameters of the sentence encoders across languages. 
 
-Most work on multilingual word embeddings uses aligned sentences from the Europarl dataset~\citep{koehn2005europarl} to align word embeddings across languages~\citep{Gouws2015,luong2015bilingual,hermann2014multilingual}. Others~\citep{mikolov2013,faruqui2014retrofitting} align separate single-language embedding models using a word-level alignment dictionary. Notably, \cite{mikolov2013} use translation pairs to learn a linear transform from one embedding space to another. Most similar to our work, \citet{faruqui2015multilingual} performed multilingual OpenIE relation extraction by projecting all languages to English using Google translate. However, as explained in Section~\ref{sec:openIE} the OpenIE paradigm is not amenable to prediction within a fixed schema. \todo{Is this a good place to cite this?}.
+Most work on multilingual word embeddings uses aligned sentences from the Europarl dataset~\citep{koehn2005europarl} to align word embeddings across languages~\citep{Gouws2015,luong2015bilingual,hermann2014multilingual}. Others~\citep{mikolov2013,faruqui2014retrofitting} align separate single-language embedding models using a word-level alignment dictionary. \citet{mikolov2013} use translation pairs to learn a linear transform from one embedding space to another.
 
 Drawing on these dictionary-based techniques, we first obtain a list of word-word translation pairs between the languages using a translation dictionary. The first layer of our deep text encoder consists of a word embedding lookup table. For the aligned word types, we use a single cross-lingual embedding. Details for our approach are described in Section~\ref{sec:word-tying}.
 
