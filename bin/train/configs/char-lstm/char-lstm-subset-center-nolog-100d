@@ -5,8 +5,8 @@ export SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/$NAME"
 export TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/training-data/full-sentence-subset/"
 
 export TRAINED_EP="${TH_RELEX_ROOT}/models/uschema-english-relogged-100d/2015-12-18_11/5-ent-weights"
-export TRAIN_FILE="center-relogged-5mil-subset_chars"
-export VOCAB="${TH_RELEX_ROOT}/vocabs/full-sentence-subset/center-relogged-5mil-subset_chars-tokens.txt"
+export TRAIN_FILE="center-no-log.fixed-5mil-subset_chars"
+export VOCAB="${TH_RELEX_ROOT}/vocabs/full-sentence-subset/center-no-log.fixed-5mil-subset_chars-tokens.txt"
 export TAC_YEAR="2012"
 
 
