@@ -28,14 +28,17 @@ def process_line(chars, ent_map, ep_map, line, rel_map, token_counter, double_vo
         # split words into char tokens except leave $ARG as single tokens, flatten to list
         if chars:
             tokens = [cc for word_tokens in
-                      [[c] if str.startswith(c, '$ARG') else list(c) for c in tokens]
-                      for cc in word_tokens]
+                      [[c, ' '] if str.startswith(c, '$ARG') else list(c) for c in tokens]
+                      for cc in [word_tokens, ' ']]
+            # we added an extra 0 to the end TODO handle this better
+            if len(tokens > 0):
+                del(tokens[-1])
 
-    # have seperate vocabularies for when arg1 proceeds arg2 and vice-versa
-    if double_vocab and len(tokens) > 1 \
-            and "$ARG1" in tokens and "$ARG2" in tokens \
-            and tokens.index("$ARG1") > tokens.index("$ARG2"):
-        tokens = [token + '_ARG2' for token in tokens]
+        # have seperate vocabularies for when arg1 proceeds arg2 and vice-versa
+        if double_vocab and len(tokens) > 1 \
+                and "$ARG1" in tokens and "$ARG2" in tokens \
+                and tokens.index("$ARG1") > tokens.index("$ARG2"):
+            tokens = [token + '_ARG2' for token in tokens]
 
     for token in tokens:
         token_counter[token] += 1
@@ -63,7 +66,7 @@ def export_line(e1_str, e2_str, ep_str, rel_str, tokens, ent_map, ep_map, rel_ma
 
 def export_map(file_name, vocab_map):
     with open(file_name, 'w') as fp:
-        vocab_map = {token: int(id) for token, id in vocab_map.iteritems()}
+        vocab_map = {token: int(int_id) for token, int_id in vocab_map.iteritems()}
         for token in sorted(vocab_map, key=vocab_map.get, reverse=False):
             fp.write(token + '\t' + str(vocab_map[token]) + '\n')
 
