@@ -30,8 +30,8 @@ def process_line(chars, ent_map, ep_map, line, rel_map, token_counter, double_vo
                       [[c] if str.startswith(c, '$ARG') else list(c) for c in tokens]
                       for cc in word_tokens]
 
-    # have seperate vocabularies for when arg1 proceeds arg2 and vice-versa - NOTE: currently doesnt work with chars
-    if not chars and double_vocab and len(tokens) > 1 \
+    # have seperate vocabularies for when arg1 proceeds arg2 and vice-versa
+    if double_vocab and len(tokens) > 1 \
             and "$ARG1" in tokens and "$ARG2" in tokens \
             and tokens.index("$ARG1") > tokens.index("$ARG2"):
         tokens = [token + '_ARG2' for token in tokens]
