@@ -30,7 +30,7 @@ def process_line(chars, ent_map, ep_map, line, rel_map, token_counter, double_vo
             tokens = [ch for tok in
                       [[t, ' '] if str.startswith(t, '$ARG') else list(t + ' ') for t in tokens]
                       for ch in tok]
-            # we added an extra 0 to the end TODO handle this better
+            # we added an extra ' ' to the end TODO handle this better
             if len(tokens) > 0:
                 del(tokens[-1])
 
@@ -160,6 +160,7 @@ def main(argv):
         'Num rels: ', len(rel_map), 'Num tokens: ', len(token_map)
 
     if save_vocab_file:
+        print 'Exporting vocab maps to file'
         with open(save_vocab_file, 'wb') as fp:
             pickle.dump([ent_map, ep_map, rel_map, token_map, token_counter], fp)
         export_map(save_vocab_file + '-tokens.txt', token_map)
