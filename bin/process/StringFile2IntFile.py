@@ -23,7 +23,8 @@ def process_line(chars, ent_map, ep_map, line, rel_map, token_counter, double_vo
                   token in tokens]
 
     # have seperate vocabularies for when arg1 proceeds arg2 and vice-versa
-    if double_vocab and len(tokens) > 1 \
+    # currently doesnt work with chars
+    if not chars and double_vocab and len(tokens) > 1 \
             and "$ARG1" in tokens and "$ARG2" in tokens \
             and tokens.index("$ARG1") > tokens.index("$ARG2"):
         tokens = [token + '_ARG2' for token in tokens]
@@ -106,7 +107,10 @@ def main(argv):
             replace_digits = True
     print 'Input file is :', in_file
     print 'Output file is :', out_file
-    print ('Exporting char tokens' if chars else 'Exporting word tokens')
+    print 'Exporting char tokens' if chars else 'Exporting word tokens'
+    if chars and double_vocab:
+        print 'Double vocab and chars not compatible, setting double vocab to false'
+        double_vocab = False
 
     # load memory maps from file or initialize new ones
     if load_vocab_file:
