@@ -31,7 +31,7 @@ def process_line(chars, ent_map, ep_map, line, rel_map, token_counter, double_vo
                       [[c, ' '] if str.startswith(c, '$ARG') else list(c) for c in tokens]
                       for cc in [word_tokens, ' ']]
             # we added an extra 0 to the end TODO handle this better
-            if len(tokens > 0):
+            if len(tokens) > 0:
                 del(tokens[-1])
 
         # have seperate vocabularies for when arg1 proceeds arg2 and vice-versa
