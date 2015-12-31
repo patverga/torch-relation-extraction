@@ -15,7 +15,14 @@ from collections import defaultdict
 def process_line(chars, ent_map, ep_map, line, rel_map, token_counter, double_vocab, replace_digits):
     e1_str, e2_str, rel_str, label = line.strip().split('\t')
     ep_str = e1_str + '\t' + e2_str
-    tokens = list(rel_str.replace(' ', '<SPACE>')) if chars else rel_str.split(' ')
+
+    # don't separate tac relations into characters, keep as single token
+    if str.startswith(rel_str, 'per:') or str.startswith(rel_str, 'org:'):
+        tokens = [rel_str]
+    elif chars:
+        tokens = list(rel_str)
+    else:
+        tokens = rel_str.split(' ')
 
     if replace_digits:
         # replace digits except for ARG and log distance tokens
