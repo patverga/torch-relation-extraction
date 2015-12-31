@@ -19,18 +19,18 @@ def process_line(chars, ent_map, ep_map, line, rel_map, token_counter, double_vo
     # don't separate tac relations into characters, keep as single token
     if str.startswith(rel_str, 'per:') or str.startswith(rel_str, 'org:'):
         tokens = [rel_str]
-    elif chars:
-        tokens = list(rel_str)
     else:
+        # normalize digits except in $ARG wildcard tokens
+        rel_str = re.sub(r'(?<!\$ARG)[0-9]', '#', rel_str) if replace_digits else rel_str
         tokens = rel_str.split(' ')
 
-    if replace_digits:
-        # replace digits except for ARG and log distance tokens
-        tokens = [re.sub(r'[0-9]', '#', token) if '$ARG' not in token and not re.match('\[\d\]', token) else token for
-                  token in tokens]
+        # split words into char tokens except leave $ARG as single tokens, flatten to list
+        if chars:
+            tokens = [cc for word_tokens in
+                      [[c] if str.startswith(c, '$ARG') else list(c) for c in tokens]
+                      for cc in word_tokens]
 
-    # have seperate vocabularies for when arg1 proceeds arg2 and vice-versa
-    # currently doesnt work with chars
+    # have seperate vocabularies for when arg1 proceeds arg2 and vice-versa - NOTE: currently doesnt work with chars
     if not chars and double_vocab and len(tokens) > 1 \
             and "$ARG1" in tokens and "$ARG2" in tokens \
             and tokens.index("$ARG1") > tokens.index("$ARG2"):
