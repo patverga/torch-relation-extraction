@@ -21,7 +21,8 @@ def process_line(chars, ent_map, ep_map, line, rel_map, token_counter, double_vo
         tokens = [rel_str]
     else:
         # normalize digits except in $ARG wildcard tokens
-        rel_str = re.sub(r'(?<!\$ARG)[0-9]', '#', rel_str) if replace_digits else rel_str
+        if replace_digits:
+            rel_str = re.sub(r'(?<!\$ARG)[0-9]', '#', rel_str)
         tokens = rel_str.split(' ')
 
         # split words into char tokens except leave $ARG as single tokens, flatten to list
