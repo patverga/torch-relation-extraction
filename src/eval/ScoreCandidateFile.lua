@@ -31,6 +31,7 @@ cmd:option('-delim', ' ', 'delimiter to split lines on')
 cmd:option('-threshold', .001, 'scores below this threshold will be set to -1e100')
 cmd:option('-gpuid', -1, 'Which gpu to use, -1 for cpu (default)')
 cmd:option('-unkIdx', 1, 'Index to map unknown tokens to')
+cmd:option('-chars', false, 'Split tokens into characters')
 cmd:option('-relations', false, 'Use full relation vectors instead of tokens')
 cmd:option('-logRelations', false, 'Use log relation vectors instead of tokens')
 cmd:option('-doubleVocab', false, 'double vocab so that tokens to the right of ARG1 are different then to the right of ARG2')
@@ -51,23 +52,38 @@ local out_vocab = 0
 --- convert sentence to tac tensor using tokens ---
 local function token_tensor(arg1_first, pattern_rel, vocab_map, dictionary, start_idx, end_idx, use_full_pattern)
     local idx = 0
-    local i = 0
     local token_ids = {}
     local tokens = {}
 
-    local first_arg, second_arg
-    if arg1_first then first_arg = '$ARG1'; second_arg = '$ARG2' else first_arg = '$ARG2'; second_arg = '$ARG2' end
-    if params.tokenAppend ~= '' then first_arg = first_arg .. params.tokenAppend second_arg = second_arg .. params.tokenAppend end
+    local first_arg = arg1_first and '$ARG1' or '$ARG2'
+    local second_arg = arg1_first and '$ARG2' or '$ARG1'
+    if params.tokenAppend ~= '' then
+        first_arg = first_arg .. params.tokenAppend
+        second_arg = second_arg .. params.tokenAppend
+    end
 
     for token in string.gmatch(pattern_rel, "[^" .. params.delim .. "]+") do
         if dictionary[token] then token = dictionary[token]
         elseif params.tokenAppend ~= '' then token = token .. params.tokenAppend
         end
-        if (idx >= start_idx and idx < end_idx) or use_full_pattern then table.insert(tokens, token) end
+        if (idx >= start_idx and idx < end_idx) or use_full_pattern then
+            if params.chars then
+                for c in str:gmatch"." do
+                    table.insert(tokens, c)
+                end
+                table.insert(tokens, ' ')
+            else
+                table.insert(tokens, token)
+            end
+        end
         idx = idx + 1
     end
 
-    if not use_full_pattern then table.insert(token_ids, vocab_map[first_arg] or params.unkIdx) end
+    if not use_full_pattern then
+        table.insert(token_ids, vocab_map[first_arg] or params.unkIdx)
+        if params.chars then table.insert(token_ids, vocab_map[' '] or params.unkIdx) end
+    end
+
     for i = 1, #tokens do
         local token
         if not params.logRelations or #tokens <= 4 or i <= 2 or i > #tokens -2 then
