@@ -8,7 +8,7 @@ export TRAINED_EP="${TH_RELEX_ROOT}/models/uschema-english-relogged-100d/2015-12
 export TRAIN_FILE="full-sentence-no-tac.fixed-5mil-subset_chars"
 export VOCAB="${TH_RELEX_ROOT}/vocabs/full-sentence-subset/full-sentence-no-tac.fixed-5mil-subset_chars-tokens.txt"
 export TAC_YEAR="2012-full-sentence"
-export EVAL_ARGS="-fullPath"
+export EVAL_ARGS="-fullPath -chars"
 
 export BATCH_SIZE=128
 export LEARN_RATE=.0001
