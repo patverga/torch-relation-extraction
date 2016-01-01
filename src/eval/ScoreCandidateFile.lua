@@ -68,7 +68,7 @@ local function token_tensor(arg1_first, pattern_rel, vocab_map, dictionary, star
         end
         if (idx >= start_idx and idx < end_idx) or use_full_pattern then
             if params.chars then
-                for c in str:gmatch"." do
+                for c in token:gmatch"." do
                     table.insert(tokens, c)
                 end
                 table.insert(tokens, ' ')
