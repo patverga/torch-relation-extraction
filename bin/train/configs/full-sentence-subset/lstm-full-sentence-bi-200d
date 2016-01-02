@@ -1,0 +1,25 @@
+export MODEL=UniversalSchema
+export NAME=subset-lstm-full-sentence-bi-200d
+
+export SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/$NAME"
+export TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/training-data/full-sentence-subset/"
+
+export TRAINED_EP="${TH_RELEX_ROOT}/models/uschema-english-relogged-200d/2016-01-01_16/5-ent-weights"
+export TRAIN_FILE="full-sentence-no-tac.fixed-5mil-subset"
+export VOCAB="${TH_RELEX_ROOT}/vocabs/full-sentence-subset/full-sentence-no-tac.fixed-5mil-subset-tokens.txt"
+export TAC_YEAR="2012-full-sentence"
+export EVAL_ARGS="-fullPath"
+
+
+export BATCH_SIZE=128
+export LEARN_RATE=.0001
+export EMBED_DIM=200
+export REL_DIM=200
+export MAX_SEQ=50
+export MAX_EPOCHS=15
+export EVAL_FREQ=3
+export DROPOUT=.1
+export WORD_DIM=200
+export BI_DIRECTIONAL="add"
+export POOL_LAYER=Max
+export ENCODER="lstm"
