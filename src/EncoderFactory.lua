@@ -67,6 +67,7 @@ function EncoderFactory:lstm_encoder(params)
             if params.layerDropout > 0.0 then lstm:add(nn.Sequencer(nn.Dropout(params.layerDropout))) end
         end
         encoder:add(lstm)
+
         if params.poolLayer ~= '' then
             assert(params.poolLayer == 'Mean' or params.poolLayer == 'Max',
                 'valid options for poolLayer are Mean and Max')
@@ -78,16 +79,15 @@ function EncoderFactory:lstm_encoder(params)
             encoder:add(nn.SelectTable(-1))
         end
     end
-
-
-    if params.poolRelations then
-        require 'nn-modules/EncoderPool'
-        encoder = nn.EncoderPool(encoder:clone(), nn.Max(2))
-    end
-
     return encoder, rel_table
 end
 
+function EncoderFactory:lstm_relation_pool_encoder(params)
+    local lstm, rel_table = self:lstm_encoder(params)
+    require 'nn-modules/EncoderPool'
+    local encoder = nn.EncoderPool(lstm, nn.Max(2))
+    return encoder, rel_table
+end
 
 function EncoderFactory:cnn_encoder(params)
     local train_data = torch.load(params.train)
@@ -232,22 +232,33 @@ end
 
 function EncoderFactory:build_encoder(params)
     local encoder_type = params.encoder
+
     -- lstm encoder
     if encoder_type == 'lstm' then
         return self:lstm_encoder(params)
+
     -- conv net
     elseif encoder_type == 'cnn' then
         return self:cnn_encoder(params)
+
     -- simple token averaging
     elseif encoder_type == 'we-avg' then
         return self:we_avg_encoder(params)
+
     -- lstm for text, lookup-table for kb relations
     elseif encoder_type == 'lstm-joint' then
         return self:lstm_joint_encoder(params)
+
+    -- pool all relations for given ep and udpate at once,
+    -- requires processing data using bin/process/IntFile2PoolRelationsTorch.lua
+    elseif encoder_type == 'lstm-relation-pool' then
+        return self:lstm_relation_pool_encoder(params)
+
     -- lookup table (vector per relation)
     elseif encoder_type == 'lookup-table' then
         params.relations = true
         return self:lookup_table_encoder(params)
+
     else
         print('Must supply option to encoder. ' ..
         'Valid options are: lstm, cnn, we-avg, lstm-joint, and loopup-table')

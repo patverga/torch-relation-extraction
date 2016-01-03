@@ -58,7 +58,6 @@ cmd:option('-bi', '', 'Use a bidirectional lstm and combine forawrd backward in 
 cmd:option('-rnnCell', false, 'Use a regular rnn cell instead of lstm')
 cmd:option('-attention', false, 'Use an attention model')
 cmd:option('-noWordUpdate', false, 'Dont update word embeddings')
-cmd:option('-poolRelations', false, 'pool all relations for given ep and udpate at once, requires processing data using bin/process/IntFile2PoolRelationsTorch.lua')
 
 -- optimization
 cmd:option('-learningRate', 0.0001, 'init learning rate')
