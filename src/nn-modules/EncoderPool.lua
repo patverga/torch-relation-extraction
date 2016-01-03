@@ -1,15 +1,15 @@
 local EncoderPool, parent = torch.class('nn.EncoderPool', 'nn.Container')
 
 
-function EncoderPool:__init(mapper,reducer)
+function EncoderPool:__init(encoder, pooler)
     parent.__init(self)
 
-    self.mapper = mapper
-    self.reducer = reducer
+    self.encoder = encoder
+    self.pooler = pooler
 
     self.modules = {}
-    table.insert(self.modules,mapper)
-    table.insert(self.modules,reducer)
+    table.insert(self.modules,encoder)
+    table.insert(self.modules,pooler)
 
 end
 
@@ -26,7 +26,7 @@ function EncoderPool:updateOutput(input)
     end
 
     self.reshapedInput = input:view(self.sizes)
-    self.mapped = self.mapper:updateOutput(self.reshapedInput)
+    self.mapped = self.encoder:updateOutput(self.reshapedInput)
     self.sizes3 = self.mapped:size()
 
     self.sizes2 = self.sizes2 or torch.LongStorage(self.mapped:dim() + 1)
@@ -38,7 +38,7 @@ function EncoderPool:updateOutput(input)
     end
 
     self.mappedAndReshaped = self.mapped:view(self.sizes2)
-    self.output = self.reducer:updateOutput(self.mappedAndReshaped)
+    self.output = self.pooler:updateOutput(self.mappedAndReshaped)
     return self.output
 
 end
@@ -65,17 +65,17 @@ function EncoderPool:accGradParameters(input,gradOutput,lr)
 end
 
 
-function EncoderPool:genericBackward(operator,input, gradOutput)
-    local db = self.reducer:forward(self.mappedAndReshaped)
-    self.reducer:backward(self.mappedAndReshaped,db:clone():fill(1.0))
-    operator(self.reducer,self.mappedAndReshaped,gradOutput)
-    local reducerGrad = self.reducer.gradInput
-    local reshapedReducerGrad = reducerGrad:view(self.sizes3)
+function EncoderPool:genericBackward(operator, input, gradOutput)
+    local db = self.pooler:forward(self.mappedAndReshaped)
+    self.pooler:backward(self.mappedAndReshaped,db:clone():fill(1.0))
+    operator(self.pooler,self.mappedAndReshaped,gradOutput)
+    local poolerGrad = self.pooler.gradInput
+    local reshapedPoolerGrad = poolerGrad:view(self.sizes3)
 
 
-    operator(self.mapper,self.reshapedInput,reshapedReducerGrad)
-    local mapperGrad = self.mapper.gradInput
+    operator(self.encoder,self.reshapedInput,reshapedPoolerGrad)
+    local encoderGrad = self.encoder.gradInput
 
-    self.gradInput = (mapperGrad:dim() > 0) and mapperGrad:view(self.inputSize) or nil --some modules return nil from backwards, such as the lookup table
+    self.gradInput = (encoderGrad:dim() > 0) and encoderGrad:view(self.inputSize) or nil --some modules return nil from backwards, such as the lookup table
     return self.gradInput
 end

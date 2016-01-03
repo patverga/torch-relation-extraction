@@ -15,6 +15,7 @@ require 'VariableLengthConcatTable'
 require 'NoUpdateLookupTable'
 require 'NoUnReverseBiSequencer'
 require 'WordDropout'
+require 'EncoderPool'
 
 --[[
     Takes a tac candidate file, tab seperated vocab idx file, and a trained uschema encoder model
@@ -267,10 +268,11 @@ local data, max_seq = process_file(load_maps())
 
 -- load model
 local model = torch.load(params.model)
+if torch.type(model.encoder) == 'nn.EncoderPool' then model.encoder = model.encoder.encoder end
 local kb_rel_table = to_cuda(model.kb_rel_table ~= nil and model.kb_rel_table or model.encoder)
 local text_encoder = to_cuda(model.text_encoder ~= nil and model.text_encoder or model.encoder)
-kb_rel_table:evaluate()
-text_encoder:evaluate()
+
+kb_rel_table:evaluate();text_encoder:evaluate()
 
 -- score and export candidate file
 score_data(data, max_seq, text_encoder, kb_rel_table)
