@@ -261,7 +261,7 @@ function EncoderFactory:build_encoder(params)
 
     else
         print('Must supply option to encoder. ' ..
-        'Valid options are: lstm, cnn, we-avg, lstm-joint, and loopup-table')
+        'Valid options are: lstm, cnn, we-avg, lstm-joint, lstm-relation-pool, and lookup-table')
         os.exit()
     end
 end

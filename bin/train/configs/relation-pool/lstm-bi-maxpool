@@ -20,4 +20,4 @@ export DROPOUT=.1
 export WORD_DIM=100
 export BI_DIRECTIONAL="add"
 export POOL_LAYER=Max
-export ENCODER="lstm_relation_pool_encoder"
+export ENCODER="lstm-relation-pool"
