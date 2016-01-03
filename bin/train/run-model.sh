@@ -21,9 +21,6 @@ fi
 if [ "$BI_DIRECTIONAL" ]; then
   RUN_CMD="$RUN_CMD -bi $BI_DIRECTIONAL"
 fi
-if [ "$POOL_RELATIONS" ]; then
-  RUN_CMD="$RUN_CMD -poolRelations"
-fi
 if [ "$LAYERS" ]; then
   RUN_CMD="$RUN_CMD -layers $LAYERS"
 fi
@@ -49,6 +46,9 @@ if [ "$TAC_YEAR" ]; then
 fi
 if [ "$TRAINED_EP" ]; then
   RUN_CMD="$RUN_CMD -loadEpEmbeddings $TRAINED_EP"
+fi
+if [ "$TRAINED_REL" ]; then
+  RUN_CMD="$RUN_CMD -loadRelEmbeddings $TRAINED_REL"
 fi
 if [ "$LOAD_MODEL" ]; then
   RUN_CMD="$RUN_CMD -loadModel $LOAD_MODEL"

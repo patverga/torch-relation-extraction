@@ -3,13 +3,13 @@ export NAME=relation-pool-lstm-bi-maxpool
 
 export SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/$NAME"
 export TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/training-data/pool-relations/"
-
-export TRAINED_EP="${TH_RELEX_ROOT}/models/uschema-english-relogged-100d/2015-12-18_11/5-ent-weights"
 export TRAIN_FILE="no-log_min5_noramlized.en"
+export TRAINED_EP="${TH_RELEX_ROOT}/models/uschema-english-relogged-100d/2015-12-18_11/5-ent-weights"
+
 export VOCAB="${TH_RELEX_ROOT}/vocabs/pool-relations/no-log_min5_noramlized.en-tokens.txt"
 export TAC_YEAR="2012"
 
-export BATCH_SIZE=128
+export BATCH_SIZE=32
 export LEARN_RATE=.0001
 export EMBED_DIM=100
 export REL_DIM=100
