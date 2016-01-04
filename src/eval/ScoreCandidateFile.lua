@@ -202,6 +202,9 @@ end
 
 -- TODO this only works for uschema right now
 local function score_tac_relation(text_encoder, kb_rel_table, pattern_tensor, tac_tensor)
+    if torch.type(text_encoder) == 'nn.EncoderPool' then pattern_tensor = pattern_tensor:view(pattern_tensor:size(1), 1, pattern_tensor:size(2)) end
+    if torch.type(kb_rel_table) == 'nn.EncoderPool' then tac_tensor = tac_tensor:view(tac_tensor:size(1), 1, tac_tensor:size(2)) end
+
     local tac_encoded = kb_rel_table:forward(to_cuda(tac_tensor)):clone()
     local pattern_encoded = text_encoder:forward(to_cuda(pattern_tensor)):clone()
 
@@ -268,10 +271,8 @@ local data, max_seq = process_file(load_maps())
 
 -- load model
 local model = torch.load(params.model)
-if torch.type(model.encoder) == 'nn.EncoderPool' then model.encoder = model.encoder.encoder end
 local kb_rel_table = to_cuda(model.kb_rel_table ~= nil and model.kb_rel_table or model.encoder)
 local text_encoder = to_cuda(model.text_encoder ~= nil and model.text_encoder or model.encoder)
-
 kb_rel_table:evaluate();text_encoder:evaluate()
 
 -- score and export candidate file
