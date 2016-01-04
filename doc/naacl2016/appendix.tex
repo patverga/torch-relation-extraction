@@ -2,6 +2,70 @@
 
 \subsection{Additional Qualitative Results \label{sec:more-qual-anal}}
 
+% cross lingual relations
+Qualitative analysis of our multilingual models further suggests that they successfully embed semantically similar relations across languages using tied entity pairs and translation dictionary as grounding. Table \ref{tab:cross-lingual-relations} lists three top nearest neighbors in English for several Spanish patterns from the text. In each case, the English patterns capture the relation represented in the Spanish text.
+
+\newcommand{\tablespace}{\end{tabular}
+\newline
+\newline
+%\hspace*{-21pt}
+\begin{tabular}{|p{7.6cm}|}
+}
+\begin{table}[h]
+\begin{center}
+\small
+%\hspace*{-21pt}
+\begin{tabular}{|p{7.6cm}|}
+\hline
+ \bf y cuatro de sus familias, incluidos su esposa, \endgraf \hspace{5pt}Wu Shu-chen, su hijo, \\
+\it{ and four of his family members, including his wife, \endgraf \hspace{5pt}Wu Shu-chen, his son, } \\
+\hline
+ and his son  \\
+ is survived by his wife, Sybil MacKenzie and a son,  \\
+ gave birth to a baby last week -- son  \\
+\hline
+\tablespace
+\hline
+ \bf (Puff Daddy, cuyos verdaderos nombre sea  \\
+\it{ (Puff Daddy, whose real name is } \\
+\hline%\hline
+ (usually credited as {\it E1} \\
+ (also known as Gero \#\#, real name  \\
+ and (after changing his name to  \\
+\hline
+\tablespace
+%\hline
+%, Tian Tian, de \#\# a\~{n}os de edad, y su madre \\
+%\it{, Tian Tian, \#\# years old, and his mother } \\
+%\hline%\hline
+% Gyllenhaal's parents -- screenwriter Naomi Foner and director  \\
+% Brando's mother, actress Anna Kashfi, divorced  \\
+% Cash, his mom was  \\
+%\hline
+%\tablespace
+\hline
+ \bf lleg\'{o} a la alfombra roja en compa\~{n}\'{i}a de su esposa, la \endgraf \hspace{5pt} actriz  Suzy Amis, casi una hora antes que su ex esposa, \\
+\it{ arrived on the red carpet with his wife, \endgraf \hspace{5pt} actress  Suzy Amis, nearly an hour before his ex-wife , } \\
+\hline%\hline
+, who may or may not be having twins with husband  \\
+, aged twenty, Kirk married \\
+ went to elaborate lengths to keep his wedding to former \endgraf \hspace{5pt}supermodel \\
+\hline
+%\tablespace
+%\hline
+%\bf{{\it E1} , una firmes of estudios económicos lleven sede in {\it E2}}\\
+%\it{{\it E1} an economic studies firm with headquarters in {\it E2}} \\
+%\hline\hline
+%{\it E2} offices of BP and {\it E1} \\
+%{\it E2} , the Paris - based {\it E1} \\
+%{\it E2} province , is the headquarters of {\it E1} \\
+%\hline
+\end{tabular}
+\caption{Top English patterns for a Spanish query pattern encoded using the dictionary LSTM: For each Spanish query (English translation in italics), a list of English nearest neighbors. \label{tab:cross-lingual-relations}}
+\end{center}
+\end{table}
+
+
 Our model jointly embeds KB relations together with English and Spanish text. We demonstrate that plausible textual patterns are embedded close to the KB relations they express. Table \ref{tab:top-tac-patterns} shows top scoring English and Spanish patterns given sample relations from our TAC KB.
 
 \begin{table}[h]

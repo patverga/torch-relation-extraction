@@ -63,7 +63,7 @@ RPI Blender & 29.4 & 47.8 & 36.4 \\
 
 Tables \ref{en-tac-table} and \ref{2014-en-tac-table} present the performance of our models on the 2013 and 2014 English TAC slot-filling tasks. Ensembling the LSTM and USchema models improves F1 by 2.2 points for 2013 and 1.7 points for 2014 over the strongest single model on both evaluations, LSTM. Adding the alternative names (AN) heuristic described in Section \ref{sec:models} increases F1 by an additional 2 points on 2013, resulting in an F1 score that is competitive with the state-of-the-art. We also demonstrate the effect of jointly learning English and Spanish models on English slot-filling performance. Adding Spanish data improves our F1 scores by 1.5 points on 2013 and 1.1 on 2014 over using English alone. This places are system higher than the top performer at the 2013 TAC slot-filling task even though our system uses no hand-written rules.
 
-The state of the art systems on this task all rely on matching handwritten patterns to find additional answers and the top 2014 system uses additional active learning annotation to get higher quality training data. Our models use only automatically generated, indirect supervision; even our AN heuristics (Section \ref{sec:pipeline}) are automatically generated. Our model performs substantially better on 2013 than 2014 for two reasons. First, our RelationFactory\citep{roth2014relationfactory} retrieval pipeline was designed for the 2013 task, but the 2014 task introduced new challenges such as confusable entities. Second, improved training using active learning gave the top 2014 systems a very large boost in performance. No 2013 systems, including ours, use active learning. \todo{do we need more justification for our less good 2014 results?}
+The state of the art systems on this task all rely on matching handwritten patterns to find additional answers and the top 2014 system uses additional active learning annotation to get higher quality training data. Our models use only automatically generated, indirect supervision; even our AN heuristics (Section \ref{sec:pipeline}) are automatically generated. Our model performs substantially better on 2013 than 2014 for two reasons. First, our RelationFactory\citep{roth2014relationfactory} retrieval pipeline was designed for the 2013 task, but the 2014 task introduced new challenges such as confusable entities. Second, improved training using active learning gave the top 2014 systems a very large boost in performance. No 2013 systems, including ours, use active learning.
 
 
 %\begin{table}[tb]
@@ -111,70 +111,6 @@ USchema+LSTM+Dict  & 26.9 & 15.9  & \bf 20.0 \\
 %Table \ref{es-tac-table} presents 2012 Spanish TAC slot-filling results for our multilingual relation extractors trained using zero-annotation transfer learning. For both the CNN and LSTM, tying word embeddings between the two languages results in substantial improvements. We see that ensembling the non-dictionary LSTM with USchema gives a slight boost over USchema alone, but ensembling the dictionary-tied LSTM with USchema provides a significant increase of nearly 4 F1 points over the highest-scoring single model, USchema. Clearly, grounding the Spanish data using a translation dictionary provides much better Spanish word representations. These improvements are complementary to the baseline USchema model, and yield impressive results when ensembled.
 
 Table \ref{es-tac-table} presents 2012 Spanish TAC slot-filling results for our multilingual relation extractors trained using zero-annotation transfer learning. Tying word embeddings between the two languages results in substantial improvements for the LSTM. We see that ensembling the non-dictionary LSTM with USchema gives a slight boost over USchema alone, but ensembling the dictionary-tied LSTM with USchema provides a significant increase of nearly 4 F1 points over the highest-scoring single model, USchema. Clearly, grounding the Spanish data using a translation dictionary provides much better Spanish word representations. These improvements are complementary to the baseline USchema model, and yield impressive results when ensembled.
-
-% cross lingual relations
-Qualitative analysis of our multilingual models further suggests that they successfully embed semantically similar relations across languages using tied entity pairs and translation dictionary as grounding. Table \ref{tab:cross-lingual-relations} lists three top nearest neighbors in English for several Spanish patterns from the text. In each case, the English patterns capture the relation represented in the Spanish text. 
-
-\newcommand{\tablespace}{\end{tabular}
-\newline
-\newline
-%\hspace*{-21pt}
-\begin{tabular}{|p{7.6cm}|}
-}
-\begin{table}[h]
-\begin{center}
-\small
-%\hspace*{-21pt}
-\begin{tabular}{|p{7.6cm}|}
-\hline
- \bf y cuatro de sus familias, incluidos su esposa, \endgraf \hspace{5pt}Wu Shu-chen, su hijo, \\
-\it{ and four of his family members, including his wife, \endgraf \hspace{5pt}Wu Shu-chen, his son, } \\
-\hline
- and his son  \\
- is survived by his wife, Sybil MacKenzie and a son,  \\
- gave birth to a baby last week -- son  \\
-\hline
-\tablespace
-\hline
- \bf (Puff Daddy, cuyos verdaderos nombre sea  \\
-\it{ (Puff Daddy, whose real name is } \\
-\hline%\hline
- (usually credited as {\it E1} \\
- (also known as Gero \#\#, real name  \\
- and (after changing his name to  \\
-\hline
-\tablespace
-%\hline
-%, Tian Tian, de \#\# a\~{n}os de edad, y su madre \\
-%\it{, Tian Tian, \#\# years old, and his mother } \\
-%\hline%\hline
-% Gyllenhaal's parents -- screenwriter Naomi Foner and director  \\
-% Brando's mother, actress Anna Kashfi, divorced  \\
-% Cash, his mom was  \\
-%\hline
-%\tablespace
-\hline
- \bf lleg\'{o} a la alfombra roja en compa\~{n}\'{i}a de su esposa, la \endgraf \hspace{5pt} actriz  Suzy Amis, casi una hora antes que su ex esposa, \\
-\it{ arrived on the red carpet with his wife, \endgraf \hspace{5pt} actress  Suzy Amis, nearly an hour before his ex-wife , } \\
-\hline%\hline
-, who may or may not be having twins with husband  \\
-, aged twenty, Kirk married \\
- went to elaborate lengths to keep his wedding to former \endgraf \hspace{5pt}supermodel \\
-\hline
-%\tablespace
-%\hline
-%\bf{{\it E1} , una firmes of estudios económicos lleven sede in {\it E2}}\\
-%\it{{\it E1} an economic studies firm with headquarters in {\it E2}} \\
-%\hline\hline
-%{\it E2} offices of BP and {\it E1} \\
-%{\it E2} , the Paris - based {\it E1} \\
-%{\it E2} province , is the headquarters of {\it E1} \\
-%\hline
-\end{tabular}
-\caption{Top English patterns for a Spanish query pattern encoded using the dictionary LSTM: For each Spanish query (English translation in italics), a list of English nearest neighbors. \label{tab:cross-lingual-relations}}
-\end{center}
-\end{table}
-
 
 In addition to embedding semantically similar phrases from English and Spanish to have high similarity, our models also learn high-quality multilingual word embeddings. In Table \ref{joint-word} we compare Spanish nearest neighbors of English query words learned by the LSTM with dictionary ties versus the LSTM with no ties, using no unsupervised pre-training for the embeddings. Both approaches jointly embed Spanish and English word types, using shared entity embeddings, but the dictionary-tied model learns qualitatively better multilingual embeddings. See Section \ref{sec:more-qual-anal} for additional qualititave results.
 
