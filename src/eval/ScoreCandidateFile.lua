@@ -96,7 +96,7 @@ local function token_tensor(arg1_first, pattern_rel, vocab_map, dictionary, star
             if params.doubleVocab then token = token .. '_' .. (arg1_first and '$ARG1' or '$ARG2') end
             local id = vocab_map[token] or 1
             table.insert(token_ids, id)
-            if id == 1 then out_vocab = out_vocab + 1 else in_vocab = in_vocab + 1 end
+            if id == 1 and token ~= ' ' then out_vocab = out_vocab + 1 else in_vocab = in_vocab + 1 end
         end
     end
 
@@ -152,7 +152,7 @@ local function process_line(line, vocab_map, dictionary)
     local query_id, tac_rel, sf_2, doc_info, start_1, end_1, start_2, end_2, pattern_rel
     = string.match(line, "([^\t]+)\t([^\t]+)\t([^\t]+)\t([^\t]+)\t([^\t]+)\t([^\t]+)\t([^\t]+)\t([^\t]+)\t([^\t]+)")
 
-    if params.normalizeDigits then pattern_rel = pattern_rel:gsub("%^a", "") end
+    if params.normalizeDigits then pattern_rel = pattern_rel:gsub("%d", "") end
 
     local tac_tensor = torch.Tensor({vocab_map[tac_rel] or params.unkIdx})
 
