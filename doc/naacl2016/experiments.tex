@@ -12,7 +12,7 @@
 
 We focus on the TAC KBP slot-filling task. Much of the related work on embedding knowledge bases evaluates on the FB15k dataset \citep{transe,wang2014knowledge,lin2015learning,bishan,toutanova2015representing}. Here, relation extraction is posed as link prediction on a subset of Freebase.  This task does not capture the particular difficulties we address in this work: (1) evaluation on entities and text unseen during training, and (2) zero-annotation learning of a predictor for a low-resource language.
 
-Also, note both~\citet{toutanova2015representing} and~\citet{limin} explore the pros and cons of learning embeddings for entity pairs vs. separate embeddings for each entity. As this is orthogonal to our contributions, we only consider entity pair embeddings, which performed best in both works.
+Also, note both~\citet{toutanova2015representing} and~\citet{limin} explore the pros and cons of learning embeddings for entity pairs vs. separate embeddings for each entity. As this is orthogonal to our contributions, we only consider entity pair embeddings, which performed best in both works when given sufficient data.
 
 %, which has received considerable attention in the NLP community since it focuses on a practical AKBC scenario characteristic of various real-world applications.
 
@@ -22,7 +22,7 @@ The aim of the TAC benchmark is to improve both coverage and quality of relation
 
  %Some slots, such as \emph{per:countries\_of\_residence} can be filled by multiple entities, whereas others, such as \emph{per:country\_of\_birth} can contain only one filler. The query entities are restricted to people (PER) and organizations (ORG) (rather than locations or other noun types, such as religion, which may fill query slots), and the 2013 English evaluation query set is made up of 50 PER entities and 50 ORG entities.
 
-In addition to verifying our models on the 2013 and 2014 English slot-filling task, we evaluate our Spanish models on the 2012 TAC Spanish slot-filling evaluation. Because this TAC track was never officially run, the coverage of facts in the available annotation is very small, resulting in many correct predictions being marked incorrectly as precision errors. In response, we manually annotated all results returned by the five models considered in Table~\ref{es-tac-table}. Precision and recall are calculated with respect to the union of the TAC annotation and our new labeling\footnote{Following \citet{surdeanu2012multi} we remove facts about undiscovered entities to correct for recall.}.
+In addition to verifying our models on the 2013 and 2014 English slot-filling task, we evaluate our Spanish models on the 2012 TAC Spanish slot-filling evaluation. Because this TAC track was never officially run, the coverage of facts in the available annotation is very small, resulting in many correct predictions being marked incorrectly as precision errors. In response, we manually annotated all results returned by the models considered in Table~\ref{es-tac-table}. Precision and recall are calculated with respect to the union of the TAC annotation and our new labeling\footnote{Following \citet{surdeanu2012multi} we remove facts about undiscovered entities to correct for recall.}.
 
 
 % 18 teams participated
