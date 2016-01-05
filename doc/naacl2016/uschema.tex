@@ -3,7 +3,7 @@
 %\todo{Reviewer 2: Sec. 3 mainly talks about prediction (matching a text pattern with a KB relation, instead of direct prediction based on entity pairs), but the title is training a sentence classifier}
 Similar to many link prediction approaches,~\citep{limin} perform transductive learning, where a model is learned jointly over train and test data. Predictions are made by using the model to identify edges that were unobserved in the test data but likely to be true. The approach is vulnerable to the \emph{cold start} problem in collaborative filtering~\citep{schein2002methods}: it is unclear how to form predictions for unseen entity pairs, without re-factorizing the entire matrix or applying heuristics. 
 
-In response, this paper re-purposes USchema as a means to train a sentence-level relation classifier, like those in Section~\ref{seq:dist}, which allows us to avoid errors from aligning distant supervision to the corpus. It provides improved accuracy, is more deployable for real-world applications, and provide opportunities in Section~\ref{sec:multilingual} to improve multilingual AKBC.
+In response, this paper re-purposes USchema as a means to train a sentence-level relation classifier, like those in Section~\ref{seq:dist}. This allows us to avoid errors from aligning distant supervision to the corpus, but is more deployable for real world applications. It also provides opportunities in Section~\ref{sec:multilingual} to improve multilingual AKBC.
 
 We produce predictions using a very simple approach: (1) scan the corpus and extract a large quantity of triplets $(s,r_{\text{text}},o)$, where $r_{\text{text}}$ is an OpenIE pattern. For each triplet, if the similarity between the embedding of $r_{\text{text}}$ and the embedding of a target relation $r_{\text{schema}}$ is above some threshold, we predict the triplet $(s,r_{\text{schema}},o)$, and its provenance is the input sentence containing $(s,r_{\text{text}},o)$. We refer to this technique as~\textit{pattern scoring}. In our experiments, we use the cosine distance between the vectors.
 
@@ -29,10 +29,10 @@ Prior work has applied deep learning to small-scale relation extraction problems
 \subsection{Modeling Frequent Text Patterns}
 \label{sec:non-comp}
 
-Despite the coverage advantages of using a deep sentence encoder, separately embedding each OpenIE pattern, as in~\citet{limin}, has key advantages. In practice, we have found that many high-precision patterns occur quite frequently. For these, there is sufficient data to model them with independent embeddings per pattern, which imposes minimal restrictions on the relationship between embeddings. On the other hand, Some discriminative phrases are idiomatic, i.e.. their meaning is not constructed compositionally from their constituents. For these, the inductive bias of a sentence encoder is inappropriate. 
+Despite the coverage advantages of using a deep sentence encoder, separately embedding each OpenIE pattern, as in~\citet{limin}, has key advantages. In practice, we have found that many high-precision patterns occur quite frequently. For these, there is sufficient data to model them with independent embeddings per pattern, which imposes minimal inductive bias on the relationship between patterns. Furthermore, some discriminative phrases are idiomatic, i.e.. their meaning is not constructed compositionally from their constituents. For these, the inductive bias of a sentence encoder is inappropriate. 
 %using a sentence encoder induces shared structure across different patterns' representations. 
 
-Therefore, using pattern embeddings and deep token-based encoders have very different strengths and weaknesses. One values specificity, and models the head of the text distribution well, while the other has high coverage and captures the tail. In experimental results, we demonstrate that an ensemble of both models performs substantially better than either in isolation.
+Therefore, pattern embeddings and deep token-based encoders have very different strengths and weaknesses. One values specificity, and models the head of the text distribution well, while the other has high coverage and captures the tail. In experimental results, we demonstrate that an ensemble of both models performs substantially better than either in isolation.
 
 %\begin{table}[h!]
 %\begin{center}
