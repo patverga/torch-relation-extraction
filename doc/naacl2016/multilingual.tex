@@ -18,5 +18,5 @@ The sentence encoder approach of Section~\ref{sec:encoder} is complementary to o
 
 Most work on multilingual word embeddings uses aligned sentences from the Europarl dataset~\citep{koehn2005europarl} to align word embeddings across languages~\citep{Gouws2015,luong2015bilingual,hermann2014multilingual}. Others~\citep{mikolov2013,faruqui2014retrofitting} align separate single-language embedding models using a word-level dictionary. \citet{mikolov2013} use translation pairs to learn a linear transform from one embedding space to another.
 
-Drawing on these dictionary-based techniques, we first obtain ag list of word-word translation pairs between the languages using a translation dictionary. The first layer of our deep text encoder consists of a word embedding lookup table. For the aligned word types, we use a single cross-lingual embedding. Details of our approach are described in Section~\ref{sec:word-tying}.
+Drawing on these dictionary-based techniques, we first obtain a list of word-word translation pairs between the languages using a translation dictionary. The first layer of our deep text encoder consists of a word embedding lookup table. For the aligned word types, we use a single cross-lingual embedding. Details of our approach are described in Section~\ref{sec:word-tying}.
 
