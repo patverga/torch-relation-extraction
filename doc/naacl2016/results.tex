@@ -29,11 +29,13 @@ USchema+LSTM+Es+AN & 40.2 & 41.2 & \bf 40.7 \\
 
 \hline
 \end{tabular}
-\caption{Precision, recall and F1 on the English TAC 2013 slot-filling task. AN refers to alternative names heuristic and Es refers to the addition of Spanish text at train time. LSTM+USchema ensemble outperforms any single model, including highly-tuned competitive systems of \protect\citet{roth2014relationfactory} and \protect\citet{angeli2014stanford}, despite using no handwritten patterns.  %both use hand written patterns. * = optimal per relation tuning
+\caption{Precision, recall and F1 on the English TAC 2013 slot-filling task. AN refers to alternative names heuristic and Es refers to the addition of Spanish text at train time. LSTM+USchema ensemble outperforms any single model, including the highly-tuned top 2013 system of \protect\citet{roth2014relationfactory}, despite using no handwritten patterns.  %both use hand written patterns. * = optimal per relation tuning
 \label{en-tac-table}}
 \end{center}
+\vspace{-.3cm}
 \end{table}
-
+%
+%
 \begin{table}[t!]
 \begin{center}
 \begin{tabular}{|lrrr|}
@@ -59,6 +61,7 @@ RPI Blender & 29.4 & 47.8 & 36.4 \\
 \end{tabular}
 \caption{Precision, recall and F1 on the English TAC 2014 slot-filling task. Es refers to the addition of Spanish text at train time. The AN heuristic is ineffective on 2014 adding only 0.2 to F1. We include results for the top 4 performing systems in the official TAC 2014 competition. Our system would rank 4/18 behind systems that use hand-written patterns and active learning despite our system using neither of these additional annotations \protect\citep{SurdeanuMihai2014}.\label{2014-en-tac-table}}
 \end{center}
+\vspace{-.4cm}
 \end{table}
 
 Tables \ref{en-tac-table} and \ref{2014-en-tac-table} present the performance of our models on the 2013 and 2014 English TAC slot-filling tasks. Ensembling the LSTM and USchema models improves F1 by 2.2 points for 2013 and 1.7 points for 2014 over the strongest single model on both evaluations, LSTM. Adding the alternative names (AN) heuristic described in Section \ref{sec:models} increases F1 by an additional 2 points on 2013, resulting in an F1 score that is competitive with the state-of-the-art. We also demonstrate the effect of jointly learning English and Spanish models on English slot-filling performance. Adding Spanish data improves our F1 scores by 1.5 points on 2013 and 1.1 on 2014 over using English alone. This places are system higher than the top performer at the 2013 TAC slot-filling task even though our system uses no hand-written rules.
@@ -106,6 +109,7 @@ USchema+LSTM+Dict  & 26.9 & 15.9  & \bf 20.0 \\
 \end{tabular}
 \caption{Zero-annotation transfer learning F1 scores on 2012 Spanish TAC KBP slot-filling task. Adding a translation dictionary improves all encoder-based models. Ensembling LSTM and USchema models performs the best. \label{es-tac-table}}
 \end{center}
+\vspace{-.4cm}
 \end{table}
 
 %Table \ref{es-tac-table} presents 2012 Spanish TAC slot-filling results for our multilingual relation extractors trained using zero-annotation transfer learning. For both the CNN and LSTM, tying word embeddings between the two languages results in substantial improvements. We see that ensembling the non-dictionary LSTM with USchema gives a slight boost over USchema alone, but ensembling the dictionary-tied LSTM with USchema provides a significant increase of nearly 4 F1 points over the highest-scoring single model, USchema. Clearly, grounding the Spanish data using a translation dictionary provides much better Spanish word representations. These improvements are complementary to the baseline USchema model, and yield impressive results when ensembled.
@@ -168,6 +172,7 @@ nombre (name)  & conocido (known)\\
 \caption{Example English query words (not in translation dictionary) in bold with their top nearest neighbors by cosine similarity listed for the dictionary and no ties LSTM variants. Dictionary-tied nearest neighbors are consistently more relevant to the query word than untied. \label{joint-word}}
 %\end{minipage}
 \end{center}
+\vspace{-.4cm}
 \end{table}
 
 %%%%
@@ -179,6 +184,7 @@ nombre (name)  & conocido (known)\\
 \includegraphics[scale=0.45]{pr-curve}
 \caption{Precision-Recall curves for USchema and LSTM on 2013 TAC slot-filling. USchema achieves higher precision values whereas LSTM has higher recall. \label{fig:pr-curve}}
 \end{center}
+\vspace{-.4cm}
 \end{figure}
 
 \begin{figure}[t!]
@@ -186,9 +192,10 @@ nombre (name)  & conocido (known)\\
 \includegraphics[scale=0.45]{f1-vary-pat-length}
 \caption{F1 achieved by USchema vs. LSTM models for varying pattern lengths on 2013 TAC slot-filling. LSTM performs better on longer patterns ($\geq$ 5 tokens) whereas USchema performs better on shorter patterns ($\leq 5$). \label{fig:f1-vary-pats}}
 \end{center}
+\vspace{-.4cm}
 \end{figure}
 
-We further analyze differences between USchema and LSTM in order to better understand why ensembling the models results in the best performing system. Figure \ref{fig:pr-curve} depicts predicion-recall curves for the two models on the 2013 slot-filling task. As observed in earlier results, we see that the LSTM achieves higher recall at the loss of some precision, whereas USchema can make more precise predictions at a lower threshold for recall. In Figure \ref{fig:f1-vary-pats} we observe evidence for these different precision-recall tradeoffs: USchema scores higher in terms of F1 on shorter patterns whereas the LSTM scores higher on longer patterns. As one would expect, USchema successfully matches more shorter patterns on average than the LSTM, making more precise predictions at the cost of being unable to predict on patterns unseen during training. The LSTM can predict using any text between entities observed at test time, gaining recall at the loss of precision. Combining the two models makes the most of their strengths and weaknesses, leading to the highest overall F1.
+We further analyze differences between USchema and LSTM in order to better understand why ensembling the models results in the best performing system. Figure \ref{fig:pr-curve} depicts predicion-recall curves for the two models on the 2013 slot-filling task. As observed in earlier results, the LSTM achieves higher recall at the loss of some precision, whereas USchema can make more precise predictions at a lower threshold for recall. In Figure \ref{fig:f1-vary-pats} we observe evidence for these different precision-recall tradeoffs: USchema scores higher in terms of F1 on shorter patterns whereas the LSTM scores higher on longer patterns. As one would expect, USchema successfully matches more short patterns than the LSTM, making more precise predictions at the cost of being unable to predict on patterns unseen during training. The LSTM can predict using any text between entities observed at test time, gaining recall at the loss of precision. Combining the two models makes the most of their strengths and weaknesses, leading to the highest overall F1.
 
 
 % error analysis
@@ -214,6 +221,7 @@ be the next Billy Mays,'' said the guy who actually is the next {\bf Billy Mays}
 \end{tabular}
 \caption{Examples of the \emph{per:children} relation discovered by the LSTM and Universal Schema. Entities are bold and patterns italicized. The LSTM models a richer set of patterns \label{tab:lstm-us-similar-rels}}
 \end{center}
+\vspace{-.4cm}
 \end{table}
 
 
