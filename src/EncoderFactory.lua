@@ -4,81 +4,76 @@ local EncoderFactory = torch.class('EncoderFactory')
 function EncoderFactory:lstm_encoder(params)
     local train_data = torch.load(params.train)
 
-    local encoder
+    local inputSize = params.wordDim > 0 and params.wordDim or (params.relDim > 0 and params.relDim or params.embeddingDim)
+    local outputSize = params.relDim > 0 and params.relDim or params.embeddingDim
+
+    local rel_size = train_data.num_tokens
     local rel_table
-    if params.loadEncoder ~= '' then
-        local loaded_model = torch.load(params.loadEncoder)
-        encoder = loaded_model.encoder
-        rel_table = loaded_model.rel_table:clone()
+    -- never update word embeddings, these should be preloaded
+    if params.noWordUpdate then
+        require 'nn-modules/NoUpdateLookupTable'
+        rel_table = nn.NoUpdateLookupTable(rel_size, inputSize):add(nn.TemporalConvolution(inputSize, inputSize, 1))
     else
-        local inputSize = params.wordDim > 0 and params.wordDim or (params.relDim > 0 and params.relDim or params.embeddingDim)
-        local outputSize = params.relDim > 0 and params.relDim or params.embeddingDim
-
-        local rel_size = train_data.num_tokens
-        -- never update word embeddings, these should be preloaded
-        if params.noWordUpdate then
-            require 'nn-modules/NoUpdateLookupTable'
-            rel_table = nn.NoUpdateLookupTable(rel_size, inputSize):add(nn.TemporalConvolution(inputSize, inputSize, 1))
-        else
-            rel_table = nn.LookupTable(rel_size, inputSize)
-        end
-
-        -- initialize in range [-.1, .1]
-        rel_table.weight = torch.rand(rel_size, inputSize):add(-.5):mul(0.1)
-        if params.loadRelEmbeddings ~= '' then
-            rel_table.weight = (torch.load(params.loadRelEmbeddings))
-        end
-
-        encoder = nn.Sequential()
-        -- word dropout
-        if params.wordDropout > 0 then
-            require 'nn-modules/WordDropout'
-            encoder:add(nn.WordDropout(params.wordDropout, 1))
-        end
-
-        encoder:add(rel_table)
-        if params.dropout > 0.0 then encoder:add(nn.Dropout(params.dropout)) end
-        encoder:add(nn.SplitTable(2)) -- tensor to table of tensors
-
-        -- recurrent layer
-        local lstm = nn.Sequential()
-        for i = 1, params.layers do
-            local layer_output_size = (i < params.layers or not string.find(params.bi, 'concat')) and outputSize or outputSize / 2
-            local layer_input_size = i == 1 and inputSize or outputSize
-            local recurrent_cell =
-                -- regular rnn
-            params.rnnCell and nn.Recurrent(layer_output_size, nn.Linear(layer_input_size, layer_output_size),
-                nn.Linear(layer_output_size, layer_output_size), nn.Sigmoid(), 9999)
-                    -- lstm
-                    or nn.FastLSTM(layer_input_size, layer_output_size)
-            if params.bi == "add" then
-                lstm:add(nn.BiSequencer(recurrent_cell, recurrent_cell:clone(), nn.CAddTable()))
-            elseif params.bi == "linear" then
-                lstm:add(nn.Sequential():add(nn.BiSequencer(recurrent_cell, recurrent_cell:clone())):add
-                (nn.Sequencer(nn.Linear(layer_output_size*2, layer_output_size))))
-                --        elseif params.bi == "concat" then
-                --            lstm:add(nn.BiSequencer(recurrent_cell, recurrent_cell:clone()))
-                --        elseif params.bi == "no-reverse-concat" then
-                --            require 'nn-modules/NoUnReverseBiSequencer'
-                --            lstm:add(nn.NoUnReverseBiSequencer(recurrent_cell, recurrent_cell:clone()))
-            else
-                lstm:add(nn.Sequencer(recurrent_cell))
-            end
-            if params.layerDropout > 0.0 then lstm:add(nn.Sequencer(nn.Dropout(params.layerDropout))) end
-        end
-        encoder:add(lstm)
-
-        if params.poolLayer ~= '' then
-            assert(params.poolLayer == 'Mean' or params.poolLayer == 'Max',
-                'valid options for poolLayer are Mean and Max')
-            require 'nn-modules/ViewTable'
-            encoder:add(nn.ViewTable(-1, 1, outputSize))
-            encoder:add(nn.JoinTable(2))
-            encoder:add(nn[params.poolLayer](2))
-        else
-            encoder:add(nn.SelectTable(-1))
-        end
+        rel_table = nn.LookupTable(rel_size, inputSize)
     end
+
+    -- initialize in range [-.1, .1]
+    rel_table.weight = torch.rand(rel_size, inputSize):add(-.5):mul(0.1)
+    if params.loadRelEmbeddings ~= '' then
+        rel_table.weight = (torch.load(params.loadRelEmbeddings))
+    end
+
+    local encoder = nn.Sequential()
+    -- word dropout
+    if params.wordDropout > 0 then
+        require 'nn-modules/WordDropout'
+        encoder:add(nn.WordDropout(params.wordDropout, 1))
+    end
+
+    encoder:add(rel_table)
+    if params.dropout > 0.0 then encoder:add(nn.Dropout(params.dropout)) end
+    encoder:add(nn.SplitTable(2)) -- tensor to table of tensors
+
+    -- recurrent layer
+    local lstm = nn.Sequential()
+    for i = 1, params.layers do
+        local layer_output_size = (i < params.layers or not string.find(params.bi, 'concat')) and outputSize or outputSize / 2
+        local layer_input_size = i == 1 and inputSize or outputSize
+        local recurrent_cell =
+            -- regular rnn
+        params.rnnCell and nn.Recurrent(layer_output_size, nn.Linear(layer_input_size, layer_output_size),
+            nn.Linear(layer_output_size, layer_output_size), nn.Sigmoid(), 9999)
+                -- lstm
+                or nn.FastLSTM(layer_input_size, layer_output_size)
+        if params.bi == "add" then
+            lstm:add(nn.BiSequencer(recurrent_cell, recurrent_cell:clone(), nn.CAddTable()))
+        elseif params.bi == "linear" then
+            lstm:add(nn.Sequential():add(nn.BiSequencer(recurrent_cell, recurrent_cell:clone())):add
+            (nn.Sequencer(nn.Linear(layer_output_size*2, layer_output_size))))
+            --        elseif params.bi == "concat" then
+            --            lstm:add(nn.BiSequencer(recurrent_cell, recurrent_cell:clone()))
+            --        elseif params.bi == "no-reverse-concat" then
+            --            require 'nn-modules/NoUnReverseBiSequencer'
+            --            lstm:add(nn.NoUnReverseBiSequencer(recurrent_cell, recurrent_cell:clone()))
+        else
+            lstm:add(nn.Sequencer(recurrent_cell))
+        end
+        if params.layerDropout > 0.0 then lstm:add(nn.Sequencer(nn.Dropout(params.layerDropout))) end
+    end
+    encoder:add(lstm)
+
+    -- pool hidden units of sequence to get single vector or take last
+    if params.poolLayer ~= '' then
+        assert(params.poolLayer == 'Mean' or params.poolLayer == 'Max',
+            'valid options for poolLayer are Mean and Max')
+        require 'nn-modules/ViewTable'
+        encoder:add(nn.ViewTable(-1, 1, outputSize))
+        encoder:add(nn.JoinTable(2))
+        encoder:add(nn[params.poolLayer](2))
+    else
+        encoder:add(nn.SelectTable(-1))
+    end
+
     return encoder, rel_table
 end
 
@@ -233,8 +228,13 @@ end
 function EncoderFactory:build_encoder(params)
     local encoder_type = params.encoder
 
+    -- load encoder from saved model
+    if params.loadEncoder ~= '' then
+        local loaded_model = torch.load(params.loadEncoder)
+        return loaded_model.encoder, loaded_model.rel_table
+
     -- lstm encoder
-    if encoder_type == 'lstm' then
+    elseif encoder_type == 'lstm' then
         return self:lstm_encoder(params)
 
     -- conv net
