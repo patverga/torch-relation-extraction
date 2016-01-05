@@ -8,8 +8,10 @@ export TRAINED_EP="${TH_RELEX_ROOT}/models/uschema-english-relogged-100d/2015-12
 
 export VOCAB="${TH_RELEX_ROOT}/vocabs/pool-relations/no-log_min5_noramlized.en-tokens.txt"
 export TAC_YEAR="2012"
+export EVAL_ARGS="-unkIdx,2"
 
-export BATCH_SIZE=32
+
+export BATCH_SIZE=16
 export LEARN_RATE=.0001
 export EMBED_DIM=100
 export REL_DIM=100

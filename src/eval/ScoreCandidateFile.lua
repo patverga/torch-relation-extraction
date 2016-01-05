@@ -94,13 +94,13 @@ local function token_tensor(arg1_first, pattern_rel, vocab_map, dictionary, star
         end
         if token then
             if params.doubleVocab then token = token .. '_' .. (arg1_first and '$ARG1' or '$ARG2') end
-            local id = vocab_map[token] or 1
+            local id = vocab_map[token] or params.unkIdx
             table.insert(token_ids, id)
             if id == 1 and token ~= ' ' then out_vocab = out_vocab + 1 else in_vocab = in_vocab + 1 end
         end
     end
 
-    if not use_full_pattern then table.insert(token_ids, vocab_map[second_arg] or 1) end
+    if not use_full_pattern then table.insert(token_ids, vocab_map[second_arg] or params.unkIdx) end
     local pattern_tensor = torch.Tensor(token_ids)
     return pattern_tensor, #tokens
 end
