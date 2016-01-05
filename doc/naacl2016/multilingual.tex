@@ -9,7 +9,7 @@ Extending the training technique of Section~\ref{sec:uschema} to corpora in mult
 
 In Section~\ref{sec:results}, we demonstrate that jointly learning models for English and Spanish, with no annotation for the Spanish data, provides fairly accurate Spanish AKBC, and even improves the performance of the English model. Note that we are not performing \textit{zero-shot} learning of a Spanish relation extraction model~\citep{zeroshot}. The relations in the target schema are language-independent concepts, and we have supervision for these in English. 
 
-Little work exists on multilingual relation extraction. \citet{faruqui2015multilingual} perform multilingual OpenIE relation extraction by projecting all languages to English using Google translate. However, as explained in Section~\ref{sec:openIE} the OpenIE paradigm is not amenable to prediction within a fixed schema. Further, their approach does not generalize to low-resource languages where translation may be unavailable -- while we use translation dictionaries to improve our results, our method is effective even without this resource. \todo{Is this a good place to cite this?}.
+Little work exists on multilingual relation extraction. \citet{faruqui2015multilingual} perform multilingual OpenIE relation extraction by projecting all languages to English using Google translate. However, as explained in Section~\ref{sec:openIE} the OpenIE paradigm is not amenable to prediction within a fixed schema. Further, their approach does not generalize to low-resource languages where translation may be unavailable -- while we use translation dictionaries to improve our results, our method is effective even without this resource.
 
 
 
