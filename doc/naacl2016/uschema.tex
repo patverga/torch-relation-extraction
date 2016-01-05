@@ -5,7 +5,9 @@ Similar to many link prediction approaches,~\citep{limin} perform transductive l
 
 In response, this paper re-purposes USchema as a means to train a sentence-level relation classifier, like those in Section~\ref{seq:dist}, which allows us to avoid errors from aligning distant supervision to the corpus. It provides improved accuracy, is more deployable for real-world applications, and provide opportunities in Section~\ref{sec:multilingual} to improve multilingual AKBC.
 
-We produce predictions using a very simple approach: (1) scan the corpus and extract a large quantity of triplets $(s,r_{\text{text}},o)$, where $r_{\text{text}}$ is an OpenIE pattern. For each triplet, if the similarity between the embedding of $r_{\text{text}}$ and the embedding of a target relation $r_{\text{schema}}$ is above some threshold, we predict the triplet $(s,r_{\text{schema}},o)$, and its provenance is the input sentence containing $(s,r_{\text{text}},o)$. We refer to this technique as~\textit{pattern scoring}. In our experiments, we use the cosine distance between the vectors. In Section~\ref{app:cosine}, we discuss details for how to make this distance well-defined. 
+We produce predictions using a very simple approach: (1) scan the corpus and extract a large quantity of triplets $(s,r_{\text{text}},o)$, where $r_{\text{text}}$ is an OpenIE pattern. For each triplet, if the similarity between the embedding of $r_{\text{text}}$ and the embedding of a target relation $r_{\text{schema}}$ is above some threshold, we predict the triplet $(s,r_{\text{schema}},o)$, and its provenance is the input sentence containing $(s,r_{\text{text}},o)$. We refer to this technique as~\textit{pattern scoring}. In our experiments, we use the cosine distance between the vectors.
+
+%% APPENDIX %% In Section~\ref{app:cosine}, we discuss details for how to make this distance well-defined. 
 
 
 \subsection{Using a Compositional Sentence Encoder to Predict Unseen Text Patterns \label{sec:encoder}}
