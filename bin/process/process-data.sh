@@ -16,10 +16,7 @@ CUR_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 PY_FILE="$CUR_DIR/StringFile2IntFile.py"
 TORCH_FILE="$CUR_DIR/IntFile2Torch.lua"
 
-PY_CMD="$PY_FILE"
-TORCH_CMD="${TORCH_FILE}"
-
-while getopts i:o:v:m:l:s:cdrn opt; do
+while getopts i:o:v:m:l:s:p:cdrn opt; do
   case $opt in
   i)
       IN_FILE=$OPTARG
@@ -65,6 +62,9 @@ while getopts i:o:v:m:l:s:cdrn opt; do
   n)
       PY_CMD="$PY_CMD -n"
       ;;
+  p)
+      TORCH_FILE="IntFile2PoolRelationsTorch.lua"
+      ;;
   esac
 done
 
@@ -72,7 +72,7 @@ shift $((OPTIND - 1))
 
 if [[ -z "$IN_FILE" || -z "$OUT_FILE" ]]
 then
-  echo "Not enough input args : ./process-data.sh -i IN_FILE -o OUT_FILE [-m MIN_COUNT] \
+  echo "Not enough input args : ./process-data.sh -i IN_FILE -o OUT_FILE [-m MIN_COUNT] [-p POOL_RELATIONS] \
   [-s MAX_SEQ_LEN] [-c CHAR TOKENIZE] [-l LOAD VOCAB] [-v SAVE VOCAB] [-d DOUBLE VOCAB] [-n NUMBERS -> #]"
   exit 1
 fi
@@ -82,9 +82,9 @@ SAVE_VOCAB_FILE=${IN_FILE}-vocab
 
 
 echo "Converting string file to int file in python"
-echo ${PY_CMD}
-python ${PY_CMD}
+echo "${PY_FILE} ${PY_CMD}"
+python ${PY_FILE} ${PY_CMD}
 
 echo "Converting int file to torch tensors"
-echo ${TORCH_CMD}
-th ${TORCH_CMD}
+echo "${TORCH_FILE} ${TORCH_CMD}"
+th ${TORCH_FILE} ${TORCH_CMD}

@@ -14,7 +14,6 @@ cmd:option('-outFile', '', 'out file')
 cmd:option('-delim', ' ', 'delimiter to split lines on')
 cmd:option('-maxSeq', 50, 'throw away sequences longer than this')
 cmd:option('-maxCount', 10000, 'throw away eps with more than this many relations')
-cmd:option('-padToken', 1, 'Pad all sequences with this token up to maxSeq')
 
 
 local params = cmd:parse(arg)
@@ -32,8 +31,7 @@ for line in io.lines(params.inFile) do
     local e1, e2, ep, rel, token_str, label = string.match(line, "([^\t]+)\t([^\t]+)\t([^\t]+)\t([^\t]+)\t([^\t]+)\t([^\t]+)")
     local tokens = {}
     for token in string.gmatch(token_str, "[^" .. params.delim .. "]+") do
-        -- TODO this is adding 1 to deal with pad token
-        token = tonumber(token) + 1
+        token = tonumber(token)
         table.insert(tokens, token)
         local ep_num = tonumber(ep)
         max_token = math.max(token, max_token)
@@ -41,7 +39,8 @@ for line in io.lines(params.inFile) do
     end
     if #tokens <= params.maxSeq then
         ep_rels[ep] = ep_rels[ep] or {}
-        for i = #tokens, params.maxSeq-1 do table.insert(tokens, params.padToken) end
+        -- zero pad for now
+        for i = #tokens, params.maxSeq-1 do table.insert(tokens, 0) end
         table.insert(ep_rels[ep], torch.Tensor(tokens):view(1, #tokens))
     end
     if (num_rows % 10000 == 0) then io.write('\rProcessing line number : '..num_rows); io.flush() end
@@ -70,7 +69,9 @@ for i = 1, math.min(params.maxCount, max_count) do
     if rel_counts[i] then
         local epTensor = torch.Tensor(ep_counts[i])
         local seqTensor = join(rel_counts[i]):clone()
-        data[i] = { ep = epTensor, seq = seqTensor, count = 0, num_eps = max_ep, num_tokens = max_token }
+        -- set pad token to last index
+        seqTensor = seqTensor:add(seqTensor:eq(0):double():mul(max_token+1))
+        data[i] = { ep = epTensor, seq = seqTensor, count = 0, num_eps = max_ep, num_tokens = max_token+1 }
     end
 end
 
