@@ -16,7 +16,7 @@ CUR_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 PY_FILE="$CUR_DIR/StringFile2IntFile.py"
 TORCH_FILE="$CUR_DIR/IntFile2Torch.lua"
 
-while getopts i:o:v:m:l:s:p:cdrn opt; do
+while getopts i:o:v:m:l:s:pcdrn opt; do
   case $opt in
   i)
       IN_FILE=$OPTARG
