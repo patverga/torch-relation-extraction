@@ -69,6 +69,7 @@ function EncoderFactory:lstm_encoder(params)
         require 'nn-modules/ViewTable'
         encoder:add(nn.ViewTable(-1, 1, outputSize))
         encoder:add(nn.JoinTable(2))
+        if params.nonLinearLayer ~= '' then encoder:add(nn[params.nonLinearLayer]()) end
         encoder:add(nn[params.poolLayer](2))
     else
         encoder:add(nn.SelectTable(-1))
@@ -222,6 +223,14 @@ end
 --        encoder:add(nn.VariableLengthJoinTable(2))
 --        encoder:add(attention)
 --        encoder:add(nn.View(-1, mixture_dim))
+--end
+--
+--function EncoderFactory:lstm_lstm_attention_encoder(params)
+--    local attention_lstm, attention_rel_table = self:lstm_encoder(params)
+--    local lstm, rel_table = self:lstm_encoder(params)
+--
+--    local encoder = nn.Sequntial()
+--
 --end
 
 

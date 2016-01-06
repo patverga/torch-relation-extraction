@@ -27,6 +27,9 @@ fi
 if [ "$POOL_LAYER" ]; then
   RUN_CMD="$RUN_CMD -poolLayer $POOL_LAYER"
 fi
+if [ "$NON_LINEAR_LAYER" ]; then
+  RUN_CMD="$RUN_CMD -nonLinearLayer $NON_LINEAR_LAYER"
+fi
 
 if [ "$DROPOUT" ]; then
   RUN_CMD="$RUN_CMD -dropout $DROPOUT"
