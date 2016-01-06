@@ -55,7 +55,7 @@ def process_line(chars, ent_map, ep_map, line, rel_map, token_counter, double_vo
 
 
 def export_line(e1_str, e2_str, ep_str, rel_str, tokens, ent_map, ep_map, rel_map, token_map, label, out):
-    # map tokens
+    # map tokens -- sets unk idx to 1
     token_ids = [str(token_map[token]) if token in token_map else '1' for token in tokens]
     e1 = ent_map[e1_str]
     e2 = ent_map[e2_str]
@@ -144,11 +144,11 @@ def main(argv):
     data = [process_line(chars, ent_map, ep_map, line, rel_map, token_counter, double_vocab, replace_digits)
             for line in open(in_file, 'r')]
 
-    # prune infrequent tokens
+    # prune infrequent tokens - sets unkidx to 1
     if reset_tokens or not load_vocab_file:
         filtered_tokens = {token: count for token, count in token_counter.iteritems() if count > min_count}
         sorted_tokens = [token for token in sorted(filtered_tokens, key=filtered_tokens.get, reverse=True)]
-        token_map = {token: i + 1 for i, token in enumerate(sorted_tokens)}
+        token_map = {token: i + 2 for i, token in enumerate(sorted_tokens)}
 
     print 'Exporting processed lines to file'
     # export processed data
