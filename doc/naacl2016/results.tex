@@ -178,7 +178,7 @@ nombre (name)  & conocido (known)\\
 \caption{Example English query words (not in translation dictionary) in bold with their top nearest neighbors by cosine similarity listed for the dictionary and no ties LSTM variants. Dictionary-tied nearest neighbors are consistently more relevant to the query word than untied. \label{joint-word}}
 %\end{minipage}
 \end{center}
-\vspace{-.4cm}
+% \vspace{-.4cm}
 \end{table}
 
 %%%%
@@ -190,7 +190,7 @@ nombre (name)  & conocido (known)\\
 \includegraphics[scale=0.45]{pr-curve}
 \caption{Precision-Recall curves for USchema and LSTM on 2013 TAC slot-filling. USchema achieves higher precision values whereas LSTM has higher recall. \label{fig:pr-curve}}
 \end{center}
-\vspace{-.4cm}
+% \vspace{-.4cm}
 \end{figure}
 
 \begin{figure}[t!]
@@ -198,7 +198,7 @@ nombre (name)  & conocido (known)\\
 \includegraphics[scale=0.45]{f1-vary-pat-length}
 \caption{F1 achieved by USchema vs. LSTM models for varying pattern token lengths on 2013 TAC slot-filling. LSTM performs better on longer patterns whereas USchema performs better on shorter patterns. \label{fig:f1-vary-pats}}
 \end{center}
-\vspace{-.5cm}
+\vspace{-.4cm}
 \end{figure}
 
 We further analyze differences between USchema and LSTM in order to better understand why ensembling the models results in the best performing system. Figure \ref{fig:pr-curve} depicts precision-recall curves for the two models on the 2013 slot-filling task. As observed in earlier results, the LSTM achieves higher recall at the loss of some precision, whereas USchema can make more precise predictions at a lower threshold for recall. In Figure \ref{fig:f1-vary-pats} we observe evidence for these different precision-recall trade-offs: USchema scores higher in terms of F1 on shorter patterns whereas the LSTM scores higher on longer patterns. As one would expect, USchema successfully matches more short patterns than the LSTM, making more precise predictions at the cost of being unable to predict on patterns unseen during training. The LSTM can predict using any text between entities observed at test time, gaining recall at the loss of precision. Combining the two models makes the most of their strengths and weaknesses, leading to the highest overall F1.
