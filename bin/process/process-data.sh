@@ -63,7 +63,7 @@ while getopts i:o:v:m:l:s:pcdrn opt; do
       PY_CMD="$PY_CMD -n"
       ;;
   p)
-      TORCH_FILE="IntFile2PoolRelationsTorch.lua"
+      TORCH_FILE="$CUR_DIR/IntFile2PoolRelationsTorch.lua"
       ;;
   esac
 done
