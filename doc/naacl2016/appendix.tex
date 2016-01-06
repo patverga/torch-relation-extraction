@@ -130,7 +130,7 @@ We measure the similarity between $r_{\text{text}}$ and $r_{\text{schema}}$ by c
 \subsection{Data Pre-processing, Distant Supervision and Extraction Pipeline \label{sec:ds-el}}
 
 We replace tokens occurring less than 5 times in the corpus with UNK and normalize all digits to \# (e.g. Oct-11-1988 becomes Oct-\#\#-\#\#\#\#).
-For each sentence, we then extract all entity pairs and the text between them as surface patterns, ignoring patterns longer than 15 tokens.
+For each sentence, we then extract all entity pairs and the text between them as surface patterns, ignoring patterns longer than 20 tokens.
 This results in 48 million English `relations'. In Section~\ref{sec:norm}, we describe a technique for normalizing the surface patterns.
 We filter out entity pairs that occurred less than 10 times in the data and extract the largest connected component in this entity co-occurrence graph.
 This is necessary for the baseline US model, as otherwise learning decouples into independent problems per connected component.
