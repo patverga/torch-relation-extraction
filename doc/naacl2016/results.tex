@@ -51,7 +51,7 @@ USchema+LSTM        & 34.1 & 29.3 & 31.5 \\
 USchema+LSTM+Es        & 34.4 & 31.0 & \bf 32.6 \\
 %USchema+LSTM+AN        & 34.7 & 29.3 & 31.7 \\
 %USchema+LSTM+AN+Es        & 33.5 & 32.2 & \bf 32.8 \\
-\citet{bentortac14} & 25.7 & 42.8 & 32.1 \\
+% \citet{bentortac14} & 25.7 & 42.8 & 32.1 \\
 % \hline\hline
 % ICTAS\_OKN & 24.3 & 59.0 & 34.4 \\
 % RPI Blender & 29.4 & 47.8 & 36.4 \\
@@ -66,12 +66,12 @@ USchema+LSTM+Es        & 34.4 & 31.0 & \bf 32.6 \\
 
 Tables \ref{en-tac-table} and \ref{2014-en-tac-table} present the performance of our models on the 2013 and 2014 English TAC slot-filling tasks. Ensembling the LSTM and USchema models improves F1 by 2.2 points for 2013 and 1.7 points for 2014 over the strongest single model on both evaluations, LSTM. Adding the alternative names (AN) heuristic described in Section \ref{sec:models} increases F1 by an additional 2 points on 2013, resulting in an F1 score that is competitive with the state-of-the-art. We also demonstrate the effect of jointly learning English and Spanish models on English slot-filling performance. Adding Spanish data improves our F1 scores by 1.5 points on 2013 and 1.1 on 2014 over using English alone. This places are system higher than the top performer at the 2013 TAC slot-filling task even though our system uses no hand-written rules.
 
-The state of the art systems on this task all rely on matching handwritten patterns to find additional answers and the top 2014 system uses additional active learning annotation to get higher quality training data. Our models use only automatically generated, indirect supervision; even our AN heuristics (Section \ref{sec:pipeline}) are automatically generated. The top two systems were \citet{angeli2014stanford} with an F1 score of 39.5 and RPI Blender \citep{SurdeanuMihai2014} with an F1 score of 36.4. Both of these systems used hand written rules and additional active learning annotation. \citet{bentortac14} used the same retrieval pipeline \citep{roth2014relationfactory} as our model and no active learning making it a more appropriate baseline. 
+The state of the art systems on this task all rely on matching handwritten patterns to find additional answers and the top 2014 system uses additional active learning annotation to get higher quality training data. Our models use only automatically generated, indirect supervision; even our AN heuristics (Section \ref{sec:pipeline}) are automatically generated. The top two 2014 systems were \citet{angeli2014stanford} and RPI Blender \citep{SurdeanuMihai2014} achieved a F1 scores of 39.5 and 36.4 respectively. Both of these systems used additional active learning annotation. The third place team was \citet{Lin2014} with an F1 score of 34.4. 
 % ICTAS\_OKN & 24.3 & 59.0 & 34.4 \\
 % RPI Blender & 29.4 & 47.8 & 36.4 \\
 % \citet{angeli2014stanford} & 29.8 & 58.5 & \bf 39.5 \\
 
-Our model performs substantially better on 2013 than 2014 for two reasons. First, our RelationFactory~\citep{roth2014relationfactory} retrieval pipeline was designed for the 2013 task, but the 2014 task introduced new challenges such as confusable entities. Second, improved training using active learning gave the top 2014 systems a very large boost in performance. No 2013 systems, including ours, use active learning.
+Our model performs substantially better on 2013 than 2014 for two reasons. First, our RelationFactory~\citep{roth2014relationfactory} retrieval pipeline was a top retrieval pipeline on the 2013 task, but was outperformed on the 2014 task which introduced new challenges such as confusable entities. Second, improved training using active learning gave the top 2014 systems a boost in performance. No 2013 systems, including ours, use active learning. \citet{bentortac14}, the 4th place team in the 2014 evaluation, used the same retrieval pipeline \citep{roth2014relationfactory} as our model and achieved an F1 score of 32.1.
 
 
 %\begin{table}[tb]
@@ -196,9 +196,9 @@ nombre (name)  & conocido (known)\\
 \begin{figure}[t!]
 \begin{center}
 \includegraphics[scale=0.45]{f1-vary-pat-length}
-\caption{F1 achieved by USchema vs. LSTM models for varying pattern lengths on 2013 TAC slot-filling. LSTM performs better on longer patterns ($\geq$ 5 tokens) whereas USchema performs better on shorter patterns ($\leq 5$). \label{fig:f1-vary-pats}}
+\caption{F1 achieved by USchema vs. LSTM models for varying pattern token lengths on 2013 TAC slot-filling. LSTM performs better on longer patterns whereas USchema performs better on shorter patterns. \label{fig:f1-vary-pats}}
 \end{center}
-\vspace{-.4cm}
+\vspace{-.5cm}
 \end{figure}
 
 We further analyze differences between USchema and LSTM in order to better understand why ensembling the models results in the best performing system. Figure \ref{fig:pr-curve} depicts precision-recall curves for the two models on the 2013 slot-filling task. As observed in earlier results, the LSTM achieves higher recall at the loss of some precision, whereas USchema can make more precise predictions at a lower threshold for recall. In Figure \ref{fig:f1-vary-pats} we observe evidence for these different precision-recall trade-offs: USchema scores higher in terms of F1 on shorter patterns whereas the LSTM scores higher on longer patterns. As one would expect, USchema successfully matches more short patterns than the LSTM, making more precise predictions at the cost of being unable to predict on patterns unseen during training. The LSTM can predict using any text between entities observed at test time, gaining recall at the loss of precision. Combining the two models makes the most of their strengths and weaknesses, leading to the highest overall F1.
@@ -227,7 +227,7 @@ be the next Billy Mays,'' said the guy who actually is the next {\bf Billy Mays}
 \end{tabular}
 \caption{Examples of the \emph{per:children} relation discovered by the LSTM and Universal Schema. Entities are bold and patterns italicized. The LSTM models a richer set of patterns \label{tab:lstm-us-similar-rels}}
 \end{center}
-\vspace{-.4cm}
+\vspace{-.5cm}
 \end{table}
 
 
