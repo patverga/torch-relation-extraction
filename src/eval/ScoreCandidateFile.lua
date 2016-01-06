@@ -96,7 +96,7 @@ local function token_tensor(arg1_first, pattern_rel, vocab_map, dictionary, star
             if params.doubleVocab then token = token .. '_' .. (arg1_first and '$ARG1' or '$ARG2') end
             local id = vocab_map[token] or params.unkIdx
             table.insert(token_ids, id)
-            if id == 1 and token ~= ' ' then out_vocab = out_vocab + 1 else in_vocab = in_vocab + 1 end
+            if id == params.unkIdx then out_vocab = out_vocab + 1 else in_vocab = in_vocab + 1 end
         end
     end
 
