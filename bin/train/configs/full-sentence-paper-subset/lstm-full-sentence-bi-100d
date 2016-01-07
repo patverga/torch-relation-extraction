@@ -1,0 +1,25 @@
+export MODEL=UniversalSchema
+export NAME=paper-subset-lstm-full-sentence-bi-100d
+
+export SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/$NAME"
+export TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/training-data/subset-paper-filtered/"
+export TRAIN_FILE="full-sentence_min5_noramlized"
+
+export TRAINED_EP="${TH_RELEX_ROOT}/models/uschema-english-relogged-100d/2015-12-18_11/5-ent-weights"
+export VOCAB="${TH_RELEX_ROOT}/vocabs/subset-paper-filtered/full-sentence_min5_noramlized-tokens.txt"
+export TAC_YEAR="2012-full-sentence"
+export EVAL_ARGS="-fullPath"
+
+
+export BATCH_SIZE=128
+export LEARN_RATE=.0001
+export EMBED_DIM=100
+export REL_DIM=100
+export MAX_SEQ=50
+export MAX_EPOCHS=15
+export EVAL_FREQ=3
+export DROPOUT=.1
+export WORD_DIM=100
+export BI_DIRECTIONAL="add"
+export POOL_LAYER=Max
+export ENCODER="lstm"
