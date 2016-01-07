@@ -152,7 +152,7 @@ local function process_line(line, vocab_map, dictionary)
     local query_id, tac_rel, sf_2, doc_info, start_1, end_1, start_2, end_2, pattern_rel
     = string.match(line, "([^\t]+)\t([^\t]+)\t([^\t]+)\t([^\t]+)\t([^\t]+)\t([^\t]+)\t([^\t]+)\t([^\t]+)\t([^\t]+)")
 
-    if params.normalizeDigits then pattern_rel = pattern_rel:gsub("%d", "") end
+    if params.normalizeDigits and not params.fullPath then pattern_rel = pattern_rel:gsub("%d", "") end
 
     local tac_tensor = torch.Tensor({vocab_map[tac_rel] or params.unkIdx})
 
