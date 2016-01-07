@@ -14,6 +14,7 @@ cmd:option('-outFile', '', 'out file')
 cmd:option('-delim', ' ', 'delimiter to split lines on')
 cmd:option('-maxSeq', 50, 'throw away sequences longer than this')
 cmd:option('-maxCount', 10000, 'throw away eps with more than this many relations')
+cmd:option('-minCount', 1, 'throw away tokens seen less than this many times')
 
 
 local params = cmd:parse(arg)
