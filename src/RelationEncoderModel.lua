@@ -27,7 +27,7 @@ function RelationEncoderModel:train(num_epochs)
     local parameters, gradParameters = self.net:getParameters()
 
     -- make sure model save dir exists
-    if self.params.saveModel ~= '' then os.execute("mkdir " .. self.params.saveModel) end
+    if self.params.saveModel ~= '' then os.execute("mkdir -p " .. self.params.saveModel) end
     for epoch = 1, num_epochs
     do
         local startTime = sys.clock()
@@ -125,7 +125,7 @@ end
 
 function RelationEncoderModel:tac_eval(model_file, out_dir, eval_args)
     if self.params.vocab ~= '' and self.params.tacYear ~= '' then
-        os.execute("mkdir " .. model_file)
+        os.execute("mkdir -p " .. model_file)
         local cmd = '${TH_RELEX_ROOT}/bin/tac-evaluation/tune-thresh.sh ' .. self.params.tacYear .. ' ' ..
                 model_file..'-model' .. ' ' .. self.params.vocab .. ' ' .. self.params.gpuid ..' ' ..
                 self.params.maxSeq .. ' ' .. out_dir .. ' "' .. eval_args:gsub(',',' ') ..
