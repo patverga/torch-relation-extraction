@@ -1,0 +1,16 @@
+export MODEL=UniversalSchema
+export NAME="cnn-example"
+
+export SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/$NAME"
+export TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/data/"
+export TRAIN_FILE="train-mtx.torch"
+export TRAINED_EP="${TH_RELEX_ROOT}/data/pretrained-ent-weights"
+export TEST_FILE=`ls $TH_RELEX_ROOT/data/test-mtx-torch/* | tr '\n' ','`
+
+export BATCH_SIZE=128
+export LEARN_RATE=.0001
+export EMBED_DIM=50
+export MAX_SEQ=20
+export MAX_EPOCHS=50
+export EVAL_FREQ=3
+export ENCODER="cnn"

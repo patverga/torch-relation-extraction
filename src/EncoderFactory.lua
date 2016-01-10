@@ -4,24 +4,11 @@ local EncoderFactory = torch.class('EncoderFactory')
 function EncoderFactory:lstm_encoder(params)
     local train_data = torch.load(params.train)
 
-    local inputSize = params.wordDim > 0 and params.wordDim or (params.relDim > 0 and params.relDim or params.embeddingDim)
-    local outputSize = params.relDim > 0 and params.relDim or params.embeddingDim
+    local input_dim = params.wordDim > 0 and params.wordDim or (params.relDim > 0 and params.relDim or params.embeddingDim)
+    local output_dim = params.relDim > 0 and params.relDim or params.embeddingDim
 
-    local rel_size = train_data.num_tokens
-    local rel_table
-    -- never update word embeddings, these should be preloaded
-    if params.noWordUpdate then
-        require 'nn-modules/NoUpdateLookupTable'
-        rel_table = nn.NoUpdateLookupTable(rel_size, inputSize):add(nn.TemporalConvolution(inputSize, inputSize, 1))
-    else
-        rel_table = nn.LookupTable(rel_size, inputSize)
-    end
-
-    -- initialize in range [-.1, .1]
-    rel_table.weight = torch.rand(rel_size, inputSize):add(-.5):mul(0.1)
-    if params.loadRelEmbeddings ~= '' then
-        rel_table.weight = (torch.load(params.loadRelEmbeddings))
-    end
+    local vocab_size = train_data.num_tokens
+    local lookup_table = self:build_lookup_table(params, vocab_size, input_dim)
 
     local encoder = nn.Sequential()
     -- word dropout
@@ -30,15 +17,15 @@ function EncoderFactory:lstm_encoder(params)
         encoder:add(nn.WordDropout(params.wordDropout, 1))
     end
 
-    encoder:add(rel_table)
+    encoder:add(lookup_table)
     if params.dropout > 0.0 then encoder:add(nn.Dropout(params.dropout)) end
     encoder:add(nn.SplitTable(2)) -- tensor to table of tensors
 
     -- recurrent layer
     local lstm = nn.Sequential()
     for i = 1, params.layers do
-        local layer_output_size = (i < params.layers or not string.find(params.bi, 'concat')) and outputSize or outputSize / 2
-        local layer_input_size = i == 1 and inputSize or outputSize
+        local layer_output_size = (i < params.layers or not string.find(params.bi, 'concat')) and output_dim or output_dim / 2
+        local layer_input_size = i == 1 and input_dim or output_dim
         local recurrent_cell =
             -- regular rnn
         params.rnnCell and nn.Recurrent(layer_output_size, nn.Linear(layer_input_size, layer_output_size),
@@ -67,7 +54,7 @@ function EncoderFactory:lstm_encoder(params)
         assert(params.poolLayer == 'Mean' or params.poolLayer == 'Max',
             'valid options for poolLayer are Mean and Max')
         require 'nn-modules/ViewTable'
-        encoder:add(nn.ViewTable(-1, 1, outputSize))
+        encoder:add(nn.ViewTable(-1, 1, output_dim))
         encoder:add(nn.JoinTable(2))
         if params.nonLinearLayer ~= '' then encoder:add(nn[params.nonLinearLayer]()) end
         encoder:add(nn[params.poolLayer](2))
@@ -75,100 +62,83 @@ function EncoderFactory:lstm_encoder(params)
         encoder:add(nn.SelectTable(-1))
     end
 
-    return encoder, rel_table
+    return encoder, lookup_table
 end
 
 function EncoderFactory:lstm_relation_pool_encoder(params)
-    local lstm, rel_table = self:lstm_encoder(params)
+    local lstm, lookup_table = self:lstm_encoder(params)
     require 'nn-modules/EncoderPool'
     local encoder = nn.EncoderPool(lstm, nn.Max(2))
-    return encoder, rel_table
+    return encoder, lookup_table
 end
 
 function EncoderFactory:cnn_encoder(params)
     local train_data = torch.load(params.train)
 
-    local inputSize = params.wordDim > 0 and params.wordDim or (params.relDim > 0 and params.relDim or params.embeddingDim)
-    local outputSize = params.relDim > 0 and params.relDim or params.embeddingDim
+    local input_dim = params.wordDim > 0 and params.wordDim or (params.relDim > 0 and params.relDim or params.embeddingDim)
+    local output_dim = params.relDim > 0 and params.relDim or params.embeddingDim
 
-    local rel_size = train_data.num_tokens
-    local rel_table
-    -- never update word embeddings, these should be preloaded
-    if params.noWordUpdate then
-        require 'nn-modules/NoUpdateLookupTable'
-        rel_table = nn.NoUpdateLookupTable(rel_size, inputSize)
-    else
-        rel_table = nn.LookupTable(rel_size, inputSize)
-    end
-
-    -- initialize in range [-.1, .1]
-    rel_table.weight = torch.rand(rel_size, inputSize):add(-.5):mul(0.1)
-    if params.loadRelEmbeddings ~= '' then
-        rel_table.weight = (torch.load(params.loadRelEmbeddings))
-    end
+    local vocab_size = train_data.num_tokens
+    local lookup_table = self:build_lookup_table(params, vocab_size, input_dim)
 
     local encoder = nn.Sequential()
     if params.wordDropout > 0 then
         require 'nn-modules/WordDropout'
         encoder:add(nn.WordDropout(params.wordDropout, 1))
     end
-    encoder:add(rel_table)
+    encoder:add(lookup_table)
     if params.dropout > 0.0 then
         encoder:add(nn.Dropout(params.dropout))
     end
     if (params.convWidth > 1) then encoder:add(nn.Padding(1,1,-1)) end
     if (params.convWidth > 2) then encoder:add(nn.Padding(1,-1,-1)) end
-    encoder:add(nn.TemporalConvolution(inputSize, outputSize, params.convWidth))
+    encoder:add(nn.TemporalConvolution(input_dim, output_dim, params.convWidth))
     encoder:add(nn.Tanh())
     local pool_layer = params.poolLayer ~= '' and params.poolLayer or 'Max'
     encoder:add(nn[pool_layer](2))
 
-    return encoder, rel_table
+    return encoder, lookup_table
 end
 
 function EncoderFactory:we_avg_encoder(params)
     local train_data = torch.load(params.train)
-    local inputSize = params.wordDim > 0 and params.wordDim or (params.relDim > 0 and params.relDim or params.embeddingDim)
 
-    local rel_size = train_data.num_tokens
-    local rel_table
-    -- never update word embeddings, these should be preloaded
-    if params.noWordUpdate then
-        require 'nn-modules/NoUpdateLookupTable'
-        rel_table = nn.NoUpdateLookupTable(rel_size, inputSize)
-    else
-        rel_table = nn.LookupTable(rel_size, inputSize)
-    end
-
-    -- initialize in range [-.1, .1]
-    rel_table.weight = torch.rand(rel_size, inputSize):add(-.5):mul(0.1)
-    if params.loadRelEmbeddings ~= '' then
-        rel_table.weight = (torch.load(params.loadRelEmbeddings))
-    end
-
+    local vocab_size = train_data.num_tokens
+    local dim = params.wordDim > 0 and params.wordDim or (params.relDim > 0 and params.relDim or params.embeddingDim)
+    local lookup_table = self:build_lookup_table(params, vocab_size, dim)
 
     local encoder = nn.Sequential()
-    encoder:add(rel_table)
+    encoder:add(lookup_table)
     local pool_layer = params.poolLayer ~= '' and params.poolLayer or 'Mean'
     encoder:add(nn[pool_layer](2))
 
-    return encoder, rel_table
+    return encoder, lookup_table
 end
+
+function EncoderFactory:build_lookup_table(params, vocab_size, dim)
+    local lookup_table
+    -- never update word embeddings, these should be preloaded
+    if params.noWordUpdate then
+        require 'nn-modules/NoUpdateLookupTable'
+        lookup_table = nn.NoUpdateLookupTable(vocab_size, dim)
+    else
+        lookup_table = nn.LookupTable(vocab_size, dim)
+    end
+    -- initialize in range [-.1, .1]
+    lookup_table.weight = torch.rand(vocab_size, dim):add(-.1):mul(0.1)
+
+    if params.loadRelEmbeddings ~= '' then
+        lookup_table.weight = (torch.load(params.loadRelEmbeddings))
+    end
+    return lookup_table
+end
+
 
 function EncoderFactory:lookup_table_encoder(params)
     local train_data = torch.load(params.train)
-
-    local rel_size = train_data.num_rels
-    local rel_dim = params.relDim > 0 and params.relDim or params.embeddingDim
-    local rel_table = nn.LookupTable(rel_size, rel_dim)
-    --rel_table.weight = rel_table.weight:normal(0, 1):mul(1 / params.embeddingDim)
-    -- initialize in range [-.1, .1]
-    rel_table.weight = torch.rand(rel_size, rel_dim):add(-.5):mul(0.1)
-
-    if params.loadRelEmbeddings ~= '' then
-        rel_table.weight = (torch.load(params.loadRelEmbeddings))
-    end
-
+    local vocab_size = train_data.num_rels
+    local dim = params.relDim > 0 and params.relDim or params.embeddingDim
+    local rel_table = self:build_lookup_table(params, vocab_size, dim)
     return rel_table, rel_table
 end
 

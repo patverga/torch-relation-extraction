@@ -5,7 +5,7 @@ export SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/$NAME"
 export TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/training-data/subset-paper-filtered/"
 
 export TRAINED_EP="${TH_RELEX_ROOT}/models/uschema-english-relogged-100d/2015-12-18_11/5-ent-weights"
-export TRAIN_FILE="no-log_min5_noramlized_chars/"
+export TRAIN_FILE="no-log_min5_noramlized_chars"
 export VOCAB="${TH_RELEX_ROOT}/vocabs/vocabs/subset-paper-filtered/no-log_min5_noramlized_chars-tokens.txt"
 export TAC_YEAR="2012"
 export EVAL_ARGS="-chars"
