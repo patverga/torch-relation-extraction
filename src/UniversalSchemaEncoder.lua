@@ -30,6 +30,7 @@ function UniversalSchemaEncoder:__init(params, rel_table, encoder)
         self.ent_table = self.net:get(1):get(1) --self:to_cuda((loaded_model.ent_table or self.net:get(1):get(1)))
         rel_table = self:to_cuda(loaded_model.rel_table)
         self.opt_state = loaded_model.opt_state
+        for key, val in pairs(loaded_model.opt_state) do if (torch.type(val) == 'torch.DoubleTensor') then self.opt_state[key] = self:to_cuda(val) end; end
     else
         self.net, self.ent_table = self:build_network(params, self.train_data.num_eps, encoder)
     end
