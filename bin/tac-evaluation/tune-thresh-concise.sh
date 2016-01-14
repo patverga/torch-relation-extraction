@@ -29,11 +29,11 @@ for t in ${THRESHOLDS}; do
 
     echo "Converting scored candidate to response file"
     RESPONSE=`mktemp`
-    ${TAC_ROOT}/components/bin/response.sh ${RUN_DIR}/query_expanded.xml ${THRESH_CANDIDATES} ${RESPONSE}
+    ${TAC_ROOT}/components/bin/response.sh ${QUERY_EXPANDED} ${THRESH_CANDIDATES} ${RESPONSE}
 
     echo "Post processing response for year $YEAR"
     RESPONSE_PP=${PRED_ROOT}${t}
-    ${TAC_EVAL_ROOT}/post-process-response.sh ${YEAR} ${PP} ${RUN_DIR} ${RESPONSE} ${RESPONSE_PP}
+    ${TAC_EVAL_ROOT}/post-process-response.sh ${YEAR} ${PP} ${QUERY_EXPANDED} ${RESPONSE} ${RESPONSE_PP}
 done
 
 echo "Tuning per Relation and exporting best params to $OUT"
