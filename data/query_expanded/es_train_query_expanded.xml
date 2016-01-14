@@ -1,0 +1,2824 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<kbpslotfill>
+<query id="SF_SPA_002">
+ <name>Marcelo Moreno</name>
+ <docid>AFP_SPA_20080305.0498</docid>
+ <beg>558</beg>
+ <end>571</end>
+ <enttype>PER</enttype>
+ <nodeid>NIL226</nodeid>
+ <ignore></ignore>
+ <alias>Moreno</alias>
+ <rel listtype="true">per:alternate_names</rel>
+ <rel listtype="true">per:charges</rel>
+ <rel listtype="true">per:children</rel>
+ <rel listtype="true">per:cities_of_residence</rel>
+ <rel listtype="true">per:countries_of_residence</rel>
+ <rel listtype="true">per:employee_or_member_of</rel>
+ <rel listtype="true">per:origin</rel>
+ <rel listtype="true">per:other_family</rel>
+ <rel listtype="true">per:parents</rel>
+ <rel listtype="true">per:schools_attended</rel>
+ <rel listtype="true">per:siblings</rel>
+ <rel listtype="true">per:spouse</rel>
+ <rel listtype="true">per:statesorprovinces_of_residence</rel>
+ <rel listtype="true">per:title</rel>
+ <rel listtype="false">per:age</rel>
+ <rel listtype="false">per:cause_of_death</rel>
+ <rel listtype="false">per:city_of_birth</rel>
+ <rel listtype="false">per:city_of_death</rel>
+ <rel listtype="false">per:country_of_birth</rel>
+ <rel listtype="false">per:country_of_death</rel>
+ <rel listtype="false">per:date_of_birth</rel>
+ <rel listtype="false">per:date_of_death</rel>
+ <rel listtype="false">per:religion</rel>
+ <rel listtype="false">per:stateorprovince_of_birth</rel>
+ <rel listtype="false">per:stateorprovince_of_death</rel>
+</query>
+<query id="SF_SPA_003">
+ <name>Xavier Moreno</name>
+ <docid>AFP_SPA_20070728.0154</docid>
+ <beg>216</beg>
+ <end>228</end>
+ <enttype>PER</enttype>
+ <nodeid>NIL228</nodeid>
+ <ignore></ignore>
+ <alias>Moreno</alias>
+ <rel listtype="true">per:alternate_names</rel>
+ <rel listtype="true">per:charges</rel>
+ <rel listtype="true">per:children</rel>
+ <rel listtype="true">per:cities_of_residence</rel>
+ <rel listtype="true">per:countries_of_residence</rel>
+ <rel listtype="true">per:employee_or_member_of</rel>
+ <rel listtype="true">per:origin</rel>
+ <rel listtype="true">per:other_family</rel>
+ <rel listtype="true">per:parents</rel>
+ <rel listtype="true">per:schools_attended</rel>
+ <rel listtype="true">per:siblings</rel>
+ <rel listtype="true">per:spouse</rel>
+ <rel listtype="true">per:statesorprovinces_of_residence</rel>
+ <rel listtype="true">per:title</rel>
+ <rel listtype="false">per:age</rel>
+ <rel listtype="false">per:cause_of_death</rel>
+ <rel listtype="false">per:city_of_birth</rel>
+ <rel listtype="false">per:city_of_death</rel>
+ <rel listtype="false">per:country_of_birth</rel>
+ <rel listtype="false">per:country_of_death</rel>
+ <rel listtype="false">per:date_of_birth</rel>
+ <rel listtype="false">per:date_of_death</rel>
+ <rel listtype="false">per:religion</rel>
+ <rel listtype="false">per:stateorprovince_of_birth</rel>
+ <rel listtype="false">per:stateorprovince_of_death</rel>
+</query>
+<query id="SF_SPA_004">
+ <name>Alcides Moreno</name>
+ <docid>APW_SPA_20080105.0212</docid>
+ <beg>4021</beg>
+ <end>4034</end>
+ <enttype>PER</enttype>
+ <nodeid>NIL220</nodeid>
+ <ignore></ignore>
+ <alias>Moreno</alias>
+ <rel listtype="true">per:alternate_names</rel>
+ <rel listtype="true">per:charges</rel>
+ <rel listtype="true">per:children</rel>
+ <rel listtype="true">per:cities_of_residence</rel>
+ <rel listtype="true">per:countries_of_residence</rel>
+ <rel listtype="true">per:employee_or_member_of</rel>
+ <rel listtype="true">per:origin</rel>
+ <rel listtype="true">per:other_family</rel>
+ <rel listtype="true">per:parents</rel>
+ <rel listtype="true">per:schools_attended</rel>
+ <rel listtype="true">per:siblings</rel>
+ <rel listtype="true">per:spouse</rel>
+ <rel listtype="true">per:statesorprovinces_of_residence</rel>
+ <rel listtype="true">per:title</rel>
+ <rel listtype="false">per:age</rel>
+ <rel listtype="false">per:cause_of_death</rel>
+ <rel listtype="false">per:city_of_birth</rel>
+ <rel listtype="false">per:city_of_death</rel>
+ <rel listtype="false">per:country_of_birth</rel>
+ <rel listtype="false">per:country_of_death</rel>
+ <rel listtype="false">per:date_of_birth</rel>
+ <rel listtype="false">per:date_of_death</rel>
+ <rel listtype="false">per:religion</rel>
+ <rel listtype="false">per:stateorprovince_of_birth</rel>
+ <rel listtype="false">per:stateorprovince_of_death</rel>
+</query>
+<query id="SF_SPA_005">
+ <name>Christian Brando</name>
+ <docid>AFP_SPA_20080126.0003</docid>
+ <beg>172</beg>
+ <end>187</end>
+ <enttype>PER</enttype>
+ <nodeid>E0507545</nodeid>
+ <ignore>per:date_of_birth per:city_of_birth per:date_of_death per:city_of_death</ignore>
+ <alias>Brando</alias>
+ <rel listtype="true">per:alternate_names</rel>
+ <rel listtype="true">per:charges</rel>
+ <rel listtype="true">per:children</rel>
+ <rel listtype="true">per:cities_of_residence</rel>
+ <rel listtype="true">per:countries_of_residence</rel>
+ <rel listtype="true">per:employee_or_member_of</rel>
+ <rel listtype="true">per:origin</rel>
+ <rel listtype="true">per:other_family</rel>
+ <rel listtype="true">per:parents</rel>
+ <rel listtype="true">per:schools_attended</rel>
+ <rel listtype="true">per:siblings</rel>
+ <rel listtype="true">per:spouse</rel>
+ <rel listtype="true">per:statesorprovinces_of_residence</rel>
+ <rel listtype="true">per:title</rel>
+ <rel listtype="false">per:age</rel>
+ <rel listtype="false">per:cause_of_death</rel>
+ <rel listtype="false">per:country_of_birth</rel>
+ <rel listtype="false">per:country_of_death</rel>
+ <rel listtype="false">per:religion</rel>
+ <rel listtype="false">per:stateorprovince_of_birth</rel>
+ <rel listtype="false">per:stateorprovince_of_death</rel>
+</query>
+<query id="SF_SPA_006">
+ <name>Yipsi Moreno</name>
+ <docid>AFP_ENG_20080531.0125.LDC2009T13</docid>
+ <beg>465</beg>
+ <end>476</end>
+ <enttype>PER</enttype>
+ <nodeid>NIL224</nodeid>
+ <ignore></ignore>
+ <alias>Moreno</alias>
+ <rel listtype="true">per:alternate_names</rel>
+ <rel listtype="true">per:charges</rel>
+ <rel listtype="true">per:children</rel>
+ <rel listtype="true">per:cities_of_residence</rel>
+ <rel listtype="true">per:countries_of_residence</rel>
+ <rel listtype="true">per:employee_or_member_of</rel>
+ <rel listtype="true">per:origin</rel>
+ <rel listtype="true">per:other_family</rel>
+ <rel listtype="true">per:parents</rel>
+ <rel listtype="true">per:schools_attended</rel>
+ <rel listtype="true">per:siblings</rel>
+ <rel listtype="true">per:spouse</rel>
+ <rel listtype="true">per:statesorprovinces_of_residence</rel>
+ <rel listtype="true">per:title</rel>
+ <rel listtype="false">per:age</rel>
+ <rel listtype="false">per:cause_of_death</rel>
+ <rel listtype="false">per:city_of_birth</rel>
+ <rel listtype="false">per:city_of_death</rel>
+ <rel listtype="false">per:country_of_birth</rel>
+ <rel listtype="false">per:country_of_death</rel>
+ <rel listtype="false">per:date_of_birth</rel>
+ <rel listtype="false">per:date_of_death</rel>
+ <rel listtype="false">per:religion</rel>
+ <rel listtype="false">per:stateorprovince_of_birth</rel>
+ <rel listtype="false">per:stateorprovince_of_death</rel>
+</query>
+<query id="SF_SPA_007">
+ <name>Anselmo Moreno</name>
+ <docid>APW_SPA_20090503.0878</docid>
+ <beg>205</beg>
+ <end>218</end>
+ <enttype>PER</enttype>
+ <nodeid>E0021800</nodeid>
+ <ignore>per:date_of_birth per:city_of_birth</ignore>
+ <alias>Moreno</alias>
+ <rel listtype="true">per:alternate_names</rel>
+ <rel listtype="true">per:charges</rel>
+ <rel listtype="true">per:children</rel>
+ <rel listtype="true">per:cities_of_residence</rel>
+ <rel listtype="true">per:countries_of_residence</rel>
+ <rel listtype="true">per:employee_or_member_of</rel>
+ <rel listtype="true">per:origin</rel>
+ <rel listtype="true">per:other_family</rel>
+ <rel listtype="true">per:parents</rel>
+ <rel listtype="true">per:schools_attended</rel>
+ <rel listtype="true">per:siblings</rel>
+ <rel listtype="true">per:spouse</rel>
+ <rel listtype="true">per:statesorprovinces_of_residence</rel>
+ <rel listtype="true">per:title</rel>
+ <rel listtype="false">per:age</rel>
+ <rel listtype="false">per:cause_of_death</rel>
+ <rel listtype="false">per:city_of_death</rel>
+ <rel listtype="false">per:country_of_birth</rel>
+ <rel listtype="false">per:country_of_death</rel>
+ <rel listtype="false">per:date_of_death</rel>
+ <rel listtype="false">per:religion</rel>
+ <rel listtype="false">per:stateorprovince_of_birth</rel>
+ <rel listtype="false">per:stateorprovince_of_death</rel>
+</query>
+<query id="SF_SPA_008">
+ <name>Isidra Sarmiento</name>
+ <docid>XIN_SPA_20090520.0117</docid>
+ <beg>422</beg>
+ <end>437</end>
+ <enttype>PER</enttype>
+ <nodeid>NIL243</nodeid>
+ <ignore></ignore>
+ <alias>Sarmiento</alias>
+ <rel listtype="true">per:alternate_names</rel>
+ <rel listtype="true">per:charges</rel>
+ <rel listtype="true">per:children</rel>
+ <rel listtype="true">per:cities_of_residence</rel>
+ <rel listtype="true">per:countries_of_residence</rel>
+ <rel listtype="true">per:employee_or_member_of</rel>
+ <rel listtype="true">per:origin</rel>
+ <rel listtype="true">per:other_family</rel>
+ <rel listtype="true">per:parents</rel>
+ <rel listtype="true">per:schools_attended</rel>
+ <rel listtype="true">per:siblings</rel>
+ <rel listtype="true">per:spouse</rel>
+ <rel listtype="true">per:statesorprovinces_of_residence</rel>
+ <rel listtype="true">per:title</rel>
+ <rel listtype="false">per:age</rel>
+ <rel listtype="false">per:cause_of_death</rel>
+ <rel listtype="false">per:city_of_birth</rel>
+ <rel listtype="false">per:city_of_death</rel>
+ <rel listtype="false">per:country_of_birth</rel>
+ <rel listtype="false">per:country_of_death</rel>
+ <rel listtype="false">per:date_of_birth</rel>
+ <rel listtype="false">per:date_of_death</rel>
+ <rel listtype="false">per:religion</rel>
+ <rel listtype="false">per:stateorprovince_of_birth</rel>
+ <rel listtype="false">per:stateorprovince_of_death</rel>
+</query>
+<query id="SF_SPA_009">
+ <name>Haydée Santamaría</name>
+ <docid>XIN_SPA_20090309.0070</docid>
+ <beg>428</beg>
+ <end>444</end>
+ <enttype>PER</enttype>
+ <nodeid>NIL329</nodeid>
+ <ignore></ignore>
+ <alias>Santamaría</alias>
+ <rel listtype="true">per:alternate_names</rel>
+ <rel listtype="true">per:charges</rel>
+ <rel listtype="true">per:children</rel>
+ <rel listtype="true">per:cities_of_residence</rel>
+ <rel listtype="true">per:countries_of_residence</rel>
+ <rel listtype="true">per:employee_or_member_of</rel>
+ <rel listtype="true">per:origin</rel>
+ <rel listtype="true">per:other_family</rel>
+ <rel listtype="true">per:parents</rel>
+ <rel listtype="true">per:schools_attended</rel>
+ <rel listtype="true">per:siblings</rel>
+ <rel listtype="true">per:spouse</rel>
+ <rel listtype="true">per:statesorprovinces_of_residence</rel>
+ <rel listtype="true">per:title</rel>
+ <rel listtype="false">per:age</rel>
+ <rel listtype="false">per:cause_of_death</rel>
+ <rel listtype="false">per:city_of_birth</rel>
+ <rel listtype="false">per:city_of_death</rel>
+ <rel listtype="false">per:country_of_birth</rel>
+ <rel listtype="false">per:country_of_death</rel>
+ <rel listtype="false">per:date_of_birth</rel>
+ <rel listtype="false">per:date_of_death</rel>
+ <rel listtype="false">per:religion</rel>
+ <rel listtype="false">per:stateorprovince_of_birth</rel>
+ <rel listtype="false">per:stateorprovince_of_death</rel>
+</query>
+<query id="SF_SPA_010">
+ <name>Mauro Sarmiento</name>
+ <docid>APW_SPA_20080822.0886</docid>
+ <beg>277</beg>
+ <end>291</end>
+ <enttype>PER</enttype>
+ <nodeid>NIL232</nodeid>
+ <ignore></ignore>
+ <alias>Sarmiento</alias>
+ <rel listtype="true">per:alternate_names</rel>
+ <rel listtype="true">per:charges</rel>
+ <rel listtype="true">per:children</rel>
+ <rel listtype="true">per:cities_of_residence</rel>
+ <rel listtype="true">per:countries_of_residence</rel>
+ <rel listtype="true">per:employee_or_member_of</rel>
+ <rel listtype="true">per:origin</rel>
+ <rel listtype="true">per:other_family</rel>
+ <rel listtype="true">per:parents</rel>
+ <rel listtype="true">per:schools_attended</rel>
+ <rel listtype="true">per:siblings</rel>
+ <rel listtype="true">per:spouse</rel>
+ <rel listtype="true">per:statesorprovinces_of_residence</rel>
+ <rel listtype="true">per:title</rel>
+ <rel listtype="false">per:age</rel>
+ <rel listtype="false">per:cause_of_death</rel>
+ <rel listtype="false">per:city_of_birth</rel>
+ <rel listtype="false">per:city_of_death</rel>
+ <rel listtype="false">per:country_of_birth</rel>
+ <rel listtype="false">per:country_of_death</rel>
+ <rel listtype="false">per:date_of_birth</rel>
+ <rel listtype="false">per:date_of_death</rel>
+ <rel listtype="false">per:religion</rel>
+ <rel listtype="false">per:stateorprovince_of_birth</rel>
+ <rel listtype="false">per:stateorprovince_of_death</rel>
+</query>
+<query id="SF_SPA_011">
+ <name>Nixon Moreno</name>
+ <docid>AFP_SPA_20090823.0003</docid>
+ <beg>1294</beg>
+ <end>1305</end>
+ <enttype>PER</enttype>
+ <nodeid>NIL218</nodeid>
+ <ignore></ignore>
+ <alias>Moreno</alias>
+ <rel listtype="true">per:alternate_names</rel>
+ <rel listtype="true">per:charges</rel>
+ <rel listtype="true">per:children</rel>
+ <rel listtype="true">per:cities_of_residence</rel>
+ <rel listtype="true">per:countries_of_residence</rel>
+ <rel listtype="true">per:employee_or_member_of</rel>
+ <rel listtype="true">per:origin</rel>
+ <rel listtype="true">per:other_family</rel>
+ <rel listtype="true">per:parents</rel>
+ <rel listtype="true">per:schools_attended</rel>
+ <rel listtype="true">per:siblings</rel>
+ <rel listtype="true">per:spouse</rel>
+ <rel listtype="true">per:statesorprovinces_of_residence</rel>
+ <rel listtype="true">per:title</rel>
+ <rel listtype="false">per:age</rel>
+ <rel listtype="false">per:cause_of_death</rel>
+ <rel listtype="false">per:city_of_birth</rel>
+ <rel listtype="false">per:city_of_death</rel>
+ <rel listtype="false">per:country_of_birth</rel>
+ <rel listtype="false">per:country_of_death</rel>
+ <rel listtype="false">per:date_of_birth</rel>
+ <rel listtype="false">per:date_of_death</rel>
+ <rel listtype="false">per:religion</rel>
+ <rel listtype="false">per:stateorprovince_of_birth</rel>
+ <rel listtype="false">per:stateorprovince_of_death</rel>
+</query>
+<query id="SF_SPA_012">
+ <name>Samuel Moreno</name>
+ <docid>AFP_SPA_20071028.0024</docid>
+ <beg>243</beg>
+ <end>255</end>
+ <enttype>PER</enttype>
+ <nodeid>NIL225</nodeid>
+ <ignore></ignore>
+ <alias>Moreno</alias>
+ <rel listtype="true">per:alternate_names</rel>
+ <rel listtype="true">per:charges</rel>
+ <rel listtype="true">per:children</rel>
+ <rel listtype="true">per:cities_of_residence</rel>
+ <rel listtype="true">per:countries_of_residence</rel>
+ <rel listtype="true">per:employee_or_member_of</rel>
+ <rel listtype="true">per:origin</rel>
+ <rel listtype="true">per:other_family</rel>
+ <rel listtype="true">per:parents</rel>
+ <rel listtype="true">per:schools_attended</rel>
+ <rel listtype="true">per:siblings</rel>
+ <rel listtype="true">per:spouse</rel>
+ <rel listtype="true">per:statesorprovinces_of_residence</rel>
+ <rel listtype="true">per:title</rel>
+ <rel listtype="false">per:age</rel>
+ <rel listtype="false">per:cause_of_death</rel>
+ <rel listtype="false">per:city_of_birth</rel>
+ <rel listtype="false">per:city_of_death</rel>
+ <rel listtype="false">per:country_of_birth</rel>
+ <rel listtype="false">per:country_of_death</rel>
+ <rel listtype="false">per:date_of_birth</rel>
+ <rel listtype="false">per:date_of_death</rel>
+ <rel listtype="false">per:religion</rel>
+ <rel listtype="false">per:stateorprovince_of_birth</rel>
+ <rel listtype="false">per:stateorprovince_of_death</rel>
+</query>
+<query id="SF_SPA_013">
+ <name>Nancy Conde Rubio</name>
+ <docid>AFP_SPA_20091101.0274</docid>
+ <beg>1306</beg>
+ <end>1322</end>
+ <enttype>PER</enttype>
+ <nodeid>NIL330</nodeid>
+ <ignore></ignore>
+ <alias>Rubio</alias>
+ <rel listtype="true">per:alternate_names</rel>
+ <rel listtype="true">per:charges</rel>
+ <rel listtype="true">per:children</rel>
+ <rel listtype="true">per:cities_of_residence</rel>
+ <rel listtype="true">per:countries_of_residence</rel>
+ <rel listtype="true">per:employee_or_member_of</rel>
+ <rel listtype="true">per:origin</rel>
+ <rel listtype="true">per:other_family</rel>
+ <rel listtype="true">per:parents</rel>
+ <rel listtype="true">per:schools_attended</rel>
+ <rel listtype="true">per:siblings</rel>
+ <rel listtype="true">per:spouse</rel>
+ <rel listtype="true">per:statesorprovinces_of_residence</rel>
+ <rel listtype="true">per:title</rel>
+ <rel listtype="false">per:age</rel>
+ <rel listtype="false">per:cause_of_death</rel>
+ <rel listtype="false">per:city_of_birth</rel>
+ <rel listtype="false">per:city_of_death</rel>
+ <rel listtype="false">per:country_of_birth</rel>
+ <rel listtype="false">per:country_of_death</rel>
+ <rel listtype="false">per:date_of_birth</rel>
+ <rel listtype="false">per:date_of_death</rel>
+ <rel listtype="false">per:religion</rel>
+ <rel listtype="false">per:stateorprovince_of_birth</rel>
+ <rel listtype="false">per:stateorprovince_of_death</rel>
+</query>
+<query id="SF_SPA_014">
+ <name>Gerardo Aguilar</name>
+ <docid>AFP_SPA_20100222.0121</docid>
+ <beg>992</beg>
+ <end>1006</end>
+ <enttype>PER</enttype>
+ <nodeid>E0531543</nodeid>
+ <ignore></ignore>
+ <alias>Aguilar</alias>
+ <rel listtype="true">per:alternate_names</rel>
+ <rel listtype="true">per:charges</rel>
+ <rel listtype="true">per:children</rel>
+ <rel listtype="true">per:cities_of_residence</rel>
+ <rel listtype="true">per:countries_of_residence</rel>
+ <rel listtype="true">per:employee_or_member_of</rel>
+ <rel listtype="true">per:origin</rel>
+ <rel listtype="true">per:other_family</rel>
+ <rel listtype="true">per:parents</rel>
+ <rel listtype="true">per:schools_attended</rel>
+ <rel listtype="true">per:siblings</rel>
+ <rel listtype="true">per:spouse</rel>
+ <rel listtype="true">per:statesorprovinces_of_residence</rel>
+ <rel listtype="true">per:title</rel>
+ <rel listtype="false">per:age</rel>
+ <rel listtype="false">per:cause_of_death</rel>
+ <rel listtype="false">per:city_of_birth</rel>
+ <rel listtype="false">per:city_of_death</rel>
+ <rel listtype="false">per:country_of_birth</rel>
+ <rel listtype="false">per:country_of_death</rel>
+ <rel listtype="false">per:date_of_birth</rel>
+ <rel listtype="false">per:date_of_death</rel>
+ <rel listtype="false">per:religion</rel>
+ <rel listtype="false">per:stateorprovince_of_birth</rel>
+ <rel listtype="false">per:stateorprovince_of_death</rel>
+</query>
+<query id="SF_SPA_015">
+ <name>Virginia Vallejo</name>
+ <docid>XIN_SPA_20090408.0236</docid>
+ <beg>1021</beg>
+ <end>1036</end>
+ <enttype>PER</enttype>
+ <nodeid>NIL581</nodeid>
+ <ignore></ignore>
+ <alias>Vallejo</alias>
+ <rel listtype="true">per:alternate_names</rel>
+ <rel listtype="true">per:charges</rel>
+ <rel listtype="true">per:children</rel>
+ <rel listtype="true">per:cities_of_residence</rel>
+ <rel listtype="true">per:countries_of_residence</rel>
+ <rel listtype="true">per:employee_or_member_of</rel>
+ <rel listtype="true">per:origin</rel>
+ <rel listtype="true">per:other_family</rel>
+ <rel listtype="true">per:parents</rel>
+ <rel listtype="true">per:schools_attended</rel>
+ <rel listtype="true">per:siblings</rel>
+ <rel listtype="true">per:spouse</rel>
+ <rel listtype="true">per:statesorprovinces_of_residence</rel>
+ <rel listtype="true">per:title</rel>
+ <rel listtype="false">per:age</rel>
+ <rel listtype="false">per:cause_of_death</rel>
+ <rel listtype="false">per:city_of_birth</rel>
+ <rel listtype="false">per:city_of_death</rel>
+ <rel listtype="false">per:country_of_birth</rel>
+ <rel listtype="false">per:country_of_death</rel>
+ <rel listtype="false">per:date_of_birth</rel>
+ <rel listtype="false">per:date_of_death</rel>
+ <rel listtype="false">per:religion</rel>
+ <rel listtype="false">per:stateorprovince_of_birth</rel>
+ <rel listtype="false">per:stateorprovince_of_death</rel>
+</query>
+<query id="SF_SPA_016">
+ <name>María Isabel Moreno</name>
+ <docid>APW_SPA_20080815.0974</docid>
+ <beg>853</beg>
+ <end>871</end>
+ <enttype>PER</enttype>
+ <nodeid>E0214030</nodeid>
+ <ignore>per:date_of_birth</ignore>
+ <alias>Moreno</alias>
+ <rel listtype="true">per:alternate_names</rel>
+ <rel listtype="true">per:charges</rel>
+ <rel listtype="true">per:children</rel>
+ <rel listtype="true">per:cities_of_residence</rel>
+ <rel listtype="true">per:countries_of_residence</rel>
+ <rel listtype="true">per:employee_or_member_of</rel>
+ <rel listtype="true">per:origin</rel>
+ <rel listtype="true">per:other_family</rel>
+ <rel listtype="true">per:parents</rel>
+ <rel listtype="true">per:schools_attended</rel>
+ <rel listtype="true">per:siblings</rel>
+ <rel listtype="true">per:spouse</rel>
+ <rel listtype="true">per:statesorprovinces_of_residence</rel>
+ <rel listtype="true">per:title</rel>
+ <rel listtype="false">per:age</rel>
+ <rel listtype="false">per:cause_of_death</rel>
+ <rel listtype="false">per:city_of_birth</rel>
+ <rel listtype="false">per:city_of_death</rel>
+ <rel listtype="false">per:country_of_birth</rel>
+ <rel listtype="false">per:country_of_death</rel>
+ <rel listtype="false">per:date_of_death</rel>
+ <rel listtype="false">per:religion</rel>
+ <rel listtype="false">per:stateorprovince_of_birth</rel>
+ <rel listtype="false">per:stateorprovince_of_death</rel>
+</query>
+<query id="SF_SPA_017">
+ <name>Marcio Santos</name>
+ <docid>XIN_ENG_20080316.0179.LDC2009T13</docid>
+ <beg>712</beg>
+ <end>724</end>
+ <enttype>PER</enttype>
+ <nodeid>NIL198</nodeid>
+ <ignore></ignore>
+ <alias>Santos</alias>
+ <rel listtype="true">per:alternate_names</rel>
+ <rel listtype="true">per:charges</rel>
+ <rel listtype="true">per:children</rel>
+ <rel listtype="true">per:cities_of_residence</rel>
+ <rel listtype="true">per:countries_of_residence</rel>
+ <rel listtype="true">per:employee_or_member_of</rel>
+ <rel listtype="true">per:origin</rel>
+ <rel listtype="true">per:other_family</rel>
+ <rel listtype="true">per:parents</rel>
+ <rel listtype="true">per:schools_attended</rel>
+ <rel listtype="true">per:siblings</rel>
+ <rel listtype="true">per:spouse</rel>
+ <rel listtype="true">per:statesorprovinces_of_residence</rel>
+ <rel listtype="true">per:title</rel>
+ <rel listtype="false">per:age</rel>
+ <rel listtype="false">per:cause_of_death</rel>
+ <rel listtype="false">per:city_of_birth</rel>
+ <rel listtype="false">per:city_of_death</rel>
+ <rel listtype="false">per:country_of_birth</rel>
+ <rel listtype="false">per:country_of_death</rel>
+ <rel listtype="false">per:date_of_birth</rel>
+ <rel listtype="false">per:date_of_death</rel>
+ <rel listtype="false">per:religion</rel>
+ <rel listtype="false">per:stateorprovince_of_birth</rel>
+ <rel listtype="false">per:stateorprovince_of_death</rel>
+</query>
+<query id="SF_SPA_018">
+ <name>Belisario Betancourt</name>
+ <docid>XIN_SPA_20080725.0146</docid>
+ <beg>659</beg>
+ <end>678</end>
+ <enttype>PER</enttype>
+ <nodeid>E0046864</nodeid>
+ <ignore>per:date_of_birth per:city_of_birth</ignore>
+ <alias>Betancourt</alias>
+ <rel listtype="true">per:alternate_names</rel>
+ <rel listtype="true">per:charges</rel>
+ <rel listtype="true">per:children</rel>
+ <rel listtype="true">per:cities_of_residence</rel>
+ <rel listtype="true">per:countries_of_residence</rel>
+ <rel listtype="true">per:employee_or_member_of</rel>
+ <rel listtype="true">per:origin</rel>
+ <rel listtype="true">per:other_family</rel>
+ <rel listtype="true">per:parents</rel>
+ <rel listtype="true">per:schools_attended</rel>
+ <rel listtype="true">per:siblings</rel>
+ <rel listtype="true">per:spouse</rel>
+ <rel listtype="true">per:statesorprovinces_of_residence</rel>
+ <rel listtype="true">per:title</rel>
+ <rel listtype="false">per:age</rel>
+ <rel listtype="false">per:cause_of_death</rel>
+ <rel listtype="false">per:city_of_death</rel>
+ <rel listtype="false">per:country_of_birth</rel>
+ <rel listtype="false">per:country_of_death</rel>
+ <rel listtype="false">per:date_of_death</rel>
+ <rel listtype="false">per:religion</rel>
+ <rel listtype="false">per:stateorprovince_of_birth</rel>
+ <rel listtype="false">per:stateorprovince_of_death</rel>
+</query>
+<query id="SF_SPA_019">
+ <name>Charles McArthur Emmanuel</name>
+ <docid>APW_ENG_20081001.0462.LDC2009T13</docid>
+ <beg>566</beg>
+ <end>590</end>
+ <enttype>PER</enttype>
+ <nodeid>NIL582</nodeid>
+ <ignore></ignore>
+ <alias>Emmanuel</alias>
+ <rel listtype="true">per:alternate_names</rel>
+ <rel listtype="true">per:charges</rel>
+ <rel listtype="true">per:children</rel>
+ <rel listtype="true">per:cities_of_residence</rel>
+ <rel listtype="true">per:countries_of_residence</rel>
+ <rel listtype="true">per:employee_or_member_of</rel>
+ <rel listtype="true">per:origin</rel>
+ <rel listtype="true">per:other_family</rel>
+ <rel listtype="true">per:parents</rel>
+ <rel listtype="true">per:schools_attended</rel>
+ <rel listtype="true">per:siblings</rel>
+ <rel listtype="true">per:spouse</rel>
+ <rel listtype="true">per:statesorprovinces_of_residence</rel>
+ <rel listtype="true">per:title</rel>
+ <rel listtype="false">per:age</rel>
+ <rel listtype="false">per:cause_of_death</rel>
+ <rel listtype="false">per:city_of_birth</rel>
+ <rel listtype="false">per:city_of_death</rel>
+ <rel listtype="false">per:country_of_birth</rel>
+ <rel listtype="false">per:country_of_death</rel>
+ <rel listtype="false">per:date_of_birth</rel>
+ <rel listtype="false">per:date_of_death</rel>
+ <rel listtype="false">per:religion</rel>
+ <rel listtype="false">per:stateorprovince_of_birth</rel>
+ <rel listtype="false">per:stateorprovince_of_death</rel>
+</query>
+<query id="SF_SPA_020">
+ <name>Rosario Flores</name>
+ <docid>AFP_SPA_20091110.0247</docid>
+ <beg>210</beg>
+ <end>223</end>
+ <enttype>PER</enttype>
+ <nodeid>E0452651</nodeid>
+ <ignore>per:city_of_birth</ignore>
+ <alias>Flores</alias>
+ <rel listtype="true">per:alternate_names</rel>
+ <rel listtype="true">per:charges</rel>
+ <rel listtype="true">per:children</rel>
+ <rel listtype="true">per:cities_of_residence</rel>
+ <rel listtype="true">per:countries_of_residence</rel>
+ <rel listtype="true">per:employee_or_member_of</rel>
+ <rel listtype="true">per:origin</rel>
+ <rel listtype="true">per:other_family</rel>
+ <rel listtype="true">per:parents</rel>
+ <rel listtype="true">per:schools_attended</rel>
+ <rel listtype="true">per:siblings</rel>
+ <rel listtype="true">per:spouse</rel>
+ <rel listtype="true">per:statesorprovinces_of_residence</rel>
+ <rel listtype="true">per:title</rel>
+ <rel listtype="false">per:age</rel>
+ <rel listtype="false">per:cause_of_death</rel>
+ <rel listtype="false">per:city_of_death</rel>
+ <rel listtype="false">per:country_of_birth</rel>
+ <rel listtype="false">per:country_of_death</rel>
+ <rel listtype="false">per:date_of_birth</rel>
+ <rel listtype="false">per:date_of_death</rel>
+ <rel listtype="false">per:religion</rel>
+ <rel listtype="false">per:stateorprovince_of_birth</rel>
+ <rel listtype="false">per:stateorprovince_of_death</rel>
+</query>
+<query id="SF_SPA_021">
+ <name>Juan Manuel Santos</name>
+ <docid>AFP_SPA_20100807.0039</docid>
+ <beg>108</beg>
+ <end>125</end>
+ <enttype>PER</enttype>
+ <nodeid>E0095125</nodeid>
+ <ignore>per:date_of_birth per:city_of_birth</ignore>
+ <alias>Santos</alias>
+ <rel listtype="true">per:alternate_names</rel>
+ <rel listtype="true">per:charges</rel>
+ <rel listtype="true">per:children</rel>
+ <rel listtype="true">per:cities_of_residence</rel>
+ <rel listtype="true">per:countries_of_residence</rel>
+ <rel listtype="true">per:employee_or_member_of</rel>
+ <rel listtype="true">per:origin</rel>
+ <rel listtype="true">per:other_family</rel>
+ <rel listtype="true">per:parents</rel>
+ <rel listtype="true">per:schools_attended</rel>
+ <rel listtype="true">per:siblings</rel>
+ <rel listtype="true">per:spouse</rel>
+ <rel listtype="true">per:statesorprovinces_of_residence</rel>
+ <rel listtype="true">per:title</rel>
+ <rel listtype="false">per:age</rel>
+ <rel listtype="false">per:cause_of_death</rel>
+ <rel listtype="false">per:city_of_death</rel>
+ <rel listtype="false">per:country_of_birth</rel>
+ <rel listtype="false">per:country_of_death</rel>
+ <rel listtype="false">per:date_of_death</rel>
+ <rel listtype="false">per:religion</rel>
+ <rel listtype="false">per:stateorprovince_of_birth</rel>
+ <rel listtype="false">per:stateorprovince_of_death</rel>
+</query>
+<query id="SF_SPA_022">
+ <name>Balbina Herrera</name>
+ <docid>XIN_ENG_20070521.0413.LDC2009T13</docid>
+ <beg>883</beg>
+ <end>897</end>
+ <enttype>PER</enttype>
+ <nodeid>NIL587</nodeid>
+ <ignore></ignore>
+ <alias>Herrera</alias>
+ <rel listtype="true">per:alternate_names</rel>
+ <rel listtype="true">per:charges</rel>
+ <rel listtype="true">per:children</rel>
+ <rel listtype="true">per:cities_of_residence</rel>
+ <rel listtype="true">per:countries_of_residence</rel>
+ <rel listtype="true">per:employee_or_member_of</rel>
+ <rel listtype="true">per:origin</rel>
+ <rel listtype="true">per:other_family</rel>
+ <rel listtype="true">per:parents</rel>
+ <rel listtype="true">per:schools_attended</rel>
+ <rel listtype="true">per:siblings</rel>
+ <rel listtype="true">per:spouse</rel>
+ <rel listtype="true">per:statesorprovinces_of_residence</rel>
+ <rel listtype="true">per:title</rel>
+ <rel listtype="false">per:age</rel>
+ <rel listtype="false">per:cause_of_death</rel>
+ <rel listtype="false">per:city_of_birth</rel>
+ <rel listtype="false">per:city_of_death</rel>
+ <rel listtype="false">per:country_of_birth</rel>
+ <rel listtype="false">per:country_of_death</rel>
+ <rel listtype="false">per:date_of_birth</rel>
+ <rel listtype="false">per:date_of_death</rel>
+ <rel listtype="false">per:religion</rel>
+ <rel listtype="false">per:stateorprovince_of_birth</rel>
+ <rel listtype="false">per:stateorprovince_of_death</rel>
+</query>
+<query id="SF_SPA_023">
+ <name>Rafael Esquivel</name>
+ <docid>APW_ENG_20071126.1163.LDC2009T13</docid>
+ <beg>773</beg>
+ <end>787</end>
+ <enttype>PER</enttype>
+ <nodeid>NIL588</nodeid>
+ <ignore></ignore>
+ <alias>Esquivel</alias>
+ <rel listtype="true">per:alternate_names</rel>
+ <rel listtype="true">per:charges</rel>
+ <rel listtype="true">per:children</rel>
+ <rel listtype="true">per:cities_of_residence</rel>
+ <rel listtype="true">per:countries_of_residence</rel>
+ <rel listtype="true">per:employee_or_member_of</rel>
+ <rel listtype="true">per:origin</rel>
+ <rel listtype="true">per:other_family</rel>
+ <rel listtype="true">per:parents</rel>
+ <rel listtype="true">per:schools_attended</rel>
+ <rel listtype="true">per:siblings</rel>
+ <rel listtype="true">per:spouse</rel>
+ <rel listtype="true">per:statesorprovinces_of_residence</rel>
+ <rel listtype="true">per:title</rel>
+ <rel listtype="false">per:age</rel>
+ <rel listtype="false">per:cause_of_death</rel>
+ <rel listtype="false">per:city_of_birth</rel>
+ <rel listtype="false">per:city_of_death</rel>
+ <rel listtype="false">per:country_of_birth</rel>
+ <rel listtype="false">per:country_of_death</rel>
+ <rel listtype="false">per:date_of_birth</rel>
+ <rel listtype="false">per:date_of_death</rel>
+ <rel listtype="false">per:religion</rel>
+ <rel listtype="false">per:stateorprovince_of_birth</rel>
+ <rel listtype="false">per:stateorprovince_of_death</rel>
+</query>
+<query id="SF_SPA_024">
+ <name>Tarek El Aissami</name>
+ <docid>AFP_ENG_20080924.0026.LDC2009T13</docid>
+ <beg>403</beg>
+ <end>418</end>
+ <enttype>PER</enttype>
+ <nodeid>NIL589</nodeid>
+ <ignore></ignore>
+ <alias>Aissami</alias>
+ <rel listtype="true">per:alternate_names</rel>
+ <rel listtype="true">per:charges</rel>
+ <rel listtype="true">per:children</rel>
+ <rel listtype="true">per:cities_of_residence</rel>
+ <rel listtype="true">per:countries_of_residence</rel>
+ <rel listtype="true">per:employee_or_member_of</rel>
+ <rel listtype="true">per:origin</rel>
+ <rel listtype="true">per:other_family</rel>
+ <rel listtype="true">per:parents</rel>
+ <rel listtype="true">per:schools_attended</rel>
+ <rel listtype="true">per:siblings</rel>
+ <rel listtype="true">per:spouse</rel>
+ <rel listtype="true">per:statesorprovinces_of_residence</rel>
+ <rel listtype="true">per:title</rel>
+ <rel listtype="false">per:age</rel>
+ <rel listtype="false">per:cause_of_death</rel>
+ <rel listtype="false">per:city_of_birth</rel>
+ <rel listtype="false">per:city_of_death</rel>
+ <rel listtype="false">per:country_of_birth</rel>
+ <rel listtype="false">per:country_of_death</rel>
+ <rel listtype="false">per:date_of_birth</rel>
+ <rel listtype="false">per:date_of_death</rel>
+ <rel listtype="false">per:religion</rel>
+ <rel listtype="false">per:stateorprovince_of_birth</rel>
+ <rel listtype="false">per:stateorprovince_of_death</rel>
+</query>
+<query id="SF_SPA_025">
+ <name>Porfirio Duarte-Herrera</name>
+ <docid>APW_ENG_20070524.1495.LDC2009T13</docid>
+ <beg>517</beg>
+ <end>539</end>
+ <enttype>PER</enttype>
+ <nodeid>NIL590</nodeid>
+ <ignore></ignore>
+ <alias>Duarte-Herrera</alias>
+ <rel listtype="true">per:alternate_names</rel>
+ <rel listtype="true">per:charges</rel>
+ <rel listtype="true">per:children</rel>
+ <rel listtype="true">per:cities_of_residence</rel>
+ <rel listtype="true">per:countries_of_residence</rel>
+ <rel listtype="true">per:employee_or_member_of</rel>
+ <rel listtype="true">per:origin</rel>
+ <rel listtype="true">per:other_family</rel>
+ <rel listtype="true">per:parents</rel>
+ <rel listtype="true">per:schools_attended</rel>
+ <rel listtype="true">per:siblings</rel>
+ <rel listtype="true">per:spouse</rel>
+ <rel listtype="true">per:statesorprovinces_of_residence</rel>
+ <rel listtype="true">per:title</rel>
+ <rel listtype="false">per:age</rel>
+ <rel listtype="false">per:cause_of_death</rel>
+ <rel listtype="false">per:city_of_birth</rel>
+ <rel listtype="false">per:city_of_death</rel>
+ <rel listtype="false">per:country_of_birth</rel>
+ <rel listtype="false">per:country_of_death</rel>
+ <rel listtype="false">per:date_of_birth</rel>
+ <rel listtype="false">per:date_of_death</rel>
+ <rel listtype="false">per:religion</rel>
+ <rel listtype="false">per:stateorprovince_of_birth</rel>
+ <rel listtype="false">per:stateorprovince_of_death</rel>
+</query>
+<query id="SF_SPA_026">
+ <name>Cesar Farias</name>
+ <docid>APW_ENG_20071219.1385.LDC2009T13</docid>
+ <beg>308</beg>
+ <end>319</end>
+ <enttype>PER</enttype>
+ <nodeid>NIL591</nodeid>
+ <ignore></ignore>
+ <alias>Farias</alias>
+ <rel listtype="true">per:alternate_names</rel>
+ <rel listtype="true">per:charges</rel>
+ <rel listtype="true">per:children</rel>
+ <rel listtype="true">per:cities_of_residence</rel>
+ <rel listtype="true">per:countries_of_residence</rel>
+ <rel listtype="true">per:employee_or_member_of</rel>
+ <rel listtype="true">per:origin</rel>
+ <rel listtype="true">per:other_family</rel>
+ <rel listtype="true">per:parents</rel>
+ <rel listtype="true">per:schools_attended</rel>
+ <rel listtype="true">per:siblings</rel>
+ <rel listtype="true">per:spouse</rel>
+ <rel listtype="true">per:statesorprovinces_of_residence</rel>
+ <rel listtype="true">per:title</rel>
+ <rel listtype="false">per:age</rel>
+ <rel listtype="false">per:cause_of_death</rel>
+ <rel listtype="false">per:city_of_birth</rel>
+ <rel listtype="false">per:city_of_death</rel>
+ <rel listtype="false">per:country_of_birth</rel>
+ <rel listtype="false">per:country_of_death</rel>
+ <rel listtype="false">per:date_of_birth</rel>
+ <rel listtype="false">per:date_of_death</rel>
+ <rel listtype="false">per:religion</rel>
+ <rel listtype="false">per:stateorprovince_of_birth</rel>
+ <rel listtype="false">per:stateorprovince_of_death</rel>
+</query>
+<query id="SF_SPA_027">
+ <name>Leones del Escogido</name>
+ <docid>AFP_SPA_20100129.0390</docid>
+ <beg>108</beg>
+ <end>126</end>
+ <enttype>ORG</enttype>
+ <nodeid>E0240605</nodeid>
+ <ignore>org:city_of_headquarters org:date_founded</ignore>
+ <alias>Leones del Escogido LLC</alias>
+ <alias>Leones del Escogido L.L.C.</alias>
+ <alias>Leones del Escogido, LLC</alias>
+ <alias>Leones del Escogido, L.L.C.</alias>
+ <alias>Leones del Escogido , LLC</alias>
+ <alias>Leones del Escogido , L.L.C.</alias>
+ <alias>Leones del Escogido Limited</alias>
+ <alias>Leones del Escogido Ltd</alias>
+ <alias>Leones del Escogido Ltd.</alias>
+ <alias>Leones del Escogido, Ltd</alias>
+ <alias>Leones del Escogido, Ltd.</alias>
+ <alias>Leones del Escogido , Ltd</alias>
+ <alias>Leones del Escogido , Ltd.</alias>
+ <alias>Leones del Escogido Corporation</alias>
+ <alias>Leones del Escogido Corp.</alias>
+ <alias>Leones del Escogido Corp</alias>
+ <alias>Leones del Escogido Co.</alias>
+ <alias>Leones del Escogido Co</alias>
+ <alias>Leones del Escogido Incorporated</alias>
+ <alias>Leones del Escogido Inc.</alias>
+ <alias>Leones del Escogido Inc</alias>
+ <alias>Leones del Escogido, Incorporated</alias>
+ <alias>Leones del Escogido, Inc.</alias>
+ <alias>Leones del Escogido, Inc</alias>
+ <alias>Leones del Escogido , Incorporated</alias>
+ <alias>Leones del Escogido , Inc.</alias>
+ <alias>Leones del Escogido , Inc</alias>
+ <alias>Leones del Escogido LLLP</alias>
+ <alias>Leones del Escogido L.L.L.P.</alias>
+ <alias>Leones del Escogido , LLLP</alias>
+ <alias>Leones del Escogido , L.L.L.P.</alias>
+ <alias>Leones del Escogido, LLLP</alias>
+ <alias>Leones del Escogido, L.L.L.P.</alias>
+ <alias>Leones del Escogido LLP</alias>
+ <alias>Leones del Escogido , LLP</alias>
+ <alias>Leones del Escogido, LLP</alias>
+ <alias>Leones del Escogido LP</alias>
+ <alias>Leones del Escogido L.P.</alias>
+ <alias>Leones del Escogido , LP</alias>
+ <alias>Leones del Escogido , L.P.</alias>
+ <alias>Leones del Escogido, LP</alias>
+ <alias>Leones del Escogido, L.P.</alias>
+ <alias>Leones del Escogido PC</alias>
+ <alias>Leones del Escogido P.C.</alias>
+ <alias>Leones del Escogido , PC</alias>
+ <alias>Leones del Escogido , P.C.</alias>
+ <alias>Leones del Escogido, PC</alias>
+ <alias>Leones del Escogido, P.C.</alias>
+ <alias>Leones del Escogido plc</alias>
+ <alias>Leones del Escogido Plc</alias>
+ <alias>Leones del Escogido PLC</alias>
+ <alias>Leones del Escogido Partners</alias>
+ <alias>Leones del Escogido Industries</alias>
+ <rel listtype="true">org:alternate_names</rel>
+ <rel listtype="true">org:founded_by</rel>
+ <rel listtype="true">org:member_of</rel>
+ <rel listtype="true">org:members</rel>
+ <rel listtype="true">org:parents</rel>
+ <rel listtype="true">org:political_religious_affiliation</rel>
+ <rel listtype="true">org:shareholders</rel>
+ <rel listtype="true">org:subsidiaries</rel>
+ <rel listtype="true">org:top_members_employees</rel>
+ <rel listtype="false">org:country_of_headquarters</rel>
+ <rel listtype="false">org:date_dissolved</rel>
+ <rel listtype="false">org:number_of_employees_members</rel>
+ <rel listtype="false">org:stateorprovince_of_headquarters</rel>
+ <rel listtype="false">org:website</rel>
+</query>
+<query id="SF_SPA_028">
+ <name>Unión del Pueblo Navarro</name>
+ <docid>AFP_SPA_20070816.0405</docid>
+ <beg>574</beg>
+ <end>597</end>
+ <enttype>ORG</enttype>
+ <nodeid>NIL273</nodeid>
+ <ignore></ignore>
+ <alias>UPN</alias>
+ <alias>Unión del Pueblo Navarro LLC</alias>
+ <alias>Unión del Pueblo Navarro L.L.C.</alias>
+ <alias>Unión del Pueblo Navarro, LLC</alias>
+ <alias>Unión del Pueblo Navarro, L.L.C.</alias>
+ <alias>Unión del Pueblo Navarro , LLC</alias>
+ <alias>Unión del Pueblo Navarro , L.L.C.</alias>
+ <alias>Unión del Pueblo Navarro Limited</alias>
+ <alias>Unión del Pueblo Navarro Ltd</alias>
+ <alias>Unión del Pueblo Navarro Ltd.</alias>
+ <alias>Unión del Pueblo Navarro, Ltd</alias>
+ <alias>Unión del Pueblo Navarro, Ltd.</alias>
+ <alias>Unión del Pueblo Navarro , Ltd</alias>
+ <alias>Unión del Pueblo Navarro , Ltd.</alias>
+ <alias>Unión del Pueblo Navarro Corporation</alias>
+ <alias>Unión del Pueblo Navarro Corp.</alias>
+ <alias>Unión del Pueblo Navarro Corp</alias>
+ <alias>Unión del Pueblo Navarro Co.</alias>
+ <alias>Unión del Pueblo Navarro Co</alias>
+ <alias>Unión del Pueblo Navarro Incorporated</alias>
+ <alias>Unión del Pueblo Navarro Inc.</alias>
+ <alias>Unión del Pueblo Navarro Inc</alias>
+ <alias>Unión del Pueblo Navarro, Incorporated</alias>
+ <alias>Unión del Pueblo Navarro, Inc.</alias>
+ <alias>Unión del Pueblo Navarro, Inc</alias>
+ <alias>Unión del Pueblo Navarro , Incorporated</alias>
+ <alias>Unión del Pueblo Navarro , Inc.</alias>
+ <alias>Unión del Pueblo Navarro , Inc</alias>
+ <alias>Unión del Pueblo Navarro LLLP</alias>
+ <alias>Unión del Pueblo Navarro L.L.L.P.</alias>
+ <alias>Unión del Pueblo Navarro , LLLP</alias>
+ <alias>Unión del Pueblo Navarro , L.L.L.P.</alias>
+ <alias>Unión del Pueblo Navarro, LLLP</alias>
+ <alias>Unión del Pueblo Navarro, L.L.L.P.</alias>
+ <alias>Unión del Pueblo Navarro LLP</alias>
+ <alias>Unión del Pueblo Navarro , LLP</alias>
+ <alias>Unión del Pueblo Navarro, LLP</alias>
+ <alias>Unión del Pueblo Navarro LP</alias>
+ <alias>Unión del Pueblo Navarro L.P.</alias>
+ <alias>Unión del Pueblo Navarro , LP</alias>
+ <alias>Unión del Pueblo Navarro , L.P.</alias>
+ <alias>Unión del Pueblo Navarro, LP</alias>
+ <alias>Unión del Pueblo Navarro, L.P.</alias>
+ <alias>Unión del Pueblo Navarro PC</alias>
+ <alias>Unión del Pueblo Navarro P.C.</alias>
+ <alias>Unión del Pueblo Navarro , PC</alias>
+ <alias>Unión del Pueblo Navarro , P.C.</alias>
+ <alias>Unión del Pueblo Navarro, PC</alias>
+ <alias>Unión del Pueblo Navarro, P.C.</alias>
+ <alias>Unión del Pueblo Navarro plc</alias>
+ <alias>Unión del Pueblo Navarro Plc</alias>
+ <alias>Unión del Pueblo Navarro PLC</alias>
+ <alias>Unión del Pueblo Navarro Partners</alias>
+ <alias>Unión del Pueblo Navarro Industries</alias>
+ <rel listtype="true">org:alternate_names</rel>
+ <rel listtype="true">org:founded_by</rel>
+ <rel listtype="true">org:member_of</rel>
+ <rel listtype="true">org:members</rel>
+ <rel listtype="true">org:parents</rel>
+ <rel listtype="true">org:political_religious_affiliation</rel>
+ <rel listtype="true">org:shareholders</rel>
+ <rel listtype="true">org:subsidiaries</rel>
+ <rel listtype="true">org:top_members_employees</rel>
+ <rel listtype="false">org:city_of_headquarters</rel>
+ <rel listtype="false">org:country_of_headquarters</rel>
+ <rel listtype="false">org:date_dissolved</rel>
+ <rel listtype="false">org:date_founded</rel>
+ <rel listtype="false">org:number_of_employees_members</rel>
+ <rel listtype="false">org:stateorprovince_of_headquarters</rel>
+ <rel listtype="false">org:website</rel>
+</query>
+<query id="SF_SPA_029">
+ <name>Racing Santander</name>
+ <docid>AFP_SPA_20080319.0042</docid>
+ <beg>230</beg>
+ <end>245</end>
+ <enttype>ORG</enttype>
+ <nodeid>NIL258</nodeid>
+ <ignore></ignore>
+ <alias>Racing Santander LLC</alias>
+ <alias>Racing Santander L.L.C.</alias>
+ <alias>Racing Santander, LLC</alias>
+ <alias>Racing Santander, L.L.C.</alias>
+ <alias>Racing Santander , LLC</alias>
+ <alias>Racing Santander , L.L.C.</alias>
+ <alias>Racing Santander Limited</alias>
+ <alias>Racing Santander Ltd</alias>
+ <alias>Racing Santander Ltd.</alias>
+ <alias>Racing Santander, Ltd</alias>
+ <alias>Racing Santander, Ltd.</alias>
+ <alias>Racing Santander , Ltd</alias>
+ <alias>Racing Santander , Ltd.</alias>
+ <alias>Racing Santander Corporation</alias>
+ <alias>Racing Santander Corp.</alias>
+ <alias>Racing Santander Corp</alias>
+ <alias>Racing Santander Co.</alias>
+ <alias>Racing Santander Co</alias>
+ <alias>Racing Santander Incorporated</alias>
+ <alias>Racing Santander Inc.</alias>
+ <alias>Racing Santander Inc</alias>
+ <alias>Racing Santander, Incorporated</alias>
+ <alias>Racing Santander, Inc.</alias>
+ <alias>Racing Santander, Inc</alias>
+ <alias>Racing Santander , Incorporated</alias>
+ <alias>Racing Santander , Inc.</alias>
+ <alias>Racing Santander , Inc</alias>
+ <alias>Racing Santander LLLP</alias>
+ <alias>Racing Santander L.L.L.P.</alias>
+ <alias>Racing Santander , LLLP</alias>
+ <alias>Racing Santander , L.L.L.P.</alias>
+ <alias>Racing Santander, LLLP</alias>
+ <alias>Racing Santander, L.L.L.P.</alias>
+ <alias>Racing Santander LLP</alias>
+ <alias>Racing Santander , LLP</alias>
+ <alias>Racing Santander, LLP</alias>
+ <alias>Racing Santander LP</alias>
+ <alias>Racing Santander L.P.</alias>
+ <alias>Racing Santander , LP</alias>
+ <alias>Racing Santander , L.P.</alias>
+ <alias>Racing Santander, LP</alias>
+ <alias>Racing Santander, L.P.</alias>
+ <alias>Racing Santander PC</alias>
+ <alias>Racing Santander P.C.</alias>
+ <alias>Racing Santander , PC</alias>
+ <alias>Racing Santander , P.C.</alias>
+ <alias>Racing Santander, PC</alias>
+ <alias>Racing Santander, P.C.</alias>
+ <alias>Racing Santander plc</alias>
+ <alias>Racing Santander Plc</alias>
+ <alias>Racing Santander PLC</alias>
+ <alias>Racing Santander Partners</alias>
+ <alias>Racing Santander Industries</alias>
+ <rel listtype="true">org:alternate_names</rel>
+ <rel listtype="true">org:founded_by</rel>
+ <rel listtype="true">org:member_of</rel>
+ <rel listtype="true">org:members</rel>
+ <rel listtype="true">org:parents</rel>
+ <rel listtype="true">org:political_religious_affiliation</rel>
+ <rel listtype="true">org:shareholders</rel>
+ <rel listtype="true">org:subsidiaries</rel>
+ <rel listtype="true">org:top_members_employees</rel>
+ <rel listtype="false">org:city_of_headquarters</rel>
+ <rel listtype="false">org:country_of_headquarters</rel>
+ <rel listtype="false">org:date_dissolved</rel>
+ <rel listtype="false">org:date_founded</rel>
+ <rel listtype="false">org:number_of_employees_members</rel>
+ <rel listtype="false">org:stateorprovince_of_headquarters</rel>
+ <rel listtype="false">org:website</rel>
+</query>
+<query id="SF_SPA_030">
+ <name>Banco Santander</name>
+ <docid>AFP_SPA_20100204.0399</docid>
+ <beg>108</beg>
+ <end>122</end>
+ <enttype>ORG</enttype>
+ <nodeid>E0285686</nodeid>
+ <ignore>org:date_founded org:city_of_headquarters org:number_of_employees_members org:website</ignore>
+ <alias>Banco Santander LLC</alias>
+ <alias>Banco Santander L.L.C.</alias>
+ <alias>Banco Santander, LLC</alias>
+ <alias>Banco Santander, L.L.C.</alias>
+ <alias>Banco Santander , LLC</alias>
+ <alias>Banco Santander , L.L.C.</alias>
+ <alias>Banco Santander Limited</alias>
+ <alias>Banco Santander Ltd</alias>
+ <alias>Banco Santander Ltd.</alias>
+ <alias>Banco Santander, Ltd</alias>
+ <alias>Banco Santander, Ltd.</alias>
+ <alias>Banco Santander , Ltd</alias>
+ <alias>Banco Santander , Ltd.</alias>
+ <alias>Banco Santander Corporation</alias>
+ <alias>Banco Santander Corp.</alias>
+ <alias>Banco Santander Corp</alias>
+ <alias>Banco Santander Co.</alias>
+ <alias>Banco Santander Co</alias>
+ <alias>Banco Santander Incorporated</alias>
+ <alias>Banco Santander Inc.</alias>
+ <alias>Banco Santander Inc</alias>
+ <alias>Banco Santander, Incorporated</alias>
+ <alias>Banco Santander, Inc.</alias>
+ <alias>Banco Santander, Inc</alias>
+ <alias>Banco Santander , Incorporated</alias>
+ <alias>Banco Santander , Inc.</alias>
+ <alias>Banco Santander , Inc</alias>
+ <alias>Banco Santander LLLP</alias>
+ <alias>Banco Santander L.L.L.P.</alias>
+ <alias>Banco Santander , LLLP</alias>
+ <alias>Banco Santander , L.L.L.P.</alias>
+ <alias>Banco Santander, LLLP</alias>
+ <alias>Banco Santander, L.L.L.P.</alias>
+ <alias>Banco Santander LLP</alias>
+ <alias>Banco Santander , LLP</alias>
+ <alias>Banco Santander, LLP</alias>
+ <alias>Banco Santander LP</alias>
+ <alias>Banco Santander L.P.</alias>
+ <alias>Banco Santander , LP</alias>
+ <alias>Banco Santander , L.P.</alias>
+ <alias>Banco Santander, LP</alias>
+ <alias>Banco Santander, L.P.</alias>
+ <alias>Banco Santander PC</alias>
+ <alias>Banco Santander P.C.</alias>
+ <alias>Banco Santander , PC</alias>
+ <alias>Banco Santander , P.C.</alias>
+ <alias>Banco Santander, PC</alias>
+ <alias>Banco Santander, P.C.</alias>
+ <alias>Banco Santander plc</alias>
+ <alias>Banco Santander Plc</alias>
+ <alias>Banco Santander PLC</alias>
+ <alias>Banco Santander Partners</alias>
+ <alias>Banco Santander Industries</alias>
+ <rel listtype="true">org:alternate_names</rel>
+ <rel listtype="true">org:founded_by</rel>
+ <rel listtype="true">org:member_of</rel>
+ <rel listtype="true">org:members</rel>
+ <rel listtype="true">org:parents</rel>
+ <rel listtype="true">org:political_religious_affiliation</rel>
+ <rel listtype="true">org:shareholders</rel>
+ <rel listtype="true">org:subsidiaries</rel>
+ <rel listtype="true">org:top_members_employees</rel>
+ <rel listtype="false">org:country_of_headquarters</rel>
+ <rel listtype="false">org:date_dissolved</rel>
+ <rel listtype="false">org:stateorprovince_of_headquarters</rel>
+</query>
+<query id="SF_SPA_031">
+ <name>Dirección General de la Aviación Civil</name>
+ <docid>AFP_SPA_20100416.0059</docid>
+ <beg>363</beg>
+ <end>400</end>
+ <enttype>ORG</enttype>
+ <nodeid>NIL283</nodeid>
+ <ignore></ignore>
+ <alias>Dirección General de la Aviación Civil LLC</alias>
+ <alias>Dirección General de la Aviación Civil L.L.C.</alias>
+ <alias>Dirección General de la Aviación Civil, LLC</alias>
+ <alias>Dirección General de la Aviación Civil, L.L.C.</alias>
+ <alias>Dirección General de la Aviación Civil , LLC</alias>
+ <alias>Dirección General de la Aviación Civil , L.L.C.</alias>
+ <alias>Dirección General de la Aviación Civil Limited</alias>
+ <alias>Dirección General de la Aviación Civil Ltd</alias>
+ <alias>Dirección General de la Aviación Civil Ltd.</alias>
+ <alias>Dirección General de la Aviación Civil, Ltd</alias>
+ <alias>Dirección General de la Aviación Civil, Ltd.</alias>
+ <alias>Dirección General de la Aviación Civil , Ltd</alias>
+ <alias>Dirección General de la Aviación Civil , Ltd.</alias>
+ <alias>Dirección General de la Aviación Civil Corporation</alias>
+ <alias>Dirección General de la Aviación Civil Corp.</alias>
+ <alias>Dirección General de la Aviación Civil Corp</alias>
+ <alias>Dirección General de la Aviación Civil Co.</alias>
+ <alias>Dirección General de la Aviación Civil Co</alias>
+ <alias>Dirección General de la Aviación Civil Incorporated</alias>
+ <alias>Dirección General de la Aviación Civil Inc.</alias>
+ <alias>Dirección General de la Aviación Civil Inc</alias>
+ <alias>Dirección General de la Aviación Civil, Incorporated</alias>
+ <alias>Dirección General de la Aviación Civil, Inc.</alias>
+ <alias>Dirección General de la Aviación Civil, Inc</alias>
+ <alias>Dirección General de la Aviación Civil , Incorporated</alias>
+ <alias>Dirección General de la Aviación Civil , Inc.</alias>
+ <alias>Dirección General de la Aviación Civil , Inc</alias>
+ <alias>Dirección General de la Aviación Civil LLLP</alias>
+ <alias>Dirección General de la Aviación Civil L.L.L.P.</alias>
+ <alias>Dirección General de la Aviación Civil , LLLP</alias>
+ <alias>Dirección General de la Aviación Civil , L.L.L.P.</alias>
+ <alias>Dirección General de la Aviación Civil, LLLP</alias>
+ <alias>Dirección General de la Aviación Civil, L.L.L.P.</alias>
+ <alias>Dirección General de la Aviación Civil LLP</alias>
+ <alias>Dirección General de la Aviación Civil , LLP</alias>
+ <alias>Dirección General de la Aviación Civil, LLP</alias>
+ <alias>Dirección General de la Aviación Civil LP</alias>
+ <alias>Dirección General de la Aviación Civil L.P.</alias>
+ <alias>Dirección General de la Aviación Civil , LP</alias>
+ <alias>Dirección General de la Aviación Civil , L.P.</alias>
+ <alias>Dirección General de la Aviación Civil, LP</alias>
+ <alias>Dirección General de la Aviación Civil, L.P.</alias>
+ <alias>Dirección General de la Aviación Civil PC</alias>
+ <alias>Dirección General de la Aviación Civil P.C.</alias>
+ <alias>Dirección General de la Aviación Civil , PC</alias>
+ <alias>Dirección General de la Aviación Civil , P.C.</alias>
+ <alias>Dirección General de la Aviación Civil, PC</alias>
+ <alias>Dirección General de la Aviación Civil, P.C.</alias>
+ <alias>Dirección General de la Aviación Civil plc</alias>
+ <alias>Dirección General de la Aviación Civil Plc</alias>
+ <alias>Dirección General de la Aviación Civil PLC</alias>
+ <alias>Dirección General de la Aviación Civil Partners</alias>
+ <alias>Dirección General de la Aviación Civil Industries</alias>
+ <rel listtype="true">org:alternate_names</rel>
+ <rel listtype="true">org:founded_by</rel>
+ <rel listtype="true">org:member_of</rel>
+ <rel listtype="true">org:members</rel>
+ <rel listtype="true">org:parents</rel>
+ <rel listtype="true">org:political_religious_affiliation</rel>
+ <rel listtype="true">org:shareholders</rel>
+ <rel listtype="true">org:subsidiaries</rel>
+ <rel listtype="true">org:top_members_employees</rel>
+ <rel listtype="false">org:city_of_headquarters</rel>
+ <rel listtype="false">org:country_of_headquarters</rel>
+ <rel listtype="false">org:date_dissolved</rel>
+ <rel listtype="false">org:date_founded</rel>
+ <rel listtype="false">org:number_of_employees_members</rel>
+ <rel listtype="false">org:stateorprovince_of_headquarters</rel>
+ <rel listtype="false">org:website</rel>
+</query>
+<query id="SF_SPA_032">
+ <name>Comisión Nacional del Agua</name>
+ <docid>APW_SPA_20070810.0558</docid>
+ <beg>1350</beg>
+ <end>1375</end>
+ <enttype>ORG</enttype>
+ <nodeid>NIL323</nodeid>
+ <ignore></ignore>
+ <alias>Comisión Nacional del Agua LLC</alias>
+ <alias>Comisión Nacional del Agua L.L.C.</alias>
+ <alias>Comisión Nacional del Agua, LLC</alias>
+ <alias>Comisión Nacional del Agua, L.L.C.</alias>
+ <alias>Comisión Nacional del Agua , LLC</alias>
+ <alias>Comisión Nacional del Agua , L.L.C.</alias>
+ <alias>Comisión Nacional del Agua Limited</alias>
+ <alias>Comisión Nacional del Agua Ltd</alias>
+ <alias>Comisión Nacional del Agua Ltd.</alias>
+ <alias>Comisión Nacional del Agua, Ltd</alias>
+ <alias>Comisión Nacional del Agua, Ltd.</alias>
+ <alias>Comisión Nacional del Agua , Ltd</alias>
+ <alias>Comisión Nacional del Agua , Ltd.</alias>
+ <alias>Comisión Nacional del Agua Corporation</alias>
+ <alias>Comisión Nacional del Agua Corp.</alias>
+ <alias>Comisión Nacional del Agua Corp</alias>
+ <alias>Comisión Nacional del Agua Co.</alias>
+ <alias>Comisión Nacional del Agua Co</alias>
+ <alias>Comisión Nacional del Agua Incorporated</alias>
+ <alias>Comisión Nacional del Agua Inc.</alias>
+ <alias>Comisión Nacional del Agua Inc</alias>
+ <alias>Comisión Nacional del Agua, Incorporated</alias>
+ <alias>Comisión Nacional del Agua, Inc.</alias>
+ <alias>Comisión Nacional del Agua, Inc</alias>
+ <alias>Comisión Nacional del Agua , Incorporated</alias>
+ <alias>Comisión Nacional del Agua , Inc.</alias>
+ <alias>Comisión Nacional del Agua , Inc</alias>
+ <alias>Comisión Nacional del Agua LLLP</alias>
+ <alias>Comisión Nacional del Agua L.L.L.P.</alias>
+ <alias>Comisión Nacional del Agua , LLLP</alias>
+ <alias>Comisión Nacional del Agua , L.L.L.P.</alias>
+ <alias>Comisión Nacional del Agua, LLLP</alias>
+ <alias>Comisión Nacional del Agua, L.L.L.P.</alias>
+ <alias>Comisión Nacional del Agua LLP</alias>
+ <alias>Comisión Nacional del Agua , LLP</alias>
+ <alias>Comisión Nacional del Agua, LLP</alias>
+ <alias>Comisión Nacional del Agua LP</alias>
+ <alias>Comisión Nacional del Agua L.P.</alias>
+ <alias>Comisión Nacional del Agua , LP</alias>
+ <alias>Comisión Nacional del Agua , L.P.</alias>
+ <alias>Comisión Nacional del Agua, LP</alias>
+ <alias>Comisión Nacional del Agua, L.P.</alias>
+ <alias>Comisión Nacional del Agua PC</alias>
+ <alias>Comisión Nacional del Agua P.C.</alias>
+ <alias>Comisión Nacional del Agua , PC</alias>
+ <alias>Comisión Nacional del Agua , P.C.</alias>
+ <alias>Comisión Nacional del Agua, PC</alias>
+ <alias>Comisión Nacional del Agua, P.C.</alias>
+ <alias>Comisión Nacional del Agua plc</alias>
+ <alias>Comisión Nacional del Agua Plc</alias>
+ <alias>Comisión Nacional del Agua PLC</alias>
+ <alias>Comisión Nacional del Agua Partners</alias>
+ <alias>Comisión Nacional del Agua Industries</alias>
+ <rel listtype="true">org:alternate_names</rel>
+ <rel listtype="true">org:founded_by</rel>
+ <rel listtype="true">org:member_of</rel>
+ <rel listtype="true">org:members</rel>
+ <rel listtype="true">org:parents</rel>
+ <rel listtype="true">org:political_religious_affiliation</rel>
+ <rel listtype="true">org:shareholders</rel>
+ <rel listtype="true">org:subsidiaries</rel>
+ <rel listtype="true">org:top_members_employees</rel>
+ <rel listtype="false">org:city_of_headquarters</rel>
+ <rel listtype="false">org:country_of_headquarters</rel>
+ <rel listtype="false">org:date_dissolved</rel>
+ <rel listtype="false">org:date_founded</rel>
+ <rel listtype="false">org:number_of_employees_members</rel>
+ <rel listtype="false">org:stateorprovince_of_headquarters</rel>
+ <rel listtype="false">org:website</rel>
+</query>
+<query id="SF_SPA_033">
+ <name>Agencia Mundial Antidopaje</name>
+ <docid>AFP_SPA_20091216.0285</docid>
+ <beg>397</beg>
+ <end>422</end>
+ <enttype>ORG</enttype>
+ <nodeid>NIL293</nodeid>
+ <ignore></ignore>
+ <alias>AMA</alias>
+ <alias>Agencia Mundial Antidopaje LLC</alias>
+ <alias>Agencia Mundial Antidopaje L.L.C.</alias>
+ <alias>Agencia Mundial Antidopaje, LLC</alias>
+ <alias>Agencia Mundial Antidopaje, L.L.C.</alias>
+ <alias>Agencia Mundial Antidopaje , LLC</alias>
+ <alias>Agencia Mundial Antidopaje , L.L.C.</alias>
+ <alias>Agencia Mundial Antidopaje Limited</alias>
+ <alias>Agencia Mundial Antidopaje Ltd</alias>
+ <alias>Agencia Mundial Antidopaje Ltd.</alias>
+ <alias>Agencia Mundial Antidopaje, Ltd</alias>
+ <alias>Agencia Mundial Antidopaje, Ltd.</alias>
+ <alias>Agencia Mundial Antidopaje , Ltd</alias>
+ <alias>Agencia Mundial Antidopaje , Ltd.</alias>
+ <alias>Agencia Mundial Antidopaje Corporation</alias>
+ <alias>Agencia Mundial Antidopaje Corp.</alias>
+ <alias>Agencia Mundial Antidopaje Corp</alias>
+ <alias>Agencia Mundial Antidopaje Co.</alias>
+ <alias>Agencia Mundial Antidopaje Co</alias>
+ <alias>Agencia Mundial Antidopaje Incorporated</alias>
+ <alias>Agencia Mundial Antidopaje Inc.</alias>
+ <alias>Agencia Mundial Antidopaje Inc</alias>
+ <alias>Agencia Mundial Antidopaje, Incorporated</alias>
+ <alias>Agencia Mundial Antidopaje, Inc.</alias>
+ <alias>Agencia Mundial Antidopaje, Inc</alias>
+ <alias>Agencia Mundial Antidopaje , Incorporated</alias>
+ <alias>Agencia Mundial Antidopaje , Inc.</alias>
+ <alias>Agencia Mundial Antidopaje , Inc</alias>
+ <alias>Agencia Mundial Antidopaje LLLP</alias>
+ <alias>Agencia Mundial Antidopaje L.L.L.P.</alias>
+ <alias>Agencia Mundial Antidopaje , LLLP</alias>
+ <alias>Agencia Mundial Antidopaje , L.L.L.P.</alias>
+ <alias>Agencia Mundial Antidopaje, LLLP</alias>
+ <alias>Agencia Mundial Antidopaje, L.L.L.P.</alias>
+ <alias>Agencia Mundial Antidopaje LLP</alias>
+ <alias>Agencia Mundial Antidopaje , LLP</alias>
+ <alias>Agencia Mundial Antidopaje, LLP</alias>
+ <alias>Agencia Mundial Antidopaje LP</alias>
+ <alias>Agencia Mundial Antidopaje L.P.</alias>
+ <alias>Agencia Mundial Antidopaje , LP</alias>
+ <alias>Agencia Mundial Antidopaje , L.P.</alias>
+ <alias>Agencia Mundial Antidopaje, LP</alias>
+ <alias>Agencia Mundial Antidopaje, L.P.</alias>
+ <alias>Agencia Mundial Antidopaje PC</alias>
+ <alias>Agencia Mundial Antidopaje P.C.</alias>
+ <alias>Agencia Mundial Antidopaje , PC</alias>
+ <alias>Agencia Mundial Antidopaje , P.C.</alias>
+ <alias>Agencia Mundial Antidopaje, PC</alias>
+ <alias>Agencia Mundial Antidopaje, P.C.</alias>
+ <alias>Agencia Mundial Antidopaje plc</alias>
+ <alias>Agencia Mundial Antidopaje Plc</alias>
+ <alias>Agencia Mundial Antidopaje PLC</alias>
+ <alias>Agencia Mundial Antidopaje Partners</alias>
+ <alias>Agencia Mundial Antidopaje Industries</alias>
+ <rel listtype="true">org:alternate_names</rel>
+ <rel listtype="true">org:founded_by</rel>
+ <rel listtype="true">org:member_of</rel>
+ <rel listtype="true">org:members</rel>
+ <rel listtype="true">org:parents</rel>
+ <rel listtype="true">org:political_religious_affiliation</rel>
+ <rel listtype="true">org:shareholders</rel>
+ <rel listtype="true">org:subsidiaries</rel>
+ <rel listtype="true">org:top_members_employees</rel>
+ <rel listtype="false">org:city_of_headquarters</rel>
+ <rel listtype="false">org:country_of_headquarters</rel>
+ <rel listtype="false">org:date_dissolved</rel>
+ <rel listtype="false">org:date_founded</rel>
+ <rel listtype="false">org:number_of_employees_members</rel>
+ <rel listtype="false">org:stateorprovince_of_headquarters</rel>
+ <rel listtype="false">org:website</rel>
+</query>
+<query id="SF_SPA_034">
+ <name>Policía Nacional del Perú</name>
+ <docid>XIN_SPA_20090325.0100</docid>
+ <beg>786</beg>
+ <end>810</end>
+ <enttype>ORG</enttype>
+ <nodeid>NIL284</nodeid>
+ <ignore></ignore>
+ <alias>Policía peruana</alias>
+ <alias>Policía Nacional del Perú LLC</alias>
+ <alias>Policía Nacional del Perú L.L.C.</alias>
+ <alias>Policía Nacional del Perú, LLC</alias>
+ <alias>Policía Nacional del Perú, L.L.C.</alias>
+ <alias>Policía Nacional del Perú , LLC</alias>
+ <alias>Policía Nacional del Perú , L.L.C.</alias>
+ <alias>Policía Nacional del Perú Limited</alias>
+ <alias>Policía Nacional del Perú Ltd</alias>
+ <alias>Policía Nacional del Perú Ltd.</alias>
+ <alias>Policía Nacional del Perú, Ltd</alias>
+ <alias>Policía Nacional del Perú, Ltd.</alias>
+ <alias>Policía Nacional del Perú , Ltd</alias>
+ <alias>Policía Nacional del Perú , Ltd.</alias>
+ <alias>Policía Nacional del Perú Corporation</alias>
+ <alias>Policía Nacional del Perú Corp.</alias>
+ <alias>Policía Nacional del Perú Corp</alias>
+ <alias>Policía Nacional del Perú Co.</alias>
+ <alias>Policía Nacional del Perú Co</alias>
+ <alias>Policía Nacional del Perú Incorporated</alias>
+ <alias>Policía Nacional del Perú Inc.</alias>
+ <alias>Policía Nacional del Perú Inc</alias>
+ <alias>Policía Nacional del Perú, Incorporated</alias>
+ <alias>Policía Nacional del Perú, Inc.</alias>
+ <alias>Policía Nacional del Perú, Inc</alias>
+ <alias>Policía Nacional del Perú , Incorporated</alias>
+ <alias>Policía Nacional del Perú , Inc.</alias>
+ <alias>Policía Nacional del Perú , Inc</alias>
+ <alias>Policía Nacional del Perú LLLP</alias>
+ <alias>Policía Nacional del Perú L.L.L.P.</alias>
+ <alias>Policía Nacional del Perú , LLLP</alias>
+ <alias>Policía Nacional del Perú , L.L.L.P.</alias>
+ <alias>Policía Nacional del Perú, LLLP</alias>
+ <alias>Policía Nacional del Perú, L.L.L.P.</alias>
+ <alias>Policía Nacional del Perú LLP</alias>
+ <alias>Policía Nacional del Perú , LLP</alias>
+ <alias>Policía Nacional del Perú, LLP</alias>
+ <alias>Policía Nacional del Perú LP</alias>
+ <alias>Policía Nacional del Perú L.P.</alias>
+ <alias>Policía Nacional del Perú , LP</alias>
+ <alias>Policía Nacional del Perú , L.P.</alias>
+ <alias>Policía Nacional del Perú, LP</alias>
+ <alias>Policía Nacional del Perú, L.P.</alias>
+ <alias>Policía Nacional del Perú PC</alias>
+ <alias>Policía Nacional del Perú P.C.</alias>
+ <alias>Policía Nacional del Perú , PC</alias>
+ <alias>Policía Nacional del Perú , P.C.</alias>
+ <alias>Policía Nacional del Perú, PC</alias>
+ <alias>Policía Nacional del Perú, P.C.</alias>
+ <alias>Policía Nacional del Perú plc</alias>
+ <alias>Policía Nacional del Perú Plc</alias>
+ <alias>Policía Nacional del Perú PLC</alias>
+ <alias>Policía Nacional del Perú Partners</alias>
+ <alias>Policía Nacional del Perú Industries</alias>
+ <rel listtype="true">org:alternate_names</rel>
+ <rel listtype="true">org:founded_by</rel>
+ <rel listtype="true">org:member_of</rel>
+ <rel listtype="true">org:members</rel>
+ <rel listtype="true">org:parents</rel>
+ <rel listtype="true">org:political_religious_affiliation</rel>
+ <rel listtype="true">org:shareholders</rel>
+ <rel listtype="true">org:subsidiaries</rel>
+ <rel listtype="true">org:top_members_employees</rel>
+ <rel listtype="false">org:city_of_headquarters</rel>
+ <rel listtype="false">org:country_of_headquarters</rel>
+ <rel listtype="false">org:date_dissolved</rel>
+ <rel listtype="false">org:date_founded</rel>
+ <rel listtype="false">org:number_of_employees_members</rel>
+ <rel listtype="false">org:stateorprovince_of_headquarters</rel>
+ <rel listtype="false">org:website</rel>
+</query>
+<query id="SF_SPA_035">
+ <name>Asociación del Fútbol Argentino</name>
+ <docid>AFP_SPA_20091126.0251</docid>
+ <beg>577</beg>
+ <end>607</end>
+ <enttype>ORG</enttype>
+ <nodeid>NIL279</nodeid>
+ <ignore></ignore>
+ <alias>A.F.A.</alias>
+ <alias>Argentine Football Association</alias>
+ <alias>Argentine Association Football League</alias>
+ <alias>AFA</alias>
+ <alias>Asociación del Fútbol Argentino (AFA)</alias>
+ <alias>Asociación del Fútbol Argentino LLC</alias>
+ <alias>Asociación del Fútbol Argentino L.L.C.</alias>
+ <alias>Asociación del Fútbol Argentino, LLC</alias>
+ <alias>Asociación del Fútbol Argentino, L.L.C.</alias>
+ <alias>Asociación del Fútbol Argentino , LLC</alias>
+ <alias>Asociación del Fútbol Argentino , L.L.C.</alias>
+ <alias>Asociación del Fútbol Argentino Limited</alias>
+ <alias>Asociación del Fútbol Argentino Ltd</alias>
+ <alias>Asociación del Fútbol Argentino Ltd.</alias>
+ <alias>Asociación del Fútbol Argentino, Ltd</alias>
+ <alias>Asociación del Fútbol Argentino, Ltd.</alias>
+ <alias>Asociación del Fútbol Argentino , Ltd</alias>
+ <alias>Asociación del Fútbol Argentino , Ltd.</alias>
+ <alias>Asociación del Fútbol Argentino Corporation</alias>
+ <alias>Asociación del Fútbol Argentino Corp.</alias>
+ <alias>Asociación del Fútbol Argentino Corp</alias>
+ <alias>Asociación del Fútbol Argentino Co.</alias>
+ <alias>Asociación del Fútbol Argentino Co</alias>
+ <alias>Asociación del Fútbol Argentino Incorporated</alias>
+ <alias>Asociación del Fútbol Argentino Inc.</alias>
+ <alias>Asociación del Fútbol Argentino Inc</alias>
+ <alias>Asociación del Fútbol Argentino, Incorporated</alias>
+ <alias>Asociación del Fútbol Argentino, Inc.</alias>
+ <alias>Asociación del Fútbol Argentino, Inc</alias>
+ <alias>Asociación del Fútbol Argentino , Incorporated</alias>
+ <alias>Asociación del Fútbol Argentino , Inc.</alias>
+ <alias>Asociación del Fútbol Argentino , Inc</alias>
+ <alias>Asociación del Fútbol Argentino LLLP</alias>
+ <alias>Asociación del Fútbol Argentino L.L.L.P.</alias>
+ <alias>Asociación del Fútbol Argentino , LLLP</alias>
+ <alias>Asociación del Fútbol Argentino , L.L.L.P.</alias>
+ <alias>Asociación del Fútbol Argentino, LLLP</alias>
+ <alias>Asociación del Fútbol Argentino, L.L.L.P.</alias>
+ <alias>Asociación del Fútbol Argentino LLP</alias>
+ <alias>Asociación del Fútbol Argentino , LLP</alias>
+ <alias>Asociación del Fútbol Argentino, LLP</alias>
+ <alias>Asociación del Fútbol Argentino LP</alias>
+ <alias>Asociación del Fútbol Argentino L.P.</alias>
+ <alias>Asociación del Fútbol Argentino , LP</alias>
+ <alias>Asociación del Fútbol Argentino , L.P.</alias>
+ <alias>Asociación del Fútbol Argentino, LP</alias>
+ <alias>Asociación del Fútbol Argentino, L.P.</alias>
+ <alias>Asociación del Fútbol Argentino PC</alias>
+ <alias>Asociación del Fútbol Argentino P.C.</alias>
+ <alias>Asociación del Fútbol Argentino , PC</alias>
+ <alias>Asociación del Fútbol Argentino , P.C.</alias>
+ <alias>Asociación del Fútbol Argentino, PC</alias>
+ <alias>Asociación del Fútbol Argentino, P.C.</alias>
+ <alias>Asociación del Fútbol Argentino plc</alias>
+ <alias>Asociación del Fútbol Argentino Plc</alias>
+ <alias>Asociación del Fútbol Argentino PLC</alias>
+ <alias>Asociación del Fútbol Argentino Partners</alias>
+ <alias>Asociación del Fútbol Argentino Industries</alias>
+ <rel listtype="true">org:alternate_names</rel>
+ <rel listtype="true">org:founded_by</rel>
+ <rel listtype="true">org:member_of</rel>
+ <rel listtype="true">org:members</rel>
+ <rel listtype="true">org:parents</rel>
+ <rel listtype="true">org:political_religious_affiliation</rel>
+ <rel listtype="true">org:shareholders</rel>
+ <rel listtype="true">org:subsidiaries</rel>
+ <rel listtype="true">org:top_members_employees</rel>
+ <rel listtype="false">org:city_of_headquarters</rel>
+ <rel listtype="false">org:country_of_headquarters</rel>
+ <rel listtype="false">org:date_dissolved</rel>
+ <rel listtype="false">org:date_founded</rel>
+ <rel listtype="false">org:number_of_employees_members</rel>
+ <rel listtype="false">org:stateorprovince_of_headquarters</rel>
+ <rel listtype="false">org:website</rel>
+</query>
+<query id="SF_SPA_036">
+ <name>Real Rácing Club de Santander</name>
+ <docid>AFP_SPA_20080121.0203</docid>
+ <beg>481</beg>
+ <end>509</end>
+ <enttype>ORG</enttype>
+ <nodeid>NIL214</nodeid>
+ <ignore></ignore>
+ <alias>Real Rácing Club de Santander LLC</alias>
+ <alias>Real Rácing Club de Santander L.L.C.</alias>
+ <alias>Real Rácing Club de Santander, LLC</alias>
+ <alias>Real Rácing Club de Santander, L.L.C.</alias>
+ <alias>Real Rácing Club de Santander , LLC</alias>
+ <alias>Real Rácing Club de Santander , L.L.C.</alias>
+ <alias>Real Rácing Club de Santander Limited</alias>
+ <alias>Real Rácing Club de Santander Ltd</alias>
+ <alias>Real Rácing Club de Santander Ltd.</alias>
+ <alias>Real Rácing Club de Santander, Ltd</alias>
+ <alias>Real Rácing Club de Santander, Ltd.</alias>
+ <alias>Real Rácing Club de Santander , Ltd</alias>
+ <alias>Real Rácing Club de Santander , Ltd.</alias>
+ <alias>Real Rácing Club de Santander Corporation</alias>
+ <alias>Real Rácing Club de Santander Corp.</alias>
+ <alias>Real Rácing Club de Santander Corp</alias>
+ <alias>Real Rácing Club de Santander Co.</alias>
+ <alias>Real Rácing Club de Santander Co</alias>
+ <alias>Real Rácing Club de Santander Incorporated</alias>
+ <alias>Real Rácing Club de Santander Inc.</alias>
+ <alias>Real Rácing Club de Santander Inc</alias>
+ <alias>Real Rácing Club de Santander, Incorporated</alias>
+ <alias>Real Rácing Club de Santander, Inc.</alias>
+ <alias>Real Rácing Club de Santander, Inc</alias>
+ <alias>Real Rácing Club de Santander , Incorporated</alias>
+ <alias>Real Rácing Club de Santander , Inc.</alias>
+ <alias>Real Rácing Club de Santander , Inc</alias>
+ <alias>Real Rácing Club de Santander LLLP</alias>
+ <alias>Real Rácing Club de Santander L.L.L.P.</alias>
+ <alias>Real Rácing Club de Santander , LLLP</alias>
+ <alias>Real Rácing Club de Santander , L.L.L.P.</alias>
+ <alias>Real Rácing Club de Santander, LLLP</alias>
+ <alias>Real Rácing Club de Santander, L.L.L.P.</alias>
+ <alias>Real Rácing Club de Santander LLP</alias>
+ <alias>Real Rácing Club de Santander , LLP</alias>
+ <alias>Real Rácing Club de Santander, LLP</alias>
+ <alias>Real Rácing Club de Santander LP</alias>
+ <alias>Real Rácing Club de Santander L.P.</alias>
+ <alias>Real Rácing Club de Santander , LP</alias>
+ <alias>Real Rácing Club de Santander , L.P.</alias>
+ <alias>Real Rácing Club de Santander, LP</alias>
+ <alias>Real Rácing Club de Santander, L.P.</alias>
+ <alias>Real Rácing Club de Santander PC</alias>
+ <alias>Real Rácing Club de Santander P.C.</alias>
+ <alias>Real Rácing Club de Santander , PC</alias>
+ <alias>Real Rácing Club de Santander , P.C.</alias>
+ <alias>Real Rácing Club de Santander, PC</alias>
+ <alias>Real Rácing Club de Santander, P.C.</alias>
+ <alias>Real Rácing Club de Santander plc</alias>
+ <alias>Real Rácing Club de Santander Plc</alias>
+ <alias>Real Rácing Club de Santander PLC</alias>
+ <alias>Real Rácing Club de Santander Partners</alias>
+ <alias>Real Rácing Club de Santander Industries</alias>
+ <rel listtype="true">org:alternate_names</rel>
+ <rel listtype="true">org:founded_by</rel>
+ <rel listtype="true">org:member_of</rel>
+ <rel listtype="true">org:members</rel>
+ <rel listtype="true">org:parents</rel>
+ <rel listtype="true">org:political_religious_affiliation</rel>
+ <rel listtype="true">org:shareholders</rel>
+ <rel listtype="true">org:subsidiaries</rel>
+ <rel listtype="true">org:top_members_employees</rel>
+ <rel listtype="false">org:city_of_headquarters</rel>
+ <rel listtype="false">org:country_of_headquarters</rel>
+ <rel listtype="false">org:date_dissolved</rel>
+ <rel listtype="false">org:date_founded</rel>
+ <rel listtype="false">org:number_of_employees_members</rel>
+ <rel listtype="false">org:stateorprovince_of_headquarters</rel>
+ <rel listtype="false">org:website</rel>
+</query>
+<query id="SF_SPA_037">
+ <name>Racing-Métro</name>
+ <docid>AFP_SPA_20101129.0238</docid>
+ <beg>256</beg>
+ <end>267</end>
+ <enttype>ORG</enttype>
+ <nodeid>NIL215</nodeid>
+ <ignore></ignore>
+ <alias>Racing-Métro LLC</alias>
+ <alias>Racing-Métro L.L.C.</alias>
+ <alias>Racing-Métro, LLC</alias>
+ <alias>Racing-Métro, L.L.C.</alias>
+ <alias>Racing-Métro , LLC</alias>
+ <alias>Racing-Métro , L.L.C.</alias>
+ <alias>Racing-Métro Limited</alias>
+ <alias>Racing-Métro Ltd</alias>
+ <alias>Racing-Métro Ltd.</alias>
+ <alias>Racing-Métro, Ltd</alias>
+ <alias>Racing-Métro, Ltd.</alias>
+ <alias>Racing-Métro , Ltd</alias>
+ <alias>Racing-Métro , Ltd.</alias>
+ <alias>Racing-Métro Corporation</alias>
+ <alias>Racing-Métro Corp.</alias>
+ <alias>Racing-Métro Corp</alias>
+ <alias>Racing-Métro Co.</alias>
+ <alias>Racing-Métro Co</alias>
+ <alias>Racing-Métro Incorporated</alias>
+ <alias>Racing-Métro Inc.</alias>
+ <alias>Racing-Métro Inc</alias>
+ <alias>Racing-Métro, Incorporated</alias>
+ <alias>Racing-Métro, Inc.</alias>
+ <alias>Racing-Métro, Inc</alias>
+ <alias>Racing-Métro , Incorporated</alias>
+ <alias>Racing-Métro , Inc.</alias>
+ <alias>Racing-Métro , Inc</alias>
+ <alias>Racing-Métro LLLP</alias>
+ <alias>Racing-Métro L.L.L.P.</alias>
+ <alias>Racing-Métro , LLLP</alias>
+ <alias>Racing-Métro , L.L.L.P.</alias>
+ <alias>Racing-Métro, LLLP</alias>
+ <alias>Racing-Métro, L.L.L.P.</alias>
+ <alias>Racing-Métro LLP</alias>
+ <alias>Racing-Métro , LLP</alias>
+ <alias>Racing-Métro, LLP</alias>
+ <alias>Racing-Métro LP</alias>
+ <alias>Racing-Métro L.P.</alias>
+ <alias>Racing-Métro , LP</alias>
+ <alias>Racing-Métro , L.P.</alias>
+ <alias>Racing-Métro, LP</alias>
+ <alias>Racing-Métro, L.P.</alias>
+ <alias>Racing-Métro PC</alias>
+ <alias>Racing-Métro P.C.</alias>
+ <alias>Racing-Métro , PC</alias>
+ <alias>Racing-Métro , P.C.</alias>
+ <alias>Racing-Métro, PC</alias>
+ <alias>Racing-Métro, P.C.</alias>
+ <alias>Racing-Métro plc</alias>
+ <alias>Racing-Métro Plc</alias>
+ <alias>Racing-Métro PLC</alias>
+ <alias>Racing-Métro Partners</alias>
+ <alias>Racing-Métro Industries</alias>
+ <rel listtype="true">org:alternate_names</rel>
+ <rel listtype="true">org:founded_by</rel>
+ <rel listtype="true">org:member_of</rel>
+ <rel listtype="true">org:members</rel>
+ <rel listtype="true">org:parents</rel>
+ <rel listtype="true">org:political_religious_affiliation</rel>
+ <rel listtype="true">org:shareholders</rel>
+ <rel listtype="true">org:subsidiaries</rel>
+ <rel listtype="true">org:top_members_employees</rel>
+ <rel listtype="false">org:city_of_headquarters</rel>
+ <rel listtype="false">org:country_of_headquarters</rel>
+ <rel listtype="false">org:date_dissolved</rel>
+ <rel listtype="false">org:date_founded</rel>
+ <rel listtype="false">org:number_of_employees_members</rel>
+ <rel listtype="false">org:stateorprovince_of_headquarters</rel>
+ <rel listtype="false">org:website</rel>
+</query>
+<query id="SF_SPA_038">
+ <name>Carnegie Corporation of New York</name>
+ <docid>APW_ENG_20071017.1648.LDC2009T13</docid>
+ <beg>1120</beg>
+ <end>1151</end>
+ <enttype>ORG</enttype>
+ <nodeid>NIL191</nodeid>
+ <ignore></ignore>
+ <alias>Carnegie Corporation of New York LLC</alias>
+ <alias>Carnegie Corporation of New York L.L.C.</alias>
+ <alias>Carnegie Corporation of New York, LLC</alias>
+ <alias>Carnegie Corporation of New York, L.L.C.</alias>
+ <alias>Carnegie Corporation of New York , LLC</alias>
+ <alias>Carnegie Corporation of New York , L.L.C.</alias>
+ <alias>Carnegie Corporation of New York Limited</alias>
+ <alias>Carnegie Corporation of New York Ltd</alias>
+ <alias>Carnegie Corporation of New York Ltd.</alias>
+ <alias>Carnegie Corporation of New York, Ltd</alias>
+ <alias>Carnegie Corporation of New York, Ltd.</alias>
+ <alias>Carnegie Corporation of New York , Ltd</alias>
+ <alias>Carnegie Corporation of New York , Ltd.</alias>
+ <alias>Carnegie Corporation of New York Corporation</alias>
+ <alias>Carnegie Corporation of New York Corp.</alias>
+ <alias>Carnegie Corporation of New York Corp</alias>
+ <alias>Carnegie Corporation of New York Co.</alias>
+ <alias>Carnegie Corporation of New York Co</alias>
+ <alias>Carnegie Corporation of New York Incorporated</alias>
+ <alias>Carnegie Corporation of New York Inc.</alias>
+ <alias>Carnegie Corporation of New York Inc</alias>
+ <alias>Carnegie Corporation of New York, Incorporated</alias>
+ <alias>Carnegie Corporation of New York, Inc.</alias>
+ <alias>Carnegie Corporation of New York, Inc</alias>
+ <alias>Carnegie Corporation of New York , Incorporated</alias>
+ <alias>Carnegie Corporation of New York , Inc.</alias>
+ <alias>Carnegie Corporation of New York , Inc</alias>
+ <alias>Carnegie Corporation of New York LLLP</alias>
+ <alias>Carnegie Corporation of New York L.L.L.P.</alias>
+ <alias>Carnegie Corporation of New York , LLLP</alias>
+ <alias>Carnegie Corporation of New York , L.L.L.P.</alias>
+ <alias>Carnegie Corporation of New York, LLLP</alias>
+ <alias>Carnegie Corporation of New York, L.L.L.P.</alias>
+ <alias>Carnegie Corporation of New York LLP</alias>
+ <alias>Carnegie Corporation of New York , LLP</alias>
+ <alias>Carnegie Corporation of New York, LLP</alias>
+ <alias>Carnegie Corporation of New York LP</alias>
+ <alias>Carnegie Corporation of New York L.P.</alias>
+ <alias>Carnegie Corporation of New York , LP</alias>
+ <alias>Carnegie Corporation of New York , L.P.</alias>
+ <alias>Carnegie Corporation of New York, LP</alias>
+ <alias>Carnegie Corporation of New York, L.P.</alias>
+ <alias>Carnegie Corporation of New York PC</alias>
+ <alias>Carnegie Corporation of New York P.C.</alias>
+ <alias>Carnegie Corporation of New York , PC</alias>
+ <alias>Carnegie Corporation of New York , P.C.</alias>
+ <alias>Carnegie Corporation of New York, PC</alias>
+ <alias>Carnegie Corporation of New York, P.C.</alias>
+ <alias>Carnegie Corporation of New York plc</alias>
+ <alias>Carnegie Corporation of New York Plc</alias>
+ <alias>Carnegie Corporation of New York PLC</alias>
+ <alias>Carnegie Corporation of New York Partners</alias>
+ <alias>Carnegie Corporation of New York Industries</alias>
+ <rel listtype="true">org:alternate_names</rel>
+ <rel listtype="true">org:founded_by</rel>
+ <rel listtype="true">org:member_of</rel>
+ <rel listtype="true">org:members</rel>
+ <rel listtype="true">org:parents</rel>
+ <rel listtype="true">org:political_religious_affiliation</rel>
+ <rel listtype="true">org:shareholders</rel>
+ <rel listtype="true">org:subsidiaries</rel>
+ <rel listtype="true">org:top_members_employees</rel>
+ <rel listtype="false">org:city_of_headquarters</rel>
+ <rel listtype="false">org:country_of_headquarters</rel>
+ <rel listtype="false">org:date_dissolved</rel>
+ <rel listtype="false">org:date_founded</rel>
+ <rel listtype="false">org:number_of_employees_members</rel>
+ <rel listtype="false">org:stateorprovince_of_headquarters</rel>
+ <rel listtype="false">org:website</rel>
+</query>
+<query id="SF_SPA_039">
+ <name>Santos</name>
+ <docid>XIN_ENG_20070515.0452.LDC2009T13</docid>
+ <beg>344</beg>
+ <end>349</end>
+ <enttype>ORG</enttype>
+ <nodeid>NIL196</nodeid>
+ <ignore></ignore>
+ <alias>Santos de Brasil</alias>
+ <alias>Santos F. C.</alias>
+ <alias>Santos FC</alias>
+ <alias>Santos Futebol Clube</alias>
+ <alias>Santos LLC</alias>
+ <alias>Santos L.L.C.</alias>
+ <alias>Santos, LLC</alias>
+ <alias>Santos, L.L.C.</alias>
+ <alias>Santos , LLC</alias>
+ <alias>Santos , L.L.C.</alias>
+ <alias>Santos Limited</alias>
+ <alias>Santos Ltd</alias>
+ <alias>Santos Ltd.</alias>
+ <alias>Santos, Ltd</alias>
+ <alias>Santos, Ltd.</alias>
+ <alias>Santos , Ltd</alias>
+ <alias>Santos , Ltd.</alias>
+ <alias>Santos Corporation</alias>
+ <alias>Santos Corp.</alias>
+ <alias>Santos Corp</alias>
+ <alias>Santos Co.</alias>
+ <alias>Santos Co</alias>
+ <alias>Santos Incorporated</alias>
+ <alias>Santos Inc.</alias>
+ <alias>Santos Inc</alias>
+ <alias>Santos, Incorporated</alias>
+ <alias>Santos, Inc.</alias>
+ <alias>Santos, Inc</alias>
+ <alias>Santos , Incorporated</alias>
+ <alias>Santos , Inc.</alias>
+ <alias>Santos , Inc</alias>
+ <alias>Santos LLLP</alias>
+ <alias>Santos L.L.L.P.</alias>
+ <alias>Santos , LLLP</alias>
+ <alias>Santos , L.L.L.P.</alias>
+ <alias>Santos, LLLP</alias>
+ <alias>Santos, L.L.L.P.</alias>
+ <alias>Santos LLP</alias>
+ <alias>Santos , LLP</alias>
+ <alias>Santos, LLP</alias>
+ <alias>Santos LP</alias>
+ <alias>Santos L.P.</alias>
+ <alias>Santos , LP</alias>
+ <alias>Santos , L.P.</alias>
+ <alias>Santos, LP</alias>
+ <alias>Santos, L.P.</alias>
+ <alias>Santos PC</alias>
+ <alias>Santos P.C.</alias>
+ <alias>Santos , PC</alias>
+ <alias>Santos , P.C.</alias>
+ <alias>Santos, PC</alias>
+ <alias>Santos, P.C.</alias>
+ <alias>Santos plc</alias>
+ <alias>Santos Plc</alias>
+ <alias>Santos PLC</alias>
+ <alias>Santos Partners</alias>
+ <alias>Santos Industries</alias>
+ <rel listtype="true">org:alternate_names</rel>
+ <rel listtype="true">org:founded_by</rel>
+ <rel listtype="true">org:member_of</rel>
+ <rel listtype="true">org:members</rel>
+ <rel listtype="true">org:parents</rel>
+ <rel listtype="true">org:political_religious_affiliation</rel>
+ <rel listtype="true">org:shareholders</rel>
+ <rel listtype="true">org:subsidiaries</rel>
+ <rel listtype="true">org:top_members_employees</rel>
+ <rel listtype="false">org:city_of_headquarters</rel>
+ <rel listtype="false">org:country_of_headquarters</rel>
+ <rel listtype="false">org:date_dissolved</rel>
+ <rel listtype="false">org:date_founded</rel>
+ <rel listtype="false">org:number_of_employees_members</rel>
+ <rel listtype="false">org:stateorprovince_of_headquarters</rel>
+ <rel listtype="false">org:website</rel>
+</query>
+<query id="SF_SPA_040">
+ <name>Independiente Santa Fe</name>
+ <docid>AFP_ENG_20080728.0129.LDC2009T13</docid>
+ <beg>468</beg>
+ <end>489</end>
+ <enttype>ORG</enttype>
+ <nodeid>NIL199</nodeid>
+ <ignore></ignore>
+ <alias>Independiente Santa Fe LLC</alias>
+ <alias>Independiente Santa Fe L.L.C.</alias>
+ <alias>Independiente Santa Fe, LLC</alias>
+ <alias>Independiente Santa Fe, L.L.C.</alias>
+ <alias>Independiente Santa Fe , LLC</alias>
+ <alias>Independiente Santa Fe , L.L.C.</alias>
+ <alias>Independiente Santa Fe Limited</alias>
+ <alias>Independiente Santa Fe Ltd</alias>
+ <alias>Independiente Santa Fe Ltd.</alias>
+ <alias>Independiente Santa Fe, Ltd</alias>
+ <alias>Independiente Santa Fe, Ltd.</alias>
+ <alias>Independiente Santa Fe , Ltd</alias>
+ <alias>Independiente Santa Fe , Ltd.</alias>
+ <alias>Independiente Santa Fe Corporation</alias>
+ <alias>Independiente Santa Fe Corp.</alias>
+ <alias>Independiente Santa Fe Corp</alias>
+ <alias>Independiente Santa Fe Co.</alias>
+ <alias>Independiente Santa Fe Co</alias>
+ <alias>Independiente Santa Fe Incorporated</alias>
+ <alias>Independiente Santa Fe Inc.</alias>
+ <alias>Independiente Santa Fe Inc</alias>
+ <alias>Independiente Santa Fe, Incorporated</alias>
+ <alias>Independiente Santa Fe, Inc.</alias>
+ <alias>Independiente Santa Fe, Inc</alias>
+ <alias>Independiente Santa Fe , Incorporated</alias>
+ <alias>Independiente Santa Fe , Inc.</alias>
+ <alias>Independiente Santa Fe , Inc</alias>
+ <alias>Independiente Santa Fe LLLP</alias>
+ <alias>Independiente Santa Fe L.L.L.P.</alias>
+ <alias>Independiente Santa Fe , LLLP</alias>
+ <alias>Independiente Santa Fe , L.L.L.P.</alias>
+ <alias>Independiente Santa Fe, LLLP</alias>
+ <alias>Independiente Santa Fe, L.L.L.P.</alias>
+ <alias>Independiente Santa Fe LLP</alias>
+ <alias>Independiente Santa Fe , LLP</alias>
+ <alias>Independiente Santa Fe, LLP</alias>
+ <alias>Independiente Santa Fe LP</alias>
+ <alias>Independiente Santa Fe L.P.</alias>
+ <alias>Independiente Santa Fe , LP</alias>
+ <alias>Independiente Santa Fe , L.P.</alias>
+ <alias>Independiente Santa Fe, LP</alias>
+ <alias>Independiente Santa Fe, L.P.</alias>
+ <alias>Independiente Santa Fe PC</alias>
+ <alias>Independiente Santa Fe P.C.</alias>
+ <alias>Independiente Santa Fe , PC</alias>
+ <alias>Independiente Santa Fe , P.C.</alias>
+ <alias>Independiente Santa Fe, PC</alias>
+ <alias>Independiente Santa Fe, P.C.</alias>
+ <alias>Independiente Santa Fe plc</alias>
+ <alias>Independiente Santa Fe Plc</alias>
+ <alias>Independiente Santa Fe PLC</alias>
+ <alias>Independiente Santa Fe Partners</alias>
+ <alias>Independiente Santa Fe Industries</alias>
+ <rel listtype="true">org:alternate_names</rel>
+ <rel listtype="true">org:founded_by</rel>
+ <rel listtype="true">org:member_of</rel>
+ <rel listtype="true">org:members</rel>
+ <rel listtype="true">org:parents</rel>
+ <rel listtype="true">org:political_religious_affiliation</rel>
+ <rel listtype="true">org:shareholders</rel>
+ <rel listtype="true">org:subsidiaries</rel>
+ <rel listtype="true">org:top_members_employees</rel>
+ <rel listtype="false">org:city_of_headquarters</rel>
+ <rel listtype="false">org:country_of_headquarters</rel>
+ <rel listtype="false">org:date_dissolved</rel>
+ <rel listtype="false">org:date_founded</rel>
+ <rel listtype="false">org:number_of_employees_members</rel>
+ <rel listtype="false">org:stateorprovince_of_headquarters</rel>
+ <rel listtype="false">org:website</rel>
+</query>
+<query id="SF_SPA_041">
+ <name>Camilo Cienfuegos</name>
+ <docid>AFP_SPA_20071222.0186</docid>
+ <beg>987</beg>
+ <end>1003</end>
+ <enttype>ORG</enttype>
+ <nodeid>NIL583</nodeid>
+ <ignore></ignore>
+ <alias>Camilo Cienfuegos LLC</alias>
+ <alias>Camilo Cienfuegos L.L.C.</alias>
+ <alias>Camilo Cienfuegos, LLC</alias>
+ <alias>Camilo Cienfuegos, L.L.C.</alias>
+ <alias>Camilo Cienfuegos , LLC</alias>
+ <alias>Camilo Cienfuegos , L.L.C.</alias>
+ <alias>Camilo Cienfuegos Limited</alias>
+ <alias>Camilo Cienfuegos Ltd</alias>
+ <alias>Camilo Cienfuegos Ltd.</alias>
+ <alias>Camilo Cienfuegos, Ltd</alias>
+ <alias>Camilo Cienfuegos, Ltd.</alias>
+ <alias>Camilo Cienfuegos , Ltd</alias>
+ <alias>Camilo Cienfuegos , Ltd.</alias>
+ <alias>Camilo Cienfuegos Corporation</alias>
+ <alias>Camilo Cienfuegos Corp.</alias>
+ <alias>Camilo Cienfuegos Corp</alias>
+ <alias>Camilo Cienfuegos Co.</alias>
+ <alias>Camilo Cienfuegos Co</alias>
+ <alias>Camilo Cienfuegos Incorporated</alias>
+ <alias>Camilo Cienfuegos Inc.</alias>
+ <alias>Camilo Cienfuegos Inc</alias>
+ <alias>Camilo Cienfuegos, Incorporated</alias>
+ <alias>Camilo Cienfuegos, Inc.</alias>
+ <alias>Camilo Cienfuegos, Inc</alias>
+ <alias>Camilo Cienfuegos , Incorporated</alias>
+ <alias>Camilo Cienfuegos , Inc.</alias>
+ <alias>Camilo Cienfuegos , Inc</alias>
+ <alias>Camilo Cienfuegos LLLP</alias>
+ <alias>Camilo Cienfuegos L.L.L.P.</alias>
+ <alias>Camilo Cienfuegos , LLLP</alias>
+ <alias>Camilo Cienfuegos , L.L.L.P.</alias>
+ <alias>Camilo Cienfuegos, LLLP</alias>
+ <alias>Camilo Cienfuegos, L.L.L.P.</alias>
+ <alias>Camilo Cienfuegos LLP</alias>
+ <alias>Camilo Cienfuegos , LLP</alias>
+ <alias>Camilo Cienfuegos, LLP</alias>
+ <alias>Camilo Cienfuegos LP</alias>
+ <alias>Camilo Cienfuegos L.P.</alias>
+ <alias>Camilo Cienfuegos , LP</alias>
+ <alias>Camilo Cienfuegos , L.P.</alias>
+ <alias>Camilo Cienfuegos, LP</alias>
+ <alias>Camilo Cienfuegos, L.P.</alias>
+ <alias>Camilo Cienfuegos PC</alias>
+ <alias>Camilo Cienfuegos P.C.</alias>
+ <alias>Camilo Cienfuegos , PC</alias>
+ <alias>Camilo Cienfuegos , P.C.</alias>
+ <alias>Camilo Cienfuegos, PC</alias>
+ <alias>Camilo Cienfuegos, P.C.</alias>
+ <alias>Camilo Cienfuegos plc</alias>
+ <alias>Camilo Cienfuegos Plc</alias>
+ <alias>Camilo Cienfuegos PLC</alias>
+ <alias>Camilo Cienfuegos Partners</alias>
+ <alias>Camilo Cienfuegos Industries</alias>
+ <rel listtype="true">org:alternate_names</rel>
+ <rel listtype="true">org:founded_by</rel>
+ <rel listtype="true">org:member_of</rel>
+ <rel listtype="true">org:members</rel>
+ <rel listtype="true">org:parents</rel>
+ <rel listtype="true">org:political_religious_affiliation</rel>
+ <rel listtype="true">org:shareholders</rel>
+ <rel listtype="true">org:subsidiaries</rel>
+ <rel listtype="true">org:top_members_employees</rel>
+ <rel listtype="false">org:city_of_headquarters</rel>
+ <rel listtype="false">org:country_of_headquarters</rel>
+ <rel listtype="false">org:date_dissolved</rel>
+ <rel listtype="false">org:date_founded</rel>
+ <rel listtype="false">org:number_of_employees_members</rel>
+ <rel listtype="false">org:stateorprovince_of_headquarters</rel>
+ <rel listtype="false">org:website</rel>
+</query>
+<query id="SF_SPA_042">
+ <name>Atlético Nacional</name>
+ <docid>AFP_SPA_20070914.0004</docid>
+ <beg>481</beg>
+ <end>497</end>
+ <enttype>ORG</enttype>
+ <nodeid>NIL584</nodeid>
+ <ignore></ignore>
+ <alias>Atlético Nacional LLC</alias>
+ <alias>Atlético Nacional L.L.C.</alias>
+ <alias>Atlético Nacional, LLC</alias>
+ <alias>Atlético Nacional, L.L.C.</alias>
+ <alias>Atlético Nacional , LLC</alias>
+ <alias>Atlético Nacional , L.L.C.</alias>
+ <alias>Atlético Nacional Limited</alias>
+ <alias>Atlético Nacional Ltd</alias>
+ <alias>Atlético Nacional Ltd.</alias>
+ <alias>Atlético Nacional, Ltd</alias>
+ <alias>Atlético Nacional, Ltd.</alias>
+ <alias>Atlético Nacional , Ltd</alias>
+ <alias>Atlético Nacional , Ltd.</alias>
+ <alias>Atlético Nacional Corporation</alias>
+ <alias>Atlético Nacional Corp.</alias>
+ <alias>Atlético Nacional Corp</alias>
+ <alias>Atlético Nacional Co.</alias>
+ <alias>Atlético Nacional Co</alias>
+ <alias>Atlético Nacional Incorporated</alias>
+ <alias>Atlético Nacional Inc.</alias>
+ <alias>Atlético Nacional Inc</alias>
+ <alias>Atlético Nacional, Incorporated</alias>
+ <alias>Atlético Nacional, Inc.</alias>
+ <alias>Atlético Nacional, Inc</alias>
+ <alias>Atlético Nacional , Incorporated</alias>
+ <alias>Atlético Nacional , Inc.</alias>
+ <alias>Atlético Nacional , Inc</alias>
+ <alias>Atlético Nacional LLLP</alias>
+ <alias>Atlético Nacional L.L.L.P.</alias>
+ <alias>Atlético Nacional , LLLP</alias>
+ <alias>Atlético Nacional , L.L.L.P.</alias>
+ <alias>Atlético Nacional, LLLP</alias>
+ <alias>Atlético Nacional, L.L.L.P.</alias>
+ <alias>Atlético Nacional LLP</alias>
+ <alias>Atlético Nacional , LLP</alias>
+ <alias>Atlético Nacional, LLP</alias>
+ <alias>Atlético Nacional LP</alias>
+ <alias>Atlético Nacional L.P.</alias>
+ <alias>Atlético Nacional , LP</alias>
+ <alias>Atlético Nacional , L.P.</alias>
+ <alias>Atlético Nacional, LP</alias>
+ <alias>Atlético Nacional, L.P.</alias>
+ <alias>Atlético Nacional PC</alias>
+ <alias>Atlético Nacional P.C.</alias>
+ <alias>Atlético Nacional , PC</alias>
+ <alias>Atlético Nacional , P.C.</alias>
+ <alias>Atlético Nacional, PC</alias>
+ <alias>Atlético Nacional, P.C.</alias>
+ <alias>Atlético Nacional plc</alias>
+ <alias>Atlético Nacional Plc</alias>
+ <alias>Atlético Nacional PLC</alias>
+ <alias>Atlético Nacional Partners</alias>
+ <alias>Atlético Nacional Industries</alias>
+ <rel listtype="true">org:alternate_names</rel>
+ <rel listtype="true">org:founded_by</rel>
+ <rel listtype="true">org:member_of</rel>
+ <rel listtype="true">org:members</rel>
+ <rel listtype="true">org:parents</rel>
+ <rel listtype="true">org:political_religious_affiliation</rel>
+ <rel listtype="true">org:shareholders</rel>
+ <rel listtype="true">org:subsidiaries</rel>
+ <rel listtype="true">org:top_members_employees</rel>
+ <rel listtype="false">org:city_of_headquarters</rel>
+ <rel listtype="false">org:country_of_headquarters</rel>
+ <rel listtype="false">org:date_dissolved</rel>
+ <rel listtype="false">org:date_founded</rel>
+ <rel listtype="false">org:number_of_employees_members</rel>
+ <rel listtype="false">org:stateorprovince_of_headquarters</rel>
+ <rel listtype="false">org:website</rel>
+</query>
+<query id="SF_SPA_043">
+ <name>Club Atlético Independiente</name>
+ <docid>AFP_SPA_20100531.0227</docid>
+ <beg>882</beg>
+ <end>908</end>
+ <enttype>ORG</enttype>
+ <nodeid>NIL585</nodeid>
+ <ignore></ignore>
+ <alias>Rojo de Avellaneda</alias>
+ <alias>Independiente</alias>
+ <alias>Club Atlético Independiente de Avellaneda</alias>
+ <alias>C. A. Independiente</alias>
+ <alias>Independiente de Argentina</alias>
+ <alias>Club Atlético Independiente LLC</alias>
+ <alias>Club Atlético Independiente L.L.C.</alias>
+ <alias>Club Atlético Independiente, LLC</alias>
+ <alias>Club Atlético Independiente, L.L.C.</alias>
+ <alias>Club Atlético Independiente , LLC</alias>
+ <alias>Club Atlético Independiente , L.L.C.</alias>
+ <alias>Club Atlético Independiente Limited</alias>
+ <alias>Club Atlético Independiente Ltd</alias>
+ <alias>Club Atlético Independiente Ltd.</alias>
+ <alias>Club Atlético Independiente, Ltd</alias>
+ <alias>Club Atlético Independiente, Ltd.</alias>
+ <alias>Club Atlético Independiente , Ltd</alias>
+ <alias>Club Atlético Independiente , Ltd.</alias>
+ <alias>Club Atlético Independiente Corporation</alias>
+ <alias>Club Atlético Independiente Corp.</alias>
+ <alias>Club Atlético Independiente Corp</alias>
+ <alias>Club Atlético Independiente Co.</alias>
+ <alias>Club Atlético Independiente Co</alias>
+ <alias>Club Atlético Independiente Incorporated</alias>
+ <alias>Club Atlético Independiente Inc.</alias>
+ <alias>Club Atlético Independiente Inc</alias>
+ <alias>Club Atlético Independiente, Incorporated</alias>
+ <alias>Club Atlético Independiente, Inc.</alias>
+ <alias>Club Atlético Independiente, Inc</alias>
+ <alias>Club Atlético Independiente , Incorporated</alias>
+ <alias>Club Atlético Independiente , Inc.</alias>
+ <alias>Club Atlético Independiente , Inc</alias>
+ <alias>Club Atlético Independiente LLLP</alias>
+ <alias>Club Atlético Independiente L.L.L.P.</alias>
+ <alias>Club Atlético Independiente , LLLP</alias>
+ <alias>Club Atlético Independiente , L.L.L.P.</alias>
+ <alias>Club Atlético Independiente, LLLP</alias>
+ <alias>Club Atlético Independiente, L.L.L.P.</alias>
+ <alias>Club Atlético Independiente LLP</alias>
+ <alias>Club Atlético Independiente , LLP</alias>
+ <alias>Club Atlético Independiente, LLP</alias>
+ <alias>Club Atlético Independiente LP</alias>
+ <alias>Club Atlético Independiente L.P.</alias>
+ <alias>Club Atlético Independiente , LP</alias>
+ <alias>Club Atlético Independiente , L.P.</alias>
+ <alias>Club Atlético Independiente, LP</alias>
+ <alias>Club Atlético Independiente, L.P.</alias>
+ <alias>Club Atlético Independiente PC</alias>
+ <alias>Club Atlético Independiente P.C.</alias>
+ <alias>Club Atlético Independiente , PC</alias>
+ <alias>Club Atlético Independiente , P.C.</alias>
+ <alias>Club Atlético Independiente, PC</alias>
+ <alias>Club Atlético Independiente, P.C.</alias>
+ <alias>Club Atlético Independiente plc</alias>
+ <alias>Club Atlético Independiente Plc</alias>
+ <alias>Club Atlético Independiente PLC</alias>
+ <alias>Club Atlético Independiente Partners</alias>
+ <alias>Club Atlético Independiente Industries</alias>
+ <rel listtype="true">org:alternate_names</rel>
+ <rel listtype="true">org:founded_by</rel>
+ <rel listtype="true">org:member_of</rel>
+ <rel listtype="true">org:members</rel>
+ <rel listtype="true">org:parents</rel>
+ <rel listtype="true">org:political_religious_affiliation</rel>
+ <rel listtype="true">org:shareholders</rel>
+ <rel listtype="true">org:subsidiaries</rel>
+ <rel listtype="true">org:top_members_employees</rel>
+ <rel listtype="false">org:city_of_headquarters</rel>
+ <rel listtype="false">org:country_of_headquarters</rel>
+ <rel listtype="false">org:date_dissolved</rel>
+ <rel listtype="false">org:date_founded</rel>
+ <rel listtype="false">org:number_of_employees_members</rel>
+ <rel listtype="false">org:stateorprovince_of_headquarters</rel>
+ <rel listtype="false">org:website</rel>
+</query>
+<query id="SF_SPA_044">
+ <name>Quilmes</name>
+ <docid>XIN_SPA_20101206.0153</docid>
+ <beg>204</beg>
+ <end>210</end>
+ <enttype>ORG</enttype>
+ <nodeid>NIL586</nodeid>
+ <ignore></ignore>
+ <alias>Quilmes AC</alias>
+ <alias>Quilmes Atlético Club</alias>
+ <alias>Quilmes LLC</alias>
+ <alias>Quilmes L.L.C.</alias>
+ <alias>Quilmes, LLC</alias>
+ <alias>Quilmes, L.L.C.</alias>
+ <alias>Quilmes , LLC</alias>
+ <alias>Quilmes , L.L.C.</alias>
+ <alias>Quilmes Limited</alias>
+ <alias>Quilmes Ltd</alias>
+ <alias>Quilmes Ltd.</alias>
+ <alias>Quilmes, Ltd</alias>
+ <alias>Quilmes, Ltd.</alias>
+ <alias>Quilmes , Ltd</alias>
+ <alias>Quilmes , Ltd.</alias>
+ <alias>Quilmes Corporation</alias>
+ <alias>Quilmes Corp.</alias>
+ <alias>Quilmes Corp</alias>
+ <alias>Quilmes Co.</alias>
+ <alias>Quilmes Co</alias>
+ <alias>Quilmes Incorporated</alias>
+ <alias>Quilmes Inc.</alias>
+ <alias>Quilmes Inc</alias>
+ <alias>Quilmes, Incorporated</alias>
+ <alias>Quilmes, Inc.</alias>
+ <alias>Quilmes, Inc</alias>
+ <alias>Quilmes , Incorporated</alias>
+ <alias>Quilmes , Inc.</alias>
+ <alias>Quilmes , Inc</alias>
+ <alias>Quilmes LLLP</alias>
+ <alias>Quilmes L.L.L.P.</alias>
+ <alias>Quilmes , LLLP</alias>
+ <alias>Quilmes , L.L.L.P.</alias>
+ <alias>Quilmes, LLLP</alias>
+ <alias>Quilmes, L.L.L.P.</alias>
+ <alias>Quilmes LLP</alias>
+ <alias>Quilmes , LLP</alias>
+ <alias>Quilmes, LLP</alias>
+ <alias>Quilmes LP</alias>
+ <alias>Quilmes L.P.</alias>
+ <alias>Quilmes , LP</alias>
+ <alias>Quilmes , L.P.</alias>
+ <alias>Quilmes, LP</alias>
+ <alias>Quilmes, L.P.</alias>
+ <alias>Quilmes PC</alias>
+ <alias>Quilmes P.C.</alias>
+ <alias>Quilmes , PC</alias>
+ <alias>Quilmes , P.C.</alias>
+ <alias>Quilmes, PC</alias>
+ <alias>Quilmes, P.C.</alias>
+ <alias>Quilmes plc</alias>
+ <alias>Quilmes Plc</alias>
+ <alias>Quilmes PLC</alias>
+ <alias>Quilmes Partners</alias>
+ <alias>Quilmes Industries</alias>
+ <rel listtype="true">org:alternate_names</rel>
+ <rel listtype="true">org:founded_by</rel>
+ <rel listtype="true">org:member_of</rel>
+ <rel listtype="true">org:members</rel>
+ <rel listtype="true">org:parents</rel>
+ <rel listtype="true">org:political_religious_affiliation</rel>
+ <rel listtype="true">org:shareholders</rel>
+ <rel listtype="true">org:subsidiaries</rel>
+ <rel listtype="true">org:top_members_employees</rel>
+ <rel listtype="false">org:city_of_headquarters</rel>
+ <rel listtype="false">org:country_of_headquarters</rel>
+ <rel listtype="false">org:date_dissolved</rel>
+ <rel listtype="false">org:date_founded</rel>
+ <rel listtype="false">org:number_of_employees_members</rel>
+ <rel listtype="false">org:stateorprovince_of_headquarters</rel>
+ <rel listtype="false">org:website</rel>
+</query>
+<query id="SF_SPA_045">
+ <name>Carter Center</name>
+ <docid>AFP_SPA_20100928.0021</docid>
+ <beg>2146</beg>
+ <end>2158</end>
+ <enttype>ORG</enttype>
+ <nodeid>NIL592</nodeid>
+ <ignore></ignore>
+ <alias>Carter Center LLC</alias>
+ <alias>Carter Center L.L.C.</alias>
+ <alias>Carter Center, LLC</alias>
+ <alias>Carter Center, L.L.C.</alias>
+ <alias>Carter Center , LLC</alias>
+ <alias>Carter Center , L.L.C.</alias>
+ <alias>Carter Center Limited</alias>
+ <alias>Carter Center Ltd</alias>
+ <alias>Carter Center Ltd.</alias>
+ <alias>Carter Center, Ltd</alias>
+ <alias>Carter Center, Ltd.</alias>
+ <alias>Carter Center , Ltd</alias>
+ <alias>Carter Center , Ltd.</alias>
+ <alias>Carter Center Corporation</alias>
+ <alias>Carter Center Corp.</alias>
+ <alias>Carter Center Corp</alias>
+ <alias>Carter Center Co.</alias>
+ <alias>Carter Center Co</alias>
+ <alias>Carter Center Incorporated</alias>
+ <alias>Carter Center Inc.</alias>
+ <alias>Carter Center Inc</alias>
+ <alias>Carter Center, Incorporated</alias>
+ <alias>Carter Center, Inc.</alias>
+ <alias>Carter Center, Inc</alias>
+ <alias>Carter Center , Incorporated</alias>
+ <alias>Carter Center , Inc.</alias>
+ <alias>Carter Center , Inc</alias>
+ <alias>Carter Center LLLP</alias>
+ <alias>Carter Center L.L.L.P.</alias>
+ <alias>Carter Center , LLLP</alias>
+ <alias>Carter Center , L.L.L.P.</alias>
+ <alias>Carter Center, LLLP</alias>
+ <alias>Carter Center, L.L.L.P.</alias>
+ <alias>Carter Center LLP</alias>
+ <alias>Carter Center , LLP</alias>
+ <alias>Carter Center, LLP</alias>
+ <alias>Carter Center LP</alias>
+ <alias>Carter Center L.P.</alias>
+ <alias>Carter Center , LP</alias>
+ <alias>Carter Center , L.P.</alias>
+ <alias>Carter Center, LP</alias>
+ <alias>Carter Center, L.P.</alias>
+ <alias>Carter Center PC</alias>
+ <alias>Carter Center P.C.</alias>
+ <alias>Carter Center , PC</alias>
+ <alias>Carter Center , P.C.</alias>
+ <alias>Carter Center, PC</alias>
+ <alias>Carter Center, P.C.</alias>
+ <alias>Carter Center plc</alias>
+ <alias>Carter Center Plc</alias>
+ <alias>Carter Center PLC</alias>
+ <alias>Carter Center Partners</alias>
+ <alias>Carter Center Industries</alias>
+ <rel listtype="true">org:alternate_names</rel>
+ <rel listtype="true">org:founded_by</rel>
+ <rel listtype="true">org:member_of</rel>
+ <rel listtype="true">org:members</rel>
+ <rel listtype="true">org:parents</rel>
+ <rel listtype="true">org:political_religious_affiliation</rel>
+ <rel listtype="true">org:shareholders</rel>
+ <rel listtype="true">org:subsidiaries</rel>
+ <rel listtype="true">org:top_members_employees</rel>
+ <rel listtype="false">org:city_of_headquarters</rel>
+ <rel listtype="false">org:country_of_headquarters</rel>
+ <rel listtype="false">org:date_dissolved</rel>
+ <rel listtype="false">org:date_founded</rel>
+ <rel listtype="false">org:number_of_employees_members</rel>
+ <rel listtype="false">org:stateorprovince_of_headquarters</rel>
+ <rel listtype="false">org:website</rel>
+</query>
+<query id="SF_SPA_046">
+ <name>Comisión Interamericana de Derechos Humanos</name>
+ <docid>AFP_SPA_20091106.0014</docid>
+ <beg>348</beg>
+ <end>390</end>
+ <enttype>ORG</enttype>
+ <nodeid>NIL593</nodeid>
+ <ignore></ignore>
+ <alias>Comisión Interamericana de Derechos Humanos LLC</alias>
+ <alias>Comisión Interamericana de Derechos Humanos L.L.C.</alias>
+ <alias>Comisión Interamericana de Derechos Humanos, LLC</alias>
+ <alias>Comisión Interamericana de Derechos Humanos, L.L.C.</alias>
+ <alias>Comisión Interamericana de Derechos Humanos , LLC</alias>
+ <alias>Comisión Interamericana de Derechos Humanos , L.L.C.</alias>
+ <alias>Comisión Interamericana de Derechos Humanos Limited</alias>
+ <alias>Comisión Interamericana de Derechos Humanos Ltd</alias>
+ <alias>Comisión Interamericana de Derechos Humanos Ltd.</alias>
+ <alias>Comisión Interamericana de Derechos Humanos, Ltd</alias>
+ <alias>Comisión Interamericana de Derechos Humanos, Ltd.</alias>
+ <alias>Comisión Interamericana de Derechos Humanos , Ltd</alias>
+ <alias>Comisión Interamericana de Derechos Humanos , Ltd.</alias>
+ <alias>Comisión Interamericana de Derechos Humanos Corporation</alias>
+ <alias>Comisión Interamericana de Derechos Humanos Corp.</alias>
+ <alias>Comisión Interamericana de Derechos Humanos Corp</alias>
+ <alias>Comisión Interamericana de Derechos Humanos Co.</alias>
+ <alias>Comisión Interamericana de Derechos Humanos Co</alias>
+ <alias>Comisión Interamericana de Derechos Humanos Incorporated</alias>
+ <alias>Comisión Interamericana de Derechos Humanos Inc.</alias>
+ <alias>Comisión Interamericana de Derechos Humanos Inc</alias>
+ <alias>Comisión Interamericana de Derechos Humanos, Incorporated</alias>
+ <alias>Comisión Interamericana de Derechos Humanos, Inc.</alias>
+ <alias>Comisión Interamericana de Derechos Humanos, Inc</alias>
+ <alias>Comisión Interamericana de Derechos Humanos , Incorporated</alias>
+ <alias>Comisión Interamericana de Derechos Humanos , Inc.</alias>
+ <alias>Comisión Interamericana de Derechos Humanos , Inc</alias>
+ <alias>Comisión Interamericana de Derechos Humanos LLLP</alias>
+ <alias>Comisión Interamericana de Derechos Humanos L.L.L.P.</alias>
+ <alias>Comisión Interamericana de Derechos Humanos , LLLP</alias>
+ <alias>Comisión Interamericana de Derechos Humanos , L.L.L.P.</alias>
+ <alias>Comisión Interamericana de Derechos Humanos, LLLP</alias>
+ <alias>Comisión Interamericana de Derechos Humanos, L.L.L.P.</alias>
+ <alias>Comisión Interamericana de Derechos Humanos LLP</alias>
+ <alias>Comisión Interamericana de Derechos Humanos , LLP</alias>
+ <alias>Comisión Interamericana de Derechos Humanos, LLP</alias>
+ <alias>Comisión Interamericana de Derechos Humanos LP</alias>
+ <alias>Comisión Interamericana de Derechos Humanos L.P.</alias>
+ <alias>Comisión Interamericana de Derechos Humanos , LP</alias>
+ <alias>Comisión Interamericana de Derechos Humanos , L.P.</alias>
+ <alias>Comisión Interamericana de Derechos Humanos, LP</alias>
+ <alias>Comisión Interamericana de Derechos Humanos, L.P.</alias>
+ <alias>Comisión Interamericana de Derechos Humanos PC</alias>
+ <alias>Comisión Interamericana de Derechos Humanos P.C.</alias>
+ <alias>Comisión Interamericana de Derechos Humanos , PC</alias>
+ <alias>Comisión Interamericana de Derechos Humanos , P.C.</alias>
+ <alias>Comisión Interamericana de Derechos Humanos, PC</alias>
+ <alias>Comisión Interamericana de Derechos Humanos, P.C.</alias>
+ <alias>Comisión Interamericana de Derechos Humanos plc</alias>
+ <alias>Comisión Interamericana de Derechos Humanos Plc</alias>
+ <alias>Comisión Interamericana de Derechos Humanos PLC</alias>
+ <alias>Comisión Interamericana de Derechos Humanos Partners</alias>
+ <alias>Comisión Interamericana de Derechos Humanos Industries</alias>
+ <rel listtype="true">org:alternate_names</rel>
+ <rel listtype="true">org:founded_by</rel>
+ <rel listtype="true">org:member_of</rel>
+ <rel listtype="true">org:members</rel>
+ <rel listtype="true">org:parents</rel>
+ <rel listtype="true">org:political_religious_affiliation</rel>
+ <rel listtype="true">org:shareholders</rel>
+ <rel listtype="true">org:subsidiaries</rel>
+ <rel listtype="true">org:top_members_employees</rel>
+ <rel listtype="false">org:city_of_headquarters</rel>
+ <rel listtype="false">org:country_of_headquarters</rel>
+ <rel listtype="false">org:date_dissolved</rel>
+ <rel listtype="false">org:date_founded</rel>
+ <rel listtype="false">org:number_of_employees_members</rel>
+ <rel listtype="false">org:stateorprovince_of_headquarters</rel>
+ <rel listtype="false">org:website</rel>
+</query>
+<query id="SF_SPA_047">
+ <name>Human Rights Watch</name>
+ <docid>LTW_ENG_20080806.0013.LDC2009T13</docid>
+ <beg>302</beg>
+ <end>319</end>
+ <enttype>ORG</enttype>
+ <nodeid>NIL594</nodeid>
+ <ignore></ignore>
+ <alias>Human Rights Watch LLC</alias>
+ <alias>Human Rights Watch L.L.C.</alias>
+ <alias>Human Rights Watch, LLC</alias>
+ <alias>Human Rights Watch, L.L.C.</alias>
+ <alias>Human Rights Watch , LLC</alias>
+ <alias>Human Rights Watch , L.L.C.</alias>
+ <alias>Human Rights Watch Limited</alias>
+ <alias>Human Rights Watch Ltd</alias>
+ <alias>Human Rights Watch Ltd.</alias>
+ <alias>Human Rights Watch, Ltd</alias>
+ <alias>Human Rights Watch, Ltd.</alias>
+ <alias>Human Rights Watch , Ltd</alias>
+ <alias>Human Rights Watch , Ltd.</alias>
+ <alias>Human Rights Watch Corporation</alias>
+ <alias>Human Rights Watch Corp.</alias>
+ <alias>Human Rights Watch Corp</alias>
+ <alias>Human Rights Watch Co.</alias>
+ <alias>Human Rights Watch Co</alias>
+ <alias>Human Rights Watch Incorporated</alias>
+ <alias>Human Rights Watch Inc.</alias>
+ <alias>Human Rights Watch Inc</alias>
+ <alias>Human Rights Watch, Incorporated</alias>
+ <alias>Human Rights Watch, Inc.</alias>
+ <alias>Human Rights Watch, Inc</alias>
+ <alias>Human Rights Watch , Incorporated</alias>
+ <alias>Human Rights Watch , Inc.</alias>
+ <alias>Human Rights Watch , Inc</alias>
+ <alias>Human Rights Watch LLLP</alias>
+ <alias>Human Rights Watch L.L.L.P.</alias>
+ <alias>Human Rights Watch , LLLP</alias>
+ <alias>Human Rights Watch , L.L.L.P.</alias>
+ <alias>Human Rights Watch, LLLP</alias>
+ <alias>Human Rights Watch, L.L.L.P.</alias>
+ <alias>Human Rights Watch LLP</alias>
+ <alias>Human Rights Watch , LLP</alias>
+ <alias>Human Rights Watch, LLP</alias>
+ <alias>Human Rights Watch LP</alias>
+ <alias>Human Rights Watch L.P.</alias>
+ <alias>Human Rights Watch , LP</alias>
+ <alias>Human Rights Watch , L.P.</alias>
+ <alias>Human Rights Watch, LP</alias>
+ <alias>Human Rights Watch, L.P.</alias>
+ <alias>Human Rights Watch PC</alias>
+ <alias>Human Rights Watch P.C.</alias>
+ <alias>Human Rights Watch , PC</alias>
+ <alias>Human Rights Watch , P.C.</alias>
+ <alias>Human Rights Watch, PC</alias>
+ <alias>Human Rights Watch, P.C.</alias>
+ <alias>Human Rights Watch plc</alias>
+ <alias>Human Rights Watch Plc</alias>
+ <alias>Human Rights Watch PLC</alias>
+ <alias>Human Rights Watch Partners</alias>
+ <alias>Human Rights Watch Industries</alias>
+ <rel listtype="true">org:alternate_names</rel>
+ <rel listtype="true">org:founded_by</rel>
+ <rel listtype="true">org:member_of</rel>
+ <rel listtype="true">org:members</rel>
+ <rel listtype="true">org:parents</rel>
+ <rel listtype="true">org:political_religious_affiliation</rel>
+ <rel listtype="true">org:shareholders</rel>
+ <rel listtype="true">org:subsidiaries</rel>
+ <rel listtype="true">org:top_members_employees</rel>
+ <rel listtype="false">org:city_of_headquarters</rel>
+ <rel listtype="false">org:country_of_headquarters</rel>
+ <rel listtype="false">org:date_dissolved</rel>
+ <rel listtype="false">org:date_founded</rel>
+ <rel listtype="false">org:number_of_employees_members</rel>
+ <rel listtype="false">org:stateorprovince_of_headquarters</rel>
+ <rel listtype="false">org:website</rel>
+</query>
+<query id="SF_SPA_048">
+ <name>Organización para la Cooperción Económica y el Desarrollo</name>
+ <docid>XIN_SPA_20090629.0214</docid>
+ <beg>225</beg>
+ <end>281</end>
+ <enttype>ORG</enttype>
+ <nodeid>NIL595</nodeid>
+ <ignore></ignore>
+ <alias>Organización para la Cooperción Económica y el Desarrollo LLC</alias>
+ <alias>Organización para la Cooperción Económica y el Desarrollo L.L.C.</alias>
+ <alias>Organización para la Cooperción Económica y el Desarrollo, LLC</alias>
+ <alias>Organización para la Cooperción Económica y el Desarrollo, L.L.C.</alias>
+ <alias>Organización para la Cooperción Económica y el Desarrollo , LLC</alias>
+ <alias>Organización para la Cooperción Económica y el Desarrollo , L.L.C.</alias>
+ <alias>Organización para la Cooperción Económica y el Desarrollo Limited</alias>
+ <alias>Organización para la Cooperción Económica y el Desarrollo Ltd</alias>
+ <alias>Organización para la Cooperción Económica y el Desarrollo Ltd.</alias>
+ <alias>Organización para la Cooperción Económica y el Desarrollo, Ltd</alias>
+ <alias>Organización para la Cooperción Económica y el Desarrollo, Ltd.</alias>
+ <alias>Organización para la Cooperción Económica y el Desarrollo , Ltd</alias>
+ <alias>Organización para la Cooperción Económica y el Desarrollo , Ltd.</alias>
+ <alias>Organización para la Cooperción Económica y el Desarrollo Corporation</alias>
+ <alias>Organización para la Cooperción Económica y el Desarrollo Corp.</alias>
+ <alias>Organización para la Cooperción Económica y el Desarrollo Corp</alias>
+ <alias>Organización para la Cooperción Económica y el Desarrollo Co.</alias>
+ <alias>Organización para la Cooperción Económica y el Desarrollo Co</alias>
+ <alias>Organización para la Cooperción Económica y el Desarrollo Incorporated</alias>
+ <alias>Organización para la Cooperción Económica y el Desarrollo Inc.</alias>
+ <alias>Organización para la Cooperción Económica y el Desarrollo Inc</alias>
+ <alias>Organización para la Cooperción Económica y el Desarrollo, Incorporated</alias>
+ <alias>Organización para la Cooperción Económica y el Desarrollo, Inc.</alias>
+ <alias>Organización para la Cooperción Económica y el Desarrollo, Inc</alias>
+ <alias>Organización para la Cooperción Económica y el Desarrollo , Incorporated</alias>
+ <alias>Organización para la Cooperción Económica y el Desarrollo , Inc.</alias>
+ <alias>Organización para la Cooperción Económica y el Desarrollo , Inc</alias>
+ <alias>Organización para la Cooperción Económica y el Desarrollo LLLP</alias>
+ <alias>Organización para la Cooperción Económica y el Desarrollo L.L.L.P.</alias>
+ <alias>Organización para la Cooperción Económica y el Desarrollo , LLLP</alias>
+ <alias>Organización para la Cooperción Económica y el Desarrollo , L.L.L.P.</alias>
+ <alias>Organización para la Cooperción Económica y el Desarrollo, LLLP</alias>
+ <alias>Organización para la Cooperción Económica y el Desarrollo, L.L.L.P.</alias>
+ <alias>Organización para la Cooperción Económica y el Desarrollo LLP</alias>
+ <alias>Organización para la Cooperción Económica y el Desarrollo , LLP</alias>
+ <alias>Organización para la Cooperción Económica y el Desarrollo, LLP</alias>
+ <alias>Organización para la Cooperción Económica y el Desarrollo LP</alias>
+ <alias>Organización para la Cooperción Económica y el Desarrollo L.P.</alias>
+ <alias>Organización para la Cooperción Económica y el Desarrollo , LP</alias>
+ <alias>Organización para la Cooperción Económica y el Desarrollo , L.P.</alias>
+ <alias>Organización para la Cooperción Económica y el Desarrollo, LP</alias>
+ <alias>Organización para la Cooperción Económica y el Desarrollo, L.P.</alias>
+ <alias>Organización para la Cooperción Económica y el Desarrollo PC</alias>
+ <alias>Organización para la Cooperción Económica y el Desarrollo P.C.</alias>
+ <alias>Organización para la Cooperción Económica y el Desarrollo , PC</alias>
+ <alias>Organización para la Cooperción Económica y el Desarrollo , P.C.</alias>
+ <alias>Organización para la Cooperción Económica y el Desarrollo, PC</alias>
+ <alias>Organización para la Cooperción Económica y el Desarrollo, P.C.</alias>
+ <alias>Organización para la Cooperción Económica y el Desarrollo plc</alias>
+ <alias>Organización para la Cooperción Económica y el Desarrollo Plc</alias>
+ <alias>Organización para la Cooperción Económica y el Desarrollo PLC</alias>
+ <alias>Organización para la Cooperción Económica y el Desarrollo Partners</alias>
+ <alias>Organización para la Cooperción Económica y el Desarrollo Industries</alias>
+ <rel listtype="true">org:alternate_names</rel>
+ <rel listtype="true">org:founded_by</rel>
+ <rel listtype="true">org:member_of</rel>
+ <rel listtype="true">org:members</rel>
+ <rel listtype="true">org:parents</rel>
+ <rel listtype="true">org:political_religious_affiliation</rel>
+ <rel listtype="true">org:shareholders</rel>
+ <rel listtype="true">org:subsidiaries</rel>
+ <rel listtype="true">org:top_members_employees</rel>
+ <rel listtype="false">org:city_of_headquarters</rel>
+ <rel listtype="false">org:country_of_headquarters</rel>
+ <rel listtype="false">org:date_dissolved</rel>
+ <rel listtype="false">org:date_founded</rel>
+ <rel listtype="false">org:number_of_employees_members</rel>
+ <rel listtype="false">org:stateorprovince_of_headquarters</rel>
+ <rel listtype="false">org:website</rel>
+</query>
+<query id="SF_SPA_049">
+ <name>Andean Community of nations</name>
+ <docid>AFP_ENG_20080303.0790.LDC2009T13</docid>
+ <beg>850</beg>
+ <end>876</end>
+ <enttype>ORG</enttype>
+ <nodeid>E0044468</nodeid>
+ <ignore>org:city_of_headquarters org:date_founded org:website</ignore>
+ <alias>Andean Community of nations LLC</alias>
+ <alias>Andean Community of nations L.L.C.</alias>
+ <alias>Andean Community of nations, LLC</alias>
+ <alias>Andean Community of nations, L.L.C.</alias>
+ <alias>Andean Community of nations , LLC</alias>
+ <alias>Andean Community of nations , L.L.C.</alias>
+ <alias>Andean Community of nations Limited</alias>
+ <alias>Andean Community of nations Ltd</alias>
+ <alias>Andean Community of nations Ltd.</alias>
+ <alias>Andean Community of nations, Ltd</alias>
+ <alias>Andean Community of nations, Ltd.</alias>
+ <alias>Andean Community of nations , Ltd</alias>
+ <alias>Andean Community of nations , Ltd.</alias>
+ <alias>Andean Community of nations Corporation</alias>
+ <alias>Andean Community of nations Corp.</alias>
+ <alias>Andean Community of nations Corp</alias>
+ <alias>Andean Community of nations Co.</alias>
+ <alias>Andean Community of nations Co</alias>
+ <alias>Andean Community of nations Incorporated</alias>
+ <alias>Andean Community of nations Inc.</alias>
+ <alias>Andean Community of nations Inc</alias>
+ <alias>Andean Community of nations, Incorporated</alias>
+ <alias>Andean Community of nations, Inc.</alias>
+ <alias>Andean Community of nations, Inc</alias>
+ <alias>Andean Community of nations , Incorporated</alias>
+ <alias>Andean Community of nations , Inc.</alias>
+ <alias>Andean Community of nations , Inc</alias>
+ <alias>Andean Community of nations LLLP</alias>
+ <alias>Andean Community of nations L.L.L.P.</alias>
+ <alias>Andean Community of nations , LLLP</alias>
+ <alias>Andean Community of nations , L.L.L.P.</alias>
+ <alias>Andean Community of nations, LLLP</alias>
+ <alias>Andean Community of nations, L.L.L.P.</alias>
+ <alias>Andean Community of nations LLP</alias>
+ <alias>Andean Community of nations , LLP</alias>
+ <alias>Andean Community of nations, LLP</alias>
+ <alias>Andean Community of nations LP</alias>
+ <alias>Andean Community of nations L.P.</alias>
+ <alias>Andean Community of nations , LP</alias>
+ <alias>Andean Community of nations , L.P.</alias>
+ <alias>Andean Community of nations, LP</alias>
+ <alias>Andean Community of nations, L.P.</alias>
+ <alias>Andean Community of nations PC</alias>
+ <alias>Andean Community of nations P.C.</alias>
+ <alias>Andean Community of nations , PC</alias>
+ <alias>Andean Community of nations , P.C.</alias>
+ <alias>Andean Community of nations, PC</alias>
+ <alias>Andean Community of nations, P.C.</alias>
+ <alias>Andean Community of nations plc</alias>
+ <alias>Andean Community of nations Plc</alias>
+ <alias>Andean Community of nations PLC</alias>
+ <alias>Andean Community of nations Partners</alias>
+ <alias>Andean Community of nations Industries</alias>
+ <rel listtype="true">org:alternate_names</rel>
+ <rel listtype="true">org:founded_by</rel>
+ <rel listtype="true">org:member_of</rel>
+ <rel listtype="true">org:members</rel>
+ <rel listtype="true">org:parents</rel>
+ <rel listtype="true">org:political_religious_affiliation</rel>
+ <rel listtype="true">org:shareholders</rel>
+ <rel listtype="true">org:subsidiaries</rel>
+ <rel listtype="true">org:top_members_employees</rel>
+ <rel listtype="false">org:country_of_headquarters</rel>
+ <rel listtype="false">org:date_dissolved</rel>
+ <rel listtype="false">org:number_of_employees_members</rel>
+ <rel listtype="false">org:stateorprovince_of_headquarters</rel>
+</query>
+<query id="SF_SPA_050">
+ <name>Navegantes del Magallanes</name>
+ <docid>AFP_SPA_20100130.0231</docid>
+ <beg>303</beg>
+ <end>327</end>
+ <enttype>ORG</enttype>
+ <nodeid>E0125968</nodeid>
+ <ignore>org:city_of_headquarters org:date_founded</ignore>
+ <alias>Navegantes del Magallanes LLC</alias>
+ <alias>Navegantes del Magallanes L.L.C.</alias>
+ <alias>Navegantes del Magallanes, LLC</alias>
+ <alias>Navegantes del Magallanes, L.L.C.</alias>
+ <alias>Navegantes del Magallanes , LLC</alias>
+ <alias>Navegantes del Magallanes , L.L.C.</alias>
+ <alias>Navegantes del Magallanes Limited</alias>
+ <alias>Navegantes del Magallanes Ltd</alias>
+ <alias>Navegantes del Magallanes Ltd.</alias>
+ <alias>Navegantes del Magallanes, Ltd</alias>
+ <alias>Navegantes del Magallanes, Ltd.</alias>
+ <alias>Navegantes del Magallanes , Ltd</alias>
+ <alias>Navegantes del Magallanes , Ltd.</alias>
+ <alias>Navegantes del Magallanes Corporation</alias>
+ <alias>Navegantes del Magallanes Corp.</alias>
+ <alias>Navegantes del Magallanes Corp</alias>
+ <alias>Navegantes del Magallanes Co.</alias>
+ <alias>Navegantes del Magallanes Co</alias>
+ <alias>Navegantes del Magallanes Incorporated</alias>
+ <alias>Navegantes del Magallanes Inc.</alias>
+ <alias>Navegantes del Magallanes Inc</alias>
+ <alias>Navegantes del Magallanes, Incorporated</alias>
+ <alias>Navegantes del Magallanes, Inc.</alias>
+ <alias>Navegantes del Magallanes, Inc</alias>
+ <alias>Navegantes del Magallanes , Incorporated</alias>
+ <alias>Navegantes del Magallanes , Inc.</alias>
+ <alias>Navegantes del Magallanes , Inc</alias>
+ <alias>Navegantes del Magallanes LLLP</alias>
+ <alias>Navegantes del Magallanes L.L.L.P.</alias>
+ <alias>Navegantes del Magallanes , LLLP</alias>
+ <alias>Navegantes del Magallanes , L.L.L.P.</alias>
+ <alias>Navegantes del Magallanes, LLLP</alias>
+ <alias>Navegantes del Magallanes, L.L.L.P.</alias>
+ <alias>Navegantes del Magallanes LLP</alias>
+ <alias>Navegantes del Magallanes , LLP</alias>
+ <alias>Navegantes del Magallanes, LLP</alias>
+ <alias>Navegantes del Magallanes LP</alias>
+ <alias>Navegantes del Magallanes L.P.</alias>
+ <alias>Navegantes del Magallanes , LP</alias>
+ <alias>Navegantes del Magallanes , L.P.</alias>
+ <alias>Navegantes del Magallanes, LP</alias>
+ <alias>Navegantes del Magallanes, L.P.</alias>
+ <alias>Navegantes del Magallanes PC</alias>
+ <alias>Navegantes del Magallanes P.C.</alias>
+ <alias>Navegantes del Magallanes , PC</alias>
+ <alias>Navegantes del Magallanes , P.C.</alias>
+ <alias>Navegantes del Magallanes, PC</alias>
+ <alias>Navegantes del Magallanes, P.C.</alias>
+ <alias>Navegantes del Magallanes plc</alias>
+ <alias>Navegantes del Magallanes Plc</alias>
+ <alias>Navegantes del Magallanes PLC</alias>
+ <alias>Navegantes del Magallanes Partners</alias>
+ <alias>Navegantes del Magallanes Industries</alias>
+ <rel listtype="true">org:alternate_names</rel>
+ <rel listtype="true">org:founded_by</rel>
+ <rel listtype="true">org:member_of</rel>
+ <rel listtype="true">org:members</rel>
+ <rel listtype="true">org:parents</rel>
+ <rel listtype="true">org:political_religious_affiliation</rel>
+ <rel listtype="true">org:shareholders</rel>
+ <rel listtype="true">org:subsidiaries</rel>
+ <rel listtype="true">org:top_members_employees</rel>
+ <rel listtype="false">org:country_of_headquarters</rel>
+ <rel listtype="false">org:date_dissolved</rel>
+ <rel listtype="false">org:number_of_employees_members</rel>
+ <rel listtype="false">org:stateorprovince_of_headquarters</rel>
+ <rel listtype="false">org:website</rel>
+</query>
+<query id="SF_SPA_051">
+ <name>Alianza Bolivariana para los Pueblos de Nuestra América</name>
+ <docid>AFP_SPA_20091003.0030</docid>
+ <beg>201</beg>
+ <end>255</end>
+ <enttype>ORG</enttype>
+ <nodeid>NIL596</nodeid>
+ <ignore></ignore>
+ <alias>Alianza Bolivariana para los Pueblos de Nuestra América LLC</alias>
+ <alias>Alianza Bolivariana para los Pueblos de Nuestra América L.L.C.</alias>
+ <alias>Alianza Bolivariana para los Pueblos de Nuestra América, LLC</alias>
+ <alias>Alianza Bolivariana para los Pueblos de Nuestra América, L.L.C.</alias>
+ <alias>Alianza Bolivariana para los Pueblos de Nuestra América , LLC</alias>
+ <alias>Alianza Bolivariana para los Pueblos de Nuestra América , L.L.C.</alias>
+ <alias>Alianza Bolivariana para los Pueblos de Nuestra América Limited</alias>
+ <alias>Alianza Bolivariana para los Pueblos de Nuestra América Ltd</alias>
+ <alias>Alianza Bolivariana para los Pueblos de Nuestra América Ltd.</alias>
+ <alias>Alianza Bolivariana para los Pueblos de Nuestra América, Ltd</alias>
+ <alias>Alianza Bolivariana para los Pueblos de Nuestra América, Ltd.</alias>
+ <alias>Alianza Bolivariana para los Pueblos de Nuestra América , Ltd</alias>
+ <alias>Alianza Bolivariana para los Pueblos de Nuestra América , Ltd.</alias>
+ <alias>Alianza Bolivariana para los Pueblos de Nuestra América Corporation</alias>
+ <alias>Alianza Bolivariana para los Pueblos de Nuestra América Corp.</alias>
+ <alias>Alianza Bolivariana para los Pueblos de Nuestra América Corp</alias>
+ <alias>Alianza Bolivariana para los Pueblos de Nuestra América Co.</alias>
+ <alias>Alianza Bolivariana para los Pueblos de Nuestra América Co</alias>
+ <alias>Alianza Bolivariana para los Pueblos de Nuestra América Incorporated</alias>
+ <alias>Alianza Bolivariana para los Pueblos de Nuestra América Inc.</alias>
+ <alias>Alianza Bolivariana para los Pueblos de Nuestra América Inc</alias>
+ <alias>Alianza Bolivariana para los Pueblos de Nuestra América, Incorporated</alias>
+ <alias>Alianza Bolivariana para los Pueblos de Nuestra América, Inc.</alias>
+ <alias>Alianza Bolivariana para los Pueblos de Nuestra América, Inc</alias>
+ <alias>Alianza Bolivariana para los Pueblos de Nuestra América , Incorporated</alias>
+ <alias>Alianza Bolivariana para los Pueblos de Nuestra América , Inc.</alias>
+ <alias>Alianza Bolivariana para los Pueblos de Nuestra América , Inc</alias>
+ <alias>Alianza Bolivariana para los Pueblos de Nuestra América LLLP</alias>
+ <alias>Alianza Bolivariana para los Pueblos de Nuestra América L.L.L.P.</alias>
+ <alias>Alianza Bolivariana para los Pueblos de Nuestra América , LLLP</alias>
+ <alias>Alianza Bolivariana para los Pueblos de Nuestra América , L.L.L.P.</alias>
+ <alias>Alianza Bolivariana para los Pueblos de Nuestra América, LLLP</alias>
+ <alias>Alianza Bolivariana para los Pueblos de Nuestra América, L.L.L.P.</alias>
+ <alias>Alianza Bolivariana para los Pueblos de Nuestra América LLP</alias>
+ <alias>Alianza Bolivariana para los Pueblos de Nuestra América , LLP</alias>
+ <alias>Alianza Bolivariana para los Pueblos de Nuestra América, LLP</alias>
+ <alias>Alianza Bolivariana para los Pueblos de Nuestra América LP</alias>
+ <alias>Alianza Bolivariana para los Pueblos de Nuestra América L.P.</alias>
+ <alias>Alianza Bolivariana para los Pueblos de Nuestra América , LP</alias>
+ <alias>Alianza Bolivariana para los Pueblos de Nuestra América , L.P.</alias>
+ <alias>Alianza Bolivariana para los Pueblos de Nuestra América, LP</alias>
+ <alias>Alianza Bolivariana para los Pueblos de Nuestra América, L.P.</alias>
+ <alias>Alianza Bolivariana para los Pueblos de Nuestra América PC</alias>
+ <alias>Alianza Bolivariana para los Pueblos de Nuestra América P.C.</alias>
+ <alias>Alianza Bolivariana para los Pueblos de Nuestra América , PC</alias>
+ <alias>Alianza Bolivariana para los Pueblos de Nuestra América , P.C.</alias>
+ <alias>Alianza Bolivariana para los Pueblos de Nuestra América, PC</alias>
+ <alias>Alianza Bolivariana para los Pueblos de Nuestra América, P.C.</alias>
+ <alias>Alianza Bolivariana para los Pueblos de Nuestra América plc</alias>
+ <alias>Alianza Bolivariana para los Pueblos de Nuestra América Plc</alias>
+ <alias>Alianza Bolivariana para los Pueblos de Nuestra América PLC</alias>
+ <alias>Alianza Bolivariana para los Pueblos de Nuestra América Partners</alias>
+ <alias>Alianza Bolivariana para los Pueblos de Nuestra América Industries</alias>
+ <rel listtype="true">org:alternate_names</rel>
+ <rel listtype="true">org:founded_by</rel>
+ <rel listtype="true">org:member_of</rel>
+ <rel listtype="true">org:members</rel>
+ <rel listtype="true">org:parents</rel>
+ <rel listtype="true">org:political_religious_affiliation</rel>
+ <rel listtype="true">org:shareholders</rel>
+ <rel listtype="true">org:subsidiaries</rel>
+ <rel listtype="true">org:top_members_employees</rel>
+ <rel listtype="false">org:city_of_headquarters</rel>
+ <rel listtype="false">org:country_of_headquarters</rel>
+ <rel listtype="false">org:date_dissolved</rel>
+ <rel listtype="false">org:date_founded</rel>
+ <rel listtype="false">org:number_of_employees_members</rel>
+ <rel listtype="false">org:stateorprovince_of_headquarters</rel>
+ <rel listtype="false">org:website</rel>
+</query>
+</kbpslotfill>
