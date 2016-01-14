@@ -1,0 +1,6 @@
+CANDIDATES=${TH_RELEX_ROOT}/data/candidates/es_test
+QUERY_EXPANDED="${TH_RELEX_ROOT}/data/query_expanded/es_test_query_expanded.xml"
+KEY=${TH_RELEX_ROOT}/data/keys/es_test
+SCORE_SCRIPT=${TH_RELEX_ROOT}/bin/tac-evaluation/eval-scripts/score2013.sh
+CONFIG=2013.config
+PP=pp13

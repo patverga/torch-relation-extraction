@@ -1,4 +1,4 @@
-CANDIDATES=/home/pat/canvas/universal-schema/univSchema/torch/data/candidates/david-20140314-candidates-wildcard-sentences-digit-normalized
+CANDIDATES=${TH_RELEX_ROOT}/data/candidates/full_sentence_candidates_2013
 QUERY_EXPANDED="${TH_RELEX_ROOT}/data/query_expanded/2013_query_expanded.xml"
 KEY=${TH_RELEX_ROOT}/data/keys/key_2013
 SCORE_SCRIPT=${TH_RELEX_ROOT}/bin/tac-evaluation/eval-scripts/score2013.sh

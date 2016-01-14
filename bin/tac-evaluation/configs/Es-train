@@ -1,6 +1,0 @@
-CANDIDATES=/home/pat/canvas/universal-schema/univSchema/torch/data/candidates/es_train
-RUN_DIR=/home/pat/canvas/universal-schema/relationfactory-es/runs/train/both-data_both-train/160/
-KEY=/home/pat/canvas/universal-schema/relationfactory-es/evaluation/es-13-train.key
-SCORE_SCRIPT=/iesl/canvas/belanger/relationfactory/myEvaluation/bin/score2013.sh
-CONFIG=2013.config
-PP=pp13
