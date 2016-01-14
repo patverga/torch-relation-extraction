@@ -37,8 +37,19 @@ You can train models using this [train script](https://github.com/patverga/torch
 
 Evaluation
 ---------
+
+#### MAP
 If you specify a test file (or comma seperated list of files), MAP will be calculated every kth iteration where k is a cmd arg set as -evaluateFrequency k. Each should be its own relation and will have its average precision calculated. MAP will be calculated as the average over all the files.
 
-There are also scripts to evaluate using the [TAC slot filling task](http://www.nist.gov/tac/2013/KBP/). This requires setting up [Relation Factory](https://github.com/beroth/relationfactory) and setting TAC_ROOT. If you follow the instructions, the candidate file will be located at /your/rundir/candidates. You can then create a config file similar to [this one](https://github.com/patverga/torch-relation-extraction/tree/master/bin/tac-evaluation/configs/2013) that points to your run directory, candidate file, etc. You can then evaluate using [this script](https://github.com/patverga/torch-relation-extraction/blob/master/bin/tac-evaluation/tac-eval-score-tuned.sh). You should tune the thresholds using [this script](https://github.com/patverga/torch-relation-extraction/blob/master/bin/tac-evaluation/tac-eval-tune-thresh.sh) first using dev data. If you dont want to, you can use [this no-threshold param file](https://github.com/patverga/torch-relation-extraction/blob/master/bin/tac-evaluation/no-thresh-params). 
+####  [TAC slot filling task](http://www.nist.gov/tac/2013/KBP/)
+- This requires setting up [Relation Factory](https://github.com/beroth/relationfactory) and setting $TAC_ROOT=/path/to/relation-factory. Just follow the setup instructions on the relation factory github, its easy.
 
-`./bin/tac-evaluation/tac-eval-score-tuned.sh your-config trained-model vocab-file.txt gpu-id max-length-seq-to-consider "" bin/tac-evaluation/no-thresh-params output-dir`
+We include candidate files for years 2012, 2013, and 2014 as well as [config files](https://github.com/patverga/torch-relation-extraction/tree/master/bin/tac-evaluation/configs/2013) to evaluate each year. 
+
+The candidate files are initially tarred so do :
+
+`cd data && tar -xvzf candidates.tar.gz`
+
+You can tune thresholds on year 2012 and evaluate on year 2013 with this command :
+
+`./bin/tac-evaluation/tune-and-score.sh 2012 2013 trained-model vocab-file.txt gpu-id max-length-seq-to-consider output-dir`
