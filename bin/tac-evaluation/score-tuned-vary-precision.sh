@@ -13,7 +13,7 @@ PARAM_P_BIAS="-0.5 -0.45 -0.4 -0.35 -0.3 -0.25 -0.2 -0.15 -0.1 -.05 0.0 0.05 0.1
 TAC_EVAL_ROOT=${TH_RELEX_ROOT}/bin/tac-evaluation
 source ${TAC_EVAL_ROOT}/configs/${YEAR}
 
-QUERY_EXPANDED=${RUN_DIR}/query_expanded.xml
+#QUERY_EXPANDED=${RUN_DIR}/query_expanded.xml
 
 # score candidate file
 SCORED_CANDIDATES=`mktemp`

@@ -8,7 +8,7 @@ OUT=$4
 TAC_EVAL_ROOT=${TH_RELEX_ROOT}/bin/tac-evaluation
 source ${TAC_EVAL_ROOT}/configs/${YEAR}
 
-QUERY_EXPANDED=${RUN_DIR}/query_expanded.xml
+#QUERY_EXPANDED=${RUN_DIR}/query_expanded.xml
 
 # threshold candidate file using tuned params
 THRESHOLD_CANDIDATE=`mktemp`

@@ -14,10 +14,8 @@ else
    slotlist=$3
 fi
 
+#java -cp /iesl/canvas/belanger/relationfactory/myEvaluation/bin/ SFScore $response $key  nocase anydoc | grep -P '\tRecall:|\tPrecision:|\tF1:'
 java -cp /iesl/canvas/belanger/relationfactory/myEvaluation/bin/ SFScore $response $key  nocase anydoc | grep -P '\tRecall:|\tPrecision:|\tF1:'
- 
-#java -cp /iesl/canvas/belanger/relationfactory/myEvaluation/bin/ SFScore $response $key slots=$slotlist nocase anydoc \
-#| grep -P '\tRecall:|\tPrecision:|\tF1:'
 
 # Delete generated slotlist.
 if [ $# -lt 3 ]

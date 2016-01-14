@@ -12,7 +12,7 @@ EVAL_ARGS=${@:8}
 TAC_EVAL_ROOT=${TH_RELEX_ROOT}/bin/tac-evaluation
 source ${TAC_EVAL_ROOT}/configs/${YEAR}
 
-QUERY_EXPANDED=${RUN_DIR}/query_expanded.xml
+#QUERY_EXPANDED=${RUN_DIR}/query_expanded.xml
 
 # score candidate file
 SCORED_CANDIDATES=`mktemp`
