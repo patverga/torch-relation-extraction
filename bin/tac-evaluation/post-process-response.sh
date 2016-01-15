@@ -13,7 +13,8 @@ elif [[ $PP == "pp13" ]]; then
   $TAC_ROOT/components/bin/postprocess2013.sh $RESPONSE $QUERY_EXPANDED /dev/null $RESPONSE_PP
 elif [[ $PP == "pp12" ]]; then
  # $TAC_ROOT/components/bin/postprocess2012.sh $MERGED_RESPONSE $RUN_DIR/query_expanded.xml /dev/null $RESPONSE_PP
-  $TAC_ROOT/components/bin/postprocess2013-12.sh $RESPONSE $QUERY_EXPANDED /dev/null $RESPONSE_PP
+ # $TAC_ROOT/components/bin/postprocess2013-12.sh $RESPONSE $QUERY_EXPANDED /dev/null $RESPONSE_PP
+  $TAC_ROOT/components/bin/postprocess.sh $RESPONSE $QUERY_EXPANDED  $RESPONSE_PP
 else
   cp $RESPONSE $RESPONSE_PP
 fi

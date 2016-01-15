@@ -21,6 +21,7 @@ ${CAND_SCORE_CMD}
 
 
 TMP_DIR=`mktemp -d`
+echo "Working in temp directory $TMP_DIR"
 PRED_ROOT=${TMP_DIR}/prediction_
 for t in ${THRESHOLDS}; do
     echo "GETTING TOP $t"
