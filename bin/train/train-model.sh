@@ -2,6 +2,8 @@
 
 export GPU_ID=$1
 CONFIG=$2
+ARGS=${@:3}
+
 
 source ${TH_RELEX_ROOT}/${CONFIG}
 
@@ -12,4 +14,4 @@ mkdir -p ${SAVE}
 cp ${TH_RELEX_ROOT}/${CONFIG} $SAVE
 
 
-${TH_RELEX_ROOT}/bin/train/run-model.sh
+${TH_RELEX_ROOT}/bin/train/run-model.sh ${ARGS}

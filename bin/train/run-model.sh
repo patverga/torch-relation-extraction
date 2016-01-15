@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+ARGS=${@:1}
+
+
 RUN_CMD="th ${TH_RELEX_ROOT}/src/${MODEL}.lua
 -train ${TRAIN_FILE_ROOT}/${TRAIN_FILE}
 -saveModel ${SAVE}
@@ -73,6 +76,7 @@ if [ "$BATCH_SIZE" ]; then
   RUN_CMD="$RUN_CMD -batchSize $BATCH_SIZE"
 fi
 
+RUN_CMD="$RUN_CMD $ARGS"
 
 echo "Training : ${MODEL}_${TRAIN_FILE}\tGPU : $GPU_ID"
 echo "$RUN_CMD"

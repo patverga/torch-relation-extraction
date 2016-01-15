@@ -139,7 +139,7 @@ function UniversalSchemaEncoder:optim_update(net, criterion, x, y, parameters, g
             local df_do = { -step, step }
             net:backward(x, df_do)
         else
-            self.prob_net = self.prob_net or self.to_cuda(nn.Sequential():add(nn.CSubTable()):add(nn.Sigmoid()))
+            self.prob_net = self.prob_net or self:to_cuda(nn.Sequential():add(nn.CSubTable()):add(nn.Sigmoid()))
             local prob =  self.prob_net:forward(pred)
            
             if(self.df_do) then self.df_do:resizeAs(prob) else  self.df_do = prob:clone() end
