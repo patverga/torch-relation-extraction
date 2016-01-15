@@ -44,11 +44,9 @@ If you specify a test file (or comma seperated list of files), MAP will be calcu
 ####  [TAC slot filling task](http://www.nist.gov/tac/2013/KBP/)
 - This requires setting up [Relation Factory](https://github.com/beroth/relationfactory) and setting $TAC_ROOT=/path/to/relation-factory. Just follow the setup instructions on the relation factory github, its easy.
 
+First run :`./setup-tac-eval.sh` 
+
 We include candidate files for years 2012, 2013, and 2014 as well as [config files](https://github.com/patverga/torch-relation-extraction/tree/master/bin/tac-evaluation/configs/2013) to evaluate each year. 
-
-The candidate files are initially tarred so do :
-
-`cd data && tar -xvzf candidates.tar.gz`
 
 You can tune thresholds on year 2012 and evaluate on year 2013 with this command :
 
