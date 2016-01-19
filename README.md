@@ -54,26 +54,23 @@ You can tune thresholds on year 2012 and evaluate on year 2013 with this command
 
 Relation Extraction
 ----------
-You can also use this code to score relations. 
-- First train a universal schema model. Here you should create a training set that combines KB triples that you care about as well as text relations you care about. For example generate a file like this called train.tsv
+You can also use this code to score relations. Here we'll walk through the steps to train a universal schema model. 
 
-/m/02k__v&nbsp;&nbsp;&nbsp;&nbsp;/m/01y5zy&nbsp;&nbsp;&nbsp;&nbsp;$ARG1 lives in the city of $ARG2&nbsp;&nbsp;&nbsp;&nbsp;1  
-/m/09cg6&nbsp;&nbsp;&nbsp;&nbsp;/m/0r297&nbsp;&nbsp;&nbsp;&nbsp;$ARG2 is a type of $ARG1&nbsp;&nbsp;&nbsp;&nbsp;1  
-/m/02mwx2g&nbsp;&nbsp;&nbsp;&nbsp;/m/02lmm0_ &nbsp;&nbsp;&nbsp;&nbsp;/biology/gene_group_membership/gene&nbsp;&nbsp;&nbsp;&nbsp;1  
-/m/0hqv6zr&nbsp;&nbsp;&nbsp;&nbsp;/m/0hqx04q&nbsp;&nbsp;&nbsp;&nbsp;/medicine/drug_formulation/formulation_of&nbsp;&nbsp;&nbsp;&nbsp;1  
-/m/011zd3&nbsp;&nbsp;&nbsp;&nbsp;/m/02jknp&nbsp;&nbsp;&nbsp;&nbsp;/people/person/profession&nbsp;&nbsp;&nbsp;&nbsp;1  
-
-- Next, process that file : `./bin/process/process-data.sh -i train.tsv -o data/train.torch -v vocab-file`
-- Now we want to train a model. Edit the [example lstm config](bin/train/configs/lstm-example) to say `export TRAIN_FILE=train-mtx.torch` and start the model training :  `./bin/train/train-model.sh 0 bin/train/configs/lstm-example`. This will save a model to models/lstm-example/*-model every 3 epochs.
-- Now we can use this model to perform relation extraction. Generate a candidate file called candidates.tsv. The file should be tab serparated with the following form :
-
-entity_1 &nbsp;&nbsp;&nbsp;&nbsp; kb_relation&nbsp;&nbsp;&nbsp;&nbsp;entity_2 &nbsp;&nbsp;&nbsp;&nbsp; doc_info &nbsp;&nbsp;&nbsp;&nbsp; arg1_start_token_idx	&nbsp;&nbsp;&nbsp;&nbsp; arg1_send_token_idx &nbsp;&nbsp;&nbsp;&nbsp;	arg2_start_token_idx &nbsp;&nbsp;&nbsp;&nbsp;	arg2_end_token_idx &nbsp;&nbsp;&nbsp;&nbsp; sentence.
-
-A concrete example is :
-
-Barack Obama &nbsp;&nbsp;&nbsp;&nbsp;	per:spouse &nbsp;&nbsp;&nbsp;&nbsp;	Michelle Obama &nbsp;&nbsp;&nbsp;&nbsp;	doc_info &nbsp;&nbsp;&nbsp;&nbsp;	0	&nbsp;&nbsp;&nbsp;&nbsp; 2 &nbsp;&nbsp;&nbsp;&nbsp;	8	 &nbsp;&nbsp;&nbsp;&nbsp; 10  &nbsp;&nbsp;&nbsp;&nbsp; Barack Obama was seen yesterday with his wife Michelle Obama .
-
-- Finally, we can score each relation with the following command `th src/eval/ScoreCandidateFile.lua -candidates candidates.tsv -outFile scored-candidates.tsv -vocabFile vocab-file-tokens.txt -model models/lstm-example/5-model -gpuid 0`
+| e1         | e2            | relation  | 1 | 
+| ------------- |:-------------:| -----| --- | 
+| /m/02k__v | /m/01y5zy | $ARG1 lives in the city of $ARG2 | 1 | 
+| /m/09cg6 | /m/0r297 | $ARG2 is a type of $ARG1 | 1 | 
+| /m/02mwx2g | /m/02lmm0_ | /biology/gene_group_membership/gene | 1 | 
+| /m/0hqv6zr | /m/0hqx04q | /medicine/drug_formulation/formulation_of | 1 | 
+| /m/011zd3 | /m/02jknp | /people/person/profession | 1 | 
+1. First create a training set that combines KB triples that you care about as well as text relations you care about. For example generate a file like the one above called train.tsv.
+2. Next, process that file : `./bin/process/process-data.sh -i train.tsv -o data/train.torch -v vocab-file`
+3. Now we want to train a model. Edit the [example lstm config](bin/train/configs/lstm-example) to say `export TRAIN_FILE=train-mtx.torch` and start the model training :  `./bin/train/train-model.sh 0 bin/train/configs/lstm-example`. This will save a model to models/lstm-example/*-model every 3 epochs.
+4. Now we can use this model to perform relation extraction. Generate a candidate file called candidates.tsv. The file should be tab serparated with the following form :   
+entity_1 &nbsp;&nbsp;&nbsp;&nbsp; kb_relation&nbsp;&nbsp;&nbsp;&nbsp;entity_2 &nbsp;&nbsp;&nbsp;&nbsp; doc_info &nbsp;&nbsp;&nbsp;&nbsp; arg1_start_token_idx	&nbsp;&nbsp;&nbsp;&nbsp; arg1_send_token_idx &nbsp;&nbsp;&nbsp;&nbsp;	arg2_start_token_idx &nbsp;&nbsp;&nbsp;&nbsp;	arg2_end_token_idx &nbsp;&nbsp;&nbsp;&nbsp; sentence.   
+A concrete example is :   
+Barack Obama &nbsp;&nbsp;&nbsp;&nbsp;	per:spouse &nbsp;&nbsp;&nbsp;&nbsp;	Michelle Obama &nbsp;&nbsp;&nbsp;&nbsp;	doc_info &nbsp;&nbsp;&nbsp;&nbsp;	0	&nbsp;&nbsp;&nbsp;&nbsp; 2 &nbsp;&nbsp;&nbsp;&nbsp;	8	 &nbsp;&nbsp;&nbsp;&nbsp; 10  &nbsp;&nbsp;&nbsp;&nbsp; Barack Obama was seen yesterday with his wife Michelle Obama .   
+5. Finally, we can score each relation with the following command `th src/eval/ScoreCandidateFile.lua -candidates candidates.tsv -outFile scored-candidates.tsv -vocabFile vocab-file-tokens.txt -model models/lstm-example/5-model -gpuid 0`
 
 This will generate a scored candidate file with the same number of lines and the sentenece replaced by a score where higher is more probable.  
 
