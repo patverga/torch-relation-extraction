@@ -33,6 +33,12 @@ fi
 if [ "$NON_LINEAR_LAYER" ]; then
   RUN_CMD="$RUN_CMD -nonLinearLayer $NON_LINEAR_LAYER"
 fi
+if [ "$MODEL_TYPE" ]; then
+  RUN_CMD="$RUN_CMD -modelType $MODEL_TYPE"
+fi
+if [ "$COMPOSITIONAL" ]; then
+  RUN_CMD="$RUN_CMD -compositional"
+fi
 
 if [ "$DROPOUT" ]; then
   RUN_CMD="$RUN_CMD -dropout $DROPOUT"

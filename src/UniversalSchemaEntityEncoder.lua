@@ -158,7 +158,7 @@ end
 
 function UniversalSchemaEntityEncoder:regularize()
     self.rel_table.weight:renorm(2, 2, 3.0)
-    self.ent_table.weight:renorm(2, 2, 3.0)
+--    self.ent_table.weight:renorm(2, 2, 3.0)
 end
 
 

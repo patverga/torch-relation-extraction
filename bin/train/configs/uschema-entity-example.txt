@@ -1,0 +1,15 @@
+export MODEL=UniversalSchema
+export NAME="uschema-entity-example"
+
+export SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/$NAME"
+export TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/data/"
+export TRAIN_FILE="train-mtx.torch"
+export TEST_FILE=`ls $TH_RELEX_ROOT/data/test-mtx-torch/* | tr '\n' ','`
+export BATCH_SIZE=1024
+export LEARN_RATE=.001
+export EMBED_DIM=50
+export MAX_SEQ=20
+export MAX_EPOCHS=50
+export EVAL_FREQ=3
+export ENCODER="lookup-table"
+export MODEL_TYPE="entity"
