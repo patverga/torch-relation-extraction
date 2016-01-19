@@ -19,8 +19,7 @@ function UniversalSchemaEncoder:__init(params, rel_table, encoder)
     self.train_data = self:load_ep_data(params.train)
 
     -- cosine distance network for evaluation
-    self.cosine = nn.CosineDistance()
-    self:to_cuda(self.cosine)
+    self.cosine = self:to_cuda(nn.CosineDistance())
 
     -- either load model from file or initialize new one
     if params.loadModel ~= '' then
@@ -141,7 +140,7 @@ function UniversalSchemaEncoder:optim_update(net, criterion, x, y, parameters, g
         else
             self.prob_net = self.prob_net or self:to_cuda(nn.Sequential():add(nn.CSubTable()):add(nn.Sigmoid()))
             local prob =  self.prob_net:forward(pred)
-           
+
             if(self.df_do) then self.df_do:resizeAs(prob) else  self.df_do = prob:clone() end
 
             self.df_do:copy(prob):mul(-1):add(1)
@@ -170,7 +169,7 @@ function UniversalSchemaEncoder:optim_update(net, criterion, x, y, parameters, g
 end
 
 
---- - Evaluate ----
+----- Evaluate ----
 function UniversalSchemaEncoder:evaluate()
     if self.params.test ~= '' then
         self:map(self.params.test, true)

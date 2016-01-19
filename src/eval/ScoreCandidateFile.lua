@@ -29,6 +29,7 @@ cmd:option('-dictionary', '', 'txt file containing en-es dictionary')
 cmd:option('-maxSeq', 999999, 'throw away sequences longer than this')
 cmd:option('-model', '', 'a trained model that will be used to score candidates')
 cmd:option('-delim', ' ', 'delimiter to split lines on')
+cmd:option('-threshold', 0, 'scores will be max(threshold, score)')
 cmd:option('-gpuid', -1, 'Which gpu to use, -1 for cpu (default)')
 cmd:option('-unkIdx', 1, 'Index to map unknown tokens to')
 cmd:option('-chars', false, 'Split tokens into characters')
@@ -233,7 +234,8 @@ local function score_data(data, max_seq, text_encoder, kb_rel_table)
             local scores = score_tac_relation(text_encoder, kb_rel_table, pattern_tensor, tac_tensor)
             local out_lines = seq_len_data.out_line
             for i = 1, #out_lines do
-                out_file:write(out_lines[i] .. scores[i] .. '\n')
+                local score = math.max(params.threshold, scores[i])
+                out_file:write(out_lines[i] .. score .. '\n')
             end
         end
     end
