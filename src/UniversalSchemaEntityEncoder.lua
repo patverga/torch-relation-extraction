@@ -18,8 +18,7 @@ function UniversalSchemaEntityEncoder:__init(params, rel_table, encoder)
     self.train_data = self:load_entity_data(params.train)
 
     -- cosine distance network for evaluation
-    self.cosine = nn.CosineDistance()
-    self:to_cuda(self.cosine)
+    self.cosine = self:to_cuda(nn.CosineDistance())
 
     -- either load model from file or initialize new one
     if params.loadModel ~= '' then
@@ -61,8 +60,8 @@ function UniversalSchemaEntityEncoder:build_network(params, num_ents, encoder)
     ep_encoder:add(nn.JoinTable(2))
     if params.compositional then
         ep_encoder:add(nn.Linear(params.embeddingDim*2, params.embeddingDim))
-        ep_encoder:add(nn.ReLU())
-        ep_encoder:add(nn.Linear(params.embeddingDim, params.embeddingDim))
+--        ep_encoder:add(nn.ReLU())
+--        ep_encoder:add(nn.Linear(params.embeddingDim, params.embeddingDim))
     end
 
     -- layers to compute the dot prduct of the positive and negative samples
@@ -158,7 +157,7 @@ end
 
 function UniversalSchemaEntityEncoder:regularize()
     self.rel_table.weight:renorm(2, 2, 3.0)
---    self.ent_table.weight:renorm(2, 2, 3.0)
+    self.ent_table.weight:renorm(2, 2, 3.0)
 end
 
 
