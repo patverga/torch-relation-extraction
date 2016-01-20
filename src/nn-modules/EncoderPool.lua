@@ -65,13 +65,19 @@ function EncoderPool:accGradParameters(input,gradOutput,lr)
 end
 
 
-function EncoderPool:genericBackward(operator,input, gradOutput)
+
+function EncoderPool:genericBackward(operator, input, gradOutput)
     local db = self.reducer:forward(self.mappedAndReshaped)
     self.reducer:backward(self.mappedAndReshaped,db:clone():fill(1.0))
     operator(self.reducer,self.mappedAndReshaped,gradOutput)
     local reducerGrad = self.reducer.gradInput
-    local reshapedReducerGrad = reducerGrad:view(self.sizes3)
-
+    local reshapedReducerGrad
+    if reducerGrad:isContiguous() then
+        reshapedReducerGrad = reducerGrad:view(self.sizes3) -- doesn't work with non-contiguous tensors
+    else
+--        reshapedReducerGrad = reducerGrad:resize(self.sizes3) -- slower because of memory reallocation and changes gradOutput
+        reshapedReducerGrad = reducerGrad:clone():resize(self.sizes3) -- doesn't change gradOutput; safer and even slower
+    end
 
     operator(self.mapper,self.reshapedInput,reshapedReducerGrad)
     local mapperGrad = self.mapper.gradInput
