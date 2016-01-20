@@ -69,7 +69,7 @@ function EncoderFactory:relation_pool_encoder(params, sub_encoder, lookup_table)
     require 'nn-modules/EncoderPool'
     assert(params.relationPool == 'Mean' or params.relationPool == 'Max',
         'valid options for poolLayer are Mean and Max')
-    local encoder = nn.EncoderPool(sub_encoder, nn[params.relationPoolLayer](2))
+    local encoder = nn.EncoderPool(sub_encoder, nn[params.relationPool](2))
     return encoder, lookup_table
 end
 
