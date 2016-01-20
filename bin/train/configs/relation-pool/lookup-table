@@ -15,4 +15,5 @@ export EMBED_DIM=100
 export MAX_SEQ=20
 export MAX_EPOCHS=15
 export EVAL_FREQ=3
-export ENCODER="lookup-table-relation-pool"
+export ENCODER="lookup-table"
+export RELATION_POOL="Mean"

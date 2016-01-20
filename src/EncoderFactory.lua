@@ -65,9 +65,9 @@ function EncoderFactory:lstm_encoder(params)
     return encoder, lookup_table
 end
 
-function EncoderFactory:lstm_relation_pool_encoder(params, sub_encoder, lookup_table)
+function EncoderFactory:relation_pool_encoder(params, sub_encoder, lookup_table)
     require 'nn-modules/EncoderPool'
-    assert(params.relationPoolLayer == 'Mean' or params.relationPoolLayer == 'Max',
+    assert(params.relationPool == 'Mean' or params.relationPool == 'Max',
         'valid options for poolLayer are Mean and Max')
     local encoder = nn.EncoderPool(sub_encoder, nn[params.relationPoolLayer](2))
     return encoder, lookup_table
@@ -208,44 +208,43 @@ end
 function EncoderFactory:build_encoder(params)
     local encoder_type = params.encoder
 
+    local encoder, table
     -- load encoder from saved model
     if params.loadEncoder ~= '' then
         local loaded_model = torch.load(params.loadEncoder)
-        return loaded_model.encoder, loaded_model.rel_table
+        encoder, table = loaded_model.encoder, loaded_model.rel_table
 
     -- lstm encoder
     elseif encoder_type == 'lstm' then
-        return self:lstm_encoder(params)
+        encoder, table = self:lstm_encoder(params)
 
     -- conv net
     elseif encoder_type == 'cnn' then
-        return self:cnn_encoder(params)
+        encoder, table = self:cnn_encoder(params)
 
     -- simple token averaging
     elseif encoder_type == 'we-avg' then
-        return self:we_avg_encoder(params)
+        encoder, table = self:we_avg_encoder(params)
 
     -- lstm for text, lookup-table for kb relations
     elseif encoder_type == 'lstm-joint' then
-        return self:lstm_joint_encoder(params)
+        encoder, table = self:lstm_joint_encoder(params)
 
-    -- pool all relations for given ep and udpate at once,
-    -- requires processing data using bin/process/IntFile2PoolRelationsTorch.lua
-    elseif encoder_type == 'lstm-relation-pool' then
-        local sub_encoder, lookup_table = self:lstm_encoder(params)
-        return self:relation_pool_encoder(params, sub_encoder, lookup_table)
-    elseif encoder_type == 'lookup-table-relation-pool' then
-        params.relations = true
-        local sub_encoder, lookup_table = self:lookup_table_encoder(params)
-        return self:relation_pool_encoder(params, sub_encoder, lookup_table)
     -- lookup table (vector per relation)
     elseif encoder_type == 'lookup-table' then
         params.relations = true
-        return self:lookup_table_encoder(params)
-
+        encoder, table = self:lookup_table_encoder(params)
     else
         print('Must supply option to encoder. ' ..
         'Valid options are: lstm, cnn, we-avg, lstm-joint, lstm-relation-pool, and lookup-table')
         os.exit()
     end
+
+    -- pool all relations for given ep and udpate at once
+    -- requires processing data using bin/process/IntFile2PoolRelationsTorch.lua
+    if params.relationPool ~= "" then
+        encoder, table = self:relation_pool_encoder(params, encoder, table)
+    end
+
+    return encoder, table
 end

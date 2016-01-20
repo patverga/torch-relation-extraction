@@ -40,6 +40,10 @@ if [ "$COMPOSITIONAL" ]; then
   RUN_CMD="$RUN_CMD -compositional"
 fi
 
+if [ "$RELATION_POOL" ]; then
+  RUN_CMD="$RUN_CMD -relationPool $RELATION_POOL"
+fi
+
 if [ "$DROPOUT" ]; then
   RUN_CMD="$RUN_CMD -dropout $DROPOUT"
 fi
