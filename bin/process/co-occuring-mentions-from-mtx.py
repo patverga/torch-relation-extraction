@@ -11,7 +11,8 @@ def file_to_ep_dict(fname):
             ep = (fields[0], fields[1])
             if ep not in entity_pairs:
                 entity_pairs[ep] = []
-            entity_pairs[ep] += fields[3]
+            entity_pairs[ep] += fields[2]
+
     return entity_pairs
 
 
