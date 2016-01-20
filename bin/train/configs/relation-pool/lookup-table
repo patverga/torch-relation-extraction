@@ -1,0 +1,18 @@
+export MODEL=UniversalSchema
+export NAME=relation-pool-lookup-table
+
+export SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/$NAME"
+export TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/training-data/pool-relations/"
+export TRAIN_FILE="center-no-log.fixed-5mil-subset"
+# export TRAINED_EP="${TH_RELEX_ROOT}/models/uschema-english-relogged-100d/2015-12-18_11/5-ent-weights"
+
+export VOCAB="${TH_RELEX_ROOT}/vocabs/pool-relations/center-no-log.fixed-5mil-subset-relations.txt"
+export TAC_YEAR="2012"
+
+export BATCH_SIZE=16
+export LEARN_RATE=.001
+export EMBED_DIM=100
+export MAX_SEQ=20
+export MAX_EPOCHS=15
+export EVAL_FREQ=3
+export ENCODER="lookup-table-relation-pool"

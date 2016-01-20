@@ -65,12 +65,11 @@ function EncoderFactory:lstm_encoder(params)
     return encoder, lookup_table
 end
 
-function EncoderFactory:lstm_relation_pool_encoder(params)
-    local lstm, lookup_table = self:lstm_encoder(params)
+function EncoderFactory:lstm_relation_pool_encoder(params, sub_encoder, lookup_table)
     require 'nn-modules/EncoderPool'
     assert(params.relationPoolLayer == 'Mean' or params.relationPoolLayer == 'Max',
         'valid options for poolLayer are Mean and Max')
-    local encoder = nn.EncoderPool(lstm, nn[params.relationPoolLayer](2))
+    local encoder = nn.EncoderPool(sub_encoder, nn[params.relationPoolLayer](2))
     return encoder, lookup_table
 end
 
@@ -233,8 +232,12 @@ function EncoderFactory:build_encoder(params)
     -- pool all relations for given ep and udpate at once,
     -- requires processing data using bin/process/IntFile2PoolRelationsTorch.lua
     elseif encoder_type == 'lstm-relation-pool' then
-        return self:lstm_relation_pool_encoder(params)
-
+        local sub_encoder, lookup_table = self:lstm_encoder(params)
+        return self:relation_pool_encoder(params, sub_encoder, lookup_table)
+    elseif encoder_type == 'lookup-table-relation-pool' then
+        params.relations = true
+        local sub_encoder, lookup_table = self:lookup_table_encoder(params)
+        return self:relation_pool_encoder(params, sub_encoder, lookup_table)
     -- lookup table (vector per relation)
     elseif encoder_type == 'lookup-table' then
         params.relations = true
