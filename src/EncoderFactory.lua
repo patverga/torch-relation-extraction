@@ -68,7 +68,9 @@ end
 function EncoderFactory:lstm_relation_pool_encoder(params)
     local lstm, lookup_table = self:lstm_encoder(params)
     require 'nn-modules/EncoderPool'
-    local encoder = nn.EncoderPool(lstm, nn.Max(2))
+    assert(params.relationPoolLayer == 'Mean' or params.relationPoolLayer == 'Max',
+        'valid options for poolLayer are Mean and Max')
+    local encoder = nn.EncoderPool(lstm, nn[params.relationPoolLayer](2))
     return encoder, lookup_table
 end
 
