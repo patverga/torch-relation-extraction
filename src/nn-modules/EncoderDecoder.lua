@@ -8,9 +8,20 @@ function EncoderDecoder:__init(encoderNet, encoderLSTM, decoderNet, decoderLSTM)
     self.encoderLSTM = encoderLSTM
     self.decoderNet = decoderNet
     self.decoderLSTM = decoderLSTM
-
     self.modules = {encoderNet, decoderNet}
+end
 
+--[[ Forward coupling: Copy encoder cell and output to decoder LSTM ]]--
+function EncoderDecoder:forwardConnect(encLSTM, decLSTM)
+    decLSTM.userPrevOutput = nn.rnn.recursiveCopy(decLSTM.userPrevOutput, encLSTM.outputs[#encLSTM.outputs])
+    decLSTM.userPrevCell = nn.rnn.recursiveCopy(decLSTM.userPrevCell, encLSTM.cells[#encLSTM.cells])
+end
+
+
+--[[ Backward coupling: Copy decoder gradients to encoder LSTM ]]--
+function EncoderDecoder:backwardConnect(encLSTM, decLSTM)
+    encLSTM.userNextGradCell = nn.rnn.recursiveCopy(encLSTM.userNextGradCell, decLSTM.userGradPrevCell)
+    encLSTM.gradPrevOutput = nn.rnn.recursiveCopy(encLSTM.gradPrevOutput, decLSTM.userGradPrevOutput)
 end
 
 function EncoderDecoder:updateOutput(input)
@@ -20,19 +31,6 @@ function EncoderDecoder:updateOutput(input)
     local decOut = self.decoderNet:forward(input[2])
     self.output = {encOut, decOut}
     return self.output
-
-end
-
---[[ Forward coupling: Copy encoder cell and output to decoder LSTM ]]--
-function EncoderDecoder:forwardConnect(encLSTM, decLSTM)
-    decLSTM.userPrevOutput = nn.rnn.recursiveCopy(decLSTM.userPrevOutput, encLSTM.outputs[#encLSTM.outputs])
-    decLSTM.userPrevCell = nn.rnn.recursiveCopy(decLSTM.userPrevCell, encLSTM.cells[#encLSTM.cells])
-end
-
---[[ Backward coupling: Copy decoder gradients to encoder LSTM ]]--
-function EncoderDecoder:backwardConnect(encLSTM, decLSTM)
-    encLSTM.userNextGradCell = nn.rnn.recursiveCopy(encLSTM.userNextGradCell, decLSTM.userGradPrevCell)
-    encLSTM.gradPrevOutput = nn.rnn.recursiveCopy(encLSTM.gradPrevOutput, decLSTM.userGradPrevOutput)
 end
 
 function EncoderDecoder:backward(input,gradOutput)
@@ -42,7 +40,6 @@ function EncoderDecoder:backward(input,gradOutput)
     local zeroTensor = torch.Tensor(2):zero()
     self.encoderNet:backward(input[1], zeroTensor)
 end
-
 
 function EncoderDecoder:updateGradInput(input, gradOutput)
     self.encoderNet:updateGradInput(input, gradOutput)
