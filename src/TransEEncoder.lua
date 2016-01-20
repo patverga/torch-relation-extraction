@@ -9,19 +9,31 @@ require 'RelationEncoderModel'
 
 local TransEEncoder, parent = torch.class('TransEEncoder', 'RelationEncoderModel')
 
+
 function TransEEncoder:__init(params, rel_table, encoder)
     self.__index = self
     self.params = params
+    self:init_opt()
     self.squeeze_rel = params.relations or false
-    self.encoder = encoder
     self.train_data = self:load_entity_data(params.train)
 
-    local net, ent_table, scorer = self:build_network(params, self.train_data.num_ents, encoder)
-    self.net = net
+    -- cosine distance network for evaluation
+    self.cosine = self:to_cuda(nn.CosineDistance())
+
+    -- either load model from file or initialize new one
+    if params.loadModel ~= '' then
+        local loaded_model = torch.load(params.loadModel)
+        self.net = self:to_cuda(loaded_model.net)
+        encoder = self.net:get(1):get(3) --self:to_cuda(loaded_model.encoder)
+        self.ent_table = self.net:get(1):get(1) --self:to_cuda((loaded_model.ent_table or self.net:get(1):get(1)))
+        rel_table = self:to_cuda(loaded_model.rel_table)
+        self.opt_state = loaded_model.opt_state
+    else
+        self.net, self.ent_table, self.scorer = self:build_network(params, self.train_data.num_ents, encoder)
+    end
     self.crit = self:to_cuda(nn.MarginRankingCriterion(params.margin))
-    self.scorer = scorer
     self.rel_table = rel_table
-    self.ent_table = ent_table
+    self.encoder = encoder
 end
 
 
@@ -30,7 +42,7 @@ function TransEEncoder:build_network(params, num_ents, encoder)
     local pos_e1_table = nn.LookupTable(num_ents, params.embeddingDim)
     -- preload entity pairs
     if params.loadEpEmbeddings ~= '' then pos_e1_table.weight = (self:to_cuda(torch.load(params.loadEpEmbeddings)))
-    else pos_e1_table.weight = torch.rand(num_ents, params.embeddingDim):add(-.5):mul(0.1)
+    else pos_e1_table.weight = torch.rand(num_ents, params.embeddingDim):add(-.1):mul(0.1)
     end
     local pos_e2_table = pos_e1_table:clone()
     local neg_e1_table = pos_e1_table:clone()
@@ -104,33 +116,25 @@ function TransEEncoder:gen_subdata_batches(sub_data, batches, max_neg, shuffle)
     while start <= sub_data.ep:size(1) do
         local size = math.min(self.params.batchSize, sub_data.ep:size(1) - start + 1)
         local batch_indices = rand_order:narrow(1, start, size)
-        local pos_e1_batch = sub_data.e1:index(1, batch_indices)
-        local pos_e2_batch = sub_data.e2:index(1, batch_indices)
-        local neg_ent_batch = self:to_cuda(torch.rand(size):mul(max_neg):floor():add(1))
-        --randomly negative sample either e1 or e2
-        local neg_e1_batch, neg_e2_batch
-
+        local pos_e1_batch = self:to_cuda(sub_data.e1:index(1, batch_indices))
+        local pos_e2_batch = self:to_cuda(sub_data.e2:index(1, batch_indices))
         local neg_e1_batch = self:to_cuda(torch.rand(size):mul(max_neg):floor():add(1))
         local neg_e2_batch = self:to_cuda(torch.rand(size):mul(max_neg):floor():add(1))
---        if torch.uniform() > 0.5 then
---            neg_e1_batch, neg_e2_batch = pos_e1_batch:clone(), neg_ent_batch
---        else
---            neg_e1_batch, neg_e2_batch = neg_ent_batch, pos_e2_batch:clone()
---        end
-        -- randomly 0 out half of the pos e1's
---        local choose_head_tail = self:to_cuda(torch.rand(size):gt(0.5):double())
---        local neg_e1_batch = pos_e1_batch:clone():cmul(choose_head_tail)
---        -- replace the 0 indicies with negative samples
---        neg_e1_batch:add(neg_ent_batch:clone():cmul(self:to_cuda(neg_e1_batch:eq(0):double())))
---        -- need to 0 out the opposites of e1
---        local neg_e2_batch = pos_e2_batch:clone():cmul(self:to_cuda(choose_head_tail:eq(0):double()))
---        neg_e2_batch:add(neg_ent_batch:clone():cmul(self:to_cuda(neg_e2_batch:eq(0):double())))
+        --        -- randomly 0 out half of the pos e1's
+        --        local choose_head_tail = self:to_cuda(torch.rand(size):gt(0.5):double())
+        --        local neg_e1_batch = pos_e1_batch:clone():cmul(choose_head_tail)
+        --        -- replace the 0 indicies with negative samples
+        --        neg_e1_batch:add(neg_ent_batch:clone():cmul(self:to_cuda(neg_e1_batch:eq(0):double())))
+        --        -- need to 0 out the opposites of e1
+        --        local neg_e2_batch = pos_e2_batch:clone():cmul(self:to_cuda(choose_head_tail:eq(0):double()))
+        --        neg_e2_batch:add(neg_ent_batch:clone():cmul(self:to_cuda(neg_e2_batch:eq(0):double())))
 
 
-        local rel_batch = self.params.relations and sub_data.rel:index(1, batch_indices) or sub_data.seq:index(1, batch_indices)
+        local rel_batch = self:to_cuda(self.params.relations and sub_data.rel:index(1, batch_indices)
+                or sub_data.seq:index(1, batch_indices))
         if self.squeeze_rel then rel_batch = rel_batch:squeeze() end
         local batch = { pos_e2_batch, pos_e1_batch, rel_batch, neg_e1_batch, neg_e2_batch }
-        table.insert(batches, { data = batch, label = -1 })
+        table.insert(batches, { data = batch, label = 1 })
         start = start + size
     end
 end
@@ -151,48 +155,64 @@ end
 
 function TransEEncoder:regularize()
     -- make norms of entity vectors exactly 1
-    self.ent_table.weight:cdiv(self.ent_table.weight:norm(2, 2):expandAs(self.ent_table.weight))
---    self.rel_table.weight:renorm(2, 2, 3.0)
---    self.ent_table.weight:renorm(2, 2, 3.0)
+--    self.ent_table.weight:cdiv(self.ent_table.weight:norm(2, 2):expandAs(self.ent_table.weight))
+    self.rel_table.weight:renorm(2, 2, 3.0)
+    self.ent_table.weight:renorm(2, 2, 3.0)
 end
 
 
 function TransEEncoder:optim_update(net, criterion, x, y, parameters, grad_params, opt_config, opt_state, epoch)
-    local err, df_do
-    local margin = self.params.margin
+    local err
+    if x[2]:dim() == 1 or x[2]:size(2) == 1 then opt_config.learningRate = self.params.learningRate * self.params.kbWeight end
     local function fEval(parameters)
         if parameters ~= parameters then parameters:copy(parameters) end
         net:zeroGradParameters()
         local pred = net:forward(x)
 
---        print('before', pred[1][1], pred[2][1])
---        err, df_do = criterion(pred, y)
---        err = err:mean()
+        local old = true
+        if(old) then
+            local theta = pred[1]:clone():fill(self.params.margin) + pred[1] - pred[2]
+            -- hinge
+            local mask = theta:clone():ge(theta, 0)
+            theta:cmul(mask)
+            local prob = theta:clone():fill(1):cdiv(torch.exp(-theta):add(1))
+            err = torch.log(prob):mean()
+            local step = (prob:clone():fill(1) - prob)
+            local df_do = { -step, step }
+            net:backward(x, df_do)
+        else
+            self.prob_net = self.prob_net or self:to_cuda(nn.Sequential():add(nn.CSubTable()):add(nn.Sigmoid()))
+            local prob =  self.prob_net:forward(pred)
 
-        local theta = pred[1]:clone():fill(self.params.margin) + pred[1] - pred[2]
-        local mask = theta:clone():ge(theta, 0)
-        theta:cmul(mask)
-        local prob = theta:clone():fill(1):cdiv(torch.exp(-theta):add(1))
-        err = torch.log(prob):mean()
-        local step = (prob:clone():fill(1) - prob)
-        df_do = { -step, step }
+            if(self.df_do) then self.df_do:resizeAs(prob) else  self.df_do = prob:clone() end
 
-        net:backward(x, df_do)
-        if self.params.clipGrads then
+--            self.df_do:copy(prob):mul(-1):add(1)
+            self.df_do:copy(prob):add(1)
+            err = prob:log():mean()
+
+            local df_dpred = self.prob_net:backward(pred,self.df_do)
+            net:backward(x, df_dpred)
+        end
+
+        if net.forget then net:forget() end
+        if self.params.l2Reg > 0 then grad_params:add(self.params.l2Reg, parameters) end
+        if self.params.clipGrads > 0 then
             local grad_norm = grad_params:norm(2)
-            if grad_norm > 1 then grad_params = grad_params:div(grad_norm) end
+            if grad_norm > self.params.clipGrads then grad_params = grad_params:div(grad_norm/self.params.clipGrads) end
         end
         if self.params.freezeEp >= epoch then self.ent_table:zeroGradParameters() end
         if self.params.freezeRel >= epoch then self.rel_table:zeroGradParameters() end
         return err, grad_params
     end
+
     optim[self.params.optimMethod](fEval, parameters, opt_config, opt_state)
---    local pred = net:forward(x)
---    print('after', pred[1][1], pred[2][1], grad_params:norm(2))
+    opt_config.learningRate = self.params.learningRate
     -- TODO, better way to handle this
     if self.params.regularize then self:regularize() end
     return err
 end
+
+
 
 --- - Evaluate ----
 function TransEEncoder:evaluate()
@@ -202,6 +222,30 @@ function TransEEncoder:evaluate()
 end
 
 
+--function TransEEncoder:score_subdata(sub_data)
+--    local batches = {}
+--    self:gen_subdata_batches(sub_data, batches, 0, false)
+--
+--    local scores = {}
+--    for i = 1, #batches do
+--        local e2_batch, e1_batch, rel_batch, _, _ = unpack(batches[i].data)
+--        local encoded_rel = self.encoder:forward(self:to_cuda(rel_batch)):clone()
+--        local e1 = self.ent_table(self:to_cuda(e1_batch:contiguous():view(e1_batch:size(1), 1))):clone()
+--        local e2 = self.ent_table(self:to_cuda(e2_batch:contiguous():view(e2_batch:size(1), 1))):clone()
+--        local x = { e2, e1, encoded_rel }
+--        x = {
+--            x[1]:view(x[2]:size(1), x[2]:size(3)),
+--            x[2]:view(x[2]:size(1), x[2]:size(3)),
+--            x[3]:view(x[2]:size(1), x[2]:size(3))
+--        }
+--        local score = self.scorer(x)
+--        table.insert(scores, score)
+--    end
+--    return scores, sub_data.label:view(sub_data.label:size(1))
+--
+--end
+
+
 function TransEEncoder:score_subdata(sub_data)
     local batches = {}
     self:gen_subdata_batches(sub_data, batches, 0, false)
@@ -209,16 +253,15 @@ function TransEEncoder:score_subdata(sub_data)
     local scores = {}
     for i = 1, #batches do
         local e2_batch, e1_batch, rel_batch, _, _ = unpack(batches[i].data)
-        local encoded_rel = self.encoder:forward(self:to_cuda(rel_batch)):clone()
-        local e1 = self.ent_table(self:to_cuda(e1_batch:contiguous():view(e1_batch:size(1), 1))):clone()
-        local e2 = self.ent_table(self:to_cuda(e2_batch:contiguous():view(e2_batch:size(1), 1))):clone()
+        if self.params.relations then rel_batch = rel_batch:contiguous():view(rel_batch:size(1), 1) end
+        local encoded_rel = self.encoder:forward(self:to_cuda(rel_batch))
+        if encoded_rel:dim() == 3 then encoded_rel = encoded_rel:view(encoded_rel:size(1), encoded_rel:size(3)) end
+        local e1 = self.ent_table(self:to_cuda(e1_batch:contiguous())):clone()
+        e1 = e1:view(e1:size(1),e1:size(3))
+        local e2 = self.ent_table(self:to_cuda(e2_batch:contiguous())):clone()
+        e2 = e2:view(e2:size(1), e2:size(3))
         local x = { e2, e1, encoded_rel }
-        x = {
-            x[1]:view(x[2]:size(1), x[2]:size(3)),
-            x[2]:view(x[2]:size(1), x[2]:size(3)),
-            x[3]:view(x[2]:size(1), x[2]:size(3))
-        }
-        local score = self.scorer(x)
+        local score = self.scorer(x):double()
         table.insert(scores, score)
     end
     return scores, sub_data.label:view(sub_data.label:size(1))
