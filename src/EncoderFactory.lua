@@ -1,6 +1,35 @@
 
 local EncoderFactory = torch.class('EncoderFactory')
 
+
+function EncoderFactory:build_lookup_table(params, vocab_size, dim)
+    local lookup_table
+    -- never update word embeddings, these should be preloaded
+    if params.noWordUpdate then
+        require 'nn-modules/NoUpdateLookupTable'
+        lookup_table = nn.NoUpdateLookupTable(vocab_size, dim)
+    else
+        lookup_table = nn.LookupTable(vocab_size, dim)
+    end
+    -- initialize in range [-.1, .1]
+    lookup_table.weight = torch.rand(vocab_size, dim):add(-.1):mul(0.1)
+
+    if params.loadRelEmbeddings ~= '' then
+        lookup_table.weight = (torch.load(params.loadRelEmbeddings))
+    end
+    return lookup_table
+end
+
+
+function EncoderFactory:lookup_table_encoder(params)
+    local train_data = torch.load(params.train)
+    local vocab_size = train_data.num_rels
+    local dim = params.relDim > 0 and params.relDim or params.embeddingDim
+    local rel_table = self:build_lookup_table(params, vocab_size, dim)
+    return rel_table, rel_table
+end
+
+
 function EncoderFactory:lstm_encoder(params)
     local train_data = torch.load(params.train)
 
@@ -114,33 +143,6 @@ function EncoderFactory:we_avg_encoder(params)
     encoder:add(nn[pool_layer](2))
 
     return encoder, lookup_table
-end
-
-function EncoderFactory:build_lookup_table(params, vocab_size, dim)
-    local lookup_table
-    -- never update word embeddings, these should be preloaded
-    if params.noWordUpdate then
-        require 'nn-modules/NoUpdateLookupTable'
-        lookup_table = nn.NoUpdateLookupTable(vocab_size, dim)
-    else
-        lookup_table = nn.LookupTable(vocab_size, dim)
-    end
-    -- initialize in range [-.1, .1]
-    lookup_table.weight = torch.rand(vocab_size, dim):add(-.1):mul(0.1)
-
-    if params.loadRelEmbeddings ~= '' then
-        lookup_table.weight = (torch.load(params.loadRelEmbeddings))
-    end
-    return lookup_table
-end
-
-
-function EncoderFactory:lookup_table_encoder(params)
-    local train_data = torch.load(params.train)
-    local vocab_size = train_data.num_rels
-    local dim = params.relDim > 0 and params.relDim or params.embeddingDim
-    local rel_table = self:build_lookup_table(params, vocab_size, dim)
-    return rel_table, rel_table
 end
 
 function EncoderFactory:lstm_joint_encoder(params)
