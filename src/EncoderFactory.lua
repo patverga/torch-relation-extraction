@@ -195,9 +195,7 @@ end
 --end
 
 
-function EncoderFactory:build_encoder(params, vocab_size)
-    local encoder_type = params.encoder
-
+function EncoderFactory:build_encoder(params, encoder_type, vocab_size)
     local encoder, table
     -- load encoder from saved model
     if params.loadEncoder ~= '' then

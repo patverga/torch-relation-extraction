@@ -18,12 +18,12 @@ if params.gpuid >= 0 then require 'cunn'; cutorch.manualSeed(0); cutorch.setDevi
 
 local train_data = torch.load(params.train)
 local rel_vocab_size = params.encoder == 'lookup-table' and train_data.num_rels or train_data.num_tokens
-local rel_encoder, rel_table = EncoderFactory:build_encoder(params, rel_vocab_size)
-local ent_vocab_size = params.encoder == 'lookup-table' and train_data.num_eps or train_data.num_tokens
-local ent_encoder, ent_table = EncoderFactory:build_encoder(params, ent_vocab_size)
+local rel_encoder, rel_table = EncoderFactory:build_encoder(params, params.encoder, rel_vocab_size)
+local ent_vocab_size = params.entEncoder == 'lookup-table' and train_data.num_eps or train_data.num_tokens
+local ent_encoder, ent_table = EncoderFactory:build_encoder(params, params.entEncoder, ent_vocab_size)
 
-local model
 -- learn vectors for each entity rather than entity pair
+local model
 if params.modelType == 'entity' then
     require 'UniversalSchemaEntityEncoder'
     model = UniversalSchemaEntityEncoder(params, rel_table, rel_encoder)
@@ -42,7 +42,3 @@ end
 print(model.net)
 model:train()
 if params.saveModel ~= '' then  model:save_model(params.numEpochs) end
-
-
-
-
