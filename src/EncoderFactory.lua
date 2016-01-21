@@ -21,22 +21,16 @@ function EncoderFactory:build_lookup_table(params, vocab_size, dim)
 end
 
 
-function EncoderFactory:lookup_table_encoder(params)
-    local train_data = torch.load(params.train)
-    local vocab_size = train_data.num_rels
+function EncoderFactory:lookup_table_encoder(params, vocab_size)
     local dim = params.relDim > 0 and params.relDim or params.embeddingDim
     local rel_table = self:build_lookup_table(params, vocab_size, dim)
     return rel_table, rel_table
 end
 
 
-function EncoderFactory:lstm_encoder(params)
-    local train_data = torch.load(params.train)
-
+function EncoderFactory:lstm_encoder(params, vocab_size)
     local input_dim = params.wordDim > 0 and params.wordDim or (params.relDim > 0 and params.relDim or params.embeddingDim)
     local output_dim = params.relDim > 0 and params.relDim or params.embeddingDim
-
-    local vocab_size = train_data.num_tokens
     local lookup_table = self:build_lookup_table(params, vocab_size, input_dim)
 
     local encoder = nn.Sequential()
@@ -102,13 +96,10 @@ function EncoderFactory:relation_pool_encoder(params, sub_encoder, lookup_table)
     return encoder, lookup_table
 end
 
-function EncoderFactory:cnn_encoder(params)
-    local train_data = torch.load(params.train)
-
+function EncoderFactory:cnn_encoder(params, vocab_size)
     local input_dim = params.wordDim > 0 and params.wordDim or (params.relDim > 0 and params.relDim or params.embeddingDim)
     local output_dim = params.relDim > 0 and params.relDim or params.embeddingDim
 
-    local vocab_size = train_data.num_tokens
     local lookup_table = self:build_lookup_table(params, vocab_size, input_dim)
 
     local encoder = nn.Sequential()
@@ -130,10 +121,7 @@ function EncoderFactory:cnn_encoder(params)
     return encoder, lookup_table
 end
 
-function EncoderFactory:we_avg_encoder(params)
-    local train_data = torch.load(params.train)
-
-    local vocab_size = train_data.num_tokens
+function EncoderFactory:we_avg_encoder(params, vocab_size)
     local dim = params.wordDim > 0 and params.wordDim or (params.relDim > 0 and params.relDim or params.embeddingDim)
     local lookup_table = self:build_lookup_table(params, vocab_size, dim)
 
@@ -207,7 +195,7 @@ end
 --end
 
 
-function EncoderFactory:build_encoder(params)
+function EncoderFactory:build_encoder(params, vocab_size)
     local encoder_type = params.encoder
 
     local encoder, table
@@ -218,24 +206,24 @@ function EncoderFactory:build_encoder(params)
 
     -- lstm encoder
     elseif encoder_type == 'lstm' then
-        encoder, table = self:lstm_encoder(params)
+        encoder, table = self:lstm_encoder(params, vocab_size)
 
     -- conv net
     elseif encoder_type == 'cnn' then
-        encoder, table = self:cnn_encoder(params)
+        encoder, table = self:cnn_encoder(params, vocab_size)
 
     -- simple token averaging
     elseif encoder_type == 'we-avg' then
-        encoder, table = self:we_avg_encoder(params)
+        encoder, table = self:we_avg_encoder(params, vocab_size)
 
     -- lstm for text, lookup-table for kb relations
     elseif encoder_type == 'lstm-joint' then
-        encoder, table = self:lstm_joint_encoder(params)
+        encoder, table = self:lstm_joint_encoder(params, vocab_size)
 
     -- lookup table (vector per relation)
     elseif encoder_type == 'lookup-table' then
         params.relations = true
-        encoder, table = self:lookup_table_encoder(params)
+        encoder, table = self:lookup_table_encoder(params, vocab_size)
     else
         print('Must supply option to encoder. ' ..
         'Valid options are: lstm, cnn, we-avg, lstm-joint, lstm-relation-pool, and lookup-table')

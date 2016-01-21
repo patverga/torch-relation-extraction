@@ -16,24 +16,25 @@ torch.manualSeed(0)
 print('Using ' .. (params.gpuid >= 0 and 'GPU' or 'CPU'))
 if params.gpuid >= 0 then require 'cunn'; cutorch.manualSeed(0); cutorch.setDevice(params.gpuid + 1) else require 'nn' end
 
-
-local encoder, rel_table = EncoderFactory:build_encoder(params)
+local train_data = torch.load(params.train)
+local rel_vocab_size = params.encoder == 'lookup-table' and train_data.num_rels or train_data.num_tokens
+local rel_encoder, rel_table = EncoderFactory:build_encoder(params, rel_vocab_size)
 
 local model
 -- learn vectors for each entity rather than entity pair
 if params.modelType == 'entity' then
     require 'UniversalSchemaEntityEncoder'
-    model = UniversalSchemaEntityEncoder(params, rel_table, encoder)
+    model = UniversalSchemaEntityEncoder(params, rel_table, rel_encoder)
 
 -- use a lookup table for kb relations and encoder for text patterns (entity pair vectors)
 elseif params.modelType == 'joint' then
     require 'UniversalSchemaJointEncoder'
-    model = UniversalSchemaJointEncoder(params, rel_table, encoder)
+    model = UniversalSchemaJointEncoder(params, rel_table, rel_encoder)
 
 -- standard uschema with entity pair vectors
 else
     require 'UniversalSchemaEncoder'
-    model = UniversalSchemaEncoder(params, rel_table, encoder)
+    model = UniversalSchemaEncoder(params, rel_table, rel_encoder)
 end
 
 print(model.net)
