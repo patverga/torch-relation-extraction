@@ -179,7 +179,7 @@ end
 function RelationEncoderModel:save_model(epoch)
     if self.params.saveModel ~= '' then
         torch.save(self.params.saveModel .. '/' .. epoch .. '-model',
-            {net = self.net, encoder = self.encoder, rel_table = self.rel_table, ent_table = self.ent_table, opt_state = self.opt_state})
+            {net = self.net, encoder = self.rel_encoder, rel_table = self.rel_table, ent_table = self.ent_table, opt_state = self.opt_state})
         self:tac_eval(self.params.saveModel .. '/' .. epoch, self.params.resultDir .. '/' .. epoch, self.params.evalArgs)
         torch.save(self.params.saveModel .. '/' .. epoch .. '-ent-weights', self.params.gpuid >= 0 and self.ent_table.weight:double() or self.ent_table.weight)
         torch.save(self.params.saveModel .. '/' .. epoch .. '-rel-weights', self.params.gpuid >= 0 and self.rel_table.weight:double() or self.rel_table.weight)

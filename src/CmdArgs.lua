@@ -23,7 +23,7 @@ cmd:option('-saveEpEmbeddings', '', 'write entity pair embeddings to text file')
 cmd:option('-saveRelEmbeddings', '', 'write relation embeddings to text file')
 
 -- model / data sizes
-cmd:option('-encoder', '', 'embedding dimension')
+cmd:option('-encoder', '', 'type of encoder to use for relations')
 cmd:option('-embeddingDim', 100, 'embedding dimension')
 cmd:option('-relDim', 0, 'embedding dimension')
 cmd:option('-wordDim', 0, 'embedding dimension')

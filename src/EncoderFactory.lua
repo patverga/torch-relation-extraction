@@ -202,7 +202,7 @@ function EncoderFactory:build_encoder(params, vocab_size)
     -- load encoder from saved model
     if params.loadEncoder ~= '' then
         local loaded_model = torch.load(params.loadEncoder)
-        encoder, table = loaded_model.encoder, loaded_model.rel_table
+        encoder, table = loaded_model.rel_encoder, loaded_model.rel_table
 
     -- lstm encoder
     elseif encoder_type == 'lstm' then
