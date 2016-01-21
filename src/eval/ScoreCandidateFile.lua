@@ -271,8 +271,8 @@ local data, max_seq = process_file(load_maps())
 
 -- load model
 local model = torch.load(params.model)
-local kb_rel_table = to_cuda(model.kb_rel_table ~= nil and model.kb_rel_table or model.encoder)
-local text_encoder = to_cuda(model.text_encoder ~= nil and model.text_encoder or model.encoder)
+local kb_rel_table = to_cuda(model.kb_rel_table and model.kb_rel_table or model.encoder)
+local text_encoder = to_cuda(model.text_encoder and model.text_encoder or (model.rel_encoder and model.rel_encoder or model.encoder))
 kb_rel_table:evaluate();text_encoder:evaluate()
 
 -- score and export candidate file

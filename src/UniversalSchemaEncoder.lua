@@ -11,7 +11,7 @@ require 'RelationEncoderModel'
 
 local UniversalSchemaEncoder, parent = torch.class('UniversalSchemaEncoder', 'RelationEncoderModel')
 
-function UniversalSchemaEncoder:__init(params, rel_table, encoder)
+function UniversalSchemaEncoder:__init(params, ent_table, ent_encoder, rel_table, rel_encoder)
     self.__index = self
     self.params = params
     self:init_opt()
@@ -25,34 +25,29 @@ function UniversalSchemaEncoder:__init(params, rel_table, encoder)
     if params.loadModel ~= '' then
         local loaded_model = torch.load(params.loadModel)
         self.net = self:to_cuda(loaded_model.net)
-        encoder = self.net:get(1):get(2) --self:to_cuda(loaded_model.encoder)
-        self.ent_table = self.net:get(1):get(1) --self:to_cuda((loaded_model.ent_table or self.net:get(1):get(1)))
+        rel_encoder = self.net:get(1):get(2) --self:to_cuda(loaded_model.encoder)
+        ent_table = self.net:get(1):get(1) --self:to_cuda((loaded_model.ent_table or self.net:get(1):get(1)))
         rel_table = self:to_cuda(loaded_model.rel_table)
         self.opt_state = loaded_model.opt_state
         for key, val in pairs(loaded_model.opt_state) do if (torch.type(val) == 'torch.DoubleTensor') then self.opt_state[key] = self:to_cuda(val) end; end
     else
-        self.net, self.ent_table = self:build_network(params, self.train_data.num_eps, encoder)
+        self.net = self:build_network(ent_encoder, rel_encoder)
     end
+    self.ent_table = ent_table
     self.rel_table = rel_table
-    self.encoder = encoder
+    self.rel_encoder = rel_encoder
+    self.ent_encoder = ent_encoder
 end
 
 
-function UniversalSchemaEncoder:build_network(params, num_eps, encoder)
-    -- seperate lookup tables for entity pairs and relations
-    local pos_ep_table = self:to_cuda(nn.LookupTable(num_eps, params.embeddingDim))
-    -- preload entity pairs
-    if params.loadEpEmbeddings ~= '' then pos_ep_table.weight = (self:to_cuda(torch.load(params.loadEpEmbeddings)))
-    else pos_ep_table.weight = pos_ep_table.weight:normal(0, 1):mul(1 / params.embeddingDim)
-    end
-
-    local neg_ep_table = pos_ep_table:clone()
+function UniversalSchemaEncoder:build_network(pos_ent_encoder, rel_encoder)
+    local neg_ent_encoder = pos_ent_encoder:clone()
 
     -- load the eps and rel
     local loading_par_table = nn.ParallelTable()
-    loading_par_table:add(pos_ep_table)
-    loading_par_table:add(encoder)
-    loading_par_table:add(neg_ep_table)
+    loading_par_table:add(pos_ent_encoder)
+    loading_par_table:add(rel_encoder)
+    loading_par_table:add(neg_ent_encoder)
 
     -- layers to compute the dot prduct of the positive and negative samples
     local pos_dot = nn.Sequential()
@@ -77,8 +72,8 @@ function UniversalSchemaEncoder:build_network(params, num_eps, encoder)
     self:to_cuda(net)
 
     -- need to do param sharing after tocuda
-    pos_ep_table:share(neg_ep_table, 'weight', 'bias', 'gradWeight', 'gradBias')
-    return net, pos_ep_table
+    pos_ent_encoder:share(neg_ent_encoder, 'weight', 'bias', 'gradWeight', 'gradBias')
+    return net
 end
 
 
@@ -185,8 +180,9 @@ function UniversalSchemaEncoder:score_subdata(sub_data)
     for i = 1, #batches do
         local ep_batch, rel_batch, _ = unpack(batches[i].data)
         if self.params.relations then rel_batch = rel_batch:contiguous():view(rel_batch:size(1), 1) end
-        local encoded_rel = self.encoder:forward(self:to_cuda(rel_batch))
-        local x = { encoded_rel, self.ent_table(self:to_cuda(ep_batch:contiguous():view(ep_batch:size(1), 1))) }
+        local encoded_rel = self.rel_encoder:forward(self:to_cuda(rel_batch))
+        local encoded_ent = self.ent_encoder(self:to_cuda(ep_batch:contiguous():view(ep_batch:size(1), 1)))
+        local x = { encoded_rel, encoded_ent }
         x = {
             x[1]:view(x[2]:size(1), x[2]:size(3)),
             x[2]:view(x[2]:size(1), x[2]:size(3))
