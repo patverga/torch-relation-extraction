@@ -137,34 +137,38 @@ end
 
 --- IO ----
 
+function RelationEncoderModel:load_sub_data(sub_data, entities)
+    if entities then
+        if self.params.entEncoder == 'lookup-table' then
+            sub_data.e1 = sub_data.e1:squeeze()
+            sub_data.e2 = sub_data.e2:squeeze()
+        end
+        sub_data.e1 = self:to_cuda(sub_data.e1)
+        sub_data.e2 = self:to_cuda(sub_data.e2)
+    else
+        if self.params.entEncoder == 'lookup-table' then sub_data.ep = sub_data.ep:squeeze() end
+        sub_data.ep = self:to_cuda(sub_data.ep)
+    end
+    if self.params.encoder == 'lookup-table' then
+        sub_data.rel = self:to_cuda(sub_data.rel):squeeze()
+    else
+        sub_data.seq = self:to_cuda(sub_data.seq)
+        if sub_data.seq:dim() == 1 then sub_data.seq = sub_data.seq:view(sub_data.seq:size(1), 1) end
+    end
+    return sub_data
+end
+
 function RelationEncoderModel:load_train_data(data_file, entities)
     local train = torch.load(data_file)
     if #train > 0 then
         for i = 1, self.params.maxSeq do
             if train[i] and train[i].ep then
-                if entities then
-                    train[i].e1 = self:to_cuda(train[i].e1):contiguous():view(train[i].e1:size(1))
-                    train[i].e2 = self:to_cuda(train[i].e2):contiguous():view(train[i].e2:size(1))
-                else
-                    train[i].ep = self:to_cuda(train[i].ep):contiguous():view(train[i].ep:size(1))
-                end
-                if self.params.relations then train[i].rel = self:to_cuda(train[i].rel):contiguous():view(train[i].rel:size(1), 1)
-                else train[i].seq = self:to_cuda(train[i].seq):contiguous()
-                end
+                train[i] = self:load_sub_data(train[i], entities)
             end
         end
     else
-        if entities then
-            train.e1 = self:to_cuda(train.e1):contiguous():view(train.e1:size(1))
-            train.e2 = self:to_cuda(train.e2):contiguous():view(train.e2:size(1))
-        else
-            train.ep = self:to_cuda(train.ep):contiguous():view(train.ep:size(1))
-        end
-        if self.params.relations then train.rel = self:to_cuda(train.rel):contiguous():view(train.rel:size(1), 1)
-        else train.seq = self:to_cuda(train.seq):contiguous()
-        end
+        self:load_sub_data(train, entities)
     end
-
     return train
 end
 

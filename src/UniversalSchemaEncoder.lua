@@ -86,10 +86,10 @@ function UniversalSchemaEncoder:gen_subdata_batches(sub_data, batches, max_neg, 
         local size = math.min(self.params.batchSize, sub_data.ep:size(1) - start + 1)
         local batch_indices = rand_order:narrow(1, start, size)
         local pos_ep_batch = sub_data.ep:index(1, batch_indices)
-        local neg_ep_batch = self:to_cuda(torch.rand(size):mul(max_neg):floor():add(1))
-        local rel_batch = self.params.relations and sub_data.rel:index(1, batch_indices) or sub_data.seq:index(1, batch_indices)
-        if self.squeeze_rel then rel_batch = rel_batch:squeeze() end
-        local batch = { pos_ep_batch, rel_batch, neg_ep_batch }
+        local neg_ep_batch = self:to_cuda(torch.rand(size):mul(max_neg):floor():add(1)):view(pos_ep_batch:size())
+        local rel_batch = self.params.encoder == 'lookup-table' and sub_data.rel:index(1, batch_indices) or sub_data.seq:index(1, batch_indices)
+--        if self.squeeze_rel then rel_batch = rel_batch:squeeze() end
+        local batch = { pos_ep_batch, rel_batch, neg_ep_batch}
         table.insert(batches, { data = batch, label = 1 })
         start = start + size
     end
@@ -122,6 +122,10 @@ function UniversalSchemaEncoder:optim_update(net, criterion, x, y, parameters, g
     local function fEval(parameters)
         if parameters ~= parameters then parameters:copy(parameters) end
         net:zeroGradParameters()
+--        x = {x[1], x[2]:view(x[2]:size(1), 1), x[3]}
+--        print(x)
+--        print(x[1]:max(), x[2]:max(), x[3]:max())
+
         local pred = net:forward(x)
 
         local old = true
@@ -179,9 +183,10 @@ function UniversalSchemaEncoder:score_subdata(sub_data)
     local scores = {}
     for i = 1, #batches do
         local ep_batch, rel_batch, _ = unpack(batches[i].data)
-        if self.params.relations then rel_batch = rel_batch:contiguous():view(rel_batch:size(1), 1) end
-        local encoded_rel = self.rel_encoder:forward(self:to_cuda(rel_batch))
-        local encoded_ent = self.ent_encoder(self:to_cuda(ep_batch:contiguous():view(ep_batch:size(1), 1)))
+        if self.params.encoder == 'lookup-table' then rel_batch = rel_batch:view(rel_batch:size(1), 1) end
+        if self.params.entEncoder == 'lookup-table' then ep_batch = ep_batch:view(ep_batch:size(1), 1) end
+        local encoded_rel = self.rel_encoder(self:to_cuda(rel_batch))
+        local encoded_ent = self.ent_encoder(self:to_cuda(ep_batch))
         local x = { encoded_rel, encoded_ent }
         x = {
             x[1]:view(x[2]:size(1), x[2]:size(3)),
