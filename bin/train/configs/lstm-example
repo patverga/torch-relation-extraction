@@ -15,3 +15,4 @@ export MAX_EPOCHS=50
 export EVAL_FREQ=3
 export ENCODER="lstm"
 export POOL_LAYER=Max
+export NON_LINEAR_LAYER=ReLU

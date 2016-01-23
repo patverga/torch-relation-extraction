@@ -16,7 +16,8 @@ cmd:option('-train', 'data/train-mtx.torch', 'torch format train file list')
 cmd:option('-test', '', 'torch format test file list')
 cmd:option('-loadModel', '', 'load a pretrained model from this file')
 cmd:option('-saveModel', '', 'file to save the trained model to')
-cmd:option('-loadEncoder', '', 'load a pretrained encoder from this file')
+cmd:option('-loadRelEncoder', '', 'load a pretrained relation/column encoder from this file')
+cmd:option('-loadEntEncoder', '', 'load a pretrained entity/row encoder from this file')
 cmd:option('-loadEpEmbeddings', '', 'file containing serialized torch embeddings')
 cmd:option('-loadRelEmbeddings', '', 'file containing serialized torch embeddings')
 cmd:option('-saveEpEmbeddings', '', 'write entity pair embeddings to text file')
@@ -78,16 +79,12 @@ cmd:option('-freezeEp', 0, 'freeze the ep embeddings for this many epochs')
 cmd:option('-freezeRel', 0, 'freeze the rel embeddings for this many epochs')
 
 -- evaluation
---cmd:option('-k', 0, 'export the top k relations for each of the test relations')
 cmd:option('-resultDir', '', 'tac eval output dir')
 cmd:option('-vocab', '', 'vocab file to use for tac eval')
 cmd:option('-tacYear', '', 'tac evaluation year')
 cmd:option('-evalArgs', '', 'other args for tac eval')
 cmd:option('-evaluateFrequency', 1, 'evaluate after every ith epoch')
 
--- other
---cmd:option('-profile', false, 'if true, run pepperfish profiler')
-cmd:option('-testing', false, 'run in testing mode')
 
 function CmdArgs:parse(arg)
     local params = cmd:parse(arg)

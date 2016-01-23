@@ -13,18 +13,14 @@ function EncoderFactory:build_lookup_table(params, vocab_size, dim)
     end
     -- initialize in range [-.1, .1]
     lookup_table.weight = torch.rand(vocab_size, dim):add(-.1):mul(0.1)
-
-    if params.loadRelEmbeddings ~= '' then
-        lookup_table.weight = (torch.load(params.loadRelEmbeddings))
-    end
     return lookup_table
 end
 
 
 function EncoderFactory:lookup_table_encoder(params, vocab_size)
     local dim = params.relDim > 0 and params.relDim or params.embeddingDim
-    local rel_table = self:build_lookup_table(params, vocab_size, dim)
-    return rel_table, rel_table
+    local lookup_table = self:build_lookup_table(params, vocab_size, dim)
+    return lookup_table, lookup_table
 end
 
 
@@ -197,13 +193,9 @@ end
 
 function EncoderFactory:build_encoder(params, encoder_type, vocab_size)
     local encoder, table
-    -- load encoder from saved model
-    if params.loadEncoder ~= '' then
-        local loaded_model = torch.load(params.loadEncoder)
-        encoder, table = loaded_model.rel_encoder, loaded_model.rel_table
 
     -- lstm encoder
-    elseif encoder_type == 'lstm' then
+   if encoder_type == 'lstm' then
         encoder, table = self:lstm_encoder(params, vocab_size)
 
     -- conv net

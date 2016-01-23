@@ -17,13 +17,32 @@ print('Using ' .. (params.gpuid >= 0 and 'GPU' or 'CPU'))
 if params.gpuid >= 0 then require 'cunn'; cutorch.manualSeed(0); cutorch.setDevice(params.gpuid + 1) else require 'nn' end
 
 local train_data = torch.load(params.train)
-local rel_vocab_size = params.encoder == 'lookup-table' and train_data.num_rels or train_data.num_tokens
-local rel_encoder, rel_table = EncoderFactory:build_encoder(params, params.encoder, rel_vocab_size)
-local ent_vocab_size = params.entEncoder == 'lookup-table' and train_data.num_eps or train_data.num_eps --num_tokens
-local ent_encoder, ent_table = EncoderFactory:build_encoder(params, params.entEncoder, ent_vocab_size)
 
--- learn vectors for each entity rather than entity pair
+-- create column encoder
+local rel_encoder, rel_table
+if params.loadRelEncoder ~= '' then -- load encoder from saved model
+    local loaded_model = torch.load(params.loadRelEncoder)
+    rel_encoder, rel_table = loaded_model.rel_encoder, loaded_model.rel_table
+else
+    local rel_vocab_size = params.encoder == 'lookup-table' and train_data.num_rels or train_data.num_tokens
+    local rel_encoder, rel_table = EncoderFactory:build_encoder(params, params.encoder, rel_vocab_size)
+    if params.loadRelEmbeddings ~= '' then rel_table.weight = (torch.load(params.loadRelEmbeddings)) end
+end
+
+-- create row encoder
+local ent_encoder, ent_table
+if params.loadEntEncoder ~= '' then -- load encoder from saved model
+    local loaded_model = torch.load(params.loadRelEncoder)
+    ent_encoder, ent_table = loaded_model.ent_encoder, loaded_model.ent_table
+else
+    local ent_vocab_size = params.entEncoder == 'lookup-table' and train_data.num_eps or train_data.num_eps --num_tokens
+    local ent_encoder, ent_table = EncoderFactory:build_encoder(params, params.entEncoder, ent_vocab_size)
+    if params.loadEpEmbeddings ~= '' then ent_table.weight = (torch.load(params.loadEpEmbeddings)) end
+end
+
+
 local model
+-- learn vectors for each entity rather than entity pair
 if params.modelType == 'entity' then
     require 'UniversalSchemaEntityEncoder'
     model = UniversalSchemaEntityEncoder(params, rel_table, rel_encoder)
@@ -38,11 +57,6 @@ else
     require 'UniversalSchemaEncoder'
     model = UniversalSchemaEncoder(params, ent_table, ent_encoder, rel_table, rel_encoder)
 end
-
---print (rel_encoder)
---print (rel_encoder(torch.Tensor(1,1):fill(1)))
---print (ent_encoder)
---print (ent_encoder(torch.Tensor(1,1):fill(1)))
 
 print(model.net)
 model:train()
