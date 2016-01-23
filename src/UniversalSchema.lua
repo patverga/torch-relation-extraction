@@ -25,7 +25,7 @@ if params.loadRelEncoder ~= '' then -- load encoder from saved model
     rel_encoder, rel_table = loaded_model.rel_encoder, loaded_model.rel_table
 else
     local rel_vocab_size = params.encoder == 'lookup-table' and train_data.num_rels or train_data.num_tokens
-    local rel_encoder, rel_table = EncoderFactory:build_encoder(params, params.encoder, rel_vocab_size)
+    rel_encoder, rel_table = EncoderFactory:build_encoder(params, params.encoder, rel_vocab_size)
     if params.loadRelEmbeddings ~= '' then rel_table.weight = (torch.load(params.loadRelEmbeddings)) end
 end
 
@@ -36,7 +36,7 @@ if params.loadEntEncoder ~= '' then -- load encoder from saved model
     ent_encoder, ent_table = loaded_model.ent_encoder, loaded_model.ent_table
 else
     local ent_vocab_size = params.entEncoder == 'lookup-table' and train_data.num_eps or train_data.num_eps --num_tokens
-    local ent_encoder, ent_table = EncoderFactory:build_encoder(params, params.entEncoder, ent_vocab_size)
+    ent_encoder, ent_table = EncoderFactory:build_encoder(params, params.entEncoder, ent_vocab_size)
     if params.loadEpEmbeddings ~= '' then ent_table.weight = (torch.load(params.loadEpEmbeddings)) end
 end
 

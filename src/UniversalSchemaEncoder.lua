@@ -122,9 +122,6 @@ function UniversalSchemaEncoder:optim_update(net, criterion, x, y, parameters, g
     local function fEval(parameters)
         if parameters ~= parameters then parameters:copy(parameters) end
         net:zeroGradParameters()
---        x = {x[1], x[2]:view(x[2]:size(1), 1), x[3]}
---        print(x)
---        print(x[1]:max(), x[2]:max(), x[3]:max())
 
         local pred = net:forward(x)
 
