@@ -10,31 +10,6 @@ require 'RelationEncoderModel'
 
 local UniversalSchemaEntityEncoder, parent = torch.class('UniversalSchemaEntityEncoder', 'RelationEncoderModel')
 
-function UniversalSchemaEntityEncoder:__init(params, rel_table, encoder)
-    self.__index = self
-    self.params = params
-    self:init_opt()
-    self.squeeze_rel = params.relations or false
-    self.train_data = self:load_entity_data(params.train)
-
-    -- cosine distance network for evaluation
-    self.cosine = self:to_cuda(nn.CosineDistance())
-
-    -- either load model from file or initialize new one
-    if params.loadModel ~= '' then
-        local loaded_model = torch.load(params.loadModel)
-        self.net = self:to_cuda(loaded_model.net)
-        encoder = self.net:get(1):get(3) --self:to_cuda(loaded_model.encoder)
-        self.ent_table = self.net:get(1):get(1) --self:to_cuda((loaded_model.ent_table or self.net:get(1):get(1)))
-        rel_table = self:to_cuda(loaded_model.rel_table)
-        self.opt_state = loaded_model.opt_state
-    else
-        self.net, self.ent_table, self.ep_encoder = self:build_network(params, self.train_data.num_ents, encoder)
-    end
-    self.rel_table = rel_table
-    self.encoder = encoder
-end
-
 
 function UniversalSchemaEntityEncoder:build_network(params, num_ents, encoder)
     -- seperate lookup tables for entity pairs and relations
@@ -192,14 +167,7 @@ function UniversalSchemaEntityEncoder:optim_update(net, criterion, x, y, paramet
 end
 
 
-
---- - Evaluate ----
-function UniversalSchemaEntityEncoder:evaluate()
-    if self.params.test ~= '' then
-        self:map(self.params.test, true)
-    end
-end
-
+----- Evaluate ----
 function UniversalSchemaEntityEncoder:score_subdata(sub_data)
     local batches = {}
     self:gen_subdata_batches(sub_data, batches, 0, false)

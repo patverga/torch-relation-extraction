@@ -5,14 +5,39 @@
 local RelationEncoderModel = torch.class('RelationEncoderModel')
 
 
-function RelationEncoderModel:init_opt()
+function RelationEncoderModel:__init(params, ent_table, ent_encoder, rel_table, rel_encoder)
+    self.__index = self
+    self.params = params
     self.opt_config = { learningRate = self.params.learningRate, epsilon = self.params.epsilon,
         beta1 = self.params.beta1, beta2 = self.params.beta2,
         momentum = self.params.momentum, learningRateDecay = self.params.decay
     }
     self.opt_state = {}
+    self.squeeze_rel = params.relations or false
+    self.train_data = self:load_ep_data(params.train)
 
+    -- cosine distance network for evaluation
+    self.cosine = self:to_cuda(nn.CosineDistance())
+
+    -- either load model from file or initialize new one
+    if params.loadModel ~= '' then
+        local loaded_model = torch.load(params.loadModel)
+        self.net = self:to_cuda(loaded_model.net)
+        rel_encoder = self:to_cuda(loaded_model.rel_encoder)
+        ent_encoder = self:to_cuda(loaded_model.ent_encoder)
+        ent_table = self:to_cuda(loaded_model.ent_table)
+        rel_table = self:to_cuda(loaded_model.rel_table)
+        self.opt_state = loaded_model.opt_state
+        for key, val in pairs(loaded_model.opt_state) do if (torch.type(val) == 'torch.DoubleTensor') then self.opt_state[key] = self:to_cuda(val) end; end
+    else
+        self.net = self:build_network(ent_encoder, rel_encoder)
+    end
+    self.ent_table = ent_table
+    self.rel_table = rel_table
+    self.rel_encoder = rel_encoder
+    self.ent_encoder = ent_encoder
 end
+
 
 --- Utils ---
 
@@ -61,6 +86,13 @@ end
 
 
 --- Evaluate ----
+
+function RelationEncoderModel:evaluate()
+    if self.params.test ~= '' then
+        self:map(self.params.test, true)
+    end
+end
+
 
 function RelationEncoderModel:score_test_data(data)
     local scores = {}

@@ -215,12 +215,6 @@ end
 
 
 --- - Evaluate ----
-function TransEEncoder:evaluate()
-    if self.params.test ~= '' then
-        self:map(self.params.test, false)
-    end
-end
-
 
 --function TransEEncoder:score_subdata(sub_data)
 --    local batches = {}

@@ -11,35 +11,6 @@ require 'RelationEncoderModel'
 
 local UniversalSchemaEncoder, parent = torch.class('UniversalSchemaEncoder', 'RelationEncoderModel')
 
-function UniversalSchemaEncoder:__init(params, ent_table, ent_encoder, rel_table, rel_encoder)
-    self.__index = self
-    self.params = params
-    self:init_opt()
-    self.squeeze_rel = params.relations or false
-    self.train_data = self:load_ep_data(params.train)
-
-    -- cosine distance network for evaluation
-    self.cosine = self:to_cuda(nn.CosineDistance())
-
-    -- either load model from file or initialize new one
-    if params.loadModel ~= '' then
-        local loaded_model = torch.load(params.loadModel)
-        self.net = self:to_cuda(loaded_model.net)
-        rel_encoder = self.net:get(1):get(2) --self:to_cuda(loaded_model.encoder)
-        ent_table = self.net:get(1):get(1) --self:to_cuda((loaded_model.ent_table or self.net:get(1):get(1)))
-        rel_table = self:to_cuda(loaded_model.rel_table)
-        self.opt_state = loaded_model.opt_state
-        for key, val in pairs(loaded_model.opt_state) do if (torch.type(val) == 'torch.DoubleTensor') then self.opt_state[key] = self:to_cuda(val) end; end
-    else
-        self.net = self:build_network(ent_encoder, rel_encoder)
-    end
-    self.ent_table = ent_table
-    self.rel_table = rel_table
-    self.rel_encoder = rel_encoder
-    self.ent_encoder = ent_encoder
-end
-
-
 function UniversalSchemaEncoder:build_network(pos_ent_encoder, rel_encoder)
     local neg_ent_encoder = pos_ent_encoder:clone()
 
@@ -166,12 +137,6 @@ end
 
 
 ----- Evaluate ----
-function UniversalSchemaEncoder:evaluate()
-    if self.params.test ~= '' then
-        self:map(self.params.test, true)
-    end
-end
-
 
 function UniversalSchemaEncoder:score_subdata(sub_data)
     local batches = {}
