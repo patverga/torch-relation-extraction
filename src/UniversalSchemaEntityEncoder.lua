@@ -11,38 +11,31 @@ require 'RelationEncoderModel'
 local UniversalSchemaEntityEncoder, parent = torch.class('UniversalSchemaEntityEncoder', 'RelationEncoderModel')
 
 
-function UniversalSchemaEntityEncoder:build_network(params, num_ents, encoder)
-    -- seperate lookup tables for entity pairs and relations
-    local pos_e1_table = nn.LookupTable(num_ents, params.embeddingDim)
-    -- preload entity pairs
-    if params.loadEpEmbeddings ~= '' then pos_e1_table.weight = self:to_cuda(torch.load(params.loadEpEmbeddings))
-    else pos_e1_table.weight = torch.rand(num_ents, params.embeddingDim):add(-.5):mul(0.1)
-    end
-
-    local pos_e2_table = pos_e1_table:clone()
-    local neg_e1_table = pos_e1_table:clone()
-    local neg_e2_table = pos_e1_table:clone()
+function UniversalSchemaEntityEncoder:build_network(pos_e1_encoder, rel_encoder)
+    local pos_e2_encoder = pos_e1_encoder:clone()
+    local neg_e1_encoder = pos_e1_encoder:clone()
+    local neg_e2_encoder = pos_e1_encoder:clone()
 
     -- load the eps and rel
     local loading_par_table = nn.ParallelTable()
-    loading_par_table:add(pos_e1_table)
-    loading_par_table:add(pos_e2_table)
-    loading_par_table:add(encoder)
-    loading_par_table:add(neg_e1_table)
-    loading_par_table:add(neg_e2_table)
+    loading_par_table:add(pos_e1_encoder)
+    loading_par_table:add(pos_e2_encoder)
+    loading_par_table:add(rel_encoder)
+    loading_par_table:add(neg_e1_encoder)
+    loading_par_table:add(neg_e2_encoder)
 
-    local ep_encoder = nn.Sequential()
-    ep_encoder:add(nn.JoinTable(2))
-    if params.compositional then
-        ep_encoder:add(nn.Linear(params.embeddingDim*2, params.embeddingDim))
---        ep_encoder:add(nn.ReLU())
---        ep_encoder:add(nn.Linear(params.embeddingDim, params.embeddingDim))
+    self.ep_encoder = nn.Sequential()
+    self.ep_encoder:add(nn.JoinTable(2))
+    if self.params.compositional then
+        self.ep_encoder:add(nn.Linear(self.params.embeddingDim*2, self.params.embeddingDim))
+--        self.ep_encoder:add(nn.ReLU())
+--        self.ep_encoder:add(nn.Linear(params.embeddingDim, params.embeddingDim))
     end
 
     -- layers to compute the dot prduct of the positive and negative samples
     local pos_ents = nn.Sequential()
     pos_ents:add(nn.NarrowTable(1, 2))
-    pos_ents:add(ep_encoder)
+    pos_ents:add(self.ep_encoder)
 
     local pos_concat = nn.ConcatTable()
     pos_concat:add(pos_ents)
@@ -54,7 +47,7 @@ function UniversalSchemaEntityEncoder:build_network(params, num_ents, encoder)
 
     local neg_ents = nn.Sequential()
     neg_ents:add(nn.NarrowTable(4, 2))
-    neg_ents:add(ep_encoder:clone())
+    neg_ents:add(self.ep_encoder:clone())
 
     local neg_concat = nn.ConcatTable()
     neg_concat:add(neg_ents)
@@ -78,12 +71,11 @@ function UniversalSchemaEntityEncoder:build_network(params, num_ents, encoder)
 
     -- need to do param sharing after tocuda
     pos_ents:share(neg_ents, 'weight', 'bias', 'gradWeight', 'gradBias')
-    neg_e1_table:share(neg_e2_table, 'weight', 'bias', 'gradWeight', 'gradBias')
-    pos_e2_table:share(neg_e1_table, 'weight', 'bias', 'gradWeight', 'gradBias')
-    pos_e1_table:share(pos_e2_table, 'weight', 'bias', 'gradWeight', 'gradBias')
+    neg_e1_encoder:share(neg_e2_encoder, 'weight', 'bias', 'gradWeight', 'gradBias')
+    pos_e2_encoder:share(neg_e1_encoder, 'weight', 'bias', 'gradWeight', 'gradBias')
+    pos_e1_encoder:share(pos_e2_encoder, 'weight', 'bias', 'gradWeight', 'gradBias')
 
-
-    return net, pos_e1_table, ep_encoder
+    return net
 end
 
 
@@ -95,8 +87,8 @@ function UniversalSchemaEntityEncoder:gen_subdata_batches(sub_data, batches, max
     while start <= sub_data.ep:size(1) do
         local size = math.min(self.params.batchSize, sub_data.ep:size(1) - start + 1)
         local batch_indices = rand_order:narrow(1, start, size)
-        local pos_e1_batch = self:to_cuda(sub_data.e1:index(1, batch_indices))
-        local pos_e2_batch = self:to_cuda(sub_data.e2:index(1, batch_indices))
+        local pos_e1_batch = sub_data.e1:index(1, batch_indices)
+        local pos_e2_batch = sub_data.e2:index(1, batch_indices)
         local neg_e1_batch = self:to_cuda(torch.rand(size):mul(max_neg):floor():add(1))
         local neg_e2_batch = self:to_cuda(torch.rand(size):mul(max_neg):floor():add(1))
 --        -- randomly 0 out half of the pos e1's
@@ -109,8 +101,7 @@ function UniversalSchemaEntityEncoder:gen_subdata_batches(sub_data, batches, max
 --        neg_e2_batch:add(neg_ent_batch:clone():cmul(self:to_cuda(neg_e2_batch:eq(0):double())))
 
 
-        local rel_batch = self:to_cuda(self.params.relations and sub_data.rel:index(1, batch_indices) or sub_data.seq:index(1, batch_indices))
-        if self.squeeze_rel then rel_batch = rel_batch:squeeze() end
+        local rel_batch = self.params.encoder == 'lookup-table' and sub_data.rel:index(1, batch_indices) or sub_data.seq:index(1, batch_indices)
         local batch = { pos_e1_batch, pos_e2_batch, rel_batch, neg_e1_batch, neg_e2_batch }
         table.insert(batches, { data = batch, label = 1 })
         start = start + size
@@ -175,16 +166,22 @@ function UniversalSchemaEntityEncoder:score_subdata(sub_data)
     local scores = {}
     for i = 1, #batches do
         local e1_batch, e2_batch, rel_batch, _, _ = unpack(batches[i].data)
-        if self.params.relations then rel_batch = rel_batch:contiguous():view(rel_batch:size(1), 1) end
-        local encoded_rel = self.encoder:forward(self:to_cuda(rel_batch))
-        if encoded_rel:dim() == 3 then encoded_rel = encoded_rel:view(encoded_rel:size(1), encoded_rel:size(3)) end
-        local e1 = self.ent_table(self:to_cuda(e1_batch:contiguous())):clone()
-        e1 = e1:view(e1:size(1),e1:size(3))
-        local e2 = self.ent_table(self:to_cuda(e2_batch:contiguous())):clone()
-        e2 = e2:view(e2:size(1), e2:size(3))
-        local ep = self.ep_encoder({e1, e2})
-        if ep:dim() == 3 then ep = ep:view(ep:size(1), ep:size(3)) end
-        local x = { ep, encoded_rel, }
+        if self.params.encoder == 'lookup-table' then rel_batch = rel_batch:view(rel_batch:size(1), 1) end
+        if self.params.entEncoder == 'lookup-table' then
+            e1_batch = e1_batch:view(e1_batch:size(1), 1)
+            e2_batch = e2_batch:view(e2_batch:size(1), 1)
+        end
+        local encoded_rel = self.rel_encoder(self:to_cuda(rel_batch)):squeeze()
+        local encoded_e1 = self.ent_encoder(self:to_cuda(e1_batch)):squeeze():clone()
+        local encoded_e2 = self.ent_encoder(self:to_cuda(e2_batch)):squeeze()
+
+--        local e1 = self.ent_table(self:to_cuda(e1_batch:contiguous())):clone()
+--        e1 = e1:view(e1:size(1),e1:size(3))
+--        local e2 = self.ent_table(self:to_cuda(e2_batch:contiguous())):clone()
+--        e2 = e2:view(e2:size(1), e2:size(3))
+        local encoded_ep = self.ep_encoder({encoded_e1, encoded_e2}):squeeze()
+--        if ep:dim() == 3 then ep = ep:view(ep:size(1), ep:size(3)) end
+        local x = { encoded_ep, encoded_rel, }
         local score = self.cosine(x):double()
         table.insert(scores, score)
     end

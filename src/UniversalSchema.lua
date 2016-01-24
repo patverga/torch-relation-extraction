@@ -32,7 +32,7 @@ end
 -- create row encoder
 local ent_encoder, ent_table
 if params.loadEntEncoder ~= '' then -- load encoder from saved model
-    local loaded_model = torch.load(params.loadRelEncoder)
+    local loaded_model = torch.load(params.loadEntEncoder)
     ent_encoder, ent_table = loaded_model.ent_encoder, loaded_model.ent_table
 else
     local ent_vocab_size = params.entEncoder == 'lookup-table' and train_data.num_eps or train_data.num_eps --num_tokens
@@ -45,17 +45,17 @@ local model
 -- learn vectors for each entity rather than entity pair
 if params.modelType == 'entity' then
     require 'UniversalSchemaEntityEncoder'
-    model = UniversalSchemaEntityEncoder(params, rel_table, rel_encoder)
+    model = UniversalSchemaEntityEncoder(params, ent_table, ent_encoder, rel_table, rel_encoder, true)
 
 -- use a lookup table for kb relations and encoder for text patterns (entity pair vectors)
 elseif params.modelType == 'joint' then
     require 'UniversalSchemaJointEncoder'
-    model = UniversalSchemaJointEncoder(params, rel_table, rel_encoder)
+    model = UniversalSchemaJointEncoder(params, ent_table, ent_encoder, rel_table, rel_encoder, false)
 
 -- standard uschema with entity pair vectors
 else
     require 'UniversalSchemaEncoder'
-    model = UniversalSchemaEncoder(params, ent_table, ent_encoder, rel_table, rel_encoder)
+    model = UniversalSchemaEncoder(params, ent_table, ent_encoder, rel_table, rel_encoder, false)
 end
 
 print(model.net)

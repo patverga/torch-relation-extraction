@@ -59,7 +59,6 @@ function UniversalSchemaEncoder:gen_subdata_batches(sub_data, batches, max_neg, 
         local pos_ep_batch = sub_data.ep:index(1, batch_indices)
         local neg_ep_batch = self:to_cuda(torch.rand(size):mul(max_neg):floor():add(1)):view(pos_ep_batch:size())
         local rel_batch = self.params.encoder == 'lookup-table' and sub_data.rel:index(1, batch_indices) or sub_data.seq:index(1, batch_indices)
---        if self.squeeze_rel then rel_batch = rel_batch:squeeze() end
         local batch = { pos_ep_batch, rel_batch, neg_ep_batch}
         table.insert(batches, { data = batch, label = 1 })
         start = start + size

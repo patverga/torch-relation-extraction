@@ -5,7 +5,7 @@
 local RelationEncoderModel = torch.class('RelationEncoderModel')
 
 
-function RelationEncoderModel:__init(params, ent_table, ent_encoder, rel_table, rel_encoder)
+function RelationEncoderModel:__init(params, ent_table, ent_encoder, rel_table, rel_encoder, use_entities)
     self.__index = self
     self.params = params
     self.opt_config = { learningRate = self.params.learningRate, epsilon = self.params.epsilon,
@@ -14,7 +14,7 @@ function RelationEncoderModel:__init(params, ent_table, ent_encoder, rel_table, 
     }
     self.opt_state = {}
     self.squeeze_rel = params.relations or false
-    self.train_data = self:load_ep_data(params.train)
+    self.train_data = self:load_train_data(params.train, use_entities)
 
     -- cosine distance network for evaluation
     self.cosine = self:to_cuda(nn.CosineDistance())
