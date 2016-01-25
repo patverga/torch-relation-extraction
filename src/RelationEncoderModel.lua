@@ -5,7 +5,7 @@
 local RelationEncoderModel = torch.class('RelationEncoderModel')
 
 
-function RelationEncoderModel:__init(params, ent_table, ent_encoder, rel_table, rel_encoder, use_entities)
+function RelationEncoderModel:__init(params, row_table, row_encoder, col_table, col_encoder, use_entities)
     self.__index = self
     self.params = params
     self.opt_config = { learningRate = self.params.learningRate, epsilon = self.params.epsilon,
@@ -23,19 +23,19 @@ function RelationEncoderModel:__init(params, ent_table, ent_encoder, rel_table, 
     if params.loadModel ~= '' then
         local loaded_model = torch.load(params.loadModel)
         self.net = self:to_cuda(loaded_model.net)
-        rel_encoder = self:to_cuda(loaded_model.rel_encoder)
-        ent_encoder = self:to_cuda(loaded_model.ent_encoder)
-        ent_table = self:to_cuda(loaded_model.ent_table)
-        rel_table = self:to_cuda(loaded_model.rel_table)
+        col_encoder = self:to_cuda(loaded_model.col_encoder)
+        row_encoder = self:to_cuda(loaded_model.row_encoder)
+        row_table = self:to_cuda(loaded_model.row_table)
+        col_table = self:to_cuda(loaded_model.col_table)
         self.opt_state = loaded_model.opt_state
         for key, val in pairs(loaded_model.opt_state) do if (torch.type(val) == 'torch.DoubleTensor') then self.opt_state[key] = self:to_cuda(val) end; end
     else
-        self.net = self:build_network(ent_encoder, rel_encoder)
+        self.net = self:build_network(row_encoder, col_encoder)
     end
-    self.ent_table = ent_table
-    self.rel_table = rel_table
-    self.rel_encoder = rel_encoder
-    self.ent_encoder = ent_encoder
+    self.row_table = row_table
+    self.col_table = col_table
+    self.col_encoder = col_encoder
+    self.row_encoder = row_encoder
 end
 
 
@@ -215,10 +215,10 @@ end
 function RelationEncoderModel:save_model(epoch)
     if self.params.saveModel ~= '' then
         torch.save(self.params.saveModel .. '/' .. epoch .. '-model',
-            {net = self.net, encoder = self.rel_encoder, rel_table = self.rel_table, ent_table = self.ent_table, opt_state = self.opt_state})
+            {net = self.net, encoder = self.col_encoder, col_table = self.col_table, row_table = self.row_table, opt_state = self.opt_state})
         self:tac_eval(self.params.saveModel .. '/' .. epoch, self.params.resultDir .. '/' .. epoch, self.params.evalArgs)
-        torch.save(self.params.saveModel .. '/' .. epoch .. '-ent-weights', self.params.gpuid >= 0 and self.ent_table.weight:double() or self.ent_table.weight)
-        torch.save(self.params.saveModel .. '/' .. epoch .. '-rel-weights', self.params.gpuid >= 0 and self.rel_table.weight:double() or self.rel_table.weight)
+        torch.save(self.params.saveModel .. '/' .. epoch .. '-ent-weights', self.params.gpuid >= 0 and self.row_table.weight:double() or self.row_table.weight)
+        torch.save(self.params.saveModel .. '/' .. epoch .. '-rel-weights', self.params.gpuid >= 0 and self.col_table.weight:double() or self.col_table.weight)
     end
 end
 
@@ -237,12 +237,12 @@ function RelationEncoderModel:write_output()
 
     -- write embeddings to file
     if self.params.saveEpEmbeddings ~= '' then
-        write_embeddings(self.params.saveEpEmbeddings, self.ent_table.weight)
-        torch.save(self.params.saveEpEmbeddings .. '.torch', self.ent_table.weight:double())
+        write_embeddings(self.params.saveEpEmbeddings, self.row_table.weight)
+        torch.save(self.params.saveEpEmbeddings .. '.torch', self.row_table.weight:double())
     end
     if self.params.saveRelEmbeddings ~= '' then
-        write_embeddings(self.params.saveRelEmbeddings, self.rel_table.weight)
-        torch.save(self.params.saveRelEmbeddings .. '.torch', self.rel_table.weight:double())
+        write_embeddings(self.params.saveRelEmbeddings, self.col_table.weight)
+        torch.save(self.params.saveRelEmbeddings .. '.torch', self.col_table.weight:double())
     end
     require 'PatternScorer'
     if self.params.k > 0 then PatternScorer:get_top_patterns_topk(self.params.k) end

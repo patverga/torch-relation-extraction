@@ -11,14 +11,14 @@ require 'RelationEncoderModel'
 
 local UniversalSchemaEncoder, parent = torch.class('UniversalSchemaEncoder', 'RelationEncoderModel')
 
-function UniversalSchemaEncoder:build_network(pos_ent_encoder, rel_encoder)
-    local neg_ent_encoder = pos_ent_encoder:clone()
+function UniversalSchemaEncoder:build_network(pos_row_encoder, col_encoder)
+    local neg_row_encoder = pos_row_encoder:clone()
 
     -- load the eps and rel
     local loading_par_table = nn.ParallelTable()
-    loading_par_table:add(pos_ent_encoder)
-    loading_par_table:add(rel_encoder)
-    loading_par_table:add(neg_ent_encoder)
+    loading_par_table:add(pos_row_encoder)
+    loading_par_table:add(col_encoder)
+    loading_par_table:add(neg_row_encoder)
 
     -- layers to compute the dot prduct of the positive and negative samples
     local pos_dot = nn.Sequential()
@@ -43,7 +43,7 @@ function UniversalSchemaEncoder:build_network(pos_ent_encoder, rel_encoder)
     self:to_cuda(net)
 
     -- need to do param sharing after tocuda
-    pos_ent_encoder:share(neg_ent_encoder, 'weight', 'bias', 'gradWeight', 'gradBias')
+    pos_row_encoder:share(neg_row_encoder, 'weight', 'bias', 'gradWeight', 'gradBias')
     return net
 end
 
@@ -81,8 +81,8 @@ end
 
 
 function UniversalSchemaEncoder:regularize()
-    self.rel_table.weight:renorm(2, 2, 3.0)
-    --    self.ent_table.weight:renorm(2, 2, 3.0)
+    self.col_table.weight:renorm(2, 2, 3.0)
+    --    self.row_table.weight:renorm(2, 2, 3.0)
 end
 
 
@@ -122,8 +122,8 @@ function UniversalSchemaEncoder:optim_update(net, criterion, x, y, parameters, g
             local grad_norm = grad_params:norm(2)
             if grad_norm > self.params.clipGrads then grad_params = grad_params:div(grad_norm/self.params.clipGrads) end
         end
-        if self.params.freezeEp >= epoch then self.ent_table:zeroGradParameters() end
-        if self.params.freezeRel >= epoch then self.rel_table:zeroGradParameters() end
+        if self.params.freezeEp >= epoch then self.row_table:zeroGradParameters() end
+        if self.params.freezeRel >= epoch then self.col_table:zeroGradParameters() end
         return err, grad_params
     end
 
@@ -146,8 +146,8 @@ function UniversalSchemaEncoder:score_subdata(sub_data)
         local ep_batch, rel_batch, _ = unpack(batches[i].data)
         if self.params.encoder == 'lookup-table' then rel_batch = rel_batch:view(rel_batch:size(1), 1) end
         if self.params.entEncoder == 'lookup-table' then ep_batch = ep_batch:view(ep_batch:size(1), 1) end
-        local encoded_rel = self.rel_encoder(self:to_cuda(rel_batch)):squeeze()
-        local encoded_ent = self.ent_encoder(self:to_cuda(ep_batch)):squeeze()
+        local encoded_rel = self.col_encoder(self:to_cuda(rel_batch)):squeeze()
+        local encoded_ent = self.row_encoder(self:to_cuda(ep_batch)):squeeze()
         local x = { encoded_rel, encoded_ent }
         local score = self.cosine(x):double()
         table.insert(scores, score)

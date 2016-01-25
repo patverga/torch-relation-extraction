@@ -201,11 +201,11 @@ local function process_file(vocab_map, dictionary)
 end
 
 -- TODO this only works for uschema right now
-local function score_tac_relation(text_encoder, kb_rel_table, pattern_tensor, tac_tensor)
+local function score_tac_relation(text_encoder, kb_col_table, pattern_tensor, tac_tensor)
     if torch.type(text_encoder) == 'nn.EncoderPool' then pattern_tensor = pattern_tensor:view(pattern_tensor:size(1), 1, pattern_tensor:size(2)) end
-    if torch.type(kb_rel_table) == 'nn.EncoderPool' then tac_tensor = tac_tensor:view(tac_tensor:size(1), 1, tac_tensor:size(2)) end
+    if torch.type(kb_col_table) == 'nn.EncoderPool' then tac_tensor = tac_tensor:view(tac_tensor:size(1), 1, tac_tensor:size(2)) end
 
-    local tac_encoded = kb_rel_table:forward(to_cuda(tac_tensor)):clone()
+    local tac_encoded = kb_col_table:forward(to_cuda(tac_tensor)):clone()
     local pattern_encoded = text_encoder:forward(to_cuda(pattern_tensor)):clone()
 
     if tac_encoded:dim() == 3 then tac_encoded = tac_encoded:view(tac_encoded:size(1), tac_encoded:size(3)) end
@@ -218,7 +218,7 @@ local function score_tac_relation(text_encoder, kb_rel_table, pattern_tensor, ta
 end
 
 --- score the data returned by process_file ---
-local function score_data(data, max_seq, text_encoder, kb_rel_table)
+local function score_data(data, max_seq, text_encoder, kb_col_table)
     print('Scoring data')
     -- open output file to write scored candidates file
     local out_file = io.open(params.outFile, "w")
@@ -231,7 +231,7 @@ local function score_data(data, max_seq, text_encoder, kb_rel_table)
 --            while start <= #seq_len_data do
             local pattern_tensor = nn.JoinTable(1)(seq_len_data.pattern_tensor)
             local tac_tensor = nn.JoinTable(1)(seq_len_data.tac_tensor)
-            local scores = score_tac_relation(text_encoder, kb_rel_table, pattern_tensor, tac_tensor)
+            local scores = score_tac_relation(text_encoder, kb_col_table, pattern_tensor, tac_tensor)
             local out_lines = seq_len_data.out_line
             for i = 1, #out_lines do
                 local score = math.max(params.threshold, scores[i])
@@ -271,10 +271,10 @@ local data, max_seq = process_file(load_maps())
 
 -- load model
 local model = torch.load(params.model)
-local kb_rel_table = to_cuda(model.kb_rel_table and model.kb_rel_table or model.encoder)
-local text_encoder = to_cuda(model.text_encoder and model.text_encoder or (model.rel_encoder and model.rel_encoder or model.encoder))
-kb_rel_table:evaluate();text_encoder:evaluate()
+local kb_col_table = to_cuda(model.kb_col_table and model.kb_col_table or model.encoder)
+local text_encoder = to_cuda(model.text_encoder and model.text_encoder or (model.col_encoder and model.col_encoder or model.encoder))
+kb_col_table:evaluate();text_encoder:evaluate()
 
 -- score and export candidate file
-score_data(data, max_seq, text_encoder, kb_rel_table)
+score_data(data, max_seq, text_encoder, kb_col_table)
 print ('\nDone, found ' .. in_vocab .. ' in vocab tokens and ' .. out_vocab .. ' out of vocab tokens.')

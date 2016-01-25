@@ -18,10 +18,10 @@ torch.manualSeed(0)
 print('Using ' .. (params.gpuid >= 0 and 'GPU' or 'CPU'))
 if params.gpuid >= 0 then require 'cunn'; cutorch.manualSeed(0); cutorch.setDevice(params.gpuid + 1) else require 'nn' end
 
-local encoder, rel_table = EncoderFactory:build_encoder(params)
+local encoder, col_table = EncoderFactory:build_encoder(params)
 
 
-local model = TransEEncoder(params, rel_table, encoder)
+local model = TransEEncoder(params, col_table, encoder)
 print(model.net)
 model:train()
 model:evaluate()

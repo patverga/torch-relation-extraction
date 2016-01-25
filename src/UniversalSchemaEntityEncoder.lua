@@ -11,7 +11,7 @@ require 'RelationEncoderModel'
 local UniversalSchemaEntityEncoder, parent = torch.class('UniversalSchemaEntityEncoder', 'RelationEncoderModel')
 
 -- TODO encoder factory dealing with different size embedding lookuptables
-function UniversalSchemaEntityEncoder:build_network(pos_e1_encoder, rel_encoder)
+function UniversalSchemaEntityEncoder:build_network(pos_e1_encoder, col_encoder)
     local pos_e2_encoder = pos_e1_encoder:clone()
     local neg_e1_encoder = pos_e1_encoder:clone()
     local neg_e2_encoder = pos_e1_encoder:clone()
@@ -20,7 +20,7 @@ function UniversalSchemaEntityEncoder:build_network(pos_e1_encoder, rel_encoder)
     local loading_par_table = nn.ParallelTable()
     loading_par_table:add(pos_e1_encoder)
     loading_par_table:add(pos_e2_encoder)
-    loading_par_table:add(rel_encoder)
+    loading_par_table:add(col_encoder)
     loading_par_table:add(neg_e1_encoder)
     loading_par_table:add(neg_e2_encoder)
 
@@ -126,8 +126,8 @@ function UniversalSchemaEntityEncoder:gen_training_batches(data)
 end
 
 function UniversalSchemaEntityEncoder:regularize()
-    self.rel_table.weight:renorm(2, 2, 3.0)
-    self.ent_table.weight:renorm(2, 2, 3.0)
+    self.col_table.weight:renorm(2, 2, 3.0)
+    self.row_table.weight:renorm(2, 2, 3.0)
 end
 
 
@@ -150,8 +150,8 @@ function UniversalSchemaEntityEncoder:optim_update(net, criterion, x, y, paramet
             local grad_norm = grad_params:norm(2)
             if grad_norm > self.params.clipGrads then grad_params = grad_params:div(grad_norm/self.params.clipGrads) end
         end
-        if self.params.freezeEp >= epoch then self.ent_table:zeroGradParameters() end
-        if self.params.freezeRel >= epoch then self.rel_table:zeroGradParameters() end
+        if self.params.freezeEp >= epoch then self.row_table:zeroGradParameters() end
+        if self.params.freezeRel >= epoch then self.col_table:zeroGradParameters() end
         return err, grad_params
     end
     optim[self.params.optimMethod](fEval, parameters, opt_config, opt_state)
@@ -175,9 +175,9 @@ function UniversalSchemaEntityEncoder:score_subdata(sub_data)
             e1_batch = e1_batch:view(e1_batch:size(1), 1)
             e2_batch = e2_batch:view(e2_batch:size(1), 1)
         end
-        local encoded_rel = self.rel_encoder(self:to_cuda(rel_batch)):squeeze()
-        local encoded_e1 = self.ent_encoder(self:to_cuda(e1_batch)):squeeze():clone()
-        local encoded_e2 = self.ent_encoder(self:to_cuda(e2_batch)):squeeze()
+        local encoded_rel = self.col_encoder(self:to_cuda(rel_batch)):squeeze()
+        local encoded_e1 = self.row_encoder(self:to_cuda(e1_batch)):squeeze():clone()
+        local encoded_e2 = self.row_encoder(self:to_cuda(e2_batch)):squeeze()
         local encoded_ep = self.ep_encoder({encoded_e1, encoded_e2}):squeeze()
         local x = { encoded_ep, encoded_rel, }
         local score = self.cosine(x):double()

@@ -10,7 +10,7 @@ require 'UniversalSchemaEncoder'
 
 local UniversalSchemaJointEncoder, parent = torch.class('UniversalSchemaJointEncoder', 'UniversalSchemaEncoder')
 
-function UniversalSchemaJointEncoder:__init(params, kb_rel_table, text_encoder, squeeze_rel)
+function UniversalSchemaJointEncoder:__init(params, kb_col_table, text_encoder, squeeze_rel)
     self.__index = self
     self.params = params
     self:init_opt()
@@ -27,8 +27,8 @@ function UniversalSchemaJointEncoder:__init(params, kb_rel_table, text_encoder, 
         self.kb_net = self:to_cuda(loaded_model.kb_net)
         self.text_net = self:to_cuda(loaded_model.text_net)
         text_encoder = self:to_cuda(loaded_model.text_encoder)
-        self.ent_table = self:to_cuda((loaded_model.ent_table or self.net:get(1):get(1)))
-        kb_rel_table = self:to_cuda(loaded_model.kb_rel_table)
+        self.row_table = self:to_cuda((loaded_model.row_table or self.net:get(1):get(1)))
+        kb_col_table = self:to_cuda(loaded_model.kb_col_table)
         self.kb_state = loaded_model.kb_state
         self.text_state = loaded_model.text_state
     else
@@ -39,10 +39,10 @@ function UniversalSchemaJointEncoder:__init(params, kb_rel_table, text_encoder, 
         else pos_ep_table.weight = pos_ep_table.weight:normal(0, 1):mul(1 / params.rowDim)
         end
         local neg_ep_table = pos_ep_table:clone()
-        self.ent_table = pos_ep_table
+        self.row_table = pos_ep_table
 
         -- kb_network
-        self.kb_net = self:build_net(pos_ep_table, kb_rel_table, neg_ep_table)
+        self.kb_net = self:build_net(pos_ep_table, kb_col_table, neg_ep_table)
         print ('KB-Net: ', self.kb_net)
         -- text network
         self.text_net = self:build_net(pos_ep_table, text_encoder, neg_ep_table)
@@ -54,7 +54,7 @@ function UniversalSchemaJointEncoder:__init(params, kb_rel_table, text_encoder, 
         self.text_state = {}
 
     end
-    self.kb_rel_table = kb_rel_table
+    self.kb_col_table = kb_col_table
     self.text_encoder = text_encoder
 
 end
@@ -156,9 +156,9 @@ function UniversalSchemaJointEncoder:score_subdata(sub_data)
     for i = 1, #batches do
         local ep_batch, rel_batch, _ = unpack(batches[i].data)
         if self.params.relations then rel_batch = rel_batch:contiguous():view(rel_batch:size(1), 1) end
-        local encoded_rel = self.kb_rel_table:forward(self:to_cuda(rel_batch))
+        local encoded_rel = self.kb_col_table:forward(self:to_cuda(rel_batch))
 --        local encoded_rel = self.text_encoder:forward(self:to_cuda(rel_batch))
-        local x = { encoded_rel, self.ent_table(self:to_cuda(ep_batch:contiguous():view(ep_batch:size(1), 1))) }
+        local x = { encoded_rel, self.row_table(self:to_cuda(ep_batch:contiguous():view(ep_batch:size(1), 1))) }
         x = {
             x[1]:view(x[2]:size(1), x[2]:size(3)),
             x[2]:view(x[2]:size(1), x[2]:size(3))
@@ -175,10 +175,10 @@ end
 function UniversalSchemaJointEncoder:save_model(epoch)
     if self.params.saveModel ~= '' then
         torch.save(self.params.saveModel .. '/' .. epoch .. '-model',
-            {kb_net = self.kb_net, text_net = self.text_net, text_encoder = self.text_encoder, kb_rel_table = self.kb_rel_table, ent_table = self.ent_table, opt_state = self.opt_state})
+            {kb_net = self.kb_net, text_net = self.text_net, text_encoder = self.text_encoder, kb_col_table = self.kb_col_table, row_table = self.row_table, opt_state = self.opt_state})
         self:tac_eval(self.params.saveModel .. '/' .. epoch, self.params.otherArgs)
-        torch.save(self.params.saveModel .. '/' .. epoch .. '-ent-weights', self.params.gpuid >= 0 and self.ent_table.weight:double() or self.ent_table.weight)
+        torch.save(self.params.saveModel .. '/' .. epoch .. '-ent-weights', self.params.gpuid >= 0 and self.row_table.weight:double() or self.row_table.weight)
         torch.save(self.params.saveModel .. '/' .. epoch .. '-token-weights', self.params.gpuid >= 0 and self.text_encoder:get(1).weight:double() or self.text_encoder:get(1).weight)
-        torch.save(self.params.saveModel .. '/' .. epoch .. '-kb-weights', self.params.gpuid >= 0 and self.kb_rel_table.weight:double() or self.kb_rel_table.weight)
+        torch.save(self.params.saveModel .. '/' .. epoch .. '-kb-weights', self.params.gpuid >= 0 and self.kb_col_table.weight:double() or self.kb_col_table.weight)
     end
 end

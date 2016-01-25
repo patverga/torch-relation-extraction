@@ -173,8 +173,8 @@ local function process_file(candidates, vocab_map)
 end
 
 -- TODO this only works for uschema right now
-local function score_tac_relation(text_encoder, kb_rel_table, pattern_tensor, tac_tensor, transform_net)
-    local tac_encoded = kb_rel_table:forward(to_cuda(tac_tensor)):clone()
+local function score_tac_relation(text_encoder, kb_col_table, pattern_tensor, tac_tensor, transform_net)
+    local tac_encoded = kb_col_table:forward(to_cuda(tac_tensor)):clone()
     local pattern_encoded = text_encoder:forward(to_cuda(pattern_tensor)):clone()
 
     if tac_encoded:dim() == 3 then tac_encoded = tac_encoded:view(tac_encoded:size(1), tac_encoded:size(3)) end
@@ -184,7 +184,7 @@ local function score_tac_relation(text_encoder, kb_rel_table, pattern_tensor, ta
 end
 
 --- score the data returned by process_file ---
-local function score_data(data, max_seq, text_encoder, kb_rel_table, transform_net)
+local function score_data(data, max_seq, text_encoder, kb_col_table, transform_net)
     print('Scoring data')
     -- open output file to write scored candidates file
     local out_file = io.open(params.outFile, "w")
@@ -198,7 +198,7 @@ local function score_data(data, max_seq, text_encoder, kb_rel_table, transform_n
 --            while start <= #seq_len_data do
             local pattern_tensor = nn.JoinTable(1)(seq_len_data.pattern_tensor)
             local tac_tensor = nn.JoinTable(1)(seq_len_data.tac_tensor)
-            local scores = score_tac_relation(text_encoder, kb_rel_table, pattern_tensor, tac_tensor, transform_net)
+            local scores = score_tac_relation(text_encoder, kb_col_table, pattern_tensor, tac_tensor, transform_net)
             local out_lines = seq_len_data.out_line
             for i = 1, #out_lines do
                 local score = scores[i] > params.threshold and scores[i] or 0
@@ -339,7 +339,7 @@ end
 
 print('Deserializing model')
 local model = torch.load(params.model)
-local kb_rel_encoder = to_cuda(model.kb_rel_table ~= nil and model.kb_rel_table or model.encoder):clone()
+local kb_rel_encoder = to_cuda(model.kb_col_table ~= nil and model.kb_col_table or model.encoder):clone()
 local text_encoder = to_cuda(model.text_encoder ~= nil and model.text_encoder or model.encoder):clone()
 kb_rel_encoder:evaluate()
 text_encoder:evaluate()

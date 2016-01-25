@@ -19,25 +19,25 @@ if params.gpuid >= 0 then require 'cunn'; cutorch.manualSeed(0); cutorch.setDevi
 local train_data = torch.load(params.train)
 
 -- create column encoder
-local rel_encoder, rel_table
+local col_encoder, col_table
 if params.loadRelEncoder ~= '' then -- load encoder from saved model
     local loaded_model = torch.load(params.loadRelEncoder)
-    rel_encoder, rel_table = loaded_model.rel_encoder, loaded_model.rel_table
+    col_encoder, col_table = loaded_model.col_encoder, loaded_model.col_table
 else
     local rel_vocab_size = params.encoder == 'lookup-table' and train_data.num_rels or train_data.num_tokens
-    rel_encoder, rel_table = EncoderFactory:build_encoder(params, params.encoder, rel_vocab_size, params.colDim)
-    if params.loadColEmbeddings ~= '' then rel_table.weight = (torch.load(params.loadColEmbeddings)) end
+    col_encoder, col_table = EncoderFactory:build_encoder(params, params.encoder, rel_vocab_size, params.colDim)
+    if params.loadColEmbeddings ~= '' then col_table.weight = (torch.load(params.loadColEmbeddings)) end
 end
 
 -- create row encoder
-local ent_encoder, ent_table
+local row_encoder, row_table
 if params.loadEntEncoder ~= '' then -- load encoder from saved model
     local loaded_model = torch.load(params.loadEntEncoder)
-    ent_encoder, ent_table = loaded_model.ent_encoder, loaded_model.ent_table
+    row_encoder, row_table = loaded_model.row_encoder, loaded_model.row_table
 else
     local ent_vocab_size = params.entEncoder == 'lookup-table' and train_data.num_eps or train_data.num_eps --num_tokens
-    ent_encoder, ent_table = EncoderFactory:build_encoder(params, params.entEncoder, ent_vocab_size, params.rowDim)
-    if params.loadRowEmbeddings ~= '' then ent_table.weight = (torch.load(params.loadRowEmbeddings)) end
+    row_encoder, row_table = EncoderFactory:build_encoder(params, params.entEncoder, ent_vocab_size, params.rowDim)
+    if params.loadRowEmbeddings ~= '' then row_table.weight = (torch.load(params.loadRowEmbeddings)) end
 end
 
 
@@ -45,18 +45,18 @@ local model
 -- learn vectors for each entity rather than entity pair
 if params.modelType == 'entity' then
     require 'UniversalSchemaEntityEncoder'
---    local rel_encoder = nn.Sequential():add(rel_encoder):add(nn.View(-1, params.colDim)):add(nn.Linear(params.colDim, params.colDim *2))
-    model = UniversalSchemaEntityEncoder(params, ent_table, ent_encoder, rel_table, rel_encoder, true)
+--    local col_encoder = nn.Sequential():add(col_encoder):add(nn.View(-1, params.colDim)):add(nn.Linear(params.colDim, params.colDim *2))
+    model = UniversalSchemaEntityEncoder(params, row_table, row_encoder, col_table, col_encoder, true)
 
 -- use a lookup table for kb relations and encoder for text patterns (entity pair vectors)
 elseif params.modelType == 'joint' then
     require 'UniversalSchemaJointEncoder'
-    model = UniversalSchemaJointEncoder(params, ent_table, ent_encoder, rel_table, rel_encoder, false)
+    model = UniversalSchemaJointEncoder(params, row_table, row_encoder, col_table, col_encoder, false)
 
 -- standard uschema with entity pair vectors
 else
     require 'UniversalSchemaEncoder'
-    model = UniversalSchemaEncoder(params, ent_table, ent_encoder, rel_table, rel_encoder, false)
+    model = UniversalSchemaEncoder(params, row_table, row_encoder, col_table, col_encoder, false)
 end
 
 print(model.net)

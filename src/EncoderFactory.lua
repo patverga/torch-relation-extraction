@@ -122,8 +122,8 @@ end
 
 function EncoderFactory:lstm_joint_encoder(params)
     local text_encoder, _ = self:lstm_encoder(params)
-    local kb_rel_table, _ = self:lookup_table_encoder(params)
-    return text_encoder, kb_rel_table
+    local kb_col_table, _ = self:lookup_table_encoder(params)
+    return text_encoder, kb_col_table
 
 end
 
@@ -174,8 +174,8 @@ end
 --end
 --
 --function EncoderFactory:lstm_lstm_attention_encoder(params)
---    local attention_lstm, attention_rel_table = self:lstm_encoder(params)
---    local lstm, rel_table = self:lstm_encoder(params)
+--    local attention_lstm, attention_col_table = self:lstm_encoder(params)
+--    local lstm, col_table = self:lstm_encoder(params)
 --
 --    local encoder = nn.Sequntial()
 --

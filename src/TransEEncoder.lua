@@ -10,7 +10,7 @@ require 'RelationEncoderModel'
 local TransEEncoder, parent = torch.class('TransEEncoder', 'RelationEncoderModel')
 
 
-function TransEEncoder:__init(params, rel_table, encoder)
+function TransEEncoder:__init(params, col_table, encoder)
     self.__index = self
     self.params = params
     self:init_opt()
@@ -25,14 +25,14 @@ function TransEEncoder:__init(params, rel_table, encoder)
         local loaded_model = torch.load(params.loadModel)
         self.net = self:to_cuda(loaded_model.net)
         encoder = self.net:get(1):get(3) --self:to_cuda(loaded_model.encoder)
-        self.ent_table = self.net:get(1):get(1) --self:to_cuda((loaded_model.ent_table or self.net:get(1):get(1)))
-        rel_table = self:to_cuda(loaded_model.rel_table)
+        self.row_table = self.net:get(1):get(1) --self:to_cuda((loaded_model.row_table or self.net:get(1):get(1)))
+        col_table = self:to_cuda(loaded_model.col_table)
         self.opt_state = loaded_model.opt_state
     else
-        self.net, self.ent_table, self.scorer = self:build_network(params, self.train_data.num_ents, encoder)
+        self.net, self.row_table, self.scorer = self:build_network(params, self.train_data.num_ents, encoder)
     end
     self.crit = self:to_cuda(nn.MarginRankingCriterion(params.margin))
-    self.rel_table = rel_table
+    self.col_table = col_table
     self.encoder = encoder
 end
 
@@ -155,9 +155,9 @@ end
 
 function TransEEncoder:regularize()
     -- make norms of entity vectors exactly 1
---    self.ent_table.weight:cdiv(self.ent_table.weight:norm(2, 2):expandAs(self.ent_table.weight))
-    self.rel_table.weight:renorm(2, 2, 3.0)
-    self.ent_table.weight:renorm(2, 2, 3.0)
+--    self.row_table.weight:cdiv(self.row_table.weight:norm(2, 2):expandAs(self.row_table.weight))
+    self.col_table.weight:renorm(2, 2, 3.0)
+    self.row_table.weight:renorm(2, 2, 3.0)
 end
 
 
@@ -200,8 +200,8 @@ function TransEEncoder:optim_update(net, criterion, x, y, parameters, grad_param
             local grad_norm = grad_params:norm(2)
             if grad_norm > self.params.clipGrads then grad_params = grad_params:div(grad_norm/self.params.clipGrads) end
         end
-        if self.params.freezeEp >= epoch then self.ent_table:zeroGradParameters() end
-        if self.params.freezeRel >= epoch then self.rel_table:zeroGradParameters() end
+        if self.params.freezeEp >= epoch then self.row_table:zeroGradParameters() end
+        if self.params.freezeRel >= epoch then self.col_table:zeroGradParameters() end
         return err, grad_params
     end
 
@@ -224,8 +224,8 @@ end
 --    for i = 1, #batches do
 --        local e2_batch, e1_batch, rel_batch, _, _ = unpack(batches[i].data)
 --        local encoded_rel = self.encoder:forward(self:to_cuda(rel_batch)):clone()
---        local e1 = self.ent_table(self:to_cuda(e1_batch:contiguous():view(e1_batch:size(1), 1))):clone()
---        local e2 = self.ent_table(self:to_cuda(e2_batch:contiguous():view(e2_batch:size(1), 1))):clone()
+--        local e1 = self.row_table(self:to_cuda(e1_batch:contiguous():view(e1_batch:size(1), 1))):clone()
+--        local e2 = self.row_table(self:to_cuda(e2_batch:contiguous():view(e2_batch:size(1), 1))):clone()
 --        local x = { e2, e1, encoded_rel }
 --        x = {
 --            x[1]:view(x[2]:size(1), x[2]:size(3)),
@@ -250,9 +250,9 @@ function TransEEncoder:score_subdata(sub_data)
         if self.params.relations then rel_batch = rel_batch:contiguous():view(rel_batch:size(1), 1) end
         local encoded_rel = self.encoder:forward(self:to_cuda(rel_batch))
         if encoded_rel:dim() == 3 then encoded_rel = encoded_rel:view(encoded_rel:size(1), encoded_rel:size(3)) end
-        local e1 = self.ent_table(self:to_cuda(e1_batch:contiguous())):clone()
+        local e1 = self.row_table(self:to_cuda(e1_batch:contiguous())):clone()
         e1 = e1:view(e1:size(1),e1:size(3))
-        local e2 = self.ent_table(self:to_cuda(e2_batch:contiguous())):clone()
+        local e2 = self.row_table(self:to_cuda(e2_batch:contiguous())):clone()
         e2 = e2:view(e2:size(1), e2:size(3))
         local x = { e2, e1, encoded_rel }
         local score = self.scorer(x):double()
