@@ -49,7 +49,7 @@ end
 
 
 ----- TRAIN -----
-function UniversalSchemaEncoder:gen_subdata_batches(sub_data, batches, max_neg, shuffle)
+function UniversalSchemaEncoder:gen_subdata_batches_four_col(sub_data, batches, max_neg, shuffle)
 --    shuffle = shuffle or true
     local start = 1
     local rand_order = shuffle and torch.randperm(sub_data.ep:size(1)):long() or torch.range(1, sub_data.ep:size(1)):long()
@@ -57,9 +57,36 @@ function UniversalSchemaEncoder:gen_subdata_batches(sub_data, batches, max_neg, 
         local size = math.min(self.params.batchSize, sub_data.ep:size(1) - start + 1)
         local batch_indices = rand_order:narrow(1, start, size)
         local pos_ep_batch = sub_data.ep:index(1, batch_indices)
-        local neg_ep_batch = self:to_cuda(torch.rand(size):mul(max_neg):floor():add(1)):view(pos_ep_batch:size())
+        local neg_ep_batch = self:to_cuda(self:gen_neg(pos_ep_batch, size, max_neg))
         local rel_batch = self.params.colEncoder == 'lookup-table' and sub_data.rel:index(1, batch_indices) or sub_data.seq:index(1, batch_indices)
         local batch = { pos_ep_batch, rel_batch, neg_ep_batch}
+        table.insert(batches, { data = batch, label = 1 })
+        start = start + size
+    end
+end
+
+function UniversalSchemaEncoder:gen_neg(pos_batch, size, max_neg)
+    local neg_batch
+    if self.params.colEncoder == 'lookup-table' then
+        neg_batch = torch.rand(size):mul(max_neg):floor():add(1):view(pos_batch:size())
+    else
+    -- TODO figure out a negative sampling scheme
+        neg_batch = pos_batch
+    end
+    return neg_batch
+end
+
+function UniversalSchemaEncoder:gen_subdata_batches_three_col(sub_data, batches, max_neg, shuffle)
+    shuffle = shuffle or true
+    local start = 1
+    local rand_order = shuffle and torch.randperm(sub_data.row:size(1)):long() or torch.range(1, sub_data.row:size(1)):long()
+    while start <= sub_data.row:size(1) do
+        local size = math.min(self.params.batchSize, sub_data.row:size(1) - start + 1)
+        local batch_indices = rand_order:narrow(1, start, size)
+        local pos_row_batch = self.params.rowEncoder == 'lookup-table' and sub_data.row:index(1, batch_indices) or sub_data.row_seq:index(1, batch_indices)
+        local neg_row_batch = self:to_cuda(self:gen_neg(pos_row_batch, size, max_neg))
+        local col_batch = self.params.colEncoder == 'lookup-table' and sub_data.col:index(1, batch_indices) or sub_data.col_seq:index(1, batch_indices)
+        local batch = { pos_row_batch, col_batch, neg_row_batch}
         table.insert(batches, { data = batch, label = 1 })
         start = start + size
     end
@@ -68,16 +95,24 @@ end
 
 function UniversalSchemaEncoder:gen_training_batches(data)
     local batches = {}
-    if #data > 0 then
-        for seq_size = 1, self.params.maxSeq and math.min(self.params.maxSeq, #data) or #data do
-            local sub_data = data[seq_size]
-            if sub_data and sub_data.ep then self:gen_subdata_batches(sub_data, batches, data.num_eps, true) end
-        end
+    -- new 3 col format
+    if data.num_cols then
+        if #data > 0 then
+            for seq_size = 1, self.params.maxSeq and math.min(self.params.maxSeq, #data) or #data do
+                if data[seq_size] and data[seq_size].row then self:gen_subdata_batches_three_col(data[seq_size], batches, data.num_rows, true) end
+            end
+        else  self:gen_subdata_batches_three_col(data, batches, data.num_rows, true) end
     else
-        self:gen_subdata_batches(data, batches, data.num_eps, true)
+        -- old 4 col format
+        if #data > 0 then
+            for seq_size = 1, self.params.maxSeq and math.min(self.params.maxSeq, #data) or #data do
+                if data[seq_size] and data[seq_size].ep then self:gen_subdata_batches_four_col(data[seq_size], batches, data.num_eps, true) end
+            end
+        else  self:gen_subdata_batches_four_col(data, batches, data.num_eps, true) end
     end
     return batches
 end
+
 
 
 function UniversalSchemaEncoder:regularize()
@@ -92,7 +127,6 @@ function UniversalSchemaEncoder:optim_update(net, criterion, x, y, parameters, g
     local function fEval(parameters)
         if parameters ~= parameters then parameters:copy(parameters) end
         net:zeroGradParameters()
-
         local pred = net:forward(x)
 
         local old = true
@@ -139,15 +173,15 @@ end
 
 function UniversalSchemaEncoder:score_subdata(sub_data)
     local batches = {}
-    self:gen_subdata_batches(sub_data, batches, 0, false)
+    self:gen_subdata_batches_four_col(sub_data, batches, 0, false)
 
     local scores = {}
     for i = 1, #batches do
-        local ep_batch, rel_batch, _ = unpack(batches[i].data)
-        if self.params.colEncoder == 'lookup-table' then rel_batch = rel_batch:view(rel_batch:size(1), 1) end
-        if self.params.rowEncoder == 'lookup-table' then ep_batch = ep_batch:view(ep_batch:size(1), 1) end
-        local encoded_rel = self.col_encoder(self:to_cuda(rel_batch)):squeeze():clone()
-        local encoded_ent = self.row_encoder(self:to_cuda(ep_batch)):squeeze()
+        local row_batch, col_batch, _ = unpack(batches[i].data)
+        if self.params.colEncoder == 'lookup-table' then col_batch = col_batch:view(col_batch:size(1), 1) end
+        if self.params.rowEncoder == 'lookup-table' then row_batch = row_batch:view(row_batch:size(1), 1) end
+        local encoded_rel = self.col_encoder(self:to_cuda(col_batch)):squeeze():clone()
+        local encoded_ent = self.row_encoder(self:to_cuda(row_batch)):squeeze()
         local x = { encoded_rel, encoded_ent }
         local score = self.cosine(x):double()
         table.insert(scores, score)

@@ -20,8 +20,6 @@ cmd:option('-loadColEncoder', '', 'load a pretrained relation/column encoder fro
 cmd:option('-loadRowEncoder', '', 'load a pretrained entity/row encoder from this file')
 cmd:option('-loadRowEmbeddings', '', 'file containing serialized torch embeddings')
 cmd:option('-loadColEmbeddings', '', 'file containing serialized torch embeddings')
-cmd:option('-saveRowEmbeddings', '', 'write entity pair embeddings to text file')
-cmd:option('-saveColEmbeddings', '', 'write relation embeddings to text file')
 
 -- model / data sizes
 cmd:option('-colEncoder', 'lookup-table', 'type of encoder to use for relations')

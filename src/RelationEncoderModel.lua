@@ -13,7 +13,6 @@ function RelationEncoderModel:__init(params, row_table, row_encoder, col_table, 
         momentum = self.params.momentum, learningRateDecay = self.params.decay
     }
     self.opt_state = {}
-    self.squeeze_rel = params.relations or false
     self.train_data = self:load_train_data(params.train, use_entities)
 
     -- cosine distance network for evaluation
@@ -169,7 +168,7 @@ end
 
 --- IO ----
 
-function RelationEncoderModel:load_sub_data(sub_data, entities)
+function RelationEncoderModel:load_sub_data_four_col(sub_data, entities)
     if entities then
         if self.params.rowEncoder == 'lookup-table' then
             sub_data.e1 = sub_data.e1:squeeze()
@@ -190,26 +189,43 @@ function RelationEncoderModel:load_sub_data(sub_data, entities)
     return sub_data
 end
 
+function RelationEncoderModel:load_sub_data_three_col(sub_data, entities)
+    if self.params.rowEncoder == 'lookup-table' then
+        sub_data.row = self:to_cuda(sub_data.row:squeeze())
+    else
+        sub_data.row_seq = self:to_cuda(sub_data.row_seq)
+        if sub_data.row_seq:dim() == 1 then sub_data.row_seq = sub_data.row_seq:view(sub_data.row_seq:size(1), 1) end
+    end
+    if self.params.colEncoder == 'lookup-table' then
+        sub_data.col = self:to_cuda(sub_data.col:squeeze())
+    else
+        sub_data.col_seq = self:to_cuda(sub_data.col_seq)
+        if sub_data.col_seq:dim() == 1 then sub_data.col_seq = sub_data.col_seq:view(sub_data.col_seq:size(1), 1) end
+    end
+    return sub_data
+end
+
+
 function RelationEncoderModel:load_train_data(data_file, entities)
     local train = torch.load(data_file)
-    if #train > 0 then
-        for i = 1, self.params.maxSeq do
-            if train[i] and train[i].ep then
-                train[i] = self:load_sub_data(train[i], entities)
+    -- new 3 col format
+    if train.num_cols then
+        if #train > 0 then
+            for i = 1, self.params.maxSeq do
+                if train[i] and train[i].row then train[i] = self:load_sub_data_three_col(train[i]) end
             end
+        else
+            self:load_sub_data_four_col(train, entities)
         end
     else
-        self:load_sub_data(train, entities)
+    -- old 4 col format
+        if #train > 0 then
+            for i = 1, self.params.maxSeq do
+                if train[i] and train[i].ep then train[i] = self:load_sub_data_four_col(train[i], entities) end
+            end
+        else  self:load_sub_data_four_col(train, entities) end
     end
     return train
-end
-
-function RelationEncoderModel:load_entity_data(data_file)
-    return self:load_train_data(data_file, true)
-end
-
-function RelationEncoderModel:load_ep_data(data_file)
-    return self:load_train_data(data_file, false)
 end
 
 function RelationEncoderModel:save_model(epoch)
@@ -222,7 +238,7 @@ function RelationEncoderModel:save_model(epoch)
     end
 end
 
-function RelationEncoderModel:write_output()
+function RelationEncoderModel:write_embeddings_to_txt()
     local function write_embeddings(f, embeddings)
         local file = io.open(f, "w")
         io.output(file)
@@ -234,17 +250,4 @@ function RelationEncoderModel:write_output()
         end
         io.close()
     end
-
-    -- write embeddings to file
-    if self.params.saveRowEmbeddings ~= '' then
-        write_embeddings(self.params.saveRowEmbeddings, self.row_table.weight)
-        torch.save(self.params.saveRowEmbeddings .. '.torch', self.row_table.weight:double())
-    end
-    if self.params.saveColEmbeddings ~= '' then
-        write_embeddings(self.params.saveColEmbeddings, self.col_table.weight)
-        torch.save(self.params.saveColEmbeddings .. '.torch', self.col_table.weight:double())
-    end
-    require 'PatternScorer'
-    if self.params.k > 0 then PatternScorer:get_top_patterns_topk(self.params.k) end
-    if self.params.thresh > 0 then PatternScorer:get_top_patterns_threshold(self.params.thresh) end
 end
