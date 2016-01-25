@@ -28,13 +28,10 @@ function UniversalSchemaEntityEncoder:build_network(pos_e1_encoder, rel_encoder)
     self.ep_encoder = nn.Sequential()
 
     if self.params.compositional then
---        self.ep_encoder:add(nn.Linear(self.params.embeddingDim*2, self.params.embeddingDim*2))
---        self.ep_encoder:add(nn.ReLU())
---        self.ep_encoder:add(nn.Linear(self.params.embeddingDim*2, self.params.embeddingDim))
-        self.ep_encoder:add(nn.ViewTable(-1, 1, self.params.embeddingDim))
+        self.ep_encoder:add(nn.ViewTable(-1, 1, self.params.rowDim))
         self.ep_encoder:add(nn.JoinTable(2))
-        self.ep_encoder:add(nn.TemporalConvolution(self.params.embeddingDim, self.params.embeddingDim, 2))
---        self.ep_encoder:add(nn.Tanh())
+        self.ep_encoder:add(nn.TemporalConvolution(self.params.rowDim, self.params.rowDim, 2))
+        self.ep_encoder:add(nn.Tanh())
     else
         self.ep_encoder:add(nn.JoinTable(2))
     end

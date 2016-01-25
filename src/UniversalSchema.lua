@@ -25,8 +25,8 @@ if params.loadRelEncoder ~= '' then -- load encoder from saved model
     rel_encoder, rel_table = loaded_model.rel_encoder, loaded_model.rel_table
 else
     local rel_vocab_size = params.encoder == 'lookup-table' and train_data.num_rels or train_data.num_tokens
-    rel_encoder, rel_table = EncoderFactory:build_encoder(params, params.encoder, rel_vocab_size, params.relDim)
-    if params.loadRelEmbeddings ~= '' then rel_table.weight = (torch.load(params.loadRelEmbeddings)) end
+    rel_encoder, rel_table = EncoderFactory:build_encoder(params, params.encoder, rel_vocab_size, params.colDim)
+    if params.loadColEmbeddings ~= '' then rel_table.weight = (torch.load(params.loadColEmbeddings)) end
 end
 
 -- create row encoder
@@ -36,8 +36,8 @@ if params.loadEntEncoder ~= '' then -- load encoder from saved model
     ent_encoder, ent_table = loaded_model.ent_encoder, loaded_model.ent_table
 else
     local ent_vocab_size = params.entEncoder == 'lookup-table' and train_data.num_eps or train_data.num_eps --num_tokens
-    ent_encoder, ent_table = EncoderFactory:build_encoder(params, params.entEncoder, ent_vocab_size, params.embeddingDim)
-    if params.loadEpEmbeddings ~= '' then ent_table.weight = (torch.load(params.loadEpEmbeddings)) end
+    ent_encoder, ent_table = EncoderFactory:build_encoder(params, params.entEncoder, ent_vocab_size, params.rowDim)
+    if params.loadRowEmbeddings ~= '' then ent_table.weight = (torch.load(params.loadRowEmbeddings)) end
 end
 
 
@@ -45,7 +45,7 @@ local model
 -- learn vectors for each entity rather than entity pair
 if params.modelType == 'entity' then
     require 'UniversalSchemaEntityEncoder'
---    local rel_encoder = nn.Sequential():add(rel_encoder):add(nn.View(-1, params.relDim)):add(nn.Linear(params.relDim, params.relDim *2))
+--    local rel_encoder = nn.Sequential():add(rel_encoder):add(nn.View(-1, params.colDim)):add(nn.Linear(params.colDim, params.colDim *2))
     model = UniversalSchemaEntityEncoder(params, ent_table, ent_encoder, rel_table, rel_encoder, true)
 
 -- use a lookup table for kb relations and encoder for text patterns (entity pair vectors)

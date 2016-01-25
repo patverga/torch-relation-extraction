@@ -9,7 +9,7 @@ RUN_CMD="th ${TH_RELEX_ROOT}/src/${MODEL}.lua
 -maxSeq $MAX_SEQ
 -learningRate $LEARN_RATE
 -gpuid ${GPU_ID}
--embeddingDim ${EMBED_DIM}
+-rowDim ${EMBED_DIM}
 -numEpochs ${MAX_EPOCHS}
 -resultDir ${SAVE}
 -encoder ${ENCODER}
@@ -19,7 +19,7 @@ if [ "$WORD_DIM" ]; then
   RUN_CMD="$RUN_CMD -wordDim $WORD_DIM"
 fi
 if [ "$REL_DIM" ]; then
-  RUN_CMD="$RUN_CMD -relDim $REL_DIM"
+  RUN_CMD="$RUN_CMD -colDim $REL_DIM"
 fi
 if [ "$BI_DIRECTIONAL" ]; then
   RUN_CMD="$RUN_CMD -bi $BI_DIRECTIONAL"
@@ -61,10 +61,10 @@ if [ "$TAC_YEAR" ]; then
   RUN_CMD="$RUN_CMD -tacYear $TAC_YEAR"
 fi
 if [ "$TRAINED_EP" ]; then
-  RUN_CMD="$RUN_CMD -loadEpEmbeddings $TRAINED_EP"
+  RUN_CMD="$RUN_CMD -loadRowEmbeddings $TRAINED_EP"
 fi
 if [ "$TRAINED_REL" ]; then
-  RUN_CMD="$RUN_CMD -loadRelEmbeddings $TRAINED_REL"
+  RUN_CMD="$RUN_CMD -loadColEmbeddings $TRAINED_REL"
 fi
 if [ "$LOAD_MODEL" ]; then
   RUN_CMD="$RUN_CMD -loadModel $LOAD_MODEL"

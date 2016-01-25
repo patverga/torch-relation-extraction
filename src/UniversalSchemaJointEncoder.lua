@@ -33,10 +33,10 @@ function UniversalSchemaJointEncoder:__init(params, kb_rel_table, text_encoder, 
         self.text_state = loaded_model.text_state
     else
         -- seperate lookup tables for entity pairs and relations
-        local pos_ep_table = self:to_cuda(nn.LookupTable(self.train_data.num_eps, params.embeddingDim))
+        local pos_ep_table = self:to_cuda(nn.LookupTable(self.train_data.num_eps, params.rowDim))
         -- preload entity pairs
-        if params.loadEpEmbeddings ~= '' then pos_ep_table.weight = (self:to_cuda(torch.load(params.loadEpEmbeddings)))
-        else pos_ep_table.weight = pos_ep_table.weight:normal(0, 1):mul(1 / params.embeddingDim)
+        if params.loadRowEmbeddings ~= '' then pos_ep_table.weight = (self:to_cuda(torch.load(params.loadRowEmbeddings)))
+        else pos_ep_table.weight = pos_ep_table.weight:normal(0, 1):mul(1 / params.rowDim)
         end
         local neg_ep_table = pos_ep_table:clone()
         self.ent_table = pos_ep_table

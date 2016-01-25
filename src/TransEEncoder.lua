@@ -39,10 +39,10 @@ end
 
 function TransEEncoder:build_network(params, num_ents, encoder)
     -- seperate lookup tables for entity pairs and relations
-    local pos_e1_table = nn.LookupTable(num_ents, params.embeddingDim)
+    local pos_e1_table = nn.LookupTable(num_ents, params.rowDim)
     -- preload entity pairs
-    if params.loadEpEmbeddings ~= '' then pos_e1_table.weight = (self:to_cuda(torch.load(params.loadEpEmbeddings)))
-    else pos_e1_table.weight = torch.rand(num_ents, params.embeddingDim):add(-.1):mul(0.1)
+    if params.loadRowEmbeddings ~= '' then pos_e1_table.weight = (self:to_cuda(torch.load(params.loadRowEmbeddings)))
+    else pos_e1_table.weight = torch.rand(num_ents, params.rowDim):add(-.1):mul(0.1)
     end
     local pos_e2_table = pos_e1_table:clone()
     local neg_e1_table = pos_e1_table:clone()
