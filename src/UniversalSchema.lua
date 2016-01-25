@@ -20,23 +20,23 @@ local train_data = torch.load(params.train)
 
 -- create column encoder
 local col_encoder, col_table
-if params.loadRelEncoder ~= '' then -- load encoder from saved model
-    local loaded_model = torch.load(params.loadRelEncoder)
+if params.loadColEncoder ~= '' then -- load encoder from saved model
+    local loaded_model = torch.load(params.loadColEncoder)
     col_encoder, col_table = loaded_model.col_encoder, loaded_model.col_table
 else
-    local rel_vocab_size = params.encoder == 'lookup-table' and train_data.num_rels or train_data.num_tokens
-    col_encoder, col_table = EncoderFactory:build_encoder(params, params.encoder, rel_vocab_size, params.colDim)
+    local rel_vocab_size = params.colEncoder == 'lookup-table' and train_data.num_rels or train_data.num_tokens
+    col_encoder, col_table = EncoderFactory:build_encoder(params, params.colEncoder, rel_vocab_size, params.colDim)
     if params.loadColEmbeddings ~= '' then col_table.weight = (torch.load(params.loadColEmbeddings)) end
 end
 
 -- create row encoder
 local row_encoder, row_table
-if params.loadEntEncoder ~= '' then -- load encoder from saved model
-    local loaded_model = torch.load(params.loadEntEncoder)
+if params.loadRowEncoder ~= '' then -- load encoder from saved model
+    local loaded_model = torch.load(params.loadRowEncoder)
     row_encoder, row_table = loaded_model.row_encoder, loaded_model.row_table
 else
-    local ent_vocab_size = params.entEncoder == 'lookup-table' and train_data.num_eps or train_data.num_eps --num_tokens
-    row_encoder, row_table = EncoderFactory:build_encoder(params, params.entEncoder, ent_vocab_size, params.rowDim)
+    local ent_vocab_size = params.rowEncoder == 'lookup-table' and train_data.num_eps or train_data.num_eps --num_tokens
+    row_encoder, row_table = EncoderFactory:build_encoder(params, params.rowEncoder, ent_vocab_size, params.rowDim)
     if params.loadRowEmbeddings ~= '' then row_table.weight = (torch.load(params.loadRowEmbeddings)) end
 end
 

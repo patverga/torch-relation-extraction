@@ -58,7 +58,7 @@ function UniversalSchemaEncoder:gen_subdata_batches(sub_data, batches, max_neg, 
         local batch_indices = rand_order:narrow(1, start, size)
         local pos_ep_batch = sub_data.ep:index(1, batch_indices)
         local neg_ep_batch = self:to_cuda(torch.rand(size):mul(max_neg):floor():add(1)):view(pos_ep_batch:size())
-        local rel_batch = self.params.encoder == 'lookup-table' and sub_data.rel:index(1, batch_indices) or sub_data.seq:index(1, batch_indices)
+        local rel_batch = self.params.colEncoder == 'lookup-table' and sub_data.rel:index(1, batch_indices) or sub_data.seq:index(1, batch_indices)
         local batch = { pos_ep_batch, rel_batch, neg_ep_batch}
         table.insert(batches, { data = batch, label = 1 })
         start = start + size
@@ -144,8 +144,8 @@ function UniversalSchemaEncoder:score_subdata(sub_data)
     local scores = {}
     for i = 1, #batches do
         local ep_batch, rel_batch, _ = unpack(batches[i].data)
-        if self.params.encoder == 'lookup-table' then rel_batch = rel_batch:view(rel_batch:size(1), 1) end
-        if self.params.entEncoder == 'lookup-table' then ep_batch = ep_batch:view(ep_batch:size(1), 1) end
+        if self.params.colEncoder == 'lookup-table' then rel_batch = rel_batch:view(rel_batch:size(1), 1) end
+        if self.params.rowEncoder == 'lookup-table' then ep_batch = ep_batch:view(ep_batch:size(1), 1) end
         local encoded_rel = self.col_encoder(self:to_cuda(rel_batch)):squeeze()
         local encoded_ent = self.row_encoder(self:to_cuda(ep_batch)):squeeze()
         local x = { encoded_rel, encoded_ent }

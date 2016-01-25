@@ -171,17 +171,17 @@ end
 
 function RelationEncoderModel:load_sub_data(sub_data, entities)
     if entities then
-        if self.params.entEncoder == 'lookup-table' then
+        if self.params.rowEncoder == 'lookup-table' then
             sub_data.e1 = sub_data.e1:squeeze()
             sub_data.e2 = sub_data.e2:squeeze()
         end
         sub_data.e1 = self:to_cuda(sub_data.e1)
         sub_data.e2 = self:to_cuda(sub_data.e2)
     else
-        if self.params.entEncoder == 'lookup-table' then sub_data.ep = sub_data.ep:squeeze() end
+        if self.params.rowEncoder == 'lookup-table' then sub_data.ep = sub_data.ep:squeeze() end
         sub_data.ep = self:to_cuda(sub_data.ep)
     end
-    if self.params.encoder == 'lookup-table' then
+    if self.params.colEncoder == 'lookup-table' then
         sub_data.rel = self:to_cuda(sub_data.rel):squeeze()
     else
         sub_data.seq = self:to_cuda(sub_data.seq)
@@ -236,13 +236,13 @@ function RelationEncoderModel:write_output()
     end
 
     -- write embeddings to file
-    if self.params.saveEpEmbeddings ~= '' then
-        write_embeddings(self.params.saveEpEmbeddings, self.row_table.weight)
-        torch.save(self.params.saveEpEmbeddings .. '.torch', self.row_table.weight:double())
+    if self.params.saveRowEmbeddings ~= '' then
+        write_embeddings(self.params.saveRowEmbeddings, self.row_table.weight)
+        torch.save(self.params.saveRowEmbeddings .. '.torch', self.row_table.weight:double())
     end
-    if self.params.saveRelEmbeddings ~= '' then
-        write_embeddings(self.params.saveRelEmbeddings, self.col_table.weight)
-        torch.save(self.params.saveRelEmbeddings .. '.torch', self.col_table.weight:double())
+    if self.params.saveColEmbeddings ~= '' then
+        write_embeddings(self.params.saveColEmbeddings, self.col_table.weight)
+        torch.save(self.params.saveColEmbeddings .. '.torch', self.col_table.weight:double())
     end
     require 'PatternScorer'
     if self.params.k > 0 then PatternScorer:get_top_patterns_topk(self.params.k) end

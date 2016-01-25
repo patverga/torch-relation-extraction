@@ -105,7 +105,7 @@ function UniversalSchemaEntityEncoder:gen_subdata_batches(sub_data, batches, max
 --        neg_e2_batch:add(neg_ent_batch:clone():cmul(self:to_cuda(neg_e2_batch:eq(0):double())))
 
 
-        local rel_batch = self.params.encoder == 'lookup-table' and sub_data.rel:index(1, batch_indices) or sub_data.seq:index(1, batch_indices)
+        local rel_batch = self.params.colEncoder == 'lookup-table' and sub_data.rel:index(1, batch_indices) or sub_data.seq:index(1, batch_indices)
         local batch = { pos_e1_batch, pos_e2_batch, rel_batch, neg_e1_batch, neg_e2_batch }
         table.insert(batches, { data = batch, label = 1 })
         start = start + size
@@ -170,8 +170,8 @@ function UniversalSchemaEntityEncoder:score_subdata(sub_data)
     local scores = {}
     for i = 1, #batches do
         local e1_batch, e2_batch, rel_batch, _, _ = unpack(batches[i].data)
-        if self.params.encoder == 'lookup-table' then rel_batch = rel_batch:view(rel_batch:size(1), 1) end
-        if self.params.entEncoder == 'lookup-table' then
+        if self.params.colEncoder == 'lookup-table' then rel_batch = rel_batch:view(rel_batch:size(1), 1) end
+        if self.params.rowEncoder == 'lookup-table' then
             e1_batch = e1_batch:view(e1_batch:size(1), 1)
             e2_batch = e2_batch:view(e2_batch:size(1), 1)
         end
