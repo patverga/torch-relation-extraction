@@ -16,12 +16,12 @@ CUR_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 PY_FILE="$CUR_DIR/StringFile2IntFile.py"
 TORCH_FILE="$CUR_DIR/IntFile2Torch.lua"
 
-while getopts i:o:v:m:l:s:pcdrn opt; do
+while getopts i:o:v:m:l:s:pbcdrng opt; do
   case $opt in
   i)
       IN_FILE=$OPTARG
       PY_CMD="$PY_CMD -i $IN_FILE"
-      INTERMEDIATE_FILE=`mktemp`
+      INTERMEDIATE_FILE=`mktemp -t /tmp`
       PY_CMD="$PY_CMD -o $INTERMEDIATE_FILE"
       TORCH_CMD="$TORCH_CMD -inFile ${INTERMEDIATE_FILE}"
       ;;
@@ -62,8 +62,15 @@ while getopts i:o:v:m:l:s:pcdrn opt; do
   n)
       PY_CMD="$PY_CMD -n"
       ;;
+  g)
+      PY_CMD="$PY_CMD -g"
+      ;;
   p)
       TORCH_FILE="$CUR_DIR/IntFile2PoolRelationsTorch.lua"
+      ;;
+  b)
+      PY_FILE="$CUR_DIR/BothEncoderStringFile2IntFile.py"
+      TORCH_FILE="$CUR_DIR/BothEncoderIntFile2Torch.lua"
       ;;
   esac
 done

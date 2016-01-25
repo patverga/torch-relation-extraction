@@ -63,7 +63,7 @@ def main(argv):
     print 'Exporting lines to ' + out_file
     out = open(out_file, 'w')
     for key, value in entity_pairs.iteritems():
-        [out.write('____\t' + pair[0] + '\t' + pair[1] + '\t1\n') for pair in
+        [out.write(pair[0] + '\t' + pair[1] + '\t1\n') for pair in
          iter_sample_fast(itertools.combinations(value, 2), max_samples)]
     out.close()
     print 'Done'
