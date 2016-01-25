@@ -45,6 +45,7 @@ local model
 -- learn vectors for each entity rather than entity pair
 if params.modelType == 'entity' then
     require 'UniversalSchemaEntityEncoder'
+--    local rel_encoder = nn.Sequential():add(rel_encoder):add(nn.View(-1, params.relDim)):add(nn.Linear(params.relDim, params.relDim *2))
     model = UniversalSchemaEntityEncoder(params, ent_table, ent_encoder, rel_table, rel_encoder, true)
 
 -- use a lookup table for kb relations and encoder for text patterns (entity pair vectors)

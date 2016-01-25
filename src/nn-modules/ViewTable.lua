@@ -5,36 +5,6 @@
 
 local ViewTable, parent = torch.class('nn.ViewTable', 'nn.View')
 
---function ViewTable:__init(...)
---    parent.__init(self)
---    if select('#', ...) == 1 and torch.typename(select(1, ...)) == 'torch.LongStorage' then
---        self.size = select(1, ...)
---    else
---        self.size = torch.LongStorage({...})
---    end
---
---    self.numElements = 1
---    local inferdim = false
---    for i = 1,#self.size do
---        local szi = self.size[i]
---        if szi >= 0 then
---            self.numElements = self.numElements * self.size[i]
---        else
---            assert(szi == -1, 'size should be positive or -1')
---            assert(not inferdim, 'only one dimension can be at -1')
---            inferdim = true
---        end
---    end
---
---    self.output = nil
---    self.gradInput = nil
---    self.numInputDims = nil
---end
---
---function ViewTable:setNumInputDims(numInputDims)
---    self.numInputDims = numInputDims
---    return self
---end
 
 local function batchsize(input, size, numInputDims, numElements)
     local ind = input:nDimension()

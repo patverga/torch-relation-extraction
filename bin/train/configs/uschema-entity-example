@@ -8,6 +8,7 @@ export TEST_FILE=`ls $TH_RELEX_ROOT/data/test-mtx-torch/* | tr '\n' ','`
 export BATCH_SIZE=1024
 export LEARN_RATE=.001
 export EMBED_DIM=50
+export REL_DIM=100
 export MAX_SEQ=20
 export MAX_EPOCHS=50
 export EVAL_FREQ=3

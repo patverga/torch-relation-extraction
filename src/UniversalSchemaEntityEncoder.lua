@@ -10,7 +10,7 @@ require 'RelationEncoderModel'
 
 local UniversalSchemaEntityEncoder, parent = torch.class('UniversalSchemaEntityEncoder', 'RelationEncoderModel')
 
-
+-- TODO encoder factory dealing with different size embedding lookuptables
 function UniversalSchemaEntityEncoder:build_network(pos_e1_encoder, rel_encoder)
     local pos_e2_encoder = pos_e1_encoder:clone()
     local neg_e1_encoder = pos_e1_encoder:clone()
@@ -24,12 +24,19 @@ function UniversalSchemaEntityEncoder:build_network(pos_e1_encoder, rel_encoder)
     loading_par_table:add(neg_e1_encoder)
     loading_par_table:add(neg_e2_encoder)
 
+    require 'nn-modules/ViewTable'
     self.ep_encoder = nn.Sequential()
-    self.ep_encoder:add(nn.JoinTable(2))
+
     if self.params.compositional then
-        self.ep_encoder:add(nn.Linear(self.params.embeddingDim*2, self.params.embeddingDim))
+--        self.ep_encoder:add(nn.Linear(self.params.embeddingDim*2, self.params.embeddingDim*2))
 --        self.ep_encoder:add(nn.ReLU())
---        self.ep_encoder:add(nn.Linear(params.embeddingDim, params.embeddingDim))
+--        self.ep_encoder:add(nn.Linear(self.params.embeddingDim*2, self.params.embeddingDim))
+        self.ep_encoder:add(nn.ViewTable(-1, 1, self.params.embeddingDim))
+        self.ep_encoder:add(nn.JoinTable(2))
+        self.ep_encoder:add(nn.TemporalConvolution(self.params.embeddingDim, self.params.embeddingDim, 2))
+--        self.ep_encoder:add(nn.Tanh())
+    else
+        self.ep_encoder:add(nn.JoinTable(2))
     end
 
     -- layers to compute the dot prduct of the positive and negative samples
@@ -174,13 +181,7 @@ function UniversalSchemaEntityEncoder:score_subdata(sub_data)
         local encoded_rel = self.rel_encoder(self:to_cuda(rel_batch)):squeeze()
         local encoded_e1 = self.ent_encoder(self:to_cuda(e1_batch)):squeeze():clone()
         local encoded_e2 = self.ent_encoder(self:to_cuda(e2_batch)):squeeze()
-
---        local e1 = self.ent_table(self:to_cuda(e1_batch:contiguous())):clone()
---        e1 = e1:view(e1:size(1),e1:size(3))
---        local e2 = self.ent_table(self:to_cuda(e2_batch:contiguous())):clone()
---        e2 = e2:view(e2:size(1), e2:size(3))
         local encoded_ep = self.ep_encoder({encoded_e1, encoded_e2}):squeeze()
---        if ep:dim() == 3 then ep = ep:view(ep:size(1), ep:size(3)) end
         local x = { encoded_ep, encoded_rel, }
         local score = self.cosine(x):double()
         table.insert(scores, score)
