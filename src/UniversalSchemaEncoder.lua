@@ -146,7 +146,7 @@ function UniversalSchemaEncoder:score_subdata(sub_data)
         local ep_batch, rel_batch, _ = unpack(batches[i].data)
         if self.params.colEncoder == 'lookup-table' then rel_batch = rel_batch:view(rel_batch:size(1), 1) end
         if self.params.rowEncoder == 'lookup-table' then ep_batch = ep_batch:view(ep_batch:size(1), 1) end
-        local encoded_rel = self.col_encoder(self:to_cuda(rel_batch)):squeeze()
+        local encoded_rel = self.col_encoder(self:to_cuda(rel_batch)):squeeze():clone()
         local encoded_ent = self.row_encoder(self:to_cuda(ep_batch)):squeeze()
         local x = { encoded_rel, encoded_ent }
         local score = self.cosine(x):double()

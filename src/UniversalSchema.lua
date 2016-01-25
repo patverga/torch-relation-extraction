@@ -40,6 +40,11 @@ else
     if params.loadRowEmbeddings ~= '' then row_table.weight = (torch.load(params.loadRowEmbeddings)) end
 end
 
+if params.tieEncoders then
+    col_table:share(row_table, 'weight', 'bias', 'gradWeight', 'gradBias')
+    col_encoder:share(row_encoder, 'weight', 'bias', 'gradWeight', 'gradBias')
+end
+
 
 local model
 -- learn vectors for each entity rather than entity pair

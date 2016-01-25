@@ -175,7 +175,7 @@ function UniversalSchemaEntityEncoder:score_subdata(sub_data)
             e1_batch = e1_batch:view(e1_batch:size(1), 1)
             e2_batch = e2_batch:view(e2_batch:size(1), 1)
         end
-        local encoded_rel = self.col_encoder(self:to_cuda(rel_batch)):squeeze()
+        local encoded_rel = self.col_encoder(self:to_cuda(rel_batch)):squeeze():clone()
         local encoded_e1 = self.row_encoder(self:to_cuda(e1_batch)):squeeze():clone()
         local encoded_e2 = self.row_encoder(self:to_cuda(e2_batch)):squeeze()
         local encoded_ep = self.ep_encoder({encoded_e1, encoded_e2}):squeeze()

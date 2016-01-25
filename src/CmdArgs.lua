@@ -26,6 +26,7 @@ cmd:option('-saveColEmbeddings', '', 'write relation embeddings to text file')
 -- model / data sizes
 cmd:option('-colEncoder', 'lookup-table', 'type of encoder to use for relations')
 cmd:option('-rowEncoder', 'lookup-table', 'type of encoder to use for entities')
+cmd:option('-tieEncoders', false, 'tie the row and column encoders to use the same parameters')
 cmd:option('-rowDim', 100, 'embedding dimension')
 cmd:option('-colDim', 100, 'embedding dimension')
 cmd:option('-wordDim', 100, 'embedding dimension')
