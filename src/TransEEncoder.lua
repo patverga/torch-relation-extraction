@@ -5,9 +5,9 @@
 
 require 'torch'
 require 'optim'
-require 'RelationEncoderModel'
+require 'MatrixFactorizationModel'
 
-local TransEEncoder, parent = torch.class('TransEEncoder', 'RelationEncoderModel')
+local TransEEncoder, parent = torch.class('TransEEncoder', 'MatrixFactorizationModel')
 
 
 function TransEEncoder:__init(params, col_table, encoder)

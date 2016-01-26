@@ -6,9 +6,9 @@
 require 'torch'
 require 'rnn'
 require 'optim'
-require 'RelationEncoderModel'
+require 'MatrixFactorizationModel'
 
-local UniversalSchemaEntityEncoder, parent = torch.class('UniversalSchemaEntityEncoder', 'RelationEncoderModel')
+local UniversalSchemaEntityEncoder, parent = torch.class('UniversalSchemaEntityEncoder', 'MatrixFactorizationModel')
 
 -- TODO encoder factory dealing with different size embedding lookuptables
 function UniversalSchemaEntityEncoder:build_network(pos_e1_encoder, col_encoder)

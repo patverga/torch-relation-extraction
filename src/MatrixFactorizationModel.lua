@@ -2,10 +2,10 @@
 -- User: pv
 -- Date: 9/21/15
 --
-local RelationEncoderModel = torch.class('RelationEncoderModel')
+local MatrixFactorizationModel = torch.class('MatrixFactorizationModel')
 
 
-function RelationEncoderModel:__init(params, row_table, row_encoder, col_table, col_encoder, use_entities)
+function MatrixFactorizationModel:__init(params, row_table, row_encoder, col_table, col_encoder, use_entities)
     self.__index = self
     self.params = params
     self.opt_config = { learningRate = self.params.learningRate, epsilon = self.params.epsilon,
@@ -40,12 +40,12 @@ end
 
 --- Utils ---
 
-function RelationEncoderModel:to_cuda(x) return self.params.gpuid >= 0 and x:cuda() or x:double() end
+function MatrixFactorizationModel:to_cuda(x) return self.params.gpuid >= 0 and x:cuda() or x:double() end
 
 
 --- Train ---
 
-function RelationEncoderModel:train(num_epochs)
+function MatrixFactorizationModel:train(num_epochs)
     num_epochs = num_epochs or self.params.numEpochs
     -- optim stuff
     local parameters, gradParameters = self.net:getParameters()
@@ -86,14 +86,14 @@ end
 
 --- Evaluate ----
 
-function RelationEncoderModel:evaluate()
+function MatrixFactorizationModel:evaluate()
     if self.params.test ~= '' then
         self:map(self.params.test, true)
     end
 end
 
 
-function RelationEncoderModel:score_test_data(data)
+function MatrixFactorizationModel:score_test_data(data)
     local scores = {}
     local labels = {}
     if #data > 0 or data.ep == nil then
@@ -115,7 +115,7 @@ function RelationEncoderModel:score_test_data(data)
     return scores:view(scores:size(1)), labels
 end
 
-function RelationEncoderModel:map(fileStr, high_score)
+function MatrixFactorizationModel:map(fileStr, high_score)
     print('Calculating MAP')
     local map = 0.0
     local file_count = 0
@@ -129,7 +129,7 @@ function RelationEncoderModel:map(fileStr, high_score)
     print('MAP : ' .. map)
 end
 
-function RelationEncoderModel:avg_precision(file, high_score)
+function MatrixFactorizationModel:avg_precision(file, high_score)
     local correct_label = 1.0
     --    local correct_label = 2.0
     local data = torch.load(file)
@@ -154,7 +154,7 @@ function RelationEncoderModel:avg_precision(file, high_score)
 end
 
 
-function RelationEncoderModel:tac_eval(model_file, out_dir, eval_args)
+function MatrixFactorizationModel:tac_eval(model_file, out_dir, eval_args)
     if self.params.vocab ~= '' and self.params.tacYear ~= '' then
         os.execute("mkdir -p " .. model_file)
         local cmd = '${TH_RELEX_ROOT}/bin/tac-evaluation/tune-thresh.sh ' .. self.params.tacYear .. ' ' ..
@@ -168,7 +168,7 @@ end
 
 --- IO ----
 
-function RelationEncoderModel:load_sub_data_four_col(sub_data, entities)
+function MatrixFactorizationModel:load_sub_data_four_col(sub_data, entities)
     if entities then
         if self.params.rowEncoder == 'lookup-table' then
             sub_data.e1 = sub_data.e1:squeeze()
@@ -189,7 +189,7 @@ function RelationEncoderModel:load_sub_data_four_col(sub_data, entities)
     return sub_data
 end
 
-function RelationEncoderModel:load_sub_data_three_col(sub_data, entities)
+function MatrixFactorizationModel:load_sub_data_three_col(sub_data, entities)
     if self.params.rowEncoder == 'lookup-table' then
         sub_data.row = self:to_cuda(sub_data.row:squeeze())
     else
@@ -206,7 +206,7 @@ function RelationEncoderModel:load_sub_data_three_col(sub_data, entities)
 end
 
 
-function RelationEncoderModel:load_train_data(data_file, entities)
+function MatrixFactorizationModel:load_train_data(data_file, entities)
     local train = torch.load(data_file)
     -- new 3 col format
     if train.num_cols then
@@ -228,7 +228,7 @@ function RelationEncoderModel:load_train_data(data_file, entities)
     return train
 end
 
-function RelationEncoderModel:save_model(epoch)
+function MatrixFactorizationModel:save_model(epoch)
     if self.params.saveModel ~= '' then
         torch.save(self.params.saveModel .. '/' .. epoch .. '-model',
             {net = self.net, encoder = self.col_encoder, col_table = self.col_table, row_table = self.row_table, opt_state = self.opt_state})
@@ -238,7 +238,7 @@ function RelationEncoderModel:save_model(epoch)
     end
 end
 
-function RelationEncoderModel:write_embeddings_to_txt()
+function MatrixFactorizationModel:write_embeddings_to_txt()
     local function write_embeddings(f, embeddings)
         local file = io.open(f, "w")
         io.output(file)

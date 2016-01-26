@@ -7,9 +7,9 @@ package.path = package.path .. ";src/?.lua"
 require 'torch'
 require 'rnn'
 require 'optim'
-require 'RelationEncoderModel'
+require 'MatrixFactorizationModel'
 
-local UniversalSchemaEncoder, parent = torch.class('UniversalSchemaEncoder', 'RelationEncoderModel')
+local UniversalSchemaEncoder, parent = torch.class('UniversalSchemaEncoder', 'MatrixFactorizationModel')
 
 function UniversalSchemaEncoder:build_network(pos_row_encoder, col_encoder)
     local neg_row_encoder = pos_row_encoder:clone()
@@ -49,7 +49,7 @@ end
 
 
 ----- TRAIN -----
-function UniversalSchemaEncoder:gen_subdata_batches_four_col(sub_data, batches, max_neg, shuffle)
+function UniversalSchemaEncoder:gen_subdata_batches_four_col(data, sub_data, batches, max_neg, shuffle)
 --    shuffle = shuffle or true
     local start = 1
     local rand_order = shuffle and torch.randperm(sub_data.ep:size(1)):long() or torch.range(1, sub_data.ep:size(1)):long()
@@ -57,7 +57,7 @@ function UniversalSchemaEncoder:gen_subdata_batches_four_col(sub_data, batches, 
         local size = math.min(self.params.batchSize, sub_data.ep:size(1) - start + 1)
         local batch_indices = rand_order:narrow(1, start, size)
         local pos_ep_batch = sub_data.ep:index(1, batch_indices)
-        local neg_ep_batch = self:to_cuda(self:gen_neg(pos_ep_batch, size, max_neg))
+        local neg_ep_batch = self:to_cuda(self:gen_neg(data, pos_ep_batch, size, max_neg))
         local rel_batch = self.params.colEncoder == 'lookup-table' and sub_data.rel:index(1, batch_indices) or sub_data.seq:index(1, batch_indices)
         local batch = { pos_ep_batch, rel_batch, neg_ep_batch}
         table.insert(batches, { data = batch, label = 1 })
@@ -65,18 +65,21 @@ function UniversalSchemaEncoder:gen_subdata_batches_four_col(sub_data, batches, 
     end
 end
 
-function UniversalSchemaEncoder:gen_neg(pos_batch, size, max_neg)
+function UniversalSchemaEncoder:gen_neg(data, pos_batch, size, max_neg)
     local neg_batch
     if self.params.rowEncoder == 'lookup-table' then
         neg_batch = torch.rand(size):mul(max_neg):floor():add(1):view(pos_batch:size())
     else
-    -- TODO figure out a negative sampling scheme
-        neg_batch = pos_batch
+        local neg_length = torch.rand(1):mul(10):floor():add(1)
+        while (data[neg_length] and data[neg_length].count < size) do neg_length = torch.rand(1):mul(10):floor():add(1) end
+        local rand_order = torch.randperm(data[neg_length].row:size(1)):long()
+        local batch_indices = rand_order:narrow(1, 1, size)
+        neg_batch = data[neg_length].row_seq:index(1, batch_indices)
     end
     return neg_batch
 end
 
-function UniversalSchemaEncoder:gen_subdata_batches_three_col(sub_data, batches, max_neg, shuffle)
+function UniversalSchemaEncoder:gen_subdata_batches_three_col(data, sub_data, batches, max_neg, shuffle)
     shuffle = shuffle or true
     local start = 1
     local rand_order = shuffle and torch.randperm(sub_data.row:size(1)):long() or torch.range(1, sub_data.row:size(1)):long()
@@ -84,7 +87,7 @@ function UniversalSchemaEncoder:gen_subdata_batches_three_col(sub_data, batches,
         local size = math.min(self.params.batchSize, sub_data.row:size(1) - start + 1)
         local batch_indices = rand_order:narrow(1, start, size)
         local pos_row_batch = self.params.rowEncoder == 'lookup-table' and sub_data.row:index(1, batch_indices) or sub_data.row_seq:index(1, batch_indices)
-        local neg_row_batch = self:to_cuda(self:gen_neg(pos_row_batch, size, max_neg))
+        local neg_row_batch = self:to_cuda(self:gen_neg(data, pos_row_batch, size, max_neg))
         local col_batch = self.params.colEncoder == 'lookup-table' and sub_data.col:index(1, batch_indices) or sub_data.col_seq:index(1, batch_indices)
         local batch = { pos_row_batch, col_batch, neg_row_batch}
         table.insert(batches, { data = batch, label = 1 })
@@ -99,16 +102,16 @@ function UniversalSchemaEncoder:gen_training_batches(data)
     if data.num_cols then
         if #data > 0 then
             for seq_size = 1, self.params.maxSeq and math.min(self.params.maxSeq, #data) or #data do
-                if data[seq_size] and data[seq_size].row then self:gen_subdata_batches_three_col(data[seq_size], batches, data.num_rows, true) end
+                if data[seq_size] and data[seq_size].row then self:gen_subdata_batches_three_col(data, data[seq_size], batches, data.num_rows, true) end
             end
-        else  self:gen_subdata_batches_three_col(data, batches, data.num_rows, true) end
+        else  self:gen_subdata_batches_three_col(data, data, batches, data.num_rows, true) end
     else
         -- old 4 col format
         if #data > 0 then
             for seq_size = 1, self.params.maxSeq and math.min(self.params.maxSeq, #data) or #data do
-                if data[seq_size] and data[seq_size].ep then self:gen_subdata_batches_four_col(data[seq_size], batches, data.num_eps, true) end
+                if data[seq_size] and data[seq_size].ep then self:gen_subdata_batches_four_col(data, data[seq_size], batches, data.num_eps, true) end
             end
-        else  self:gen_subdata_batches_four_col(data, batches, data.num_eps, true) end
+        else  self:gen_subdata_batches_four_col(data, data, batches, data.num_eps, true) end
     end
     return batches
 end
