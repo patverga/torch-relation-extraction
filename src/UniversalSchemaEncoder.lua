@@ -67,7 +67,7 @@ end
 
 function UniversalSchemaEncoder:gen_neg(pos_batch, size, max_neg)
     local neg_batch
-    if self.params.colEncoder == 'lookup-table' then
+    if self.params.rowEncoder == 'lookup-table' then
         neg_batch = torch.rand(size):mul(max_neg):floor():add(1):view(pos_batch:size())
     else
     -- TODO figure out a negative sampling scheme

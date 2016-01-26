@@ -18,6 +18,9 @@ RUN_CMD="th ${TH_RELEX_ROOT}/src/${MODEL}.lua
 if [ "$ROW_ENCODER" ]; then
   RUN_CMD="$RUN_CMD -rowEncoder $ROW_ENCODER"
 fi
+if [ "$TIE_ENCODERS" ]; then
+  RUN_CMD="$RUN_CMD -tieEncoders"
+fi
 if [ "$WORD_DIM" ]; then
   RUN_CMD="$RUN_CMD -wordDim $WORD_DIM"
 fi
