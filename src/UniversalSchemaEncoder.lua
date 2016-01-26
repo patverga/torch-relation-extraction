@@ -70,8 +70,9 @@ function UniversalSchemaEncoder:gen_neg(data, pos_batch, size, max_neg)
     if self.params.rowEncoder == 'lookup-table' then
         neg_batch = torch.rand(size):mul(max_neg):floor():add(1):view(pos_batch:size())
     else
-        local neg_length = torch.rand(1):mul(10):floor():add(1)
-        while (data[neg_length] and data[neg_length].count < size) do neg_length = torch.rand(1):mul(10):floor():add(1) end
+        local neg_length = torch.rand(1):mul(data.max_length):floor():add(1)[1]
+        while (not (data[neg_length] and data[neg_length].count) or data[neg_length].count < size) do
+            neg_length = torch.rand(1):mul(data.max_length):floor():add(1)[1] end
         local rand_order = torch.randperm(data[neg_length].row:size(1)):long()
         local batch_indices = rand_order:narrow(1, 1, size)
         neg_batch = data[neg_length].row_seq:index(1, batch_indices)
@@ -100,6 +101,7 @@ function UniversalSchemaEncoder:gen_training_batches(data)
     local batches = {}
     -- new 3 col format
     if data.num_cols then
+        print ('generating batches')
         if #data > 0 then
             for seq_size = 1, self.params.maxSeq and math.min(self.params.maxSeq, #data) or #data do
                 if data[seq_size] and data[seq_size].row then self:gen_subdata_batches_three_col(data, data[seq_size], batches, data.num_rows, true) end
