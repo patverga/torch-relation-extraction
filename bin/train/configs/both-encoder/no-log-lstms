@@ -1,22 +1,25 @@
 export MODEL=UniversalSchema
-export NAME="both-encoder-nolog-lookup-tables"
+export NAME="both-encoder-lstms"
 
 export SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/$NAME"
 export TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/training-data/both-encoder/"
 export TRAIN_FILE="no-log_min5_normalized.en_max100"
 
-export VOCAB="${TH_RELEX_ROOT}/vocabs/both-encoder/no-log_min5_normalized.en_max100-cols.txt"
+export VOCAB="${TH_RELEX_ROOT}/vocabs/both-encoder/no-log_min5_normalized.en_max100-col-tokens.txt"
 export TAC_YEAR="2012"
-export EVAL_ARGS="-relations"
 
-export BATCH_SIZE=1024
-export LEARN_RATE=.001
+export BATCH_SIZE=128
+export LEARN_RATE=.0001
 export EMBED_DIM=100
 export REL_DIM=100
+export WORD_DIM=100
 export MAX_SEQ=20
 export MAX_EPOCHS=15
 export EVAL_FREQ=3
+export DROPOUT=.1
 
-export ENCODER="lookup-table"
-export ROW_ENCODER="lookup-table"
+export BI_DIRECTIONAL="add"
+export POOL_LAYER=Max
+export ENCODER="lstm"
+export REL_ENCODER="lstm"
 export TIE_ENCODERS=true
