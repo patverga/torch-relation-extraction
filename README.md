@@ -18,7 +18,7 @@ Dependencies
 
 Data Processing
 --------------
-Your data should be 4 col tsv.
+Your relation data should be 4 col tsv.
 
 entity1 \t entity2 \t relation \t 1
 
@@ -26,6 +26,8 @@ entity1 \t entity2 \t relation \t 1
 
 There are other flags in you can look at by doing `./bin/process/process-data.sh --help`
 
+For arbitrary 3 column data, use the -b flag   
+If you want your rows and columns to share the same vocabulary, use the -g flag   
 
 Training Models
 ------------
