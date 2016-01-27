@@ -134,22 +134,22 @@ def main(argv):
         print 'Double vocab and chars not compatible, setting double vocab to false'
         double_vocab = False
 
-    # # load memory maps from file or initialize new ones
-    # if load_vocab_file:
-    #     with open(load_vocab_file, 'rb') as fp:
-    #         [ent_map, ep_map, rel_map, token_map, token_counter] = pickle.load(fp)
-    #     if reset_tokens:
-    #         # this should probably be a different flag
-    #         rel_map = {}
-    #         token_map = {}
-    #         token_counter = defaultdict(int)
-    # else:
-    col_str_map = {}
-    row_str_map = {}
-    col_token_map = {}
-    row_token_map = {}
-    col_token_counter = defaultdict(int)
-    row_token_counter = defaultdict(int)
+    # load memory maps from file or initialize new ones
+    if load_vocab_file:
+        with open(load_vocab_file, 'rb') as fp:
+            [col_str_map, row_str_map, col_token_map, row_token_map, col_token_counter, row_token_counter] = pickle.load(fp)
+        if reset_tokens:
+            # this should probably be a different flag
+            col_str_map = {}
+            col_token_map = {}
+            col_token_counter = defaultdict(int)
+    else:
+        col_str_map = {}
+        row_str_map = {}
+        col_token_map = {}
+        row_token_map = {}
+        col_token_counter = defaultdict(int)
+        row_token_counter = defaultdict(int)
 
     if merge_maps:
         col_token_counter = row_token_counter
@@ -182,8 +182,8 @@ def main(argv):
 
     if save_vocab_file:
         print 'Exporting vocab maps to file'
-        # with open(save_vocab_file, 'wb') as fp:
-        #     pickle.dump([ent_map, ep_map, rel_map, token_map, token_counter], fp)
+        with open(save_vocab_file, 'wb') as fp:
+            pickle.dump([col_str_map, row_str_map, col_token_map, row_token_map, col_token_counter, row_token_counter], fp)
         export_map(save_vocab_file + '-col-tokens.txt', col_token_map)
         export_map(save_vocab_file + '-row-tokens.txt', row_token_map)
         export_map(save_vocab_file + '-cols.txt', col_str_map)
