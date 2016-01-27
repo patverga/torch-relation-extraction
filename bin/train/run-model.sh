@@ -9,10 +9,10 @@ RUN_CMD="th ${TH_RELEX_ROOT}/src/${MODEL}.lua
 -maxSeq $MAX_SEQ
 -learningRate $LEARN_RATE
 -gpuid ${GPU_ID}
--rowDim ${EMBED_DIM}
+-rowDim ${ROW_DIM}
 -numEpochs ${MAX_EPOCHS}
 -resultDir ${SAVE}
--colEncoder ${ENCODER}
+-colEncoder ${COL_ENCODER}
 "
 
 if [ "$ROW_ENCODER" ]; then
@@ -21,11 +21,11 @@ fi
 if [ "$TIE_ENCODERS" ]; then
   RUN_CMD="$RUN_CMD -tieEncoders"
 fi
-if [ "$WORD_DIM" ]; then
-  RUN_CMD="$RUN_CMD -wordDim $WORD_DIM"
+if [ "$TOKEN_DIM" ]; then
+  RUN_CMD="$RUN_CMD -tokenDim $TOKEN_DIM"
 fi
-if [ "$REL_DIM" ]; then
-  RUN_CMD="$RUN_CMD -colDim $REL_DIM"
+if [ "$COL_DIM" ]; then
+  RUN_CMD="$RUN_CMD -colDim $COL_DIM"
 fi
 if [ "$BI_DIRECTIONAL" ]; then
   RUN_CMD="$RUN_CMD -bi $BI_DIRECTIONAL"

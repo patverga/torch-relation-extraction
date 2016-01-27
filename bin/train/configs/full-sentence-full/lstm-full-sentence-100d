@@ -12,11 +12,11 @@ export EVAL_ARGS="\"-fullPath\""
 
 export BATCH_SIZE=128
 export LEARN_RATE=.0001
-export EMBED_DIM=100
-export REL_DIM=100
+export ROW_DIM=100
+export COL_DIM=100
 export MAX_SEQ=50
 export MAX_EPOCHS=3
-export EVAL_FREQ=1
+export EVAL_FREQ=3
 export DROPOUT=.1
-export WORD_DIM=100
-export ENCODER="lstm"
+export TOKEN_DIM=100
+export COL_ENCODER="lstm"

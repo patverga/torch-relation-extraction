@@ -9,10 +9,10 @@ export TEST_FILE=`ls $TH_RELEX_ROOT/data/test-mtx-torch/* | tr '\n' ','`
 
 export BATCH_SIZE=128
 export LEARN_RATE=.0001
-export EMBED_DIM=50
-export REL_DIM=50
-export WORD_DIM=100
+export ROW_DIM=50
+export COL_DIM=50
+export TOKEN_DIM=100
 export MAX_SEQ=20
 export MAX_EPOCHS=50
 export EVAL_FREQ=3
-export ENCODER="cnn"
+export COL_ENCODER="cnn"

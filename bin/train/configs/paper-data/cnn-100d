@@ -11,11 +11,11 @@ export TAC_YEAR="2012"
 
 export BATCH_SIZE=128
 export LEARN_RATE=.0001
-export EMBED_DIM=100
-export REL_DIM=100
+export ROW_DIM=100
+export COL_DIM=100
 export MAX_SEQ=20
 export MAX_EPOCHS=15
 export EVAL_FREQ=3
 export DROPOUT=.1
-export WORD_DIM=100
-export ENCODER="cnn"
+export TOKEN_DIM=100
+export COL_ENCODER="cnn"
