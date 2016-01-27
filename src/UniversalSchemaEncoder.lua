@@ -70,10 +70,23 @@ function UniversalSchemaEncoder:gen_neg(data, pos_batch, size, max_neg)
     if self.params.rowEncoder == 'lookup-table' then
         neg_batch = torch.rand(size):mul(max_neg):floor():add(1):view(pos_batch:size())
     else
-        local neg_length = torch.rand(1):mul(data.max_length):floor():add(1)[1]
+        -- we want to draw a negative sample length weighted by how common that lenght is in our data
+        if not self.sizes then
+            local sizes = {}
+            for i = 1, data.max_length do if data[i] and data[i].count then sizes[i] = data[i].count else sizes[i] = 0 end end
+            self.sizes = torch.Tensor(sizes)
+        end
+        local neg_length = torch.multinomial(self.sizes, 1)[1]
         while (not (data[neg_length] and data[neg_length].count) or data[neg_length].count < size) do
-            neg_length = torch.rand(1):mul(data.max_length):floor():add(1)[1] end
-        local rand_order = torch.randperm(data[neg_length].row:size(1)):long()
+            neg_length = torch.multinomial(self.sizes, 1)[1]
+        end
+
+        -- select 'size' random samples from the selected sequence length
+        local rand_indices = {}
+        while #rand_indices < size do
+            table.insert(rand_indices, torch.rand(1):mul(data[neg_length].row:size(1)):floor():add(1)[1])
+        end
+        local rand_order = torch.LongTensor(rand_indices)
         local batch_indices = rand_order:narrow(1, 1, size)
         neg_batch = data[neg_length].row_seq:index(1, batch_indices)
     end
