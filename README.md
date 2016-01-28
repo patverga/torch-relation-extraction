@@ -41,7 +41,11 @@ Evaluation
 ---------
 
 #### MAP
-If you specify a test file (or comma seperated list of files), MAP will be calculated every kth iteration where k is a cmd arg set as -evaluateFrequency k. Each should be its own relation and will have its average precision calculated. MAP will be calculated as the average over all the files.
+MAP will be calculated every kth iteration based on the -evaluateFrequency cmd arg. AP is calculated on a per-column basis and then averaged to get MAP. To calculate MAP for your model, you need to generate one file per test column in the same format as your test data. Unlike the training data, in the test data you need to explicitly give negative examples. Negative samples should just have a 0 in the last column of the file while positive examples have a 1.
+
+Place all of these files in a directory, test-data-dir for example, and then run the following command:   
+`./bin/process/process-test-data-dir.sh test-data-dir test-data-dir.torch vocab-file`   
+Here vocab-file should be the same vocab file that you generated your training data with.
 
 ####  [TAC slot filling task](http://www.nist.gov/tac/2013/KBP/)
 - This requires setting up [Relation Factory](https://github.com/beroth/relationfactory) and setting $TAC_ROOT=/path/to/relation-factory. Just follow the setup instructions on the relation factory github, its easy.
