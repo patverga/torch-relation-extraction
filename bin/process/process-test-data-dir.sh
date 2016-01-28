@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-if [ "$#" -lt 4 ]
+if [ "$#" -lt 3 ]
 then
   echo "Not enough input args : ./process-test-dir.sh IN_DIR OUT_DIR VOCAB_FROM_TRAINING_DATA"
   exit 1

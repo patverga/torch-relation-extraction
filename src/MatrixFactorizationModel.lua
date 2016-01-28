@@ -92,29 +92,6 @@ function MatrixFactorizationModel:evaluate()
     end
 end
 
-
-function MatrixFactorizationModel:score_test_data(data)
-    local scores = {}
-    local labels = {}
-    if #data > 0 or data.ep == nil then
-        for seq_size = 1, data.max_length do
-            local sub_data = data[seq_size]
-            if sub_data and sub_data.ep then
-                local score, label = self:score_subdata(sub_data, scores, labels)
-                table.insert(scores, score)
-                table.insert(labels, label)
-            end
-        end
-    else
-        local score, label = self:score_subdata(data, scores, labels)
-        table.insert(scores, score)
-        table.insert(labels, label)
-    end
-    scores = nn.JoinTable(1)(nn.FlattenTable()(scores))
-    labels = nn.JoinTable(1)(labels)
-    return scores:view(scores:size(1)), labels
-end
-
 function MatrixFactorizationModel:map(fileStr, high_score)
     print('Calculating MAP')
     local map = 0.0
@@ -151,6 +128,28 @@ function MatrixFactorizationModel:avg_precision(file, high_score)
         end
     end
     return ap
+end
+
+function MatrixFactorizationModel:score_test_data(data)
+    local scores = {}
+    local labels = {}
+    if #data > 0 or data.ep == nil then
+        for seq_size = 1, data.max_length do
+            local sub_data = data[seq_size]
+            if sub_data and (sub_data.ep or sub_data.row) then
+                local score, label = self:score_subdata(sub_data, scores, labels)
+                table.insert(scores, score)
+                table.insert(labels, label)
+            end
+        end
+    else
+        local score, label = self:score_subdata(data, scores, labels)
+        table.insert(scores, score)
+        table.insert(labels, label)
+    end
+    scores = nn.JoinTable(1)(nn.FlattenTable()(scores))
+    labels = nn.JoinTable(1)(labels)
+    return scores:view(scores:size(1)), labels
 end
 
 

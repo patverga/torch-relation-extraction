@@ -49,8 +49,28 @@ end
 
 
 ----- TRAIN -----
+function UniversalSchemaEncoder:gen_training_batches(data, shuffle)
+    shuffle = shuffle or true
+    local batches = {}
+    -- new 3 col format
+    if data.num_cols or data.col then
+        if #data > 0 then
+            for seq_size = 1, self.params.maxSeq and math.min(self.params.maxSeq, #data) or #data do
+                if data[seq_size] and data[seq_size].row then self:gen_subdata_batches_three_col(data, data[seq_size], batches, data.num_rows, shuffle) end
+            end
+        else  self:gen_subdata_batches_three_col(data, data, batches, data.num_rows, shuffle) end
+    else
+        -- old 4 col format
+        if #data > 0 then
+            for seq_size = 1, self.params.maxSeq and math.min(self.params.maxSeq, #data) or #data do
+                if data[seq_size] and data[seq_size].ep then self:gen_subdata_batches_four_col(data, data[seq_size], batches, data.num_eps, shuffle) end
+            end
+        else  self:gen_subdata_batches_four_col(data, data, batches, data.num_eps, shuffle) end
+    end
+    return batches
+end
+
 function UniversalSchemaEncoder:gen_subdata_batches_four_col(data, sub_data, batches, max_neg, shuffle)
---    shuffle = shuffle or true
     local start = 1
     local rand_order = shuffle and torch.randperm(sub_data.ep:size(1)):long() or torch.range(1, sub_data.ep:size(1)):long()
     while start <= sub_data.ep:size(1) do
@@ -60,6 +80,21 @@ function UniversalSchemaEncoder:gen_subdata_batches_four_col(data, sub_data, bat
         local neg_ep_batch = self:to_cuda(self:gen_neg(data, pos_ep_batch, size, max_neg))
         local rel_batch = self.params.colEncoder == 'lookup-table' and sub_data.rel:index(1, batch_indices) or sub_data.seq:index(1, batch_indices)
         local batch = { pos_ep_batch, rel_batch, neg_ep_batch}
+        table.insert(batches, { data = batch, label = 1 })
+        start = start + size
+    end
+end
+
+function UniversalSchemaEncoder:gen_subdata_batches_three_col(data, sub_data, batches, max_neg, shuffle)
+    local start = 1
+    local rand_order = shuffle and torch.randperm(sub_data.row:size(1)):long() or torch.range(1, sub_data.row:size(1)):long()
+    while start <= sub_data.row:size(1) do
+        local size = math.min(self.params.batchSize, sub_data.row:size(1) - start + 1)
+        local batch_indices = rand_order:narrow(1, start, size)
+        local pos_row_batch = self.params.rowEncoder == 'lookup-table' and sub_data.row:index(1, batch_indices) or sub_data.row_seq:index(1, batch_indices)
+        local neg_row_batch = self:to_cuda(self:gen_neg(data, pos_row_batch, size, max_neg))
+        local col_batch = self.params.colEncoder == 'lookup-table' and sub_data.col:index(1, batch_indices) or sub_data.col_seq:index(1, batch_indices)
+        local batch = { pos_row_batch, col_batch, neg_row_batch}
         table.insert(batches, { data = batch, label = 1 })
         start = start + size
     end
@@ -92,45 +127,6 @@ function UniversalSchemaEncoder:gen_neg(data, pos_batch, size, max_neg)
     end
     return neg_batch
 end
-
-function UniversalSchemaEncoder:gen_subdata_batches_three_col(data, sub_data, batches, max_neg, shuffle)
-    shuffle = shuffle or true
-    local start = 1
-    local rand_order = shuffle and torch.randperm(sub_data.row:size(1)):long() or torch.range(1, sub_data.row:size(1)):long()
-    while start <= sub_data.row:size(1) do
-        local size = math.min(self.params.batchSize, sub_data.row:size(1) - start + 1)
-        local batch_indices = rand_order:narrow(1, start, size)
-        local pos_row_batch = self.params.rowEncoder == 'lookup-table' and sub_data.row:index(1, batch_indices) or sub_data.row_seq:index(1, batch_indices)
-        local neg_row_batch = self:to_cuda(self:gen_neg(data, pos_row_batch, size, max_neg))
-        local col_batch = self.params.colEncoder == 'lookup-table' and sub_data.col:index(1, batch_indices) or sub_data.col_seq:index(1, batch_indices)
-        local batch = { pos_row_batch, col_batch, neg_row_batch}
-        table.insert(batches, { data = batch, label = 1 })
-        start = start + size
-    end
-end
-
-
-function UniversalSchemaEncoder:gen_training_batches(data)
-    local batches = {}
-    -- new 3 col format
-    if data.num_cols then
-        print ('generating batches')
-        if #data > 0 then
-            for seq_size = 1, self.params.maxSeq and math.min(self.params.maxSeq, #data) or #data do
-                if data[seq_size] and data[seq_size].row then self:gen_subdata_batches_three_col(data, data[seq_size], batches, data.num_rows, true) end
-            end
-        else  self:gen_subdata_batches_three_col(data, data, batches, data.num_rows, true) end
-    else
-        -- old 4 col format
-        if #data > 0 then
-            for seq_size = 1, self.params.maxSeq and math.min(self.params.maxSeq, #data) or #data do
-                if data[seq_size] and data[seq_size].ep then self:gen_subdata_batches_four_col(data, data[seq_size], batches, data.num_eps, true) end
-            end
-        else  self:gen_subdata_batches_four_col(data, data, batches, data.num_eps, true) end
-    end
-    return batches
-end
-
 
 
 function UniversalSchemaEncoder:regularize()
@@ -191,7 +187,8 @@ end
 
 function UniversalSchemaEncoder:score_subdata(sub_data)
     local batches = {}
-    self:gen_subdata_batches_four_col(sub_data, batches, 0, false)
+    if sub_data.ep then self:gen_subdata_batches_four_col(sub_data, sub_data, batches, 0, false)
+    else self:gen_subdata_batches_three_col(sub_data, sub_data, batches, 0, false) end
 
     local scores = {}
     for i = 1, #batches do
