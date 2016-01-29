@@ -13,9 +13,9 @@ export MAX_SEQ=20
 export MAX_EPOCHS=50
 export EVAL_FREQ=3
 export COL_ENCODER="lstm"
-export POOL_LAYER=Max
-export NON_LINEAR_LAYER=ReLU
-export BI_DIRECTIONAL="add"
+#export POOL_LAYER=Max
+#export NON_LINEAR_LAYER=ReLU
+#export BI_DIRECTIONAL="add"
 
 export ROW_DIM=50
 export COL_DIM=50

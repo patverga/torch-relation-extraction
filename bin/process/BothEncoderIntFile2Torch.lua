@@ -14,7 +14,7 @@ cmd:option('-outFile', '', 'out file')
 cmd:option('-delim', ' ', 'delimiter to split lines on')
 cmd:option('-maxSeq', 999999, 'throw away sequences longer than this')
 cmd:option('-minCount', 1, 'throw away tokens seen less than this many times')
-cmd:option('-padToken', 2, 'pad token')
+cmd:option('-padIdx', 2, 'pad token')
 
 
 local params = cmd:parse(arg)
@@ -92,8 +92,8 @@ for line in io.lines(params.inFile) do
 
     local seq_len = math.max(row_seq_len, col_seq_len)
     -- pad the smaller sequence
-    for i = #row_token_table, seq_len-1 do table.insert(row_token_table, 2) end
-    for i = #col_token_table, seq_len-1 do table.insert(col_token_table, 2) end
+    for i = #row_token_table, seq_len-1 do table.insert(row_token_table, params.padIdx) end
+    for i = #col_token_table, seq_len-1 do table.insert(col_token_table, params.padIdx) end
 
     local len_data = data[seq_len]
     if len_data then

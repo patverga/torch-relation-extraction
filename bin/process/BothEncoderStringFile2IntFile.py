@@ -72,7 +72,7 @@ def export_map(file_name, vocab_map):
 
 
 def filter_tokens(token_counter, min_count):
-    # prune infrequent tokens - sets unkidx to 1
+    # prune infrequent tokens - unk-idx = 1, pad-idx = 2
     filtered_tokens = {token: count for token, count in token_counter.iteritems() if count > min_count}
     sorted_tokens = [token for token in sorted(filtered_tokens, key=filtered_tokens.get, reverse=True)]
     token_map = {token: i + 3 for i, token in enumerate(sorted_tokens)}
@@ -159,8 +159,8 @@ def main(argv):
     # memory map all the data and return processed lines
     print 'Processing lines and getting token counts'
     data = [
-        process_line(line, col_str_map, row_str_map, col_token_counter, row_token_counter, double_vocab, replace_digits,
-                     chars)
+        process_line(line, col_str_map, row_str_map, col_token_counter, row_token_counter,
+                     double_vocab, replace_digits, chars)
         for line in open(in_file, 'r')]
 
     if reset_tokens or not load_vocab_file:

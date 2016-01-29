@@ -21,7 +21,7 @@ while getopts i:o:v:m:l:s:pbcdrng opt; do
   i)
       IN_FILE=$OPTARG
       PY_CMD="$PY_CMD -i $IN_FILE"
-      INTERMEDIATE_FILE=`mktemp -t /tmp`
+      INTERMEDIATE_FILE=`mktemp`
       PY_CMD="$PY_CMD -o $INTERMEDIATE_FILE"
       TORCH_CMD="$TORCH_CMD -inFile ${INTERMEDIATE_FILE}"
       ;;
