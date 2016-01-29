@@ -32,7 +32,6 @@ cmd:option('-batchSize', 128, 'minibatch size')
 cmd:option('-margin', 1, 'size of margin')
 cmd:option('-p', 2, 'use the Lp distance')
 cmd:option('-kbWeight', 1, 'weight kb relations differently than text relations')
-cmd:option('-l2Reg', 0, 'l2 regularization weight')
 cmd:option('-maxSeq', 100, 'maximum sequence length')
 cmd:option('-shuffle', true, 'shuffle data, read in sequence length order otherwise')
 
@@ -69,13 +68,15 @@ cmd:option('-epsilon', 1e-8, 'epsilon parameter for adam optimization')
 cmd:option('-beta1', 0.9, 'beta1 parameter for adam optimization')
 cmd:option('-beta2', 0.999, 'beta2 parameter for adam optimization')
 cmd:option('-momentum', 0, 'momentum value for optimization')
-cmd:option('-regularize', false, 'use max norm constraints')
+cmd:option('-maxNormCol', 0, 'if > 0, enforce max norm constraints on column embeddings')
+cmd:option('-maxNormRow', 0, 'if > 0, enforce max norm constraints on row embeddings')
+cmd:option('-l2Reg', 0, 'l2 regularization weight')
 cmd:option('-clipGrads', 1, 'clip gradients so l2 norm <= clipGrads. If <= 0, not enforced (default)')
 cmd:option('-optimMethod', 'adam', 'which optimization method to use')
 cmd:option('-stopEarly', false, 'stop training early if evaluation F1 goes down')
 cmd:option('-numEpochs', 10, 'number of epochs to train for')
-cmd:option('-freezeEp', 0, 'freeze the ep embeddings for this many epochs')
-cmd:option('-freezeRel', 0, 'freeze the rel embeddings for this many epochs')
+cmd:option('-freezeRow', 0, 'freeze the ep embeddings for this many epochs')
+cmd:option('-freezeCol', 0, 'freeze the rel embeddings for this many epochs')
 
 -- evaluation
 cmd:option('-resultDir', '', 'tac eval output dir')
@@ -85,8 +86,12 @@ cmd:option('-evalArgs', '', 'other args for tac eval')
 cmd:option('-evaluateFrequency', 1, 'evaluate after every ith epoch')
 
 
-function CmdArgs:parse(arg)
-    local params = cmd:parse(arg)
-    print(params)
+function CmdArgs:parse(cmd_args)
+    local params = cmd:parse(cmd_args)
+    -- print the params in sorted order
+    local param_array = {}
+    for arg, val in pairs(params) do table.insert(param_array, arg .. ' : ' .. tostring(val)) end
+    table.sort(param_array)
+    for _, arg_val in ipairs(param_array) do print(arg_val) end
     return params
 end

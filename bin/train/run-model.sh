@@ -95,5 +95,5 @@ fi
 RUN_CMD="$RUN_CMD $ARGS"
 
 echo "Training : ${MODEL}_${TRAIN_FILE}\tGPU : $GPU_ID"
-echo "$RUN_CMD"
+#echo "$RUN_CMD"
 ${RUN_CMD} | tee "$SAVE/log"

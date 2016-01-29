@@ -102,7 +102,9 @@ end
 
 function UniversalSchemaEncoder:gen_neg(data, pos_batch, size, max_neg)
     local neg_batch
-    if self.params.rowEncoder == 'lookup-table' then
+    if max_neg == 0 then
+        neg_batch = pos_batch:clone():fill(1)
+    elseif self.params.rowEncoder == 'lookup-table' then
         neg_batch = torch.rand(size):mul(max_neg):floor():add(1):view(pos_batch:size())
     else
         -- we want to draw a negative sample length weighted by how common that lenght is in our data
@@ -127,13 +129,6 @@ function UniversalSchemaEncoder:gen_neg(data, pos_batch, size, max_neg)
     end
     return neg_batch
 end
-
-
-function UniversalSchemaEncoder:regularize()
-    self.col_table.weight:renorm(2, 2, 3.0)
-    --    self.row_table.weight:renorm(2, 2, 3.0)
-end
-
 
 function UniversalSchemaEncoder:optim_update(net, criterion, x, y, parameters, grad_params, opt_config, opt_state, epoch)
     local err
@@ -170,15 +165,15 @@ function UniversalSchemaEncoder:optim_update(net, criterion, x, y, parameters, g
             local grad_norm = grad_params:norm(2)
             if grad_norm > self.params.clipGrads then grad_params = grad_params:div(grad_norm/self.params.clipGrads) end
         end
-        if self.params.freezeEp >= epoch then self.row_table:zeroGradParameters() end
-        if self.params.freezeRel >= epoch then self.col_table:zeroGradParameters() end
+        if self.params.freezeRow >= epoch then self.row_table:zeroGradParameters() end
+        if self.params.freezeCol >= epoch then self.col_table:zeroGradParameters() end
         return err, grad_params
     end
 
     optim[self.params.optimMethod](fEval, parameters, opt_config, opt_state)
     opt_config.learningRate = self.params.learningRate
-    -- TODO, better way to handle this
-    if self.params.regularize then self:regularize() end
+    if self.params.maxNormCol > 0 then self.col_table.weight:renorm(2, 2, self.params.maxNormCol) end
+    if self.params.maxNormRow > 0 then self.col_table.weight:renorm(2, 2, self.params.maxNormRow) end
     return err
 end
 

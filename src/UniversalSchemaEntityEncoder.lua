@@ -150,8 +150,8 @@ function UniversalSchemaEntityEncoder:optim_update(net, criterion, x, y, paramet
             local grad_norm = grad_params:norm(2)
             if grad_norm > self.params.clipGrads then grad_params = grad_params:div(grad_norm/self.params.clipGrads) end
         end
-        if self.params.freezeEp >= epoch then self.row_table:zeroGradParameters() end
-        if self.params.freezeRel >= epoch then self.col_table:zeroGradParameters() end
+        if self.params.freezeRow >= epoch then self.row_table:zeroGradParameters() end
+        if self.params.freezeCol >= epoch then self.col_table:zeroGradParameters() end
         return err, grad_params
     end
     optim[self.params.optimMethod](fEval, parameters, opt_config, opt_state)
