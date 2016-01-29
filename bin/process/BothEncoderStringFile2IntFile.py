@@ -43,8 +43,8 @@ def process_line(line, col_str_map, row_str_map, col_token_counter, row_token_co
                  chars):
     row_seq, col_seq, label = line.strip().split('\t')
 
-    row_tokens = process_seq(row_seq, col_token_counter, replace_digits, chars, double_vocab)
-    col_tokens = process_seq(col_seq, row_token_counter, replace_digits, chars, double_vocab)
+    row_tokens = process_seq(row_seq, row_token_counter, replace_digits, chars, double_vocab)
+    col_tokens = process_seq(col_seq, col_token_counter, replace_digits, chars, double_vocab)
     col_str = ' '.join(col_tokens)
     row_str = ' '.join(row_tokens)
 
