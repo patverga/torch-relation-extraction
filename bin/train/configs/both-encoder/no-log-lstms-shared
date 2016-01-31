@@ -22,3 +22,4 @@ export BI_DIRECTIONAL="add"
 export POOL_LAYER=Max
 export COL_ENCODER="lstm"
 export ROW_ENCODER="lstm"
+export TIE_ENCODERS=true

@@ -102,6 +102,8 @@
 \naaclfinalfalse
 \def\naaclfinalcopy{\global\naaclfinaltrue}
 
+\naaclfinaltrue
+
 %% ----- Set up hooks to repeat content on every page of the output doc, 
 %% necessary for the line numbers in the submitted version.  --MM
 %%
@@ -296,6 +298,7 @@
 \def\leftoffset{-45pt}
 \def\rightoffset{500pt}
 \ifnaaclfinal\else\pagenumbering{arabic}
+\fi
 \AddToShipoutPicture{%
 \ifnaaclfinal\else
 \AtPageLowishCenter{\thepage}
@@ -323,9 +326,9 @@
 
 \newcommand\outauthor{
     \begin{tabular}[t]{c}
-	\ifnaaclfinal 
+	\ifnaaclfinal
 	     \bf\@author
-	\else 
+	\else
 		% Avoiding common accidental de-anonymization issue. --MM
      		\bf Anonymous NAACL submission
 	\fi

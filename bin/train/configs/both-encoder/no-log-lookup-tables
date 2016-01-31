@@ -19,4 +19,3 @@ export EVAL_FREQ=3
 
 export COL_ENCODER="lookup-table"
 export ROW_ENCODER="lookup-table"
-export TIE_ENCODERS=true
