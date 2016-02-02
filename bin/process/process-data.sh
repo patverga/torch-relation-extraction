@@ -66,7 +66,8 @@ while getopts i:o:v:m:l:s:pbcdrng opt; do
       PY_CMD="$PY_CMD -g"
       ;;
   p)
-      TORCH_FILE="$CUR_DIR/IntFile2PoolRelationsTorch.lua"
+#      TORCH_FILE="$CUR_DIR/IntFile2PoolRelationsTorch.lua"
+      TORCH_FILE="$CUR_DIR/BothEncoderIntFile2PoolRelationsTorch.lua"
       ;;
   b)
       PY_FILE="$CUR_DIR/BothEncoderStringFile2IntFile.py"
