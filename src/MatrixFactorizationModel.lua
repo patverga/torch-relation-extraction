@@ -22,8 +22,8 @@ function MatrixFactorizationModel:__init(params, row_table, row_encoder, col_tab
     if params.loadModel ~= '' then
         local loaded_model = torch.load(params.loadModel)
         self.net = self:to_cuda(loaded_model.net)
-        col_encoder = self:to_cuda(loaded_model.col_encoder)
-        row_encoder = self:to_cuda(loaded_model.row_encoder)
+        col_encoder = self:to_cuda(loaded_model.col_encoder or loaded_model.encoder)
+        row_encoder = self:to_cuda(loaded_model.row_encoder or loaded_model.row_table)
         row_table = self:to_cuda(loaded_model.row_table)
         col_table = self:to_cuda(loaded_model.col_table)
         self.opt_state = loaded_model.opt_state
@@ -230,7 +230,7 @@ end
 function MatrixFactorizationModel:save_model(epoch)
     if self.params.saveModel ~= '' then
         torch.save(self.params.saveModel .. '/' .. epoch .. '-model',
-            {net = self.net, encoder = self.col_encoder, col_table = self.col_table, row_table = self.row_table, opt_state = self.opt_state})
+            {net = self.net, col_encoder = self.col_encoder, col_table = self.col_table, row_table = self.row_table, opt_state = self.opt_state})
         self:tac_eval(self.params.saveModel .. '/' .. epoch, self.params.resultDir .. '/' .. epoch, self.params.evalArgs)
         torch.save(self.params.saveModel .. '/' .. epoch .. '-rows', self.params.gpuid >= 0 and self.row_table.weight:double() or self.row_table.weight)
         torch.save(self.params.saveModel .. '/' .. epoch .. '-cols', self.params.gpuid >= 0 and self.col_table.weight:double() or self.col_table.weight)
