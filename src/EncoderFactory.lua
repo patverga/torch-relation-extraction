@@ -62,25 +62,19 @@ function EncoderFactory:lstm_encoder(params, vocab_size, embedding_dim)
 
     -- pool hidden units of sequence to get single vector or take last
     if params.poolLayer ~= '' then
-        assert(params.poolLayer == 'Mean' or params.poolLayer == 'Max',
-            'valid options for poolLayer are Mean and Max')
-        require 'nn-modules/ViewTable'
-        encoder:add(nn.ViewTable(-1, 1, output_dim))
-        encoder:add(nn.JoinTable(2))
-        if params.nonLinearLayer ~= '' then encoder:add(nn[params.nonLinearLayer]()) end
-        encoder:add(nn[params.poolLayer](2))
-    else
-        encoder:add(nn.SelectTable(-1))
+        assert(params.poolLayer == 'Mean' or params.poolLayer == 'Max' or params.poolLayer == 'last',
+            'valid options for poolLayer are Mean, Max, and last')
+        if params.poolLayer == 'last' then
+            encoder:add(nn.SelectTable(-1))
+        else
+            require 'nn-modules/ViewTable'
+            encoder:add(nn.ViewTable(-1, 1, output_dim))
+            encoder:add(nn.JoinTable(2))
+            if params.nonLinearLayer ~= '' then encoder:add(nn[params.nonLinearLayer]()) end
+            encoder:add(nn[params.poolLayer](2))
+        end
     end
 
-    return encoder, lookup_table
-end
-
-function EncoderFactory:relation_pool_encoder(params, sub_encoder, lookup_table)
-    require 'nn-modules/EncoderPool'
-    assert(params.relationPool == 'Mean' or params.relationPool == 'Max',
-        'valid options for poolLayer are Mean and Max')
-    local encoder = nn.EncoderPool(sub_encoder, nn[params.relationPool](2))
     return encoder, lookup_table
 end
 
@@ -125,6 +119,20 @@ function EncoderFactory:lstm_joint_encoder(params)
     local kb_col_table, _ = self:lookup_table_encoder(params)
     return text_encoder, kb_col_table
 
+end
+
+function EncoderFactory:relation_pool_encoder(params, sub_encoder, lookup_table)
+    require 'nn-modules/EncoderPool'
+    local encoder
+    if params.relationPool == 'Mean' or params.relationPool == 'Max' then
+        encoder = nn.EncoderPool(sub_encoder, nn[params.relationPool](2))
+    elseif params.relationPool == 'Identity' then
+        encoder = nn.EncoderPool(sub_encoder, nn[params.relationPool]())
+    else
+        print ('valid options for relationPool are Mean and Max')
+        os.exit()
+    end
+    return encoder, lookup_table
 end
 
 
@@ -172,14 +180,7 @@ end
 --        encoder:add(attention)
 --        encoder:add(nn.View(-1, mixture_dim))
 --end
---
---function EncoderFactory:lstm_lstm_attention_encoder(params)
---    local attention_lstm, attention_col_table = self:lstm_encoder(params)
---    local lstm, col_table = self:lstm_encoder(params)
---
---    local encoder = nn.Sequntial()
---
---end
+
 
 
 function EncoderFactory:build_encoder(params, encoder_type, vocab_size, embedding_dim)
@@ -210,12 +211,6 @@ function EncoderFactory:build_encoder(params, encoder_type, vocab_size, embeddin
         print('Must supply option to encoder. ' ..
         'Valid options are: lstm, cnn, we-avg, lstm-joint, lstm-relation-pool, and lookup-table')
         os.exit()
-    end
-
-    -- pool all relations for given ep and udpate at once
-    -- requires processing data using bin/process/IntFile2PoolRelationsTorch.lua
-    if params.relationPool ~= "" then
-        encoder, table = self:relation_pool_encoder(params, encoder, table)
     end
 
     return encoder, table

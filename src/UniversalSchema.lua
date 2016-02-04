@@ -18,7 +18,7 @@ if params.gpuid >= 0 then require 'cunn'; cutorch.manualSeed(0); cutorch.setDevi
 
 local train_data = torch.load(params.train)
 
-local function get_encoder(encoder_type, vocab_size, dim, load_encoder, load_embeddings)
+local function get_encoder(encoder_type, vocab_size, dim, load_encoder, load_embeddings, relation_pool)
     local encoder, table
     if load_encoder ~= '' then -- load encoder from saved model
         local loaded_model = torch.load(load_encoder)
@@ -26,6 +26,11 @@ local function get_encoder(encoder_type, vocab_size, dim, load_encoder, load_emb
     else
         encoder, table = EncoderFactory:build_encoder(params, encoder_type, vocab_size, dim)
         if load_embeddings ~= '' then table.weight = (torch.load(load_embeddings)) end
+    end
+    -- pool all relations for given ep and udpate at once
+    -- requires processing data using bin/process/IntFile2PoolRelationsTorch.lua
+    if relation_pool then
+        encoder, table = EncoderFactory:relation_pool_encoder(params, encoder, table)
     end
     return encoder, table
 end
@@ -37,15 +42,16 @@ if params.tieEncoders then -- use the same encoder for columns and rows
     local vocab_size = train_data.num_rels and (params.colEncoder == 'lookup-table' and math.max(train_data.num_rels, train_data.num_eps) or train_data.num_tokens)
     or (params.colEncoder == 'lookup-table' and math.max(train_data.num_cols, train_data.num_rows) or math.max(train_data.num_col_tokens, train_data.num_row_tokens))
 
-    col_encoder, col_table = get_encoder(params.colEncoder, vocab_size, params.colDim, params.loadColEncoder, params.loadColEmbeddings)
+    col_encoder, col_table = get_encoder(params.colEncoder, vocab_size, params.colDim, params.loadColEncoder, params.loadColEmbeddings, params.relationPool)
     row_encoder, row_table = col_encoder:clone(), col_table:clone()
     col_table:share(row_table, 'weight', 'bias', 'gradWeight', 'gradBias')
     col_encoder:share(row_encoder, 'weight', 'bias', 'gradWeight', 'gradBias')
 else
     -- create column encoder
-    local col_vocab_size = train_data.num_rels and (params.colEncoder == 'lookup-table' and train_data.num_rels or train_data.num_tokens)
+    local col_vocab_size = train_data.num_eps and (params.colEncoder == 'lookup-table' and train_data.num_rels or train_data.num_tokens)
             or (params.colEncoder == 'lookup-table' and train_data.num_cols or train_data.num_col_tokens)
-    col_encoder, col_table = get_encoder(params.colEncoder, col_vocab_size, params.colDim, params.loadColEncoder, params.loadColEmbeddings)
+    col_encoder, col_table = get_encoder(params.colEncoder, col_vocab_size, params.colDim, params.loadColEncoder, params.loadColEmbeddings, params.relationPool)
+
 
     -- create row encoder
     local row_vocab_size = train_data.num_eps and (params.rowEncoder == 'lookup-table' and train_data.num_eps or train_data.num_tokens)
@@ -59,13 +65,16 @@ local model
 -- learn vectors for each entity rather than entity pair
 if params.modelType == 'entity' then
     require 'UniversalSchemaEntityEncoder'
---    local col_encoder = nn.Sequential():add(col_encoder):add(nn.View(-1, params.colDim)):add(nn.Linear(params.colDim, params.colDim *2))
     model = UniversalSchemaEntityEncoder(params, row_table, row_encoder, col_table, col_encoder, true)
 
 -- use a lookup table for kb relations and encoder for text patterns (entity pair vectors)
 elseif params.modelType == 'joint' then
     require 'UniversalSchemaJointEncoder'
     model = UniversalSchemaJointEncoder(params, row_table, row_encoder, col_table, col_encoder, false)
+
+elseif params.attention then
+    require 'UniversalSchemaAttention'
+    model = UniversalSchemaAttention(params, row_table, row_encoder, col_table, col_encoder, false)
 
 -- standard uschema with entity pair vectors
 else
