@@ -72,7 +72,7 @@ elseif params.modelType == 'joint' then
     require 'UniversalSchemaJointEncoder'
     model = UniversalSchemaJointEncoder(params, row_table, row_encoder, col_table, col_encoder, false)
 
-elseif params.attention then
+elseif params.attention ~= '' then
     require 'UniversalSchemaAttention'
     model = UniversalSchemaAttention(params, row_table, row_encoder, col_table, col_encoder, false)
 

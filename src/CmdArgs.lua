@@ -58,7 +58,7 @@ cmd:option('-mean', false, 'use mean to combine word embeddings instead of `x')
 -- rnn specific
 cmd:option('-bi', '', 'Use a bidirectional lstm and combine forawrd backward in this way (add, concat, no-reverse-concat)')
 cmd:option('-rnnCell', false, 'Use a regular rnn cell instead of lstm')
-cmd:option('-attention', false, 'Use an attention model')
+cmd:option('-attention', '', 'Use an attention model')
 cmd:option('-noWordUpdate', false, 'Dont update word embeddings')
 
 -- optimization

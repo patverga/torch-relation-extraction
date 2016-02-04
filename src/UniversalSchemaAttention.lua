@@ -54,23 +54,28 @@ function UniversalSchemaAttention:build_network(pos_row_encoder, col_encoder)
     loading_par_table:add(col_encoder)
     loading_par_table:add(neg_row_encoder)
 
+    local pos_score, neg_score
+    if self.params.attention == 'dot' then
+        local pos_concat = nn.ConcatTable()
+            :add(make_attention(2, 1, self.params.colDim))
+            :add(nn.SelectTable(1))
+        pos_score = nn.Sequential():add(pos_concat):add(nn.CMulTable()):add(nn.Sum(2))
 
-    local pos_concat = nn.ConcatTable()
-        :add(make_attention(2, 1, self.params.colDim))
-        :add(nn.SelectTable(1))
-    local pos_dot = nn.Sequential():add(pos_concat):add(nn.CMulTable()):add(nn.Sum(2))
-
-    local neg_concat = nn.ConcatTable()
-        :add(make_attention(2, 3, self.params.colDim))
-        :add(nn.SelectTable(3))
-    local neg_dot = nn.Sequential():add(neg_concat):add(nn.CMulTable()):add(nn.Sum(2))
+        local neg_concat = nn.ConcatTable()
+            :add(make_attention(2, 3, self.params.colDim))
+            :add(nn.SelectTable(3))
+        neg_score = nn.Sequential():add(neg_concat):add(nn.CMulTable()):add(nn.Sum(2))
+    else
+        pos_score = nn.Sequential():add(make_attention(2, 1, self.params.colDim)):add(nn.TemporalConvolution(self.params.colDim, 1, 1))
+        neg_score = nn.Sequential():add(make_attention(2, 3, self.params.colDim)):add(nn.TemporalConvolution(self.params.colDim, 1, 1))
+    end
 
     -- add the parallel dot products together into one sequential network
     local net = nn.Sequential()
     net:add(loading_par_table)
     local concat_table = nn.ConcatTable()
-    concat_table:add(pos_dot)
-    concat_table:add(neg_dot)
+    concat_table:add(pos_score)
+    concat_table:add(neg_score)
     net:add(concat_table)
 
     -- put the networks on cuda

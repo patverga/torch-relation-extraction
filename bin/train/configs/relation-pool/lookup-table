@@ -1,7 +1,7 @@
 export MODEL=UniversalSchema
-export NAME=relation-pool-lookup-table
+export NAME=lookup-table
 
-export SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/$NAME"
+export SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/pool-relations/$NAME"
 export TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/training-data/pool-relations/"
 export TRAIN_FILE="center-no-log.fixed-5mil-subset"
 # export TRAINED_EP="${TH_RELEX_ROOT}/models/uschema-english-relogged-100d/2015-12-18_11/5-ent-weights"
