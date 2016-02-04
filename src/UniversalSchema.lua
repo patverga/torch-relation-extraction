@@ -29,7 +29,7 @@ local function get_encoder(encoder_type, vocab_size, dim, load_encoder, load_emb
     end
     -- pool all relations for given ep and udpate at once
     -- requires processing data using bin/process/IntFile2PoolRelationsTorch.lua
-    if relation_pool then
+    if relation_pool and relation_pool ~= '' then
         encoder, table = EncoderFactory:relation_pool_encoder(params, encoder, table)
     end
     return encoder, table

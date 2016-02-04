@@ -126,8 +126,9 @@ function EncoderFactory:relation_pool_encoder(params, sub_encoder, lookup_table)
     local encoder
     if params.relationPool == 'Mean' or params.relationPool == 'Max' then
         encoder = nn.EncoderPool(sub_encoder, nn[params.relationPool](2))
-    elseif params.relationPool == 'Identity' then
-        encoder = nn.EncoderPool(sub_encoder, nn[params.relationPool]())
+    elseif params.relationPool == 'conv-max' then
+        encoder = nn.Sequential():add(nn.EncoderPool(sub_encoder, nn.Identity()))
+        :add(nn.TemporalConvolution(params.colDim, params.colDim, 1)):add(nn.Max(2))
     else
         print ('valid options for relationPool are Mean and Max')
         os.exit()
