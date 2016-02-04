@@ -138,26 +138,12 @@ function UniversalSchemaEncoder:optim_update(net, criterion, x, y, parameters, g
         net:zeroGradParameters()
         local pred = net:forward(x)
 
-        local old = true
-        if(old) then
-            local theta = pred[1] - pred[2]
-            local prob = theta:clone():fill(1):cdiv(torch.exp(-theta):add(1))
-            err = torch.log(prob):mean()
-            local step = (prob:clone():fill(1) - prob)
-            local df_do = { -step, step }
-            net:backward(x, df_do)
-        else
-            self.prob_net = self.prob_net or self:to_cuda(nn.Sequential():add(nn.CSubTable()):add(nn.Sigmoid()))
-            local prob =  self.prob_net:forward(pred)
-
-            if(self.df_do) then self.df_do:resizeAs(prob) else  self.df_do = prob:clone() end
-
-            self.df_do:copy(prob):mul(-1):add(1)
-            err = prob:log():mean()
-
-            local df_dpred = self.prob_net:backward(pred,self.df_do)
-            net:backward(x,df_dpred)
-        end
+        local theta = pred[1] - pred[2]
+        local prob = theta:clone():fill(1):cdiv(torch.exp(-theta):add(1))
+        err = torch.log(prob):mean()
+        local step = (prob:clone():fill(1) - prob)
+        local df_do = { -step, step }
+        net:backward(x, df_do)
 
         if net.forget then net:forget() end
         if self.params.l2Reg > 0 then grad_params:add(self.params.l2Reg, parameters) end
