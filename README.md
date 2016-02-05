@@ -48,7 +48,7 @@ Place all of these files in a directory, test-data-dir for example, and then run
 Here vocab-file should be the same vocab file that you generated your training data with.
 
 ####  [TAC slot filling task](http://www.nist.gov/tac/2013/KBP/)
-- This requires setting up [Relation Factory](https://github.com/beroth/relationfactory) and setting $TAC_ROOT=/path/to/relation-factory. Just follow the setup instructions on the relation factory github, its easy.
+- This requires setting up [Relation Factory](https://github.com/beroth/relationfactory) and setting $TAC_ROOT=/path/to/relation-factory. Just follow the setup instructions on the relation factory github or run `$TH_RELEX_ROOT/setup-relationfactory.sh`.
 
 First run :`./setup-tac-eval.sh` 
 
