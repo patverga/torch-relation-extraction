@@ -44,7 +44,7 @@ cmd:option('-dropout', 0.0, 'dropout rate after embedding layer')
 cmd:option('-layerDropout', 0.0, 'dropout rate between layers')
 cmd:option('-wordDropout', 0.0, 'word dropout rate')
 cmd:option('-layers', 1, 'number of rnn layers to use')
-cmd:option('-poolLayer', '', 'pool the outputs of each token from the lstm or convolution. valid choices are Mean and Max')
+cmd:option('-poolLayer', 'last', 'pool the outputs of each token from the lstm or convolution. valid choices are Mean and Max')
 cmd:option('-relationPool', '', 'Pool relations using this - valid choices are Mean and Max')
 cmd:option('-nonLinearLayer', '', 'apply non-linearity before pool layer')
 

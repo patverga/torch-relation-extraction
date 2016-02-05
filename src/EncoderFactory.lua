@@ -2,7 +2,8 @@
 local EncoderFactory = torch.class('EncoderFactory')
 
 
-function EncoderFactory:build_lookup_table(params, vocab_size, dim)
+function EncoderFactory:build_lookup_table(params, load_embeddings, vocab_size, dim)
+    local pre_trained_embeddings = load_embeddings ~= '' and torch.load(load_embeddings)
     local lookup_table
     -- never update word embeddings, these should be preloaded
     if params.noWordUpdate then
@@ -11,15 +12,15 @@ function EncoderFactory:build_lookup_table(params, vocab_size, dim)
     else
         lookup_table = nn.LookupTable(vocab_size, dim)
     end
-    -- initialize in range [-.1, .1]
-    lookup_table.weight = torch.rand(vocab_size, dim):add(-.1):mul(0.1)
+
+    lookup_table.weight = pre_trained_embeddings or torch.rand(vocab_size, dim):add(-.1):mul(0.1) -- initialize in range [-.1, .1]
     return lookup_table
 end
 
-function EncoderFactory:lstm_encoder(params, vocab_size, embedding_dim)
+function EncoderFactory:lstm_encoder(params, load_embeddings, vocab_size, embedding_dim)
     local input_dim = params.tokenDim > 0 and params.tokenDim or embedding_dim
     local output_dim = embedding_dim
-    local lookup_table = self:build_lookup_table(params, vocab_size, input_dim)
+    local lookup_table = self:build_lookup_table(params, load_embeddings, vocab_size, input_dim)
 
     local encoder = nn.Sequential()
     -- word dropout
@@ -78,10 +79,10 @@ function EncoderFactory:lstm_encoder(params, vocab_size, embedding_dim)
     return encoder, lookup_table
 end
 
-function EncoderFactory:cnn_encoder(params, vocab_size, embedding_dim)
+function EncoderFactory:cnn_encoder(params, load_embeddings, vocab_size, embedding_dim)
     local input_dim = params.tokenDim > 0 and params.tokenDim or embedding_dim
     local output_dim = embedding_dim
-    local lookup_table = self:build_lookup_table(params, vocab_size, input_dim)
+    local lookup_table = self:build_lookup_table(params, load_embeddings, vocab_size, input_dim)
 
     local encoder = nn.Sequential()
     if params.wordDropout > 0 then
@@ -102,9 +103,9 @@ function EncoderFactory:cnn_encoder(params, vocab_size, embedding_dim)
     return encoder, lookup_table
 end
 
-function EncoderFactory:we_avg_encoder(params, vocab_size, embedding_dim)
+function EncoderFactory:we_avg_encoder(params, load_embeddings, vocab_size, embedding_dim)
     local dim = params.tokenDim > 0 and params.tokenDim or embedding_dim
-    local lookup_table = self:build_lookup_table(params, vocab_size, dim)
+    local lookup_table = self:build_lookup_table(params, load_embeddings, vocab_size, dim)
 
     local encoder = nn.Sequential()
     encoder:add(lookup_table)
@@ -116,8 +117,8 @@ end
 
 function EncoderFactory:lstm_joint_encoder(params)
     local text_encoder, _ = self:lstm_encoder(params)
-    local kb_col_table, _ = self:lookup_table_encoder(params)
-    return text_encoder, kb_col_table
+    local kb_encoder, _ = self:lookup_table_encoder(params)
+    return text_encoder, kb_encoder
 
 end
 
@@ -140,75 +141,28 @@ end
 
 
 
--- TODO set this up
---function EncoderFactory:attention_encoder(params)
---    if params.attention then
---        require 'nn-modules/ViewTable'
---        require 'nn-modules/ReplicateAs'
---        require 'nn-modules/SelectLast'
---        require 'nn-modules/VariableLengthJoinTable'
---        require 'nn-modules/VariableLengthConcatTable'
---
---        local mixture_dim = outputSize
---        local M = nn.Sequential()
---        local term_1 = nn.Sequential()
---        term_1:add(nn.TemporalConvolution(outputSize, mixture_dim, 1))
---
---        local term_2_linear = nn.Sequential()
---        term_2_linear:add(nn.SelectLast(2))
---        term_2_linear:add(nn.Linear(mixture_dim, mixture_dim))
---
---        local term_2_concat = nn.VariableLengthConcatTable()
---        term_2_concat:add(term_2_linear)
---        term_2_concat:add(nn.Identity())
---
---        local term_2 = nn.Sequential()
---        term_2:add(term_2_concat)
---        term_2:add(nn.ReplicateAs(2, 2))
---
---        local M_concat = nn.VariableLengthConcatTable():add(term_1):add(term_2)
---        M:add(M_concat):add(nn.CAddTable())
---
---        local Y = nn.Identity()
---        local alpha = nn.Sequential():add(M):add(nn.TemporalConvolution(mixture_dim,1,1)):add(nn.Select(3,1)):add(nn.SoftMax()):add(nn.Replicate(1,2))
---        local concat_table = nn.ConcatTable():add(alpha):add(Y)
---
---        local attention = nn.Sequential()
---        attention:add(concat_table)
---        attention:add(nn.MM())
---        --    attention:add(nn.MixtureTable())
---
---        encoder:add(nn.ViewTable(-1, 1, outputSize))
---        encoder:add(nn.VariableLengthJoinTable(2))
---        encoder:add(attention)
---        encoder:add(nn.View(-1, mixture_dim))
---end
-
-
-
-function EncoderFactory:build_encoder(params, encoder_type, vocab_size, embedding_dim)
+function EncoderFactory:build_encoder(params, encoder_type, load_embeddings, vocab_size, embedding_dim)
     local encoder, table
 
     -- lstm encoder
    if encoder_type == 'lstm' then
-        encoder, table = self:lstm_encoder(params, vocab_size, embedding_dim)
+        encoder, table = self:lstm_encoder(params, load_embeddings, vocab_size, embedding_dim)
 
     -- conv net
     elseif encoder_type == 'cnn' then
-        encoder, table = self:cnn_encoder(params, vocab_size, embedding_dim)
+        encoder, table = self:cnn_encoder(params, load_embeddings, vocab_size, embedding_dim)
 
     -- simple token averaging
     elseif encoder_type == 'we-avg' then
-        encoder, table = self:we_avg_encoder(params, vocab_size, embedding_dim)
+        encoder, table = self:we_avg_encoder(params, load_embeddings, vocab_size, embedding_dim)
 
     -- lstm for text, lookup-table for kb relations
     elseif encoder_type == 'lstm-joint' then
-        encoder, table = self:lstm_joint_encoder(params, vocab_size, embedding_dim)
+        encoder, table = self:lstm_joint_encoder(params, load_embeddings, vocab_size, embedding_dim)
 
     -- lookup table (vector per relation)
     elseif encoder_type == 'lookup-table' then
-        params.relations = true
-        local lookup_table = self:build_lookup_table(params, vocab_size, embedding_dim)
+        local lookup_table = self:build_lookup_table(params, load_embeddings, vocab_size, embedding_dim)
         encoder, table = lookup_table, lookup_table
     else
         print('Must supply option to encoder. ' ..

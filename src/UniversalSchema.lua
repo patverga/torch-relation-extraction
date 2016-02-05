@@ -24,8 +24,7 @@ local function get_encoder(encoder_type, vocab_size, dim, load_encoder, load_emb
         local loaded_model = torch.load(load_encoder)
         encoder, table = loaded_model.col_encoder, loaded_model.col_table
     else
-        encoder, table = EncoderFactory:build_encoder(params, encoder_type, vocab_size, dim)
-        if load_embeddings ~= '' then table.weight = (torch.load(load_embeddings)) end
+        encoder, table = EncoderFactory:build_encoder(params, encoder_type, load_embeddings, vocab_size, dim)
     end
     -- pool all relations for given ep and udpate at once
     -- requires processing data using bin/process/IntFile2PoolRelationsTorch.lua
@@ -76,8 +75,7 @@ elseif params.attention ~= '' then
     require 'UniversalSchemaAttention'
     model = UniversalSchemaAttention(params, row_table, row_encoder, col_table, col_encoder, false)
 
--- standard uschema with entity pair vectors
-else
+else -- standard uschema with entity pair vectors
     require 'UniversalSchemaEncoder'
     model = UniversalSchemaEncoder(params, row_table, row_encoder, col_table, col_encoder, false)
 end
