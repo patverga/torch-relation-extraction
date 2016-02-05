@@ -1,0 +1,27 @@
+export MODEL=UniversalSchema
+export NAME="mean-pool"
+
+export SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/both-relations/$NAME"
+export TRAIN_FILE_ROOT="/iesl/canvas/tmartin/torchCode/"
+export TRAIN_FILE="newData.torch"
+
+export VOCAB="${TH_RELEX_ROOT}/vocabs/pool-relations/center-no-log.fixed-5mil-subset-tokens.txt"
+export TAC_YEAR="2012"
+
+export BATCH_SIZE=128
+export LEARN_RATE=.0001
+export ROW_DIM=100
+export COL_DIM=100
+export TOKEN_DIM=100
+export MAX_SEQ=20
+export MAX_EPOCHS=15
+export EVAL_FREQ=3
+export DROPOUT=.1
+
+export BI_DIRECTIONAL="add"
+export POOL_LAYER=Max
+export COL_ENCODER="lstm"
+export ROW_ENCODER="lstm"
+export TIE_ENCODERS=true
+
+export RELATION_POOL="Mean"
