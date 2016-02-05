@@ -1,5 +1,5 @@
 export MODEL=UniversalSchema
-export NAME=mean-pool
+export NAME=conv-max
 
 export SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/pool-relations/$NAME"
 export TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/training-data/pool-relations/"
