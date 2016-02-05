@@ -22,4 +22,4 @@ export TOKEN_DIM=100
 export BI_DIRECTIONAL="add"
 export POOL_LAYER=Max
 export COL_ENCODER="lstm"
-export RELATION_POOL="Mean"
+export RELATION_POOL="conv-max"
