@@ -123,7 +123,7 @@ function EncoderFactory:lstm_joint_encoder(params)
 
 end
 
-function EncoderFactory:relation_pool_encoder(params, sub_encoder, lookup_table)
+function EncoderFactory:relation_pool_encoder(params, sub_encoder)
     require 'nn-modules/EncoderPool'
     local encoder
     if params.relationPool == 'Mean' or params.relationPool == 'Max' then
@@ -137,7 +137,7 @@ function EncoderFactory:relation_pool_encoder(params, sub_encoder, lookup_table)
         print ('valid options for relationPool are Mean and Max')
         os.exit()
     end
-    return encoder, lookup_table
+    return encoder
 end
 
 
