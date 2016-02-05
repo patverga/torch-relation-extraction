@@ -4,6 +4,7 @@ local EncoderFactory = torch.class('EncoderFactory')
 
 function EncoderFactory:build_lookup_table(params, load_embeddings, vocab_size, dim)
     local pre_trained_embeddings = load_embeddings ~= '' and torch.load(load_embeddings)
+    vocab_size = pre_trained_embeddings and math.max(vocab_size, pre_trained_embeddings:size(1)) or vocab_size
     local lookup_table
     -- never update word embeddings, these should be preloaded
     if params.noWordUpdate then
