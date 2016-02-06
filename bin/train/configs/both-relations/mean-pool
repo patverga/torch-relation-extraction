@@ -2,11 +2,15 @@ export MODEL=UniversalSchema
 export NAME="mean-pool"
 
 export SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/both-relations/$NAME"
-export TRAIN_FILE_ROOT="/iesl/canvas/tmartin/torchCode/"
-export TRAIN_FILE="newData.torch"
+#export TRAIN_FILE_ROOT="/iesl/canvas/tmartin/torchCode/"
+export TRAIN_FILE_ROOT="$TH_RELEX_ROOT/"
+#export TRAIN_FILE="newData.torch"
+export TRAIN_FILE="rel-rel-train-data.torch"
 
 export VOCAB="${TH_RELEX_ROOT}/vocabs/pool-relations/center-no-log.fixed-5mil-subset-tokens.txt"
 export TAC_YEAR="2012"
+
+export TRAINED_REL="${TH_RELEX_ROOT}/models/pool-relations/mean-pool/2016-02-04_17/14-cols"
 
 export BATCH_SIZE=128
 export LEARN_RATE=.0001
