@@ -18,8 +18,8 @@ export ROW_DIM=100
 export COL_DIM=100
 export TOKEN_DIM=100
 export MAX_SEQ=20
-export MAX_EPOCHS=15
-export EVAL_FREQ=3
+export MAX_EPOCHS=5
+export EVAL_FREQ=1
 export DROPOUT=.1
 
 export BI_DIRECTIONAL="add"
