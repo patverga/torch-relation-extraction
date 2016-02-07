@@ -1,5 +1,5 @@
 export MODEL=UniversalSchema
-export NAME="mean-pool-tied"
+export NAME="mean-pool-tied-200d"
 
 export SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/both-relations/$NAME"
 export TRAIN_FILE_ROOT="$TH_RELEX_ROOT/training-data/both-relations/"
