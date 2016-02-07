@@ -71,6 +71,10 @@ elseif params.modelType == 'joint' then
     require 'UniversalSchemaJointEncoder'
     model = UniversalSchemaJointEncoder(params, row_table, row_encoder, col_table, col_encoder, false)
 
+elseif params.modelType == 'transE' then -- standard uschema with entity pair vectors
+    require 'TransEEncoder2'
+    model = TransEEncoder2(params, row_table, row_encoder, col_table, col_encoder, false)
+
 elseif params.attention ~= '' then
     require 'UniversalSchemaAttention'
     model = UniversalSchemaAttention(params, row_table, row_encoder, col_table, col_encoder, false)

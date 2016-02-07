@@ -1,4 +1,3 @@
-
 local EncoderFactory = torch.class('EncoderFactory')
 
 
@@ -94,8 +93,8 @@ function EncoderFactory:cnn_encoder(params, load_embeddings, vocab_size, embeddi
     if params.dropout > 0.0 then
         encoder:add(nn.Dropout(params.dropout))
     end
-    if (params.convWidth > 1) then encoder:add(nn.Padding(1,1,-1)) end
-    if (params.convWidth > 2) then encoder:add(nn.Padding(1,-1,-1)) end
+    if (params.convWidth > 1) then encoder:add(nn.Padding(1, 1, -1)) end
+    if (params.convWidth > 2) then encoder:add(nn.Padding(1, -1, -1)) end
     encoder:add(nn.TemporalConvolution(input_dim, output_dim, params.convWidth))
     encoder:add(nn.Tanh())
     local pool_layer = params.poolLayer ~= '' and params.poolLayer or 'Max'
@@ -116,11 +115,17 @@ function EncoderFactory:we_avg_encoder(params, load_embeddings, vocab_size, embe
     return encoder, lookup_table
 end
 
+function EncoderFactory:lookup_table_split(params, load_embeddings, vocab_size, embedding_dim)
+    local dim = params.tokenDim > 0 and params.tokenDim or embedding_dim
+    local lookup_table = self:build_lookup_table(params, load_embeddings, vocab_size, dim)
+    local encoder = nn.Sequential():add(lookup_table):add(nn.SplitTable(2,embedding_dim))
+    return encoder, lookup_table
+end
+
 function EncoderFactory:lstm_joint_encoder(params)
     local text_encoder, _ = self:lstm_encoder(params)
     local kb_encoder, _ = self:lookup_table_encoder(params)
     return text_encoder, kb_encoder
-
 end
 
 function EncoderFactory:relation_pool_encoder(params, sub_encoder)
@@ -132,9 +137,9 @@ function EncoderFactory:relation_pool_encoder(params, sub_encoder)
         encoder = nn.EncoderPool(sub_encoder, nn.Identity())
     elseif params.relationPool == 'conv-max' then
         encoder = nn.Sequential():add(nn.EncoderPool(sub_encoder, nn.Identity()))
-        :add(nn.TemporalConvolution(params.colDim, params.colDim, 1)):add(nn.Max(2))
+            :add(nn.TemporalConvolution(params.colDim, params.colDim, 1)):add(nn.Max(2))
     else
-        print ('valid options for relationPool are Mean and Max')
+        print('valid options for relationPool are Mean and Max')
         os.exit()
     end
     return encoder
@@ -146,28 +151,32 @@ function EncoderFactory:build_encoder(params, encoder_type, load_embeddings, voc
     local encoder, table
 
     -- lstm encoder
-   if encoder_type == 'lstm' then
+    if encoder_type == 'lstm' then
         encoder, table = self:lstm_encoder(params, load_embeddings, vocab_size, embedding_dim)
 
-    -- conv net
+        -- conv net
     elseif encoder_type == 'cnn' then
         encoder, table = self:cnn_encoder(params, load_embeddings, vocab_size, embedding_dim)
 
-    -- simple token averaging
+        -- simple token averaging
     elseif encoder_type == 'we-avg' then
         encoder, table = self:we_avg_encoder(params, load_embeddings, vocab_size, embedding_dim)
 
-    -- lstm for text, lookup-table for kb relations
+        -- lstm for text, lookup-table for kb relations
     elseif encoder_type == 'lstm-joint' then
         encoder, table = self:lstm_joint_encoder(params, load_embeddings, vocab_size, embedding_dim)
 
-    -- lookup table (vector per relation)
+        -- lookup table for transe
+    elseif encoder_type == 'lookup-table-split' then
+        encoder, table = self:lookup_table_split(params, load_embeddings, vocab_size, embedding_dim)
+
+        -- lookup table (vector per relation)
     elseif encoder_type == 'lookup-table' then
         local lookup_table = self:build_lookup_table(params, load_embeddings, vocab_size, embedding_dim)
         encoder, table = lookup_table, lookup_table
     else
         print('Must supply option to encoder. ' ..
-        'Valid options are: lstm, cnn, we-avg, lstm-joint, lstm-relation-pool, and lookup-table')
+                'Valid options are: lstm, cnn, we-avg, lstm-joint, lstm-relation-pool, and lookup-table')
         os.exit()
     end
 

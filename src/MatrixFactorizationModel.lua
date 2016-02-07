@@ -49,7 +49,6 @@ function MatrixFactorizationModel:__init(params, row_table, row_encoder, col_tab
     self:to_cuda(self.crit)
 end
 
-
 --- Utils ---
 
 function MatrixFactorizationModel:to_cuda(x) return self.params.gpuid >= 0 and x:cuda() or x:double() end

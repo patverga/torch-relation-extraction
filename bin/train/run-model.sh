@@ -45,6 +45,11 @@ fi
 if [ "$COMPOSITIONAL" ]; then
   RUN_CMD="$RUN_CMD -compositional"
 fi
+if [ "$CRITERION" ]; then
+  RUN_CMD="$RUN_CMD -criterion $CRITERION"
+fi
+
+
 
 if [ "$RELATION_POOL" ]; then
   RUN_CMD="$RUN_CMD -relationPool $RELATION_POOL"
