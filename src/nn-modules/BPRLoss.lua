@@ -3,8 +3,6 @@
 -- Date: 1/15/16
 --
 
-
-
 local BPRLoss, parent = torch.class('nn.BPRLoss', 'nn.Criterion')
 
 function BPRLoss:__init()

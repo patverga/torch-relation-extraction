@@ -17,7 +17,6 @@ grad = require 'autograd'
 grad.optimize(true) -- global
 
 
-
 local UniversalSchemaAttention, parent = torch.class('UniversalSchemaAttention', 'UniversalSchemaEncoder')
 
 

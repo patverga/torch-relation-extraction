@@ -104,12 +104,12 @@ function UniversalSchemaEncoder:gen_subdata_batches_three_col(data, sub_data, ba
     end
 end
 
-function UniversalSchemaEncoder:gen_neg(data, pos_batch, size, max_neg)
+function UniversalSchemaEncoder:gen_neg(data, pos_batch, neg_sample_count, max_neg)
     local neg_batch
     if max_neg == 0 then
-        neg_batch = pos_batch:clone():fill(1)
+        neg_batch = pos_batch:clone():fill(0)
     elseif self.params.rowEncoder == 'lookup-table' then
-        neg_batch = torch.rand(size):mul(max_neg):floor():add(1):view(pos_batch:size())
+        neg_batch = torch.rand(neg_sample_count):mul(max_neg):floor():add(1):view(pos_batch:size())
     else
         -- we want to draw a negative sample length weighted by how common that lenght is in our data
         if not self.sizes then
@@ -118,17 +118,17 @@ function UniversalSchemaEncoder:gen_neg(data, pos_batch, size, max_neg)
             self.sizes = torch.Tensor(sizes)
         end
         local neg_length = torch.multinomial(self.sizes, 1)[1]
-        while (not (data[neg_length] and data[neg_length].count) or data[neg_length].count < size) do
+        while (not (data[neg_length] and data[neg_length].count) or data[neg_length].count < neg_sample_count) do
             neg_length = torch.multinomial(self.sizes, 1)[1]
         end
 
         -- select 'size' random samples from the selected sequence length
         local rand_indices = {}
-        while #rand_indices < size do
+        while #rand_indices < neg_sample_count do
             table.insert(rand_indices, torch.rand(1):mul(data[neg_length].row:size(1)):floor():add(1)[1])
         end
         local rand_order = torch.LongTensor(rand_indices)
-        local batch_indices = rand_order:narrow(1, 1, size)
+        local batch_indices = rand_order:narrow(1, 1, neg_sample_count)
         neg_batch = data[neg_length].row_seq:index(1, batch_indices)
     end
     return neg_batch
@@ -140,6 +140,7 @@ function UniversalSchemaEncoder:optim_update(net, criterion, x, y, parameters, g
     local function fEval(parameters)
         if parameters ~= parameters then parameters:copy(parameters) end
         net:zeroGradParameters()
+
         local pred = net:forward(x)
         err = criterion:forward(pred, {})
         local df_do = criterion:backward(pred, {})

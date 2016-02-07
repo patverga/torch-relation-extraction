@@ -1,0 +1,26 @@
+export MODEL=UniversalSchema
+export NAME="no-log-lstms-shared_preload"
+
+export SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/both-encoder/$NAME"
+export TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/training-data/both-encoder/"
+export TRAIN_FILE="no-log_min5_normalized.en_max100"
+export TRAINED_REL="${TH_RELEX_ROOT}/models/lstm-bi-maxpool-paper/2016-01-25_21/14-rel-weights"
+
+export VOCAB="${TH_RELEX_ROOT}/vocabs/both-encoder/no-log_min5_normalized.en_max100-col-tokens.txt"
+export TAC_YEAR="2012"
+
+export BATCH_SIZE=128
+export LEARN_RATE=.0001
+export ROW_DIM=100
+export COL_DIM=100
+export TOKEN_DIM=100
+export MAX_SEQ=20
+export MAX_EPOCHS=15
+export EVAL_FREQ=3
+export DROPOUT=.1
+
+export BI_DIRECTIONAL="add"
+export POOL_LAYER=Max
+export COL_ENCODER="lstm"
+export ROW_ENCODER="lstm"
+export TIE_ENCODERS=true
