@@ -34,8 +34,7 @@ function PoolClassifier:process_file(vocab_map, dictionary)
                 local pad_tensor = torch.Tensor(1, 1, pad_length):fill(self.params.padIdx)
                 pattern_tensor = pattern_tensor:cat(pad_tensor)
             end
-            --TODO actually want this to use just the lstm part not the pool -- does this matter?
-            tac_tensor = tac_tensor:view(tac_tensor:size(1), 1, tac_tensor:size(2))
+            if #self.kb_encoder:findModules('nn.EncoderPool') > 0 then tac_tensor = tac_tensor:view(tac_tensor:size(1), 1, tac_tensor:size(2)) end
 
             if not self.ep_pattern_map[enitity_pair] then self.ep_count = self.ep_count+1; self.ep_pattern_map[enitity_pair] = {} end
             if not self.ep_pattern_map[enitity_pair][pattern] then self.ep_pattern_map[enitity_pair][pattern] = true end
