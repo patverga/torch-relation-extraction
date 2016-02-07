@@ -44,6 +44,10 @@ function UniversalSchemaEncoder:build_network(pos_row_encoder, col_encoder)
 
     -- need to do param sharing after tocuda
     pos_row_encoder:share(neg_row_encoder, 'weight', 'bias', 'gradWeight', 'gradBias')
+
+    require 'nn-modules/BPRLoss'
+    self.crit = nn.BPRLoss()
+
     return net
 end
 
@@ -137,12 +141,8 @@ function UniversalSchemaEncoder:optim_update(net, criterion, x, y, parameters, g
         if parameters ~= parameters then parameters:copy(parameters) end
         net:zeroGradParameters()
         local pred = net:forward(x)
-
-        local theta = pred[1] - pred[2]
-        local prob = theta:clone():fill(1):cdiv(torch.exp(-theta):add(1))
-        err = torch.log(prob):mean()
-        local step = (prob:clone():fill(1) - prob)
-        local df_do = { -step, step }
+        err = criterion:forward(pred, {})
+        local df_do = criterion:backward(pred, {})
         net:backward(x, df_do)
 
         if net.forget then net:forget() end
