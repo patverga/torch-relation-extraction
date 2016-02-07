@@ -44,10 +44,6 @@ function UniversalSchemaEncoder:build_network(pos_row_encoder, col_encoder)
 
     -- need to do param sharing after tocuda
     pos_row_encoder:share(neg_row_encoder, 'weight', 'bias', 'gradWeight', 'gradBias')
-
-    require 'nn-modules/BPRLoss'
-    self.crit = nn.BPRLoss()
-
     return net
 end
 
@@ -84,7 +80,7 @@ function UniversalSchemaEncoder:gen_subdata_batches_four_col(data, sub_data, bat
         local neg_ep_batch = self:to_cuda(self:gen_neg(data, pos_ep_batch, size, max_neg))
         local rel_batch = self.params.colEncoder == 'lookup-table' and sub_data.rel:index(1, batch_indices) or sub_data.seq:index(1, batch_indices)
         local batch = { pos_ep_batch, rel_batch, neg_ep_batch}
-        table.insert(batches, { data = batch, label = 1 })
+        table.insert(batches, { data = batch, label = self:to_cuda(torch.ones(size)) })
         start = start + size
     end
 end
@@ -99,7 +95,7 @@ function UniversalSchemaEncoder:gen_subdata_batches_three_col(data, sub_data, ba
         local neg_row_batch = self:to_cuda(self:gen_neg(data, pos_row_batch, size, max_neg))
         local col_batch = self.params.colEncoder == 'lookup-table' and sub_data.col:index(1, batch_indices) or sub_data.col_seq:index(1, batch_indices)
         local batch = { pos_row_batch, col_batch, neg_row_batch}
-        table.insert(batches, { data = batch, label = 1 })
+        table.insert(batches, { data = batch, label = self:to_cuda(torch.ones(size)) })
         start = start + size
     end
 end
@@ -142,8 +138,8 @@ function UniversalSchemaEncoder:optim_update(net, criterion, x, y, parameters, g
         net:zeroGradParameters()
 
         local pred = net:forward(x)
-        err = criterion:forward(pred, {})
-        local df_do = criterion:backward(pred, {})
+        err = criterion:forward(pred, y)
+        local df_do = criterion:backward(pred, y)
         net:backward(x, df_do)
 
         if net.forget then net:forget() end

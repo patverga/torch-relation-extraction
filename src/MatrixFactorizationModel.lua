@@ -35,6 +35,18 @@ function MatrixFactorizationModel:__init(params, row_table, row_encoder, col_tab
     self.col_table = col_table
     self.col_encoder = col_encoder
     self.row_encoder = row_encoder
+
+    -- set the criterion
+    if params.criterion == 'bpr' then
+        require 'nn-modules/BPRLoss'
+        self.crit = nn.BPRLoss()
+    elseif  params.criterion == 'hinge' then
+        self.crit = nn.MarginRankingCriterion(self.params.margin)
+    else
+        print('Must supply option to criterion. Valid options are: bpr and hinge')
+        os.exit()
+    end
+    self:to_cuda(self.crit)
 end
 
 

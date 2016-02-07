@@ -14,7 +14,7 @@ function BPRLoss:updateOutput(input, y)
     local theta = input[1] - input[2]
     self.output = self.output and self.output:resizeAs(theta) or theta:clone()
     self.output = self.output:fill(1):cdiv(torch.exp(-theta):add(1))
-    local err = torch.log(self.output):mean()
+    local err = torch.log(self.output):mean() * -1.0
     return err
 end
 
