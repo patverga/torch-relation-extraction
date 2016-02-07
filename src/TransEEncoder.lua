@@ -9,7 +9,6 @@ require 'UniversalSchemaEncoder'
 
 local TransEEncoder, parent = torch.class('TransEEncoder', 'UniversalSchemaEncoder')
 
-
 function TransEEncoder:build_network(pos_row_encoder, col_encoder)
     local neg_row_encoder = pos_row_encoder:clone()
 
@@ -33,7 +32,6 @@ function TransEEncoder:build_network(pos_row_encoder, col_encoder)
     local neg_e1_rel = nn.Sequential():add(nn.ConcatTable():add(neg_e1):add(rel:clone())):add(nn.CAddTable())
     local neg_select = nn.ConcatTable():add(neg_e1_rel):add(neg_e2)
     local neg_score = nn.Sequential():add(neg_select):add(nn.PairwiseDistance(self.params.p))
-
 
     -- add the parallel dot products together into one sequential network
     local net = nn.Sequential()
@@ -63,7 +61,7 @@ function TransEEncoder:score_subdata(sub_data)
         if self.params.rowEncoder == 'lookup-table' then row_batch = row_batch:view(row_batch:size(1), 1) end
         local encoded_rel = self.col_encoder(self:to_cuda(col_batch)):squeeze():clone()
         local encoded_ep = self.row_encoder(self:to_cuda(row_batch))
-        local score = nn.PairwiseDistance(self.params.p)({encoded_ep[1] + encoded_rel, encoded_ep[2]})
+        local score = self:to_cuda(nn.PairwiseDistance(self.params.p))({encoded_ep[1] + encoded_rel, encoded_ep[2]})
         table.insert(scores, score)
     end
     return scores, sub_data.label:view(sub_data.label:size(1))

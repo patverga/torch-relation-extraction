@@ -118,7 +118,7 @@ end
 function EncoderFactory:lookup_table_split(params, load_embeddings, vocab_size, embedding_dim)
     local dim = params.tokenDim > 0 and params.tokenDim or embedding_dim
     local lookup_table = self:build_lookup_table(params, load_embeddings, vocab_size, dim)
-    local encoder = nn.Sequential():add(lookup_table):add(nn.SplitTable(2,embedding_dim))
+    local encoder = nn.Sequential():add(lookup_table):add(nn.SplitTable(2, embedding_dim))
     return encoder, lookup_table
 end
 
@@ -166,7 +166,7 @@ function EncoderFactory:build_encoder(params, encoder_type, load_embeddings, voc
     elseif encoder_type == 'lstm-joint' then
         encoder, table = self:lstm_joint_encoder(params, load_embeddings, vocab_size, embedding_dim)
 
-        -- lookup table for transe
+        -- lookup table for transe and uschema entity
     elseif encoder_type == 'lookup-table-split' then
         encoder, table = self:lookup_table_split(params, load_embeddings, vocab_size, embedding_dim)
 
@@ -176,7 +176,7 @@ function EncoderFactory:build_encoder(params, encoder_type, load_embeddings, voc
         encoder, table = lookup_table, lookup_table
     else
         print('Must supply option to encoder. ' ..
-                'Valid options are: lstm, cnn, we-avg, lstm-joint, lstm-relation-pool, and lookup-table')
+                'Valid options are: lstm, cnn, we-avg, lstm-joint, lstm-relation-pool, lookup-table, and lookup-table-split')
         os.exit()
     end
 
