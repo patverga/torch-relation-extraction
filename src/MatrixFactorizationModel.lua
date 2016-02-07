@@ -230,7 +230,7 @@ end
 function MatrixFactorizationModel:save_model(epoch)
     if self.params.saveModel ~= '' then
         torch.save(self.params.saveModel .. '/' .. epoch .. '-model',
-            {net = self.net, col_encoder = self.col_encoder, col_table = self.col_table, row_table = self.row_table, opt_state = self.opt_state})
+            {net = self.net, col_encoder = self.col_encoder, col_table = self.col_table, row_encoder = self.row_encoder, row_table = self.row_table, opt_state = self.opt_state})
         self:tac_eval(self.params.saveModel .. '/' .. epoch, self.params.resultDir .. '/' .. epoch, self.params.evalArgs)
         torch.save(self.params.saveModel .. '/' .. epoch .. '-rows', self.params.gpuid >= 0 and self.row_table.weight:double() or self.row_table.weight)
         torch.save(self.params.saveModel .. '/' .. epoch .. '-cols', self.params.gpuid >= 0 and self.col_table.weight:double() or self.col_table.weight)
