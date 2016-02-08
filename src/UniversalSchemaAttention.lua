@@ -17,14 +17,17 @@ grad = require 'autograd'
 grad.optimize(true) -- global
 
 
-local UniversalSchemaAttention, parent = torch.class('UniversalSchemaAttention', 'UniversalSchemaEncoder')
+local UniversalSchemaAttentionDot, parent = torch.class('UniversalSchemaAttentionDot', 'UniversalSchemaEncoder')
+local UniversalSchemaAttentionMatrix, parent = torch.class('UniversalSchemaAttentionMatrix', 'UniversalSchemaEncoder')
+local UniversalSchemaMax, parent = torch.class('UniversalSchemaMax', 'UniversalSchemaEncoder')
+local UniversalSchemaTopK, parent = torch.class('UniversalSchemaTopK', 'UniversalSchemaEncoder')
 
 
-local auto_term_2 = function(input)
-    local cols = input[1]
-    local row = input[2]
-    local row_matrix = torch.expand(row, cols:size())
-    return row_matrix
+local expand_as = function(input)
+    local target_tensor = input[1]
+    local orig_tensor = input[2]
+    local expanded_tensor = torch.expand(orig_tensor, target_tensor:size())
+    return expanded_tensor
 end
 
 local function make_attention(y_idx, hn_idx, dim)
@@ -33,7 +36,7 @@ local function make_attention(y_idx, hn_idx, dim)
         :add(nn.ConcatTable()
             :add(nn.SelectTable(y_idx))
             :add(nn.Sequential():add(nn.SelectTable(hn_idx)):add(nn.View(-1, 1, dim))))
-        :add(grad.nn.AutoModule('AutoTerm2')(auto_term_2)):add(nn.TemporalConvolution(dim, dim, 1))
+        :add(grad.nn.AutoModule('AutoExpandAs')(expand_as)):add(nn.TemporalConvolution(dim, dim, 1))
     local concat = nn.ConcatTable():add(term_1):add(term_2)
     local M = nn.Sequential():add(concat):add(nn.CAddTable()):add(nn.Tanh())
     local alpha = nn.Sequential()
@@ -44,46 +47,71 @@ local function make_attention(y_idx, hn_idx, dim)
     return r
 end
 
-function UniversalSchemaAttention:build_network(pos_row_encoder, col_encoder)
-    local neg_row_encoder = pos_row_encoder:clone()
-
-    -- load the eps and rel
-    local loading_par_table = nn.ParallelTable()
-    loading_par_table:add(pos_row_encoder)
-    loading_par_table:add(col_encoder)
-    loading_par_table:add(neg_row_encoder)
-
-    local pos_score, neg_score
-    if self.params.attention == 'dot' then
-        local pos_concat = nn.ConcatTable()
-            :add(make_attention(2, 1, self.params.colDim))
-            :add(nn.SelectTable(1))
-        pos_score = nn.Sequential():add(pos_concat):add(nn.CMulTable()):add(nn.Sum(2))
-
-        local neg_concat = nn.ConcatTable()
-            :add(make_attention(2, 3, self.params.colDim))
-            :add(nn.SelectTable(3))
-        neg_score = nn.Sequential():add(neg_concat):add(nn.CMulTable()):add(nn.Sum(2))
-    else
-        pos_score = nn.Sequential():add(make_attention(2, 1, self.params.colDim)):add(nn.TemporalConvolution(self.params.colDim, 1, 1))
-        neg_score = nn.Sequential():add(make_attention(2, 3, self.params.colDim)):add(nn.TemporalConvolution(self.params.colDim, 1, 1))
-    end
-
-    -- add the parallel dot products together into one sequential network
-    local net = nn.Sequential()
-    net:add(loading_par_table)
-    local concat_table = nn.ConcatTable()
-    concat_table:add(pos_score)
-    concat_table:add(neg_score)
-    net:add(concat_table)
-
-    -- put the networks on cuda
-    self:to_cuda(net)
-
-    -- need to do param sharing after tocuda
-    pos_row_encoder:share(neg_row_encoder, 'weight', 'bias', 'gradWeight', 'gradBias')
-    return net
+-- given a row and a set of columns, return the maximum dot product between the row and any column
+local function score_all_relations(row_idx, col_idx, dim)
+    return
+    nn.Sequential()
+    :add(nn.ConcatTable()
+        :add(nn.Sequential()
+            :add(nn.ConcatTable()
+                :add(nn.SelectTable(col_idx))
+                :add(nn.Sequential():add(nn.SelectTable(row_idx)):add(nn.View(-1, 1, dim))))
+            :add(grad.nn.AutoModule('AutoExpandAs')(expand_as)))
+    :add(nn.SelectTable(col_idx)))
+    :add(nn.CMulTable()):add(nn.Sum(3))
 end
+
+local top_K = function(input)
+    local sorted, indices = torch.sort(input, 2, true)
+    local k = 1
+    local top = sorted:narrow(1,1,k)
+    local sum = torch.sum(top, 2)
+    local avg = torch.div(sum, k)
+    return avg
+end
+
+function UniversalSchemaAttentionDot:build_scorer()
+    local pos_score = nn.Sequential()
+            :add(nn.ConcatTable()
+            :add(make_attention(2, 1, self.params.colDim))
+            :add(nn.SelectTable(1)))
+            :add(nn.CMulTable()):add(nn.Sum(2))
+    local neg_score = nn.Sequential()
+            :add(nn.ConcatTable()
+            :add(make_attention(2, 3, self.params.colDim))
+            :add(nn.SelectTable(3)))
+            :add(nn.CMulTable()):add(nn.Sum(2))
+
+    local score_table = nn.ConcatTable()
+        :add(pos_score):add(neg_score)
+    return score_table
+end
+
+function UniversalSchemaAttentionMatrix:build_scorer()
+    local pos_score = nn.Sequential():add(make_attention(2, 1, self.params.colDim)):add(nn.TemporalConvolution(self.params.colDim, 1, 1))
+    local neg_score = nn.Sequential():add(make_attention(2, 3, self.params.colDim)):add(nn.TemporalConvolution(self.params.colDim, 1, 1))
+    local score_table = nn.ConcatTable()
+        :add(pos_score):add(neg_score)
+    return score_table
+end
+
+
+function UniversalSchemaMax:build_scorer()
+    local pos_score = score_all_relations(1, 2, self.params.colDim):add(nn.Max(2))
+    local neg_score = score_all_relations(3, 2, self.params.colDim):add(nn.Max(2))
+    local score_table = nn.ConcatTable()
+        :add(pos_score):add(neg_score)
+    return score_table
+end
+
+function UniversalSchemaTopK:build_scorer()
+    local pos_score = score_all_relations(1, 2, self.params.colDim):add(grad.nn.AutoModule('AutoTopK')(top_K))
+    local neg_score = score_all_relations(3, 2, self.params.colDim):add(grad.nn.AutoModule('AutoTopK')(top_K))
+    local score_table = nn.ConcatTable()
+        :add(pos_score):add(neg_score)
+    return score_table
+end
+
 
 
 ----- Evaluate ----

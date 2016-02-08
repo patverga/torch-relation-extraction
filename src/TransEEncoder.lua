@@ -9,15 +9,7 @@ require 'UniversalSchemaEncoder'
 
 local TransEEncoder, parent = torch.class('TransEEncoder', 'UniversalSchemaEncoder')
 
-function TransEEncoder:build_network(pos_row_encoder, col_encoder)
-    local neg_row_encoder = pos_row_encoder:clone()
-
-    -- load the eps and rel
-    local loading_par_table = nn.ParallelTable()
-    loading_par_table:add(pos_row_encoder)
-    loading_par_table:add(col_encoder)
-    loading_par_table:add(neg_row_encoder)
-
+function TransEEncoder:build_scorer()
     -- layers to compute score for the positive and negative samples
     local rel = nn.SelectTable(2)
 
@@ -33,20 +25,10 @@ function TransEEncoder:build_network(pos_row_encoder, col_encoder)
     local neg_select = nn.ConcatTable():add(neg_e1_rel):add(neg_e2)
     local neg_score = nn.Sequential():add(neg_select):add(nn.PairwiseDistance(self.params.p))
 
-    -- add the parallel dot products together into one sequential network
-    local net = nn.Sequential()
-    net:add(loading_par_table)
-    local concat_table = nn.ConcatTable()
-    concat_table:add(pos_score)
-    concat_table:add(neg_score)
-    net:add(concat_table)
+    local score_table = nn.ConcatTable()
+        :add(pos_score):add(neg_score)
 
-    -- put the networks on cuda
-    self:to_cuda(net)
-
-    -- need to do param sharing after tocuda
-    pos_row_encoder:share(neg_row_encoder, 'weight', 'bias', 'gradWeight', 'gradBias')
-    return net
+    return score_table
 end
 
 function TransEEncoder:score_subdata(sub_data)

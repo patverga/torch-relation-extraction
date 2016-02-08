@@ -11,6 +11,19 @@ require 'MatrixFactorizationModel'
 
 local UniversalSchemaEncoder, parent = torch.class('UniversalSchemaEncoder', 'MatrixFactorizationModel')
 
+--[[ a function that takes the the output of {pos_row_encoder, col_encoder, neg_row_encoder}
+    and returns {pos score, neg score} ]]--
+-- layers to compute the dot prduct of the positive and negative samples
+function UniversalSchemaEncoder:build_scorer()
+    local pos_score = nn.Sequential()
+        :add(nn.NarrowTable(1, 2)):add(nn.CMulTable()):add(nn.Sum(2))
+    local neg_score = nn.Sequential()
+        :add(nn.NarrowTable(2, 2)):add(nn.CMulTable()):add(nn.Sum(2))
+    local score_table = nn.ConcatTable()
+        :add(pos_score):add(neg_score)
+    return score_table
+end
+
 function UniversalSchemaEncoder:build_network(pos_row_encoder, col_encoder)
     local neg_row_encoder = pos_row_encoder:clone()
 
@@ -20,24 +33,10 @@ function UniversalSchemaEncoder:build_network(pos_row_encoder, col_encoder)
     loading_par_table:add(col_encoder)
     loading_par_table:add(neg_row_encoder)
 
-    -- layers to compute the dot prduct of the positive and negative samples
-    local pos_dot = nn.Sequential()
-    pos_dot:add(nn.NarrowTable(1, 2))
-    pos_dot:add(nn.CMulTable())
-    pos_dot:add(nn.Sum(2))
-
-    local neg_dot = nn.Sequential()
-    neg_dot:add(nn.NarrowTable(2, 2))
-    neg_dot:add(nn.CMulTable())
-    neg_dot:add(nn.Sum(2))
-
     -- add the parallel dot products together into one sequential network
     local net = nn.Sequential()
-    net:add(loading_par_table)
-    local concat_table = nn.ConcatTable()
-    concat_table:add(pos_dot)
-    concat_table:add(neg_dot)
-    net:add(concat_table)
+        :add(loading_par_table)
+        :add(self:build_scorer())
 
     -- put the networks on cuda
     self:to_cuda(net)

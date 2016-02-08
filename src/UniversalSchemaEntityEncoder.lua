@@ -10,15 +10,7 @@ require 'UniversalSchemaEncoder'
 
 local UniversalSchemaEntityEncoder, parent = torch.class('UniversalSchemaEntityEncoder', 'UniversalSchemaEncoder')
 
-function UniversalSchemaEntityEncoder:build_network(pos_row_encoder, col_encoder)
-    local neg_row_encoder = pos_row_encoder:clone()
-
-    -- load the eps and rel
-    local loading_par_table = nn.ParallelTable()
-    loading_par_table:add(pos_row_encoder)
-    loading_par_table:add(col_encoder)
-    loading_par_table:add(neg_row_encoder)
-
+function UniversalSchemaEntityEncoder:build_scorer()
     local rel = nn.SelectTable(2)
 
     local pos_e1 = nn.Sequential():add(nn.SelectTable(1)):add(nn.SelectTable(1))
@@ -32,31 +24,18 @@ function UniversalSchemaEntityEncoder:build_network(pos_row_encoder, col_encoder
     local neg_ep_rel = nn.ConcatTable():add(rel:clone()):add(neg_ep)
 
     -- layers to compute the dot prduct of the positive and negative samples
-    local pos_dot = nn.Sequential()
-    pos_dot:add(pos_ep_rel)
-    pos_dot:add(nn.CMulTable())
-    pos_dot:add(nn.Sum(2))
+    local pos_score = nn.Sequential()
+        :add(pos_ep_rel):add(nn.CMulTable()):add(nn.Sum(2))
 
-    local neg_dot = nn.Sequential()
-    neg_dot:add(neg_ep_rel)
-    neg_dot:add(nn.CMulTable())
-    neg_dot:add(nn.Sum(2))
+    local neg_score = nn.Sequential()
+        :add(neg_ep_rel):add(nn.CMulTable()):add(nn.Sum(2))
 
-    -- add the parallel dot products together into one sequential network
-    local net = nn.Sequential()
-    net:add(loading_par_table)
-    local concat_table = nn.ConcatTable()
-    concat_table:add(pos_dot)
-    concat_table:add(neg_dot)
-    net:add(concat_table)
+    local score_table = nn.ConcatTable()
+        :add(pos_score):add(neg_score)
 
-    -- put the networks on cuda
-    self:to_cuda(net)
-
-    -- need to do param sharing after tocuda
-    pos_row_encoder:share(neg_row_encoder, 'weight', 'bias', 'gradWeight', 'gradBias')
-    return net
+    return score_table
 end
+
 
 function UniversalSchemaEntityEncoder:score_subdata(sub_data)
     local batches = {}

@@ -23,4 +23,4 @@ export BI_DIRECTIONAL="add"
 export POOL_LAYER=Max
 export COL_ENCODER="lstm"
 export RELATION_POOL="Identity"
-export ATTENTION="dot"
+export MODEL_TYPE="attention-dot"

@@ -8,6 +8,11 @@ package.path = package.path .. ";src/?.lua"
 require 'CmdArgs'
 require 'EncoderFactory'
 require 'rnn'
+require 'UniversalSchemaEncoder'
+require 'UniversalSchemaAttention'
+require 'UniversalSchemaEntityEncoder'
+require 'UniversalSchemaJointEncoder'
+require 'TransEEncoder'
 
 local params = CmdArgs:parse(arg)
 -- use relation vectors instead of word embeddings
@@ -63,24 +68,29 @@ end
 local model
 -- learn vectors for each entity rather than entity pair
 if params.modelType == 'entity' then
-    require 'UniversalSchemaEntityEncoder'
     model = UniversalSchemaEntityEncoder(params, row_table, row_encoder, col_table, col_encoder, true)
 
 -- use a lookup table for kb relations and encoder for text patterns (entity pair vectors)
 elseif params.modelType == 'joint' then
-    require 'UniversalSchemaJointEncoder'
     model = UniversalSchemaJointEncoder(params, row_table, row_encoder, col_table, col_encoder, false)
 
 elseif params.modelType == 'transE' then -- standard uschema with entity pair vectors
-    require 'TransEEncoder'
     model = TransEEncoder(params, row_table, row_encoder, col_table, col_encoder, false)
 
-elseif params.attention ~= '' then
-    require 'UniversalSchemaAttention'
-    model = UniversalSchemaAttention(params, row_table, row_encoder, col_table, col_encoder, false)
+elseif params.modelType == 'max' then
+    model = UniversalSchemaMax(params, row_table, row_encoder, col_table, col_encoder, false)
+
+    -- TODO figure out how to do this with autograd
+--elseif params.modelType == 'topK' then
+--    model = UniversalSchemaTopK(params, row_table, row_encoder, col_table, col_encoder, false)
+
+elseif params.modelType == 'attention-dot' then
+    model = UniversalSchemaAttentionDot(params, row_table, row_encoder, col_table, col_encoder, false)
+
+elseif params.modelType == 'attention-matrix' then
+    model = UniversalSchemaAttentionMatrix(params, row_table, row_encoder, col_table, col_encoder, false)
 
 else -- standard uschema with entity pair vectors
-    require 'UniversalSchemaEncoder'
     model = UniversalSchemaEncoder(params, row_table, row_encoder, col_table, col_encoder, false)
 end
 

@@ -49,15 +49,9 @@ if [ "$CRITERION" ]; then
   RUN_CMD="$RUN_CMD -criterion $CRITERION"
 fi
 
-
-
 if [ "$RELATION_POOL" ]; then
   RUN_CMD="$RUN_CMD -relationPool $RELATION_POOL"
 fi
-if [ "$ATTENTION" ]; then
-  RUN_CMD="$RUN_CMD -attention $ATTENTION"
-fi
-
 
 if [ "$DROPOUT" ]; then
   RUN_CMD="$RUN_CMD -dropout $DROPOUT"
