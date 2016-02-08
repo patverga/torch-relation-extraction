@@ -7,7 +7,7 @@ ARGS=${@:3}
 
 source ${TH_RELEX_ROOT}/${CONFIG}
 
-export DATE=`date +'%Y-%m-%d_%k'`
+export DATE=`date +'%Y-%m-%d_%H'`
 export SAVE="${SAVE_MODEL_ROOT}/$DATE"
 mkdir -p ${SAVE}
 # save a copy of the config in the model dir
