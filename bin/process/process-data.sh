@@ -9,14 +9,24 @@
 
 MIN_COUNT=0
 MAX_SEQ=9999999
-CHARS=""
 DOUBLE_VOCAB=""
 CUR_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+
+HELP_MSG=`echo "./process-data.sh -i in_file -o out_file"$'\n' \
+  "[-m min token count - below this threshold replaced with unk]"$'\n' \
+  "[-p pool all relations for each entity pair] [-s max seq length to consider] "$'\n' \
+  "[-c character tokens instead of whitespace delimited] [-l load_vocab] "$'\n' \
+  "[-v save vocab] [-d seperate vocab for (arg1 rel arg2) and (arg2 rel arg1) triples]"$'\n' \
+  "[-n normalize digits to -> #] [-g single vocab for rows and cols]"$'\n' \
+  "[-b three column format] [-r reset column vocab but not rows]"$'\n' \
+  "[-x convert from ep-rel pool to rel-rel pool]"
+  `
+
 
 PY_FILE="$CUR_DIR/StringFile2IntFile.py"
 TORCH_FILE="$CUR_DIR/IntFile2Torch.lua"
 
-while getopts i:o:v:m:l:s:pbcdrng opt; do
+while getopts i:o:v:m:l:s:pbcdrnghx opt; do
   case $opt in
   i)
       IN_FILE=$OPTARG
@@ -48,7 +58,6 @@ while getopts i:o:v:m:l:s:pbcdrng opt; do
       TORCH_CMD="$TORCH_CMD -maxSeq ${MAX_SEQ}"
       ;;
   c)
-      CHARS="true"
       PY_CMD="$PY_CMD -c"
       ;;
   d)
@@ -67,11 +76,16 @@ while getopts i:o:v:m:l:s:pbcdrng opt; do
       ;;
   p)
       TORCH_FILE="$CUR_DIR/IntFile2PoolRelationsTorch.lua"
-#      TORCH_FILE="$CUR_DIR/BothEncoderIntFile2PoolRelationsTorch.lua"
       ;;
   b)
       PY_FILE="$CUR_DIR/BothEncoderStringFile2IntFile.py"
       TORCH_FILE="$CUR_DIR/BothEncoderIntFile2Torch.lua"
+      ;;
+  x)
+      REL_REL_CONVERT="true" ;;
+  h)
+      echo ${HELP_MSG}
+      exit 1
       ;;
   esac
 done
@@ -80,8 +94,7 @@ shift $((OPTIND - 1))
 
 if [[ -z "$IN_FILE" || -z "$OUT_FILE" ]]
 then
-  echo "Not enough input args : ./process-data.sh -i IN_FILE -o OUT_FILE [-m MIN_COUNT] [-p POOL_RELATIONS] \
-  [-s MAX_SEQ_LEN] [-c CHAR TOKENIZE] [-l LOAD VOCAB] [-v SAVE VOCAB] [-d DOUBLE VOCAB] [-n NUMBERS -> #]"
+  echo "Must supply input and output files"$'\n'"${HELP_MSG}"
   exit 1
 fi
 
@@ -96,3 +109,9 @@ python ${PY_FILE} ${PY_CMD}
 echo "Converting int file to torch tensors"
 echo "${TORCH_FILE} ${TORCH_CMD}"
 th ${TORCH_FILE} ${TORCH_CMD}
+
+
+if [[ $REL_REL_CONVERT ]]
+then
+    th ${CUR_DIR}/PooledEPRel2RelRel.lua -inFile ${OUT_FILE} -outFile ${OUT_FILE}-rel-rel
+fi

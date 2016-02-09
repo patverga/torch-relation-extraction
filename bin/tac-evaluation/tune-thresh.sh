@@ -39,5 +39,6 @@ done
 
 echo "Tuning per Relation and exporting best params to $OUT"
 TAC_SCRIPTS=${TH_RELEX_ROOT}/bin/tac-evaluation/eval-scripts
-${TAC_SCRIPTS}/tunej.sh ${KEY} ${SCORE_SCRIPT} ${PRED_ROOT} ${OUT} ${THRESHOLDS} | grep -e F1 -e Tuning
+${TAC_SCRIPTS}/tunej.sh ${KEY} ${SCORE_SCRIPT} ${PRED_ROOT} ${OUT} ${THRESHOLDS} | grep -e " F1" -e Tuning
 rm -rf ${TMP_DIR}
+echo "Done"
