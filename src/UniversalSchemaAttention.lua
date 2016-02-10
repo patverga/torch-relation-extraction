@@ -116,23 +116,18 @@ end
 
 ----- Evaluate ----
 
---function UniversalSchemaAttention:score_subdata(sub_data)
---    local batches = {}
---    if sub_data.ep then self:gen_subdata_batches_four_col(sub_data, sub_data, batches, 0, false)
---    else self:gen_subdata_batches_three_col(sub_data, sub_data, batches, 0, false) end
---
---    local scores = {}
---    for i = 1, #batches do
---        local row_batch, col_batch, _ = unpack(batches[i].data)
---        if self.params.colEncoder == 'lookup-table' then col_batch = col_batch:view(col_batch:size(1), 1) end
---        if self.params.rowEncoder == 'lookup-table' then row_batch = row_batch:view(row_batch:size(1), 1) end
---        local encoded_rel = self.col_encoder(self:to_cuda(col_batch)):squeeze():clone()
---        local encoded_ent = self.row_encoder(self:to_cuda(row_batch)):squeeze()
---        local x = { encoded_rel, encoded_ent }
---        local score = self.cosine(x):double()
---        table.insert(scores, score)
---    end
---
---    return scores, sub_data.label:view(sub_data.label:size(1))
---end
+function UniversalSchemaMax:score_subdata(sub_data)
+    local batches = {}
+    if sub_data.ep then self:gen_subdata_batches_four_col(sub_data, sub_data, batches, 0, false)
+    else self:gen_subdata_batches_three_col(sub_data, sub_data, batches, 0, false) end
+
+    local scores = {}
+    for i = 1, #batches do
+        local row_batch, col_batch, _ = unpack(batches[i].data)
+        local score = self.net({row_batch, col_batch, row_batch})
+        table.insert(scores, score)
+    end
+
+    return scores, sub_data.label:view(sub_data.label:size(1))
+end
 
