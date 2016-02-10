@@ -148,7 +148,9 @@ def main(argv):
     if reset_tokens or not load_vocab_file:
         filtered_tokens = {token: count for token, count in token_counter.iteritems() if count > min_count}
         sorted_tokens = [token for token in sorted(filtered_tokens, key=filtered_tokens.get, reverse=True)]
-        token_map = {token: i + 2 for i, token in enumerate(sorted_tokens)}
+        token_map = {token: i + 3 for i, token in enumerate(sorted_tokens)}
+
+    token_map['<<UNK>>'] = 1; token_map['<<PAD>>'] = 2
 
     print 'Exporting processed lines to file'
     # export processed data

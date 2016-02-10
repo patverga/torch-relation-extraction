@@ -82,7 +82,9 @@ while getopts i:o:v:m:l:s:pbcdrnghx opt; do
       TORCH_FILE="$CUR_DIR/BothEncoderIntFile2Torch.lua"
       ;;
   x)
-      REL_REL_CONVERT="true" ;;
+      REL_REL_CONVERT="true"
+      TORCH_FILE="$CUR_DIR/IntFile2PoolRelationsTorch.lua"
+      ;;
   h)
       echo ${HELP_MSG}
       exit 1

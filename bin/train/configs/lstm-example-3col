@@ -1,5 +1,5 @@
 export MODEL=UniversalSchema
-export NAME="lstm-example"
+export NAME="lstm-example-3col"
 
 export SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/$NAME"
 export TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/data/new-format-sample-data"

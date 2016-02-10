@@ -65,14 +65,14 @@ for ep, rel_table in pairs(ep_rels) do
 end
 ep_rels = nil
 
-local data = { num_eps = max_ep, num_tokens = max_token+2, max_length = params.max_count }
+local data = { num_eps = max_ep, num_tokens = max_token, max_length = params.max_count }
 for i = 1, math.min(params.maxCount, max_count) do
     if rel_counts[i] then
         local epTensor = torch.Tensor(ep_counts[i])
         local seqTensor = join(rel_counts[i]):clone()
         -- set pad token to last index
         seqTensor = seqTensor:add(seqTensor:eq(0):double():mul(max_token+1))
-        data[i] = { ep = epTensor, seq = seqTensor, count = 0, num_eps = max_ep, num_tokens = max_token+2 }
+        data[i] = { ep = epTensor, seq = seqTensor, count = 0, num_eps = max_ep, num_tokens = max_token }
     end
 end
 
