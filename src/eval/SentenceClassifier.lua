@@ -17,15 +17,15 @@ require 'NoUnReverseBiSequencer'
 require 'WordDropout'
 require 'EncoderPool'
 
----- autograd
---grad = require 'autograd'
---grad.optimize(true) -- global
---auto_term_2 = function(input)
---    local cols = input[1]
---    local row = input[2]
---    local row_matrix = torch.expand(row, cols:size())
---    return row_matrix
---end
+grad = require 'autograd'
+grad.optimize(true) -- global
+
+local expand_as = function(input)
+    local target_tensor = input[1]
+    local orig_tensor = input[2]
+    local expanded_tensor = torch.expand(orig_tensor, target_tensor:size())
+    return expanded_tensor
+end
 
 local SentenceClassifier = torch.class('SentenceClassifier')
 
@@ -37,7 +37,8 @@ function SentenceClassifier:__init(params)
     local model = torch.load(self.params.model)
     self.kb_encoder = self:to_cuda(model.kb_col_table and model.kb_col_table or (model.row_encoder and model.row_encoder or (model.col_encoder and model.col_encoder or model.encoder)))
     self.text_encoder = self:to_cuda(model.text_encoder and model.text_encoder or (model.col_encoder and model.col_encoder or model.encoder))
-    self.kb_encoder:evaluate(); self.text_encoder:evaluate()
+    self.net = self:to_cuda(model.net)
+    self.net:evaluate(); self.kb_encoder:evaluate(); self.text_encoder:evaluate()
 
     self.in_vocab = 0
     self.out_vocab = 0

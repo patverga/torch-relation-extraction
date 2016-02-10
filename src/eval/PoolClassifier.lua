@@ -36,8 +36,10 @@ function PoolClassifier:process_file(vocab_map, dictionary)
             end
             if #self.kb_encoder:findModules('nn.EncoderPool') > 0 then tac_tensor = tac_tensor:view(tac_tensor:size(1), 1, tac_tensor:size(2)) end
 
+            -- map each entity pair to a list of the pattern strings we saw it with
             if not self.ep_pattern_map[enitity_pair] then self.ep_count = self.ep_count+1; self.ep_pattern_map[enitity_pair] = {} end
             if not self.ep_pattern_map[enitity_pair][pattern] then self.ep_pattern_map[enitity_pair][pattern] = true end
+            -- map each pattern string to its encoded vector
             if not self.pattern_tensor_map[pattern] then self.pattern_tensor_map[pattern] = pattern_tensor end
 
             max_seq = math.max(seq_len, max_seq)
@@ -62,24 +64,38 @@ function PoolClassifier:score_data(data, max_seq)
     local out_file = io.open(self.params.outFile, "w")
 
     local ep_num = 0
+    local out_file_scores = {}
+    local max_score = -10000
+    local min_score = 10000
     for ep, patterns in pairs(self.ep_pattern_map) do
         if ep_num % 10 == 0 then io.write('\rProcessing ep number ' .. ep_num .. ' of ' .. self.ep_count); io.flush() end
         local ep_data = data[ep]
         local ep_tensors_table = {}
         for pattern, _ in pairs(patterns) do table.insert(ep_tensors_table, self.pattern_tensor_map[pattern]) end
 
-        local all_tac_encoded = self.kb_encoder:forward(self:to_cuda(nn.JoinTable(1)(ep_data.tac_tensor))):clone()
+        -- join all the tac relation vectors we care about for this entity pair into a tensor
+        local all_tac_relations_tensor = self.kb_encoder:forward(self:to_cuda(nn.JoinTable(1)(ep_data.tac_tensor))):clone()
+        -- join all the patterns for this entity pair into a tensor
         local ep_tensor = nn.JoinTable(2)(ep_tensors_table)
-        local ep_encoded = self.text_encoder:forward(self:to_cuda(ep_tensor)):clone():expand(all_tac_encoded:size())
+        -- encode ep into a single vector
+        local ep_encoded = self.text_encoder:forward(self:to_cuda(ep_tensor)):clone()
+        if (ep_encoded:dim() < all_tac_relations_tensor:dim()) then ep_encoded = ep_encoded:view(ep_encoded:size(1), 1, ep_encoded:size(2)) end
+
 
         local out_lines = ep_data.out_line
-        local x = { all_tac_encoded, ep_encoded }
-        local scores = self:to_cuda(nn.CosineDistance())(x):double()
         for i = 1, #out_lines do
-            local score = math.max(self.params.threshold, scores[i])
-            out_file:write(out_lines[i] .. score .. '\n')
+            local x = {all_tac_relations_tensor:narrow(1,i,1), ep_encoded }
+            local score = self.net:get(2):get(1)(x)[1]
+            max_score = math.max(score, max_score)
+            min_score = math.min(score, min_score)
+            out_file_scores[out_lines[i]] = score
         end
         ep_num = ep_num + 1
     end
+    for out_line, score in pairs(out_file_scores) do
+        local normalized_score = (score - min_score) / (max_score - min_score)
+        out_file:write(out_line .. normalized_score .. '\n')
+    end
+
     out_file:close()
 end
