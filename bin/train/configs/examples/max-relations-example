@@ -6,24 +6,24 @@ export TRAIN_FILE_ROOT="$TH_RELEX_ROOT/data/new-format-sample-data/pooled"
 export TRAIN_FILE="pool-train-rel-rel"
 export TEST_FILE=`ls $TH_RELEX_ROOT/data/new-format-sample-data/pooled/test-mtx.torch/* | tr '\n' ','`
 
-export TRAINED_REL="${TH_RELEX_ROOT}/models/lstm-example-3col/2016-02-10_18/5-cols"
+export TRAINED_REL="${TH_RELEX_ROOT}/data/new-format-sample-data/pooled//5-cols"
 
 
-export BATCH_SIZE=16
+export BATCH_SIZE=64
 export LEARN_RATE=.0001
-export ROW_DIM=100
-export COL_DIM=100
-export TOKEN_DIM=100
+
 export MAX_SEQ=500
-export MAX_EPOCHS=5
-export EVAL_FREQ=1
+export MAX_EPOCHS=50
+export EVAL_FREQ=3
 export DROPOUT=.1
 
-export BI_DIRECTIONAL="add"
-export POOL_LAYER=Max
-export COL_ENCODER="lstm"
+export ROW_DIM=50
+export COL_DIM=50
+export TOKEN_DIM=100
 export ROW_ENCODER="lstm"
+export COL_ENCODER="lstm"
+
+
 export TIE_ENCODERS=true
 export RELATION_POOL="identity"
-
 export MODEL_TYPE="max"
