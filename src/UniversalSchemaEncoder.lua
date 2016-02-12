@@ -163,7 +163,7 @@ function UniversalSchemaEncoder:gen_subdata_batches_four_col(data, sub_data, bat
         local size = math.min(self.params.batchSize, sub_data.ep:size(1) - start + 1)
         local batch_indices = rand_order:narrow(1, start, size)
         local pos_ep_batch = sub_data.ep:index(1, batch_indices)
-        local neg_ep_batch = self:to_cuda(self:gen_neg(data, pos_ep_batch, size, max_neg))
+        local neg_ep_batch = self:gen_neg(data, pos_ep_batch, size, max_neg)
         local rel_batch = self.params.colEncoder == 'lookup-table' and sub_data.rel:index(1, batch_indices) or sub_data.seq:index(1, batch_indices)
         local batch = { pos_ep_batch, rel_batch, neg_ep_batch}
         table.insert(batches, { data = batch, label = self:to_cuda(torch.ones(size)) })
@@ -178,9 +178,9 @@ function UniversalSchemaEncoder:gen_subdata_batches_three_col(data, sub_data, ba
         local size = math.min(self.params.batchSize, sub_data.row:size(1) - start + 1)
         local batch_indices = rand_order:narrow(1, start, size)
         local pos_row_batch = self.params.rowEncoder == 'lookup-table' and sub_data.row:index(1, batch_indices) or sub_data.row_seq:index(1, batch_indices)
-        local neg_row_batch = self:to_cuda(self:gen_neg(data, pos_row_batch, size, max_neg))
+        local neg_row_batch = self:gen_neg(data, pos_row_batch, size, max_neg)
         local col_batch = self.params.colEncoder == 'lookup-table' and sub_data.col:index(1, batch_indices) or sub_data.col_seq:index(1, batch_indices)
-        local batch = { pos_row_batch, col_batch, neg_row_batch}
+        local batch = {pos_row_batch, col_batch, neg_row_batch}
         table.insert(batches, { data = batch, label = self:to_cuda(torch.ones(size)) })
         start = start + size
     end
@@ -320,7 +320,6 @@ function UniversalSchemaEncoder:score_subdata(sub_data)
     local batches = {}
     if sub_data.ep then self:gen_subdata_batches_four_col(sub_data, sub_data, batches, 0, false)
     else self:gen_subdata_batches_three_col(sub_data, sub_data, batches, 0, false) end
-
     local scores = {}
     for i = 1, #batches do
         local row_batch, col_batch, _ = unpack(batches[i].data)
@@ -355,47 +354,6 @@ end
 
 --- IO ----
 
-function UniversalSchemaEncoder:load_sub_data_four_col(sub_data, entities)
-    if entities then
-        if self.params.rowEncoder == 'lookup-table' then
-            sub_data.e1 = sub_data.e1:squeeze()
-            sub_data.e2 = sub_data.e2:squeeze()
-        end
-        --        sub_data.e1 = self:to_cuda(sub_data.e1)
-        --        sub_data.e2 = self:to_cuda(sub_data.e2)
-    else
-        if self.params.rowEncoder == 'lookup-table' then sub_data.ep = sub_data.ep:squeeze() end
-        --        sub_data.ep = self:to_cuda(sub_data.ep)
-    end
-    if self.params.colEncoder == 'lookup-table' then
-        sub_data.rel = sub_data.rel:squeeze()
-        --        sub_data.rel = self:to_cuda(sub_data.rel)
-    else
-        if sub_data.seq:dim() == 1 then sub_data.seq = sub_data.seq:view(sub_data.seq:size(1), 1) end
-        --        sub_data.seq = self:to_cuda(sub_data.seq)
-    end
-    return sub_data
-end
-
-function UniversalSchemaEncoder:load_sub_data_three_col(sub_data, entities)
-    if self.params.rowEncoder == 'lookup-table' then
-        sub_data.row = sub_data.row:squeeze()
-        --        sub_data.row = self:to_cuda(sub_data.row)
-    else
-        sub_data.row_seq = self:to_cuda(sub_data.row_seq)
-        if sub_data.row_seq:dim() == 1 then sub_data.row_seq = sub_data.row_seq:view(sub_data.row_seq:size(1), 1) end
-    end
-    if self.params.colEncoder == 'lookup-table' then
-        sub_data.col = sub_data.col:squeeze()
-        --        sub_data.col = self:to_cuda(sub_data.col)
-    else
-        --        sub_data.col_seq = self:to_cuda(sub_data.col_seq)
-        if sub_data.col_seq:dim() == 1 then sub_data.col_seq = sub_data.col_seq:view(sub_data.col_seq:size(1), 1) end
-    end
-    return sub_data
-end
-
-
 function UniversalSchemaEncoder:load_train_data(data_file, entities)
     local train = torch.load(data_file)
     -- new 3 col format
@@ -417,6 +375,45 @@ function UniversalSchemaEncoder:load_train_data(data_file, entities)
     end
     return train
 end
+
+function UniversalSchemaEncoder:load_sub_data_four_col(sub_data, entities)
+    if entities then
+        if self.params.rowEncoder == 'lookup-table' then
+            sub_data.e1 = sub_data.e1:squeeze()
+            sub_data.e2 = sub_data.e2:squeeze()
+        end
+    else
+        if self.params.rowEncoder == 'lookup-table' and sub_data.ep:dim() > 1 and sub_data.ep:size(1) > 1
+        then sub_data.ep = sub_data.ep:squeeze() end
+    end
+    if self.params.colEncoder == 'lookup-table' then
+        sub_data.rel = sub_data.rel:squeeze()
+    else
+        if sub_data.seq:dim() == 1 then sub_data.seq = sub_data.seq:view(sub_data.seq:size(1), 1) end
+    end
+    return sub_data
+end
+
+function UniversalSchemaEncoder:load_sub_data_three_col(sub_data, entities)
+    if self.params.rowEncoder == 'lookup-table' and sub_data.row:dim() > 1 and sub_data.row:size(1) > 1
+    then
+        sub_data.row = sub_data.row:squeeze()
+    else
+        sub_data.row_seq = self:to_cuda(sub_data.row_seq)
+        if sub_data.row_seq:dim() == 1 then sub_data.row_seq = sub_data.row_seq:view(sub_data.row_seq:size(1), 1) end
+    end
+    if self.params.colEncoder == 'lookup-table'  and sub_data.col:dim() > 1 and sub_data.col:size(1) > 1
+    then
+        sub_data.col = sub_data.col:squeeze()
+    else
+        if sub_data.col_seq:dim() == 1 then sub_data.col_seq = sub_data.col_seq:view(sub_data.col_seq:size(1), 1)
+        elseif self.params.modelType == 'max' and sub_data.col_seq:dim() == 2 then
+            sub_data.col_seq = sub_data.col_seq:view(sub_data.col_seq:size(1), 1, sub_data.col_seq:size(2))
+        end
+    end
+    return sub_data
+end
+
 
 function UniversalSchemaEncoder:save_model(epoch)
     if self.params.saveModel ~= '' then

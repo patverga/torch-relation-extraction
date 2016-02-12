@@ -17,10 +17,11 @@ grad = require 'autograd'
 grad.optimize(true) -- global
 
 
-local UniversalSchemaAttentionDot, parent = torch.class('UniversalSchemaAttentionDot', 'UniversalSchemaEncoder')
-local UniversalSchemaAttentionMatrix, parent = torch.class('UniversalSchemaAttentionMatrix', 'UniversalSchemaEncoder')
-local UniversalSchemaMax, parent = torch.class('UniversalSchemaMax', 'UniversalSchemaEncoder')
-local UniversalSchemaTopK, parent = torch.class('UniversalSchemaTopK', 'UniversalSchemaEncoder')
+local UniversalSchemaRelationPool, parent = torch.class('UniversalSchemaRelationPool', 'UniversalSchemaEncoder')
+local UniversalSchemaAttentionDot, parent = torch.class('UniversalSchemaAttentionDot', 'UniversalSchemaRelationPool')
+local UniversalSchemaAttentionMatrix, parent = torch.class('UniversalSchemaAttentionMatrix', 'UniversalSchemaRelationPool')
+local UniversalSchemaMax, parent = torch.class('UniversalSchemaMax', 'UniversalSchemaRelationPool')
+local UniversalSchemaTopK, parent = torch.class('UniversalSchemaTopK', 'UniversalSchemaRelationPool')
 
 
 local expand_as = function(input)
@@ -49,16 +50,15 @@ end
 
 -- given a row and a set of columns, return the maximum dot product between the row and any column
 local function score_all_relations(row_idx, col_idx, dim)
-    return
-    nn.Sequential()
-    :add(nn.ConcatTable()
-        :add(nn.Sequential()
-            :add(nn.ConcatTable()
-                :add(nn.SelectTable(col_idx))
-                :add(nn.Sequential():add(nn.SelectTable(row_idx)):add(nn.View(-1, 1, dim))))
-            :add(grad.nn.AutoModule('AutoExpandAs')(expand_as)))
-    :add(nn.SelectTable(col_idx)))
-    :add(nn.CMulTable()):add(nn.Sum(3))
+    return nn.Sequential()
+        :add(nn.ConcatTable()
+            :add(nn.Sequential()
+                :add(nn.ConcatTable()
+                    :add(nn.SelectTable(col_idx))
+                    :add(nn.Sequential():add(nn.SelectTable(row_idx)):add(nn.View(-1, 1, dim))))
+                :add(grad.nn.AutoModule('AutoExpandAs')(expand_as)))
+        :add(nn.SelectTable(col_idx)))
+        :add(nn.CMulTable()):add(nn.Sum(3))
 end
 
 local top_K = function(input)
@@ -116,7 +116,7 @@ end
 
 ----- Evaluate ----
 
-function UniversalSchemaMax:score_subdata(sub_data)
+function UniversalSchemaRelationPool:score_subdata(sub_data)
     local batches = {}
     if sub_data.ep then self:gen_subdata_batches_four_col(sub_data, sub_data, batches, 0, false)
     else self:gen_subdata_batches_three_col(sub_data, sub_data, batches, 0, false) end
@@ -124,10 +124,12 @@ function UniversalSchemaMax:score_subdata(sub_data)
     local scores = {}
     for i = 1, #batches do
         local row_batch, col_batch, _ = unpack(batches[i].data)
-        local score = self.net({row_batch, col_batch, row_batch})
+        local encoded_row = self.row_encoder(row_batch):clone()
+        local encoded_col = self.col_encoder(col_batch):clone()
+        local x = {encoded_row, encoded_col}
+        local score = self.net:get(2):get(1)(x):clone()
         table.insert(scores, score)
     end
 
     return scores, sub_data.label:view(sub_data.label:size(1))
 end
-

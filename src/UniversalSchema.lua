@@ -9,7 +9,7 @@ require 'CmdArgs'
 require 'EncoderFactory'
 require 'rnn'
 require 'UniversalSchemaEncoder'
-require 'UniversalSchemaAttention'
+require 'UniversalSchemaRelationPooling'
 require 'UniversalSchemaEntityEncoder'
 require 'UniversalSchemaJointEncoder'
 require 'TransEEncoder'
@@ -89,6 +89,9 @@ elseif params.modelType == 'attention-dot' then
 
 elseif params.modelType == 'attention-matrix' then
     model = UniversalSchemaAttentionMatrix(params, row_table, row_encoder, col_table, col_encoder, false)
+
+--elseif params.relationPool ~= '' then
+--    model = UniversalSchemaRelationPool(params, row_table, row_encoder, col_table, col_encoder, false)
 
 else -- standard uschema with entity pair vectors
     model = UniversalSchemaEncoder(params, row_table, row_encoder, col_table, col_encoder, false)
