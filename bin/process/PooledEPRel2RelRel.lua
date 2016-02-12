@@ -99,17 +99,14 @@ for k, v in pairs(d) do
         newV.col_seq = col_seq -- new RelObs in seq from ALL OTHER dimension of seq
         dNew.num_col_tokens = v.num_tokens
         dNew.num_row_tokens = v.num_tokens
-        newV.num_eps = v.num_eps
+        dNew.num_rows = v.num_eps
 
         dNew[k] = newV
     end
 end
 dNew.max_length = i
-print(dNew)
 
 -- SAVE FILE
 torch.save(params.outFile, dNew)
-
-print('restructureData end')
 
 

@@ -47,12 +47,10 @@ end
 print('couldnt map ' .. missing .. ' entity pairs')
 
 for len, data in pairs(mapped_data) do
-    mapped_data[len].label = nn.JoinTable(1)(data.label)
-    mapped_data[len].label = mapped_data[len].label:view(mapped_data[len].label:size(1), 1)
+    mapped_data[len].label = nn.JoinTable(1)(data.label):view(-1, 1)
     mapped_data[len].col_seq = nn.JoinTable(1)(data.col_seq)
-    mapped_data[len].row_seq = nn.JoinTable(1)(data.row_seq)
-    mapped_data[len].row_seq = mapped_data[len].row_seq:view(mapped_data[len].row_seq:size(1), 1)
-    mapped_data[len].row = torch.Tensor(mapped_data[len].row_seq:size(1))
+    mapped_data[len].row_seq = nn.JoinTable(1)(data.row_seq):view(-1, 1)
+    mapped_data[len].row = mapped_data[len].row_seq
     mapped_data[len].col = torch.Tensor(mapped_data[len].col_seq:size(1))
 end
 

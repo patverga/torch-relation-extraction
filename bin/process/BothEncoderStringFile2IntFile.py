@@ -152,9 +152,9 @@ def main(argv):
         row_token_counter = defaultdict(int)
 
     if merge_maps:
-        col_token_counter = row_token_counter
-        col_token_map = row_token_map
-        col_str_map = row_str_map
+        row_token_counter = col_token_counter
+        row_token_map = col_token_map
+        row_str_map = col_str_map
 
     # memory map all the data and return processed lines
     print 'Processing lines and getting token counts'
