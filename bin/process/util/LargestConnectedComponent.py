@@ -49,18 +49,19 @@ def main(argv):
     print 'Adding edges to graph'
     graph = nx.Graph()
     [process_line(cur_line, line_num, graph) for line_num, cur_line in enumerate(open(in_file, 'r'))]
-    print('\nInitial graph contains ' + str(len(graph.nodes())) + ' nodes, '
-          + str(len(graph.edges())) + ' edges')
+    print('\nInitial graph contains ' + str(graph.number_of_nodes()) + ' nodes, '
+          + str(graph.number_of_edges()) + ' edges')
 
     print 'Pruning nodes with degree < ' + str(min_degree_prune)
-    remove = [node for node, degree in graph.degree().items() if degree < min_degree_prune]
+    remove = [node for node in graph.nodes_iter() if graph.degree(node) < min_degree_prune]
+
     graph.remove_nodes_from(remove)
     print 'Pruned ' + str(len(remove)) + ' nodes'
 
     print 'Finding largest connected component'
     largest_component = max(nx.connected_component_subgraphs(graph), key=len)
-    print('Largest component contains ' + str(len(largest_component.nodes())) + ' nodes, '
-          + str(len(largest_component.edges())) + ' edges')
+    print('Largest component contains ' + str(largest_component.number_of_nodes()) + ' nodes, '
+          + str(largest_component.number_of_edges()) + ' edges')
 
     def export_line(line, l_num, f_out):
         if l_num % 100000 == 0:
