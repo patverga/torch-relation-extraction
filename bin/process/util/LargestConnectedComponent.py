@@ -34,24 +34,22 @@ def main(argv):
         elif opt in ("-a", "--already-int-mapped"):
             already_int_mapped = True
 
-    ep_map = {}
-    rel_map = {}
-
-    def process_line(line, g):
+    def process_line(line, l_num, g):
+        if l_num % 100000 == 0:
+            sys.stdout.write('\rline : ' + str(line_num / 1000) + 'k')
+            sys.stdout.flush()
         if already_int_mapped:
             e1, e2, ep, rel, tokens, label = line.strip().split('\t')
             g.add_edge(int(ep), int(rel) * -1)
         else:
             e1_str, e2_str, rel_str, label = line.strip().split('\t')
             ep_str = e1_str + '\t' + e2_str
-            ep_map.setdefault(ep_str, len(ep_map) + 1)
-            rel_map.setdefault(rel_str, (len(rel_map) + 1) * -1)
-            g.add_edge(ep_map[ep_str], rel_map[rel_str])
+            g.add_edge(ep_str, rel_str)
 
     print 'Adding edges to graph'
     graph = nx.Graph()
-    [process_line(cur_line, graph) for cur_line in open(in_file, 'r')]
-    print('Initial graph contains ' + str(len(graph.nodes())) + ' nodes, '
+    [process_line(cur_line, line_num, graph) for line_num, cur_line in enumerate(open(in_file, 'r'))]
+    print('\nInitial graph contains ' + str(len(graph.nodes())) + ' nodes, '
           + str(len(graph.edges())) + ' edges')
 
     print 'Pruning nodes with degree < ' + str(min_degree_prune)
@@ -64,7 +62,10 @@ def main(argv):
     print('Largest component contains ' + str(len(largest_component.nodes())) + ' nodes, '
           + str(len(largest_component.edges())) + ' edges')
 
-    def export_line(line, f_out):
+    def export_line(line, l_num, f_out):
+        if l_num % 100000 == 0:
+            sys.stdout.write('\rline : ' + str(line_num / 1000) + 'k')
+            sys.stdout.flush()
         if already_int_mapped:
             e1, e2, ep, rel, tokens, label = line.strip().split('\t')
             if largest_component.has_edge(int(ep), int(rel) * -1):
@@ -72,16 +73,16 @@ def main(argv):
         else:
             e1_str, e2_str, rel_str, label = line.strip().split('\t')
             ep_str = e1_str + '\t' + e2_str
-            if largest_component.has_edge(ep_map[ep_str], rel_map[rel_str]):
+            if largest_component.has_edge(ep_str, rel_str):
                 f_out.write(line)
 
     # we need to reconstruct the data from the original file -
     # to use less memory we didn't store the data but will iterate over it again
     print 'Exporting largest component to ' + out_file
     with open(out_file, 'w') as out:
-        [export_line(cur_line, out) for cur_line in open(in_file, 'r')]
+        [export_line(cur_line, line_num, out) for line_num, cur_line in enumerate(open(in_file, 'r'))]
 
-    print 'Done'
+    print '\nDone'
 
 
 if __name__ == "__main__":
