@@ -39,7 +39,8 @@ local col_encoder, col_table, row_encoder, row_table
 if params.tieEncoders then -- use the same encoder for columns and rows
     -- handle old and new data formats
     local vocab_size = train_data.num_rels and (params.colEncoder == 'lookup-table' and math.max(train_data.num_rels, train_data.num_eps) or train_data.num_tokens)
-    or (params.colEncoder == 'lookup-table' and math.max(train_data.num_cols, train_data.num_rows) or math.max(train_data.num_col_tokens, train_data.num_row_tokens))
+--    or (params.colEncoder == 'lookup-table' and math.max(train_data.num_cols, train_data.num_rows) or math.max(train_data.num_col_tokens, train_data.num_row_tokens))
+    or (params.colEncoder == 'lookup-table' and train_data.num_cols or math.max(train_data.num_col_tokens, train_data.num_row_tokens))
 
     col_encoder, col_table = get_encoder(params.colEncoder, vocab_size, params.colDim, params.loadColEncoder, params.loadColEmbeddings)
     row_encoder, row_table = col_encoder:clone(), col_table:clone()
@@ -80,6 +81,9 @@ elseif params.modelType == 'transE' then -- standard uschema with entity pair ve
 elseif params.modelType == 'max' then
     model = UniversalSchemaMax(params, row_table, row_encoder, col_table, col_encoder, false)
 
+elseif params.modelType == 'mean' then
+    model = UniversalSchemaMean(params, row_table, row_encoder, col_table, col_encoder, false)
+
     -- TODO figure out how to do this with autograd
 --elseif params.modelType == 'topK' then
 --    model = UniversalSchemaTopK(params, row_table, row_encoder, col_table, col_encoder, false)
@@ -98,5 +102,7 @@ else -- standard uschema with entity pair vectors
 end
 
 print(model.net)
-model:train()
-if params.saveModel ~= '' then  model:save_model(params.numEpochs) end
+if params.numEpochs > 0 then
+    model:train()
+    if params.saveModel ~= '' then  model:save_model(params.numEpochs) end
+else model:evaluate() end

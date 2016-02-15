@@ -44,6 +44,7 @@ cmd:option('-wordDropout', 0.0, 'word dropout rate')
 cmd:option('-layers', 1, 'number of rnn layers to use')
 cmd:option('-poolLayer', 'last', 'pool the outputs of each token from the lstm or convolution. valid choices are Mean and Max')
 cmd:option('-relationPool', '', 'Pool relations using this - valid choices are Mean and Max')
+cmd:option('-mlp', false, "add an mlp after the column and 'row' embeddings in the column only models")
 cmd:option('-nonLinearLayer', '', 'apply non-linearity before pool layer')
 
 

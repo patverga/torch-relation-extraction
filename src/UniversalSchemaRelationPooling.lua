@@ -20,6 +20,7 @@ grad.optimize(true) -- global
 local UniversalSchemaRelationPool, parent = torch.class('UniversalSchemaRelationPool', 'UniversalSchemaEncoder')
 local UniversalSchemaAttentionDot, parent = torch.class('UniversalSchemaAttentionDot', 'UniversalSchemaRelationPool')
 local UniversalSchemaAttentionMatrix, parent = torch.class('UniversalSchemaAttentionMatrix', 'UniversalSchemaRelationPool')
+local UniversalSchemaMean, parent = torch.class('UniversalSchemaMean', 'UniversalSchemaRelationPool')
 local UniversalSchemaMax, parent = torch.class('UniversalSchemaMax', 'UniversalSchemaRelationPool')
 local UniversalSchemaTopK, parent = torch.class('UniversalSchemaTopK', 'UniversalSchemaRelationPool')
 
@@ -49,16 +50,27 @@ local function make_attention(y_idx, hn_idx, dim)
 end
 
 -- given a row and a set of columns, return the maximum dot product between the row and any column
-local function score_all_relations(row_idx, col_idx, dim)
-    return nn.Sequential()
+local function score_all_relations(row_idx, col_idx, dim, mlp)
+    local row = nn.Sequential():add(nn.SelectTable(row_idx)):add(nn.View(-1, 1, dim))
+    local col = nn.Sequential():add(nn.SelectTable(col_idx))
+    if mlp then
+        row:add(nn.TemporalConvolution(dim, dim, 1))
+            :add(nn.ReLU())
+            :add(nn.TemporalConvolution(dim, dim, 1))
+        col:add(nn.TemporalConvolution(dim, dim, 1))
+            :add(nn.ReLU())
+            :add(nn.TemporalConvolution(dim, dim, 1))
+    end
+    local relation_scorer = nn.Sequential()
         :add(nn.ConcatTable()
             :add(nn.Sequential()
                 :add(nn.ConcatTable()
                     :add(nn.SelectTable(col_idx))
-                    :add(nn.Sequential():add(nn.SelectTable(row_idx)):add(nn.View(-1, 1, dim))))
+                    :add(row))
                 :add(grad.nn.AutoModule('AutoExpandAs')(expand_as)))
-        :add(nn.SelectTable(col_idx)))
+        :add(col))
         :add(nn.CMulTable()):add(nn.Sum(3))
+    return relation_scorer
 end
 
 local top_K = function(input)
@@ -96,17 +108,25 @@ function UniversalSchemaAttentionMatrix:build_scorer()
 end
 
 
+function UniversalSchemaMean:build_scorer()
+    local pos_score = score_all_relations(1, 2, self.params.colDim, self.params.mlp):add(nn.Mean(2))
+    local neg_score = score_all_relations(3, 2, self.params.colDim, self.params.mlp):add(nn.Mean(2))
+    local score_table = nn.ConcatTable()
+        :add(pos_score):add(neg_score)
+    return score_table
+end
+
 function UniversalSchemaMax:build_scorer()
-    local pos_score = score_all_relations(1, 2, self.params.colDim):add(nn.Max(2))
-    local neg_score = score_all_relations(3, 2, self.params.colDim):add(nn.Max(2))
+    local pos_score = score_all_relations(1, 2, self.params.colDim, self.params.mlp):add(nn.Max(2))
+    local neg_score = score_all_relations(3, 2, self.params.colDim, self.params.mlp):add(nn.Max(2))
     local score_table = nn.ConcatTable()
         :add(pos_score):add(neg_score)
     return score_table
 end
 
 function UniversalSchemaTopK:build_scorer()
-    local pos_score = score_all_relations(1, 2, self.params.colDim):add(grad.nn.AutoModule('AutoTopK')(top_K))
-    local neg_score = score_all_relations(3, 2, self.params.colDim):add(grad.nn.AutoModule('AutoTopK')(top_K))
+    local pos_score = score_all_relations(1, 2, self.params.colDim, self.params.mlp):add(grad.nn.AutoModule('AutoTopK')(top_K))
+    local neg_score = score_all_relations(3, 2, self.params.colDim, self.params.mlp):add(grad.nn.AutoModule('AutoTopK')(top_K))
     local score_table = nn.ConcatTable()
         :add(pos_score):add(neg_score)
     return score_table
@@ -126,6 +146,7 @@ function UniversalSchemaRelationPool:score_subdata(sub_data)
         local row_batch, col_batch, _ = unpack(batches[i].data)
         local encoded_row = self.row_encoder(row_batch):clone()
         local encoded_col = self.col_encoder(col_batch):clone()
+        if encoded_col:dim() == 4 then encoded_col = encoded_col:view(encoded_col:size(1), encoded_col:size(2), encoded_col:size(4)) end
         local x = {encoded_row, encoded_col}
         local score = self.net:get(2):get(1)(x):clone()
         table.insert(scores, score)

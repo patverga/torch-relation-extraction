@@ -142,9 +142,9 @@ function UniversalSchemaEncoder:gen_training_batches(data, shuffle)
     if data.num_cols or data.col then
         if #data > 0 then
             for seq_size = 1, self.params.maxSeq and math.min(self.params.maxSeq, #data) or #data do
-                if data[seq_size] and data[seq_size].row then self:gen_subdata_batches_three_col(data, data[seq_size], batches, data.num_rows, shuffle) end
+                if data[seq_size] and data[seq_size].row then self:gen_subdata_batches_three_col(data, data[seq_size], batches, self.row_table.weight:size(1), shuffle) end
             end
-        else  self:gen_subdata_batches_three_col(data, data, batches, data.num_rows, shuffle) end
+        else  self:gen_subdata_batches_three_col(data, data, batches, self.row_table.weight:size(1), shuffle) end
     else
         -- old 4 col format
         if #data > 0 then
@@ -222,7 +222,6 @@ function UniversalSchemaEncoder:optim_update(net, criterion, x, y, parameters, g
     local function fEval(parameters)
         if parameters ~= parameters then parameters:copy(parameters) end
         net:zeroGradParameters()
-
         local pred = net:forward(x)
         err = criterion:forward(pred, y)
         local df_do = criterion:backward(pred, y)
@@ -387,7 +386,8 @@ function UniversalSchemaEncoder:load_sub_data_four_col(sub_data, entities)
         then sub_data.ep = sub_data.ep:squeeze() end
     end
     if self.params.colEncoder == 'lookup-table' then
-        sub_data.rel = sub_data.rel:squeeze()
+        if self.params.relationPool == '' then sub_data.rel = sub_data.rel:squeeze()
+        else sub_data.rel = sub_data.rel:view(sub_data.rel:size(1), sub_data.rel:size(2)) end
     else
         if sub_data.seq:dim() == 1 then sub_data.seq = sub_data.seq:view(sub_data.seq:size(1), 1) end
     end
@@ -402,7 +402,7 @@ function UniversalSchemaEncoder:load_sub_data_three_col(sub_data, entities)
         sub_data.row_seq = self:to_cuda(sub_data.row_seq)
         if sub_data.row_seq:dim() == 1 then sub_data.row_seq = sub_data.row_seq:view(sub_data.row_seq:size(1), 1) end
     end
-    if self.params.colEncoder == 'lookup-table'  and sub_data.col:dim() > 1 and sub_data.col:size(1) > 1
+    if self.params.colEncoder == 'lookup-table' and self.params.relationPool == '' and sub_data.col:dim() > 1 and sub_data.col:size(1) > 1
     then
         sub_data.col = sub_data.col:squeeze()
     else
