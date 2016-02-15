@@ -24,6 +24,7 @@ local params = cmd:parse(arg)
 print(params)
 
 local max_ep = 0
+local max_rel = 0
 local max_token = 0
 local num_rows = 0
 local ep_rels = {}
@@ -39,8 +40,10 @@ for line in io.lines(params.inFile) do
         token = tonumber(token)
         table.insert(tokens, token)
         local ep_num = tonumber(ep)
+        local rel_num = tonumber(rel)
         max_token = math.max(token, max_token)
         max_ep = math.max(ep_num, max_ep)
+        max_rel = math.max(rel_num, max_rel)
     end
     if #tokens <= params.maxSeq then
         ep_rels[ep] = ep_rels[ep] or {}
@@ -75,12 +78,14 @@ for ep, seq_table in pairs(ep_seqs) do
 end
 ep_rels = nil
 
-local data = { num_eps = max_ep, num_tokens = max_token, max_length = params.max_count }
+local data = { num_eps = max_ep, num_rels = max_rel, num_tokens = max_token, max_length = params.max_count }
 for i = 1, math.min(params.maxCount, max_count) do
     if seq_counts[i] then
         local epTensor = torch.Tensor(ep_counts[i])
         local seqTensor = join(seq_counts[i]):clone()
         local relTensor = torch.Tensor(rel_counts[i])
+        relTensor = relTensor:view(relTensor:size(1),relTensor:size(2), 1)
+
         data[i] = { ep = epTensor, seq = seqTensor, rel = relTensor, count = epTensor:size(1), num_eps = max_ep, num_tokens = max_token }
     end
 end
