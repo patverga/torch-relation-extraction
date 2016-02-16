@@ -2,11 +2,11 @@ export MODEL=UniversalSchema
 export NAME=max-relation-example
 
 export SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/example/$NAME"
-export TRAIN_FILE_ROOT="$TH_RELEX_ROOT/data/new-format-sample-data/pooled"
-export TRAIN_FILE="pool-train-rel-rel"
-export TEST_FILE=`ls $TH_RELEX_ROOT/data/new-format-sample-data/pooled/test-mtx.torch/* | tr '\n' ','`
+export TRAIN_FILE_ROOT="$TH_RELEX_ROOT/data/new-format-sample-data/pooling"
+export TRAIN_FILE="train-pooled.torch"
+export TEST_FILE=`ls $TH_RELEX_ROOT/data/new-format-sample-data/pooling/test-pooled.torch/* | tr '\n' ','`
 
-export TRAINED_REL="${TH_RELEX_ROOT}/data/new-format-sample-data/pooled//5-cols"
+#export TRAINED_REL="${TH_RELEX_ROOT}/data/new-format-sample-data/pooled//5-cols"
 
 
 export BATCH_SIZE=64
@@ -20,10 +20,12 @@ export DROPOUT=.1
 export ROW_DIM=50
 export COL_DIM=50
 export TOKEN_DIM=100
-export ROW_ENCODER="lstm"
-export COL_ENCODER="lstm"
+#export ROW_ENCODER="lstm"
+#export COL_ENCODER="lstm"
+export ROW_ENCODER="lookup-table"
+export COL_ENCODER="lookup-table"
 
 
-export TIE_ENCODERS=true
+#export TIE_ENCODERS=true
 export RELATION_POOL="identity"
 export MODEL_TYPE="max"
