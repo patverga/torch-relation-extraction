@@ -260,13 +260,14 @@ function UniversalSchemaEncoder:map(fileStr, high_score)
     local map = 0.0
     local file_count = 0
     for file in string.gmatch(fileStr, "[^,]+") do
-        local ap = self:avg_precision(file, high_score)
-        print(file, ap)
+        local ap = self:avg_precision(file, high_score) * 100
         map = map + ap
         file_count = file_count + 1
+        io.write(string.format('\rcurrent map : %2.3f \t last ap : %2.3f\t%s',
+            (map / math.max(file_count, 1)), ap, file)); io.flush()
     end
     map = map / math.max(1.0, file_count)
-    print('MAP : ' .. map)
+    print(string.format('\nMAP : %2.3f', map))
 end
 
 function UniversalSchemaEncoder:avg_precision(file, high_score)
