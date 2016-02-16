@@ -1,6 +1,37 @@
 \section{Experimental Results\label{sec:results}}
 
 
+\subsection {Held out Distant Supervision Data}
+MAP over a held out subset of our tac distant supervision data
+
+
+\begin{table}[h!]
+\setlength{\tabcolsep}{4.1pt}
+\begin{center}
+\begin{tabular}{|lrrr|}
+\hline
+\bf Model & MAP \\
+\hline\hline
+USchema              & 36 \\
+Comp-USchema         & ?  \\
+\hline\hline
+USchema-Mean         & 42 \\
+USchema-Max          & 25  \\
+USchema-TopK         & ?  \\
+Comp-USchema-Mean    & ?  \\
+Comp-USchema-Max     & ? \\
+Comp-USchema-TopK    & ?  \\
+\hline\hline
+
+\hline
+\end{tabular}
+\caption{Precision, recall and F1 on the English TAC 2013 slot-filling task.
+\label{en-tac-table}}
+\end{center}
+\vspace{-.3cm}
+\end{table}
+
+
 \subsection {English TAC Slot-filling Results}
 Experiments on 2013 TAC English Slot-filling.
 

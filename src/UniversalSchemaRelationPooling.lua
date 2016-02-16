@@ -49,17 +49,17 @@ local function make_attention(y_idx, hn_idx, dim)
     return r
 end
 
--- given a row and a set of columns, return the maximum dot product between the row and any column
+-- given a row and a set of columns, return the dot products between the row and each column
 local function score_all_relations(row_idx, col_idx, dim, mlp)
     local row = nn.Sequential():add(nn.SelectTable(row_idx)):add(nn.View(-1, 1, dim))
     local col = nn.Sequential():add(nn.SelectTable(col_idx))
     if mlp then
         row:add(nn.TemporalConvolution(dim, dim, 1))
-            :add(nn.ReLU())
-            :add(nn.TemporalConvolution(dim, dim, 1))
+--            :add(nn.ReLU())
+--            :add(nn.TemporalConvolution(dim, dim, 1))
         col:add(nn.TemporalConvolution(dim, dim, 1))
-            :add(nn.ReLU())
-            :add(nn.TemporalConvolution(dim, dim, 1))
+--            :add(nn.ReLU())
+--            :add(nn.TemporalConvolution(dim, dim, 1))
     end
     local relation_scorer = nn.Sequential()
         :add(nn.ConcatTable()
