@@ -18,11 +18,24 @@ grad.optimize(true) -- global
 
 
 local UniversalSchemaRelationPool, parent = torch.class('UniversalSchemaRelationPool', 'UniversalSchemaEncoder')
-local UniversalSchemaAttentionDot, parent = torch.class('UniversalSchemaAttentionDot', 'UniversalSchemaRelationPool')
-local UniversalSchemaAttentionMatrix, parent = torch.class('UniversalSchemaAttentionMatrix', 'UniversalSchemaRelationPool')
-local UniversalSchemaMean, parent = torch.class('UniversalSchemaMean', 'UniversalSchemaRelationPool')
-local UniversalSchemaMax, parent = torch.class('UniversalSchemaMax', 'UniversalSchemaRelationPool')
-local UniversalSchemaTopK, parent = torch.class('UniversalSchemaTopK', 'UniversalSchemaRelationPool')
+local UniversalSchemaAttentionDot, _ = torch.class('UniversalSchemaAttentionDot', 'UniversalSchemaRelationPool')
+local UniversalSchemaAttentionMatrix, _ = torch.class('UniversalSchemaAttentionMatrix', 'UniversalSchemaRelationPool')
+local UniversalSchemaMean, _ = torch.class('UniversalSchemaMean', 'UniversalSchemaRelationPool')
+local UniversalSchemaMax, _ = torch.class('UniversalSchemaMax', 'UniversalSchemaRelationPool')
+local UniversalSchemaTopK, _ = torch.class('UniversalSchemaTopK', 'UniversalSchemaRelationPool')
+
+
+
+
+--function UniversalSchemaRelationPool:__init(params, row_table, row_encoder, col_table, col_encoder, use_entities)
+--    if params.relationPool and params.relationPool ~= '' then
+--        col_encoder = relation_pool_encoder(params, col_encoder)
+--    end
+--    parent:__init(params, row_table, row_encoder, col_table, col_encoder, use_entities)
+--end
+
+
+
 
 
 local expand_as = function(input)
@@ -73,14 +86,6 @@ local function score_all_relations(row_idx, col_idx, dim, mlp)
     return relation_scorer
 end
 
-local top_K = function(input)
-    local sorted, indices = torch.sort(input, 2, true)
-    local k = 1
-    local top = sorted:narrow(1,1,k)
-    local sum = torch.sum(top, 2)
-    local avg = torch.div(sum, k)
-    return avg
-end
 
 function UniversalSchemaAttentionDot:build_scorer()
     local pos_score = nn.Sequential()
@@ -125,13 +130,13 @@ function UniversalSchemaMax:build_scorer()
 end
 
 function UniversalSchemaTopK:build_scorer()
-    local pos_score = score_all_relations(1, 2, self.params.colDim, self.params.mlp):add(grad.nn.AutoModule('AutoTopK')(top_K))
-    local neg_score = score_all_relations(3, 2, self.params.colDim, self.params.mlp):add(grad.nn.AutoModule('AutoTopK')(top_K))
+    require 'nn-modules/TopK'
+    local pos_score = score_all_relations(1, 2, self.params.colDim, self.params.mlp):add(nn.TopK(self.params.k, 2)):add(nn.Mean(2))
+    local neg_score = score_all_relations(3, 2, self.params.colDim, self.params.mlp):add(nn.TopK(self.params.k, 2)):add(nn.Mean(2))
     local score_table = nn.ConcatTable()
         :add(pos_score):add(neg_score)
     return score_table
 end
-
 
 
 ----- Evaluate ----

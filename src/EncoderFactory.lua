@@ -145,8 +145,6 @@ function EncoderFactory:relation_pool_encoder(params, sub_encoder)
     return encoder
 end
 
-
-
 function EncoderFactory:build_encoder(params, encoder_type, load_embeddings, vocab_size, embedding_dim)
     local encoder, table
 

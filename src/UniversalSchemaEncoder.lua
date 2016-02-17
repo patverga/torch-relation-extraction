@@ -106,6 +106,7 @@ function UniversalSchemaEncoder:train(num_epochs)
     if self.params.saveModel ~= '' then os.execute("mkdir -p " .. self.params.saveModel) end
     for epoch = 1, num_epochs
     do
+        self.net:training()
         local startTime = sys.clock()
         local batches = self:gen_training_batches(self.train_data)
         local shuffle = torch.randperm(#batches)
@@ -250,9 +251,11 @@ end
 ----- Evaluate ----
 
 function UniversalSchemaEncoder:evaluate()
+    self.net:evaluate()
     if self.params.test ~= '' then
         self:map(self.params.test, true)
     end
+    self.net:training()
 end
 
 function UniversalSchemaEncoder:map(fileStr, high_score)

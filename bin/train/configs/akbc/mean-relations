@@ -1,15 +1,14 @@
 export MODEL=UniversalSchema
-export NAME=max-relation-example
+export NAME=mean-relation
 
-export SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/example/$NAME"
+export SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/akbc/$NAME"
 export TRAIN_FILE_ROOT="$TH_RELEX_ROOT/data/new-format-sample-data/pooling"
-export TRAIN_FILE="train-pooled.torch"
+export TRAIN_FILE="train-rels.torch"
 export TEST_FILE=`ls $TH_RELEX_ROOT/data/new-format-sample-data/pooling/test-pooled.torch/* | tr '\n' ','`
 
-#export TRAINED_REL="${TH_RELEX_ROOT}/data/new-format-sample-data/pooled//5-cols"
 
 
-export BATCH_SIZE=64
+export BATCH_SIZE=1024
 export LEARN_RATE=.0001
 
 export MAX_SEQ=500
@@ -20,12 +19,10 @@ export DROPOUT=.1
 export ROW_DIM=50
 export COL_DIM=50
 export TOKEN_DIM=100
-#export ROW_ENCODER="lstm"
-#export COL_ENCODER="lstm"
 export ROW_ENCODER="lookup-table"
 export COL_ENCODER="lookup-table"
 
 
-#export TIE_ENCODERS=true
+export TIE_ENCODERS=true
 export RELATION_POOL="identity"
-export MODEL_TYPE="max"
+export MODEL_TYPE="mean"

@@ -35,6 +35,7 @@ local function get_encoder(encoder_type, vocab_size, dim, load_encoder, load_emb
 end
 
 
+--[[ Define column and row encoders ]]--
 local col_encoder, col_table, row_encoder, row_table
 if params.tieEncoders then -- use the same encoder for columns and rows
     -- handle old and new data formats
@@ -58,22 +59,19 @@ else
     row_encoder, row_table = get_encoder(params.rowEncoder, row_vocab_size, params.rowDim, params.loadRowEncoder, params.loadRowEmbeddings)
 end
 
--- pool all relations for given ep and udpate at once
--- requires processing data using bin/process/IntFile2PoolRelationsTorch.lua
-if params.relationPool and params.relationPool ~= '' then
-    col_encoder = EncoderFactory:relation_pool_encoder(params, col_encoder)
-end
+if params.relationPool and params.relationPool ~= '' then col_encoder = EncoderFactory:relation_pool_encoder(params, col_encoder) end
 
 
 
+--[[ Define model type ]]--
 local model
 -- learn vectors for each entity rather than entity pair
 if params.modelType == 'entity' then
     model = UniversalSchemaEntityEncoder(params, row_table, row_encoder, col_table, col_encoder, true)
 
--- use a lookup table for kb relations and encoder for text patterns (entity pair vectors)
-elseif params.modelType == 'joint' then
-    model = UniversalSchemaJointEncoder(params, row_table, row_encoder, col_table, col_encoder, false)
+---- use a lookup table for kb relations and encoder for text patterns (entity pair vectors)
+--elseif params.modelType == 'joint' then
+--    model = UniversalSchemaJointEncoder(params, row_table, row_encoder, col_table, col_encoder, false)
 
 elseif params.modelType == 'transE' then -- standard uschema with entity pair vectors
     model = TransEEncoder(params, row_table, row_encoder, col_table, col_encoder, false)
@@ -84,9 +82,8 @@ elseif params.modelType == 'max' then
 elseif params.modelType == 'mean' then
     model = UniversalSchemaMean(params, row_table, row_encoder, col_table, col_encoder, false)
 
-    -- TODO figure out how to do this with autograd
---elseif params.modelType == 'topK' then
---    model = UniversalSchemaTopK(params, row_table, row_encoder, col_table, col_encoder, false)
+elseif params.modelType == 'topK' or params.modelType == 'topk' then
+    model = UniversalSchemaTopK(params, row_table, row_encoder, col_table, col_encoder, false)
 
 elseif params.modelType == 'attention-dot' then
     model = UniversalSchemaAttentionDot(params, row_table, row_encoder, col_table, col_encoder, false)
@@ -97,9 +94,15 @@ elseif params.modelType == 'attention-matrix' then
 --elseif params.relationPool ~= '' then
 --    model = UniversalSchemaRelationPool(params, row_table, row_encoder, col_table, col_encoder, false)
 
-else -- standard uschema with entity pair vectors
+elseif params.modelType == 'entity-pair' then -- standard uschema with entity pair vectors
     model = UniversalSchemaEncoder(params, row_table, row_encoder, col_table, col_encoder, false)
+
+else
+    print('Must supply option to modelType. Valid options are: '
+            .. 'entity-pair, entity, transE, max, mean, attention-dot, and attention-matrix')
+    os.exit()
 end
+
 
 print(model.net)
 if params.numEpochs > 0 then
