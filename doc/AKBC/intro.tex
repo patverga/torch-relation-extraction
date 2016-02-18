@@ -1,2 +1,46 @@
 
 \section{Introduction\label{introduction}}
+
+\subsection {Universal Schema}
+
+Universal Schema embeds textual patters and knowledge bases into a shared space in order to reason over relations and entity pairs.
+A low dimensional embedding is learned for each entity pair and each relation type using matrix factorization.
+The model is then able to infer relations between entities as the dot product between the two entity pair and relation type vectors.
+
+Unfortunately, this formulation limits the generalization of the model.
+
+Recently Universal Schema has been extended to deal with compositional representations of textual relations \citep{toutanova2015representing,verga2015multilingual}
+This gives us the ability to generalize to unseen textual patterns.
+
+\begin{figure}[h]
+\caption{Top : Universal Schema expresses each textual pattern as an atomic unit \protect\citet{riedel2010modeling}.
+Bottom : Compositional Universal Schema uses an lstm to encode each textual relation \protect\cite{verga2015multilingual}. }
+\centering
+\includegraphics[scale=.68]{relation-models}
+\end{figure}
+
+
+\subsection {Entities vs Entity Pairs}
+
+A knowledge base is naturally described as a graph, in which entities are nodes and relations are labeled edges~\citep{yago,freebase}.
+In the case of \emph{knowledge graph completion}, the task is akin to link prediction, assuming an initial set of (\emph{s, r, o}) triples.
+See~\citet{nickel2015review} for a review.
+No accompanying text data is necessary, since links can be predicted using properties of the graph, such as transitivity.
+In order to generalize well, prediction is often posed as low-rank matrix or tensor factorization.
+A variety of model variants have been suggested, where the probability of a given edge existing depends on a multi-linear form~\citep{rescal,DBLP:journals/corr/Garcia-DuranBUG15,bishan,transe,wang2014knowledge,lin2015learning}, or non-linear interactions between $s$, $r$, and $o$~\citep{socherkb}.
+
+These models all operate at the level of entities rather than entity pairs.
+Entity-based models have recall advantages over entity pairs.
+For any two entities, the model is able to make predictions even if there is no information regarding the explicit entity pair.
+However, this essentially reduces to type clustering as every action star would have a high probability for every action movie.
+
+Entity pairs on the other hand have higher precision.
+Both~\citet{toutanova2015representing} and~\citet{limin} observed that the entity pair model outperforms entity models in cases where the entity pair was seen at training time.
+This is particularly important when jointly embedding text and knowledge bases.
+By leveraging large amounts of unlabeled text, Universal Schema is able to find additional textual evidence for entity pairs.
+
+
+\subsection {Entities as Relations}
+
+Rather than modeling each entity pair as an explicit vector, we instead treat each entity pair as an aggregate function over each of its relation types.
+This allows us to trivially extend to unseen entity pairs, have a direct link to provenance, and allocate a variable number of parameters per entity pair.

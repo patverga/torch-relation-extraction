@@ -1,1 +1,8 @@
 \section{Experiments}
+
+Our evaluation is done over a set of 41 relations from the TAC KBP competition.
+We query freebase to find all positive examples for these relations.
+We then join this set of entity pairs with the TAC newswire corpus.
+During training we hold out 10,000 positive relations.
+We compute MAP over the entire columns for each relation.
+We randomly choose 10 relations for our development set and use the other 31 for evaluation.
