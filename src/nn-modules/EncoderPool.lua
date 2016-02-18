@@ -65,21 +65,18 @@ function EncoderPool:accGradParameters(input,gradOutput,lr)
 end
 
 
-
-function EncoderPool:genericBackward(operator, input, gradOutput)
-    local db = self.reducer:forward(self.mappedAndReshaped)
-    self.reducer:backward(self.mappedAndReshaped,db:clone():fill(1.0))
+function EncoderPool:genericBackward(operator,input, gradOutput)
     operator(self.reducer,self.mappedAndReshaped,gradOutput)
     local reducerGrad = self.reducer.gradInput
-    local reshapedReducerGrad
+
     if reducerGrad:isContiguous() then
-        reshapedReducerGrad = reducerGrad:view(self.sizes3) -- doesn't work with non-contiguous tensors
+        self.reshapedReducerGrad = reducerGrad:view(self.sizes3)
     else
---        reshapedReducerGrad = reducerGrad:resize(self.sizes3) -- slower because of memory reallocation and changes gradOutput
-        reshapedReducerGrad = reducerGrad:clone():resize(self.sizes3) -- doesn't change gradOutput; safer and even slower
+        self.reshapedReducerGrad = self.reshapedReducerGrad or reducerGrad:clone()
+        self.reshapedReducerGrad:resizeAs(reducerGrad):copy(reducerGrad):resize(self.sizes3)
     end
 
-    operator(self.mapper,self.reshapedInput,reshapedReducerGrad)
+    operator(self.mapper,self.reshapedInput,self.reshapedReducerGrad)
     local mapperGrad = self.mapper.gradInput
 
     self.gradInput = (mapperGrad:dim() > 0) and mapperGrad:view(self.inputSize) or nil --some modules return nil from backwards, such as the lookup table
