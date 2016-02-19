@@ -1,7 +1,21 @@
 local cmd = torch.CmdLine()
 cmd:option('-inFile', '', 'input file')
 cmd:option('-outFile', '', 'out file')
+cmd:option('-kbMap', '', 'out file')
 local params = cmd:parse(arg)
+
+
+
+if params.kbMap ~= '' then
+    local vocab_map = {}
+    for line in io.lines(self.params.vocabFile) do
+        local token, id = string.match(line, "([^\t]+)\t([^\t]+)")
+        if token and id then
+            id = tonumber(id)
+            if id > 1 then vocab_map[token] = id end
+        end
+    end
+end
 
 -- DATA
 print('loading file: ', params.inFile)

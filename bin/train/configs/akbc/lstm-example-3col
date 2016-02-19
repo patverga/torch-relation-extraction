@@ -1,10 +1,13 @@
 export MODEL=UniversalSchema
 export NAME="lstm-example-3col"
 
-export LOG_ROOT="${TH_RELEX_ROOT}/models/$NAME"
+export LOG_ROOT="${TH_RELEX_ROOT}/models/akbc/$NAME"
 export TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/data/new-format-sample-data"
 export TRAIN_FILE="train-mtx-3col.torch"
 export TEST_FILE=`ls $TH_RELEX_ROOT/data/new-format-sample-data/test-mtx-3col.torch/dev/* | tr '\n' ','`
+
+export SAVE_MODEL=true
+
 export TRAINED_EP="${TH_RELEX_ROOT}/data/pretrained-rows-3col"
 
 export BATCH_SIZE=128
@@ -16,6 +19,7 @@ export COL_ENCODER="lstm"
 #export POOL_LAYER=Max
 #export NON_LINEAR_LAYER=ReLU
 #export BI_DIRECTIONAL="add"
+
 
 export ROW_DIM=50
 export COL_DIM=50

@@ -8,6 +8,7 @@ export TEST_FILE=`ls $TH_RELEX_ROOT/data/new-format-sample-data/pooling/test-poo
 
 #export TRAINED_REL="models/uschema-example-3col/2016-02-15_19/20-cols"
 #export TRAINED_EP="models/uschema-example-3col/2016-02-15_19/20-cols"
+export SAVE_MODEL=true
 
 
 export BATCH_SIZE=1024
