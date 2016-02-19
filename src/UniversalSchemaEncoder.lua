@@ -162,8 +162,8 @@ function UniversalSchemaEncoder:optim_update(net, criterion, x, y, parameters, g
 end
 
 function UniversalSchemaEncoder:regularize_hooks()
-    if self.params.maxNormCol > 0 then self.col_table.weight:renorm(2, 2, self.params.maxNormCol) end
-    if self.params.maxNormRow > 0 then self.row_table.weight:renorm(2, 2, self.params.maxNormRow) end
+    if self.params.colNorm > 0 then self.col_table.weight:renorm(2, 2, self.params.colNorm) end
+    if self.params.rowNorm > 0 then self.row_table.weight:renorm(2, 2, self.params.rowNorm) end
 end
 
 function UniversalSchemaEncoder:gen_training_batches(data, shuffle)
