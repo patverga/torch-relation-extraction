@@ -47,14 +47,10 @@ function UniversalSchemaEncoder:__init(params, row_table, row_encoder, col_table
     self.row_encoder = row_encoder
 
     -- set the criterion
-    if params.criterion == 'bpr' then
-        require 'nn-modules/BPRLoss'
-        self.crit = nn.BPRLoss()
-    elseif  params.criterion == 'hinge' then
-        self.crit = nn.MarginRankingCriterion(self.params.margin)
-    else
-        print('Must supply option to criterion. Valid options are: bpr and hinge')
-        os.exit()
+    if params.criterion == 'bpr' then require 'nn-modules/BPRLoss'; self.crit = nn.BPRLoss()
+    elseif  params.criterion == 'hinge' then self.crit = nn.MarginRankingCriterion(self.params.margin)
+    elseif params.criterion == 'bce' then self.crit = nn.BCECriterion()
+    else print('Must supply option to criterion. Valid options are: bpr, bce and hinge'); os.exit()
     end
     self:to_cuda(self.crit)
 end
@@ -101,6 +97,7 @@ function UniversalSchemaEncoder:train(num_epochs)
     num_epochs = num_epochs or self.params.numEpochs
     -- optim stuff
     local parameters, gradParameters = self.net:getParameters()
+--    self:evaluate(0)
 
     -- make sure model save dir exists
     if self.params.saveModel ~= '' then os.execute("mkdir -p " .. self.params.saveModel) end
@@ -127,13 +124,46 @@ function UniversalSchemaEncoder:train(num_epochs)
             end
         end
         print(string.format('\nEpoch error = %f', epoch_error))
-        if (epoch % self.params.evaluateFrequency == 0) then
-            self:evaluate()
+        if (epoch % self.params.evaluateFrequency == 0 and epoch < num_epochs) then
+            self:evaluate(epoch)
             self:save_model(epoch-1)
         end
     end
-    self:evaluate()
+    self:evaluate(num_epochs)
     self:save_model(num_epochs)
+end
+
+function UniversalSchemaEncoder:optim_update(net, criterion, x, y, parameters, grad_params, opt_config, opt_state, epoch)
+    local err
+    if x[2]:dim() == 1 or x[2]:size(2) == 1 then opt_config.learningRate = self.params.learningRate * self.params.kbWeight end
+    local function fEval(parameters)
+        if parameters ~= parameters then parameters:copy(parameters) end
+        net:zeroGradParameters()
+        local pred = net:forward(x)
+        err = criterion:forward(pred, y)
+        local df_do = criterion:backward(pred, y)
+        net:backward(x, df_do)
+
+        if net.forget then net:forget() end
+        if self.params.l2Reg > 0 then grad_params:add(self.params.l2Reg, parameters) end
+        if self.params.clipGrads > 0 then
+            local grad_norm = grad_params:norm(2)
+            if grad_norm > self.params.clipGrads then grad_params = grad_params:div(grad_norm/self.params.clipGrads) end
+        end
+        if self.params.freezeRow >= epoch then self.row_encoder:zeroGradParameters() end
+        if self.params.freezeCol >= epoch then self.col_encoder:zeroGradParameters() end
+        return err, grad_params
+    end
+
+    optim[self.params.optimMethod](fEval, parameters, opt_config, opt_state)
+    self:regularize_hooks()
+    opt_config.learningRate = self.params.learningRate
+    return err
+end
+
+function UniversalSchemaEncoder:regularize_hooks()
+    if self.params.maxNormCol > 0 then self.col_table.weight:renorm(2, 2, self.params.maxNormCol) end
+    if self.params.maxNormRow > 0 then self.row_table.weight:renorm(2, 2, self.params.maxNormRow) end
 end
 
 function UniversalSchemaEncoder:gen_training_batches(data, shuffle)
@@ -217,45 +247,16 @@ function UniversalSchemaEncoder:gen_neg(data, pos_batch, neg_sample_count, max_n
     return neg_batch
 end
 
-function UniversalSchemaEncoder:optim_update(net, criterion, x, y, parameters, grad_params, opt_config, opt_state, epoch)
-    local err
-    if x[2]:dim() == 1 or x[2]:size(2) == 1 then opt_config.learningRate = self.params.learningRate * self.params.kbWeight end
-    local function fEval(parameters)
-        if parameters ~= parameters then parameters:copy(parameters) end
-        net:zeroGradParameters()
-        local pred = net:forward(x)
-        err = criterion:forward(pred, y)
-        local df_do = criterion:backward(pred, y)
-        net:backward(x, df_do)
-
-        if net.forget then net:forget() end
-        if self.params.l2Reg > 0 then grad_params:add(self.params.l2Reg, parameters) end
-        if self.params.clipGrads > 0 then
-            local grad_norm = grad_params:norm(2)
-            if grad_norm > self.params.clipGrads then grad_params = grad_params:div(grad_norm/self.params.clipGrads) end
-        end
-        if self.params.freezeRow >= epoch then self.row_encoder:zeroGradParameters() end
-        if self.params.freezeCol >= epoch then self.col_encoder:zeroGradParameters() end
-        return err, grad_params
-    end
-
-    optim[self.params.optimMethod](fEval, parameters, opt_config, opt_state)
-    opt_config.learningRate = self.params.learningRate
-    if self.params.maxNormCol > 0 then self.col_table.weight:renorm(2, 2, self.params.maxNormCol) end
-    if self.params.maxNormRow > 0 then self.row_table.weight:renorm(2, 2, self.params.maxNormRow) end
-    return err
-end
-
-
 
 ----- Evaluate ----
 
-function UniversalSchemaEncoder:evaluate()
+function UniversalSchemaEncoder:evaluate(epoch)
     self.net:evaluate()
-    if self.params.test ~= '' then
-        self:map(self.params.test, true)
+    if self.params.test ~= '' then self:map(self.params.test, true) end
+    if self.params.vocab ~= '' and self.params.tacYear ~= '' then
+        self:tac_eval(self.params.saveModel .. '/' .. epoch, self.params.resultDir .. '/' .. epoch, self.params.evalArgs)
     end
-    self.net:training()
+    self.net:clearState()
 end
 
 function UniversalSchemaEncoder:map(fileStr, high_score)
@@ -340,15 +341,13 @@ end
 
 
 function UniversalSchemaEncoder:tac_eval(model_file, out_dir, eval_args)
-    if self.params.vocab ~= '' and self.params.tacYear ~= '' then
-        os.execute("mkdir -p " .. model_file)
-        local cmd = '${TH_RELEX_ROOT}/bin/tac-evaluation/tune-thresh.sh ' .. self.params.tacYear .. ' ' ..
-                model_file..'-model' .. ' ' .. self.params.vocab .. ' ' .. self.params.gpuid ..' ' ..
-                self.params.maxSeq .. ' ' .. out_dir .. ' "' .. eval_args:gsub(',',' ') ..
-                '" >& ' .. model_file .. '/tac-eval.log &'
-        print(cmd)
-        os.execute(cmd)
-    end
+    os.execute("mkdir -p " .. model_file)
+    local cmd = '${TH_RELEX_ROOT}/bin/tac-evaluation/tune-thresh.sh ' .. self.params.tacYear .. ' ' ..
+            model_file..'-model' .. ' ' .. self.params.vocab .. ' ' .. self.params.gpuid ..' ' ..
+            self.params.maxSeq .. ' ' .. out_dir .. ' "' .. eval_args:gsub(',',' ') ..
+            '" >& ' .. model_file .. '/tac-eval.log &'
+    print(cmd)
+    os.execute(cmd)
 end
 
 
@@ -427,7 +426,6 @@ function UniversalSchemaEncoder:save_model(epoch)
 
         torch.save(self.params.saveModel .. '/' .. epoch .. '-model',
             {net = self.net:clone():float(), col_encoder = self.col_encoder:clone():float(), row_encoder = self.row_encoder:clone():float(), opt_state = cpu_opt})
-        self:tac_eval(self.params.saveModel .. '/' .. epoch, self.params.resultDir .. '/' .. epoch, self.params.evalArgs)
         torch.save(self.params.saveModel .. '/' .. epoch .. '-rows', self.params.gpuid >= 0 and self.row_table.weight:double() or self.row_table.weight)
         torch.save(self.params.saveModel .. '/' .. epoch .. '-cols', self.params.gpuid >= 0 and self.col_table.weight:double() or self.col_table.weight)
     end
