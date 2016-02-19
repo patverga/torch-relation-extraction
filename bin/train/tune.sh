@@ -46,7 +46,7 @@ do
                     for epsilon in $epsilons; do
                         commands+=("th src/UniversalSchema.lua \
                             $args \
-                            -hidden_dropout $h_dropout \
+                            -colDim $dim \
                             -learningRate $lr \
                             -l2Reg $l2 \
                             -epsilon $epsilon \
