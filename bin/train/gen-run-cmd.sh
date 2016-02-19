@@ -1,18 +1,12 @@
 #!/usr/bin/env bash
 
-RUN_CMD="th ${TH_RELEX_ROOT}/src/${MODEL}.lua
--train ${TRAIN_FILE_ROOT}/${TRAIN_FILE}
--maxSeq $MAX_SEQ
--learningRate $LEARN_RATE
--gpuid ${GPU_ID}
--rowDim ${ROW_DIM}
--numEpochs ${MAX_EPOCHS}
--resultDir ${LOG_ROOT}
--colEncoder ${COL_ENCODER}
-"
+RUN_CMD="th ${TH_RELEX_ROOT}/src/${MODEL}.lua -train ${TRAIN_FILE_ROOT}/${TRAIN_FILE} -maxSeq $MAX_SEQ -learningRate $LEARN_RATE -rowDim ${ROW_DIM} -numEpochs ${MAX_EPOCHS} -resultDir ${LOG_ROOT} -colEncoder ${COL_ENCODER}"
 
 if [ "$SAVE_MODEL" ]; then
   RUN_CMD="$RUN_CMD -saveModel $LOG_ROOT"
+fi
+if [ "$GPU_ID" ]; then
+  RUN_CMD="$RUN_CMD -gpuid $GPU_ID"
 fi
 
 

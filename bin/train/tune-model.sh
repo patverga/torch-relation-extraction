@@ -1,88 +1,83 @@
 #!/usr/bin/env bash
 
-#########################################################
-##
-##  script for hyperparameter tuning using grid search
-##  first arg must be config file
-##  accepts comma seperated lists of args
-##
-#########################################################
+#!/bin/sh
 
-CONFIG=$1
-shift
+config=$1
+additional_args=${@:2}
 
-source ${TH_RELEX_ROOT}/${CONFIG}
+source $config
+export SAVE_MODEL=""
+export MAX_EPOCHS=25
+export EVAL_FREQ=5
 
-export MAX_EPOCHS=4
-export EVAL_FREQ=2
+OUT_LOG=$LOG_ROOT/hyperparams/
+mkdir -p $OUT_LOG
+echo "Writing to "$OUT_LOG
 
-while [[ $# > 1 ]]
+source ${TH_RELEX_ROOT}/bin/train/gen-run-cmd.sh
+RUN_CMD="$RUN_CMD $additional_args"
+
+# run on all available gpus
+#gpus=`nvidia-smi -L | wc -l`
+gpuids=( `eval $TH_RELEX_ROOT/bin/get-free-gpus.sh | sed '1d'` )
+num_gpus=${#gpuids[@]}
+
+# grid search over these
+lrs="0.005 0.01 0.05"
+dropouts="0.0" # 0.1 0.25"
+l2s="1e-8 1e-6"
+epsilons="1e-8 1e-6 1e-4"
+dims="50 100 250 500"
+batchsizes="64 128 256 512 1024"
+
+# array to hold all the commands we'll distribute
+declare -a commands
+
+# first make all the commands we want
+for dim in $dims
 do
-    key="$1"
-    case $key in
-            -g|--gpuid|--gpu)
-            export GPU_ID="$2"
-            shift # past argument
-        ;;
-            -l|--learning-rate)
-            LEARN_RATE_ARGS=`echo "$2" | sed 's/,/ /g'`
-            shift # past argument
-        ;;
-            -y|--layers)
-            LAYERS_ARGS=`echo "$2" | sed 's/,/ /g'`
-            shift # past argument
-        ;;
-            -d|--dropout)
-            DROPOUT_ARGS=`echo "$2" | sed 's/,/ /g'`
-            shift # past argument
-        ;;
-            -p|--layerdropout|--layer-dropout)
-            LAYER_DROPOUT_ARGS=`echo "$2" | sed 's/,/ /g'`
-            shift # past argument
-        ;;
-            -w|--worddim|--word-dim)
-            WORD_DIM_ARGS=`echo "$2" | sed 's/,/ /g'`
-            shift # past argument
-        ;;
-            -r|--reldim|--rel-dim)
-            REL_DIM_ARGS=`echo "$2" | sed 's/,/ /g'`
-            shift # past argument
-        ;;
-            -e|--embeddim|--embed-dim)
-            EMBED_DIM_ARGS=`echo "$2" | sed 's/,/ /g'`
-            shift # past argument
-        ;;
-            *)  # unknown option
-        ;;
-    esac
-    shift # past argument or value
+   for lr in $lrs
+   do
+       for l2 in $l2s
+       do
+           for batchsize in $batchsizes; do
+               for dropout in $dropouts; do
+                    for epsilon in $epsilons; do
+                        CMD="$RUN_CMD \
+                            -colDim $dim \
+                            -rowDim $dim \
+                            -learningRate $lr \
+                            -l2Reg $l2 \
+                            -epsilon $epsilon \
+                            -batchSize $batchsize \
+                            -dropout $dropout \
+                            -gpuid XX \
+                            &> $OUT_LOG/train-$lr-$dim-$dropout-$l2-$epsilon-$batchsize.log"
+                        commands+=("$CMD")
+                        echo "Adding job lr=$lr dim=$dim dropout=$dropout l2=$l2 batchsize=$batchsize epsilon=$epsilon"
+                    done
+                done
+           done
+       done
+   done
 done
 
-# loop over given values, or fallback to config args, or set to "" so loop still works
-for LEARN_RATE in ${LEARN_RATE_ARGS:-${LEARN_RATE:-""}}; do
-for LAYERS in ${LAYERS_ARGS:-${LAYERS:-""}}; do
-for DROPOUT in ${DROPOUT_ARGS:-${DROPOUT:-""}}; do
-for LAYER_DROPOUT in ${LAYER_DROPOUT_ARGS:-${LAYER_DROPOUT:-""}}; do
-for WORD_DIM in ${WORD_DIM_ARGS:-${WORD_DIM:-""}}; do
-for REL_DIM in ${REL_DIM_ARGS:-${REL_DIM:-""}}; do
-for EMBED_DIM in ${EMBED_DIM_ARGS:-${EMBED_DIM:-""}}; do
+# now distribute them to the gpus
+#
+# currently this is only correct if the number of jobs is a 
+# multiple of the number of gpus (true as long as you have hyperparams
+# ranging over 2, 3 and 4 values)!
+num_jobs=${#commands[@]}
+jobs_per_gpu=$((num_jobs / num_gpus))
+echo "Distributing $num_jobs jobs to $num_gpus gpus ($jobs_per_gpu jobs/gpu)"
 
-    export LEARN_RATE=$LEARN_RATE
-    export LAYERS=$LAYERS
-    export DROPOUT=$DROPOUT
-    export LAYER_DROPOUT=$LAYER_DROPOUT
-    export WORD_DIM=$WORD_DIM
-    export REL_DIM=$REL_DIM
-    export EMBED_DIM=$EMBED_DIM
-
-    PARAMS="learnrate-${LEARN_RATE}_layers-${LAYERS}_dropout-${DROPOUT}_layerdropout-${LAYER_DROPOUT}_worddim-${WORD_DIM}_reldim-${REL_DIM}_embeddim-${EMBED_DIM}"
-    echo $PARAMS
-
-    export DATE=`date +'%Y-%m-%d_%k'`
-    export SAVE="${SAVE_MODEL_ROOT}/tuning/${PARAMS}__${DATE}"
-    mkdir -p ${SAVE}
-    # save a copy of the config in the model dir
-    cp ${TH_RELEX_ROOT}/${CONFIG} $SAVE
-    ${TH_RELEX_ROOT}/bin/train/run-model.sh
-
-done;done;done;done;done;done;done
+j=0
+for gpuid in ${gpuids[@]}; do
+    for (( i=0; i<$jobs_per_gpu; i++ )); do
+        jobid=$((j * jobs_per_gpu + i))
+        comm="${commands[$jobid]/XX/$gpuid}"
+        echo "Starting job $jobid on gpu $gpuid"
+        eval ${comm}
+    done &
+    j=$((j + 1))
+done

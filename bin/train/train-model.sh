@@ -10,7 +10,7 @@ source ${TH_RELEX_ROOT}/${CONFIG}
 DATE=`date +'%Y-%m-%d_%H'`
 export LOG_ROOT="${LOG_ROOT}/$DATE/"
 mkdir -p ${LOG_ROOT}
-cp ${TH_RELEX_ROOT}/${CONFIG} $SAVE
+cp ${TH_RELEX_ROOT}/${CONFIG} $LOG_ROOT
 
 source ${TH_RELEX_ROOT}/bin/train/gen-run-cmd.sh
 RUN_CMD="$RUN_CMD $ARGS"
