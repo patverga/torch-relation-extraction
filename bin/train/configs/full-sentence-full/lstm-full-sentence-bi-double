@@ -1,7 +1,7 @@
 export MODEL=UniversalSchema
 export NAME=lstm-full-sentence-bi-double
 
-export SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/$NAME"
+export LOG_ROOT="${TH_RELEX_ROOT}/models/$NAME"
 export TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/training-data/full-sentences"
 
 export TRAINED_EP="${TH_RELEX_ROOT}/models/uschema-english-relogged-100d/2015-12-18_11/5-ent-weights"

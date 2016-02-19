@@ -1,7 +1,7 @@
 export MODEL=UniversalSchema
 export NAME=max-relation
 
-export SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/akbc/$NAME"
+export LOG_ROOT="${TH_RELEX_ROOT}/models/akbc/$NAME"
 export TRAIN_FILE_ROOT="$TH_RELEX_ROOT/data/new-format-sample-data/pooling"
 export TRAIN_FILE="train-rels.torch"
 export TEST_FILE=`ls $TH_RELEX_ROOT/data/new-format-sample-data/pooling/test-pooled.torch/dev/* | tr '\n' ','`

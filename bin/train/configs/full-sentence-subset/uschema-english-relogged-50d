@@ -1,7 +1,7 @@
 export MODEL=UniversalSchema
 export NAME="subset-uschema-relogged-50d"
 
-export SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/$NAME"
+export LOG_ROOT="${TH_RELEX_ROOT}/models/$NAME"
 export TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/training-data/full-sentence-subset/"
 export TRAIN_FILE="center-relogged-5mil-subset"
 

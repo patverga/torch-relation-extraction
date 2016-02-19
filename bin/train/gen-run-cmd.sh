@@ -1,19 +1,20 @@
 #!/usr/bin/env bash
 
-ARGS=${@:1}
-
-
 RUN_CMD="th ${TH_RELEX_ROOT}/src/${MODEL}.lua
 -train ${TRAIN_FILE_ROOT}/${TRAIN_FILE}
--saveModel ${SAVE}
 -maxSeq $MAX_SEQ
 -learningRate $LEARN_RATE
 -gpuid ${GPU_ID}
 -rowDim ${ROW_DIM}
 -numEpochs ${MAX_EPOCHS}
--resultDir ${SAVE}
+-resultDir ${LOG_ROOT}
 -colEncoder ${COL_ENCODER}
 "
+
+if [ "$SAVE_MODEL" ]; then
+  RUN_CMD="$RUN_CMD -saveModel $LOG_ROOT"
+fi
+
 
 if [ "$ROW_ENCODER" ]; then
   RUN_CMD="$RUN_CMD -rowEncoder $ROW_ENCODER"
@@ -95,8 +96,4 @@ if [ "$BATCH_SIZE" ]; then
   RUN_CMD="$RUN_CMD -batchSize $BATCH_SIZE"
 fi
 
-RUN_CMD="$RUN_CMD $ARGS"
-
-echo "Training : ${MODEL}_${TRAIN_FILE}\tGPU : $GPU_ID"
-#echo "$RUN_CMD"
-${RUN_CMD} | 2>&1 tee -a "$SAVE/log"
+export RUN_CMD

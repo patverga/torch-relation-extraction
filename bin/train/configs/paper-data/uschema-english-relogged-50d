@@ -1,7 +1,7 @@
 export MODEL=UniversalSchema
 export NAME="uschema-english-relogged-50d"
 
-export SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/$NAME"
+export LOG_ROOT="${TH_RELEX_ROOT}/models/$NAME"
 export TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/training-data"
 
 export TRAIN_FILE="relogged_min5_noramlized.en"

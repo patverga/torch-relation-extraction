@@ -1,7 +1,7 @@
 export MODEL=UniversalSchema
 export NAME="no-log-lstms-shared"
 
-export SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/both-encoder/$NAME"
+export LOG_ROOT="${TH_RELEX_ROOT}/models/both-encoder/$NAME"
 export TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/training-data/both-encoder/"
 export TRAIN_FILE="no-log_min5_normalized.en_max100"
 

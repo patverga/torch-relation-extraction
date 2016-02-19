@@ -1,7 +1,7 @@
 export MODEL=UniversalSchema
 export NAME=relation-pairs
 
-export SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/example/$NAME"
+export LOG_ROOT="${TH_RELEX_ROOT}/models/example/$NAME"
 export TRAIN_FILE_ROOT="$TH_RELEX_ROOT/data/new-format-sample-data/both-encoder/"
 export TRAIN_FILE="train-relation-pairs.torch"
 export TEST_FILE=`ls $TH_RELEX_ROOT/data/new-format-sample-data/pooled/test-mtx.torch/* | tr '\n' ','`

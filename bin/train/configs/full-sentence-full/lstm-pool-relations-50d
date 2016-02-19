@@ -2,7 +2,7 @@ export MODEL=UniversalSchema
 
 export NAME=lstm-pool-relations-50d
 
-export SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/$NAME"
+export LOG_ROOT="${TH_RELEX_ROOT}/models/$NAME"
 export TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/training-data/pool-relations"
 
 export TRAINED_EP="/home/pat/canvas/universal-schema/univSchema/torch/data/fixed-2013-tac/fixed-nologs/models/uschema-filtered-reloged-50d/7-ent-weights"

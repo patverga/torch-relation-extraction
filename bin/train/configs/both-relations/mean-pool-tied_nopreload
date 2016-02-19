@@ -1,7 +1,7 @@
 export MODEL=UniversalSchema
 export NAME="mean-pool-tied_nopreload"
 
-export SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/both-relations/$NAME"
+export LOG_ROOT="${TH_RELEX_ROOT}/models/both-relations/$NAME"
 export TRAIN_FILE_ROOT="$TH_RELEX_ROOT/training-data/both-relations/"
 export TRAIN_FILE="center-no-log.fixed-5mil-subset"
 

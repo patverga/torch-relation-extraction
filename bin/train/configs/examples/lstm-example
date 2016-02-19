@@ -1,7 +1,7 @@
 export MODEL=UniversalSchema
 export NAME="lstm-example"
 
-export SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/$NAME"
+export LOG_ROOT="${TH_RELEX_ROOT}/models/$NAME"
 export TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/data/"
 export TRAIN_FILE="train-mtx.torch"
 export TRAINED_EP="${TH_RELEX_ROOT}/data/pretrained-ent-weights"

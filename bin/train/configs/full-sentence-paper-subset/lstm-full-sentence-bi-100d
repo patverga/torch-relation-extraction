@@ -1,7 +1,7 @@
 export MODEL=UniversalSchema
 export NAME=paper-subset-lstm-full-sentence-bi-100d
 
-export SAVE_MODEL_ROOT="${TH_RELEX_ROOT}/models/$NAME"
+export LOG_ROOT="${TH_RELEX_ROOT}/models/$NAME"
 export TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/training-data/subset-paper-filtered/"
 export TRAIN_FILE="full-sentence_min5_noramlized"
 
