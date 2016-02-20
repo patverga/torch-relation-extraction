@@ -16,6 +16,9 @@ fi
 if [ "$TIE_ENCODERS" ]; then
   RUN_CMD="$RUN_CMD -tieEncoders"
 fi
+if [ "$SHARED_VOCAB" ]; then
+  RUN_CMD="$RUN_CMD -sharedVocab"
+fi
 if [ "$TOKEN_DIM" ]; then
   RUN_CMD="$RUN_CMD -tokenDim $TOKEN_DIM"
 fi
@@ -43,6 +46,9 @@ fi
 if [ "$CRITERION" ]; then
   RUN_CMD="$RUN_CMD -criterion $CRITERION"
 fi
+if [ "$MARGIN" ]; then
+  RUN_CMD="$RUN_CMD -margin $MARGIN"
+fi
 
 if [ "$RELATION_POOL" ]; then
   RUN_CMD="$RUN_CMD -relationPool $RELATION_POOL"
@@ -56,6 +62,16 @@ if [ "$LAYER_DROPOUT" ]; then
 fi
 if [ "$WORD_DROPOUT" ]; then
   RUN_CMD="$RUN_CMD -wordDropout $WORD_DROPOUT"
+fi
+
+if [ "$COL_NORM" ]; then
+  RUN_CMD="$RUN_CMD -colNorm $COL_NORM"
+fi
+if [ "$ROW_NORM" ]; then
+  RUN_CMD="$RUN_CMD -rowNorm $ROW_NORM"
+fi
+if [ "$CLIP_GRADS" ]; then
+  RUN_CMD="$RUN_CMD -clipGrads $CLIP_GRADS"
 fi
 
 if [ "$TEST_FILE" ]; then

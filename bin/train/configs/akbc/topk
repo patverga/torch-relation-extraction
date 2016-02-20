@@ -11,8 +11,8 @@ export TEST_FILE=`ls $TH_RELEX_ROOT/data/new-format-sample-data/pooling/test-poo
 export SAVE_MODEL=true
 
 
-export BATCH_SIZE=1024
-export LEARN_RATE=.0001
+export BATCH_SIZE=256
+export LEARN_RATE=.001
 
 export MAX_SEQ=500
 export MAX_EPOCHS=50
@@ -21,11 +21,10 @@ export DROPOUT=.1
 
 export ROW_DIM=300
 export COL_DIM=300
-export TOKEN_DIM=100
 export ROW_ENCODER="lookup-table"
 export COL_ENCODER="lookup-table"
 
-
-export TIE_ENCODERS=true
+#export TIE_ENCODERS=true
+export SHARED_VOCAB=true
 export RELATION_POOL="identity"
 export MODEL_TYPE="topK"

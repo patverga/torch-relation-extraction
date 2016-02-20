@@ -2,6 +2,7 @@ export MODEL=UniversalSchema
 export NAME="uschema-example-3col"
 
 export LOG_ROOT="${TH_RELEX_ROOT}/models/akbc/$NAME"
+
 export TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/data/new-format-sample-data"
 export TRAIN_FILE="train-mtx-3col.torch"
 export TEST_FILE=`ls $TH_RELEX_ROOT/data/new-format-sample-data/test-mtx-3col.torch/dev/* | tr '\n' ','`

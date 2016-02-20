@@ -8,19 +8,18 @@ export TEST_FILE=`ls $TH_RELEX_ROOT/data/new-format-sample-data/test-mtx-3col.to
 
 export SAVE_MODEL=true
 
-export TRAINED_EP="${TH_RELEX_ROOT}/data/pretrained-rows-3col"
+export TRAINED_EP="${TH_RELEX_ROOT}/models/akbc/uschema-example-3col/2016-02-19_11/best-rows"
 
 export BATCH_SIZE=128
 export LEARN_RATE=.0001
 export MAX_SEQ=20
 export MAX_EPOCHS=50
 export EVAL_FREQ=3
+
 export COL_ENCODER="lstm"
-#export POOL_LAYER=Max
-#export NON_LINEAR_LAYER=ReLU
-#export BI_DIRECTIONAL="add"
+export POOL_LAYER=Max
+export BI_DIRECTIONAL="add"
 
-
-export ROW_DIM=50
-export COL_DIM=50
-export TOKEN_DIM=100
+export ROW_DIM=100
+export COL_DIM=100
+export TOKEN_DIM=200

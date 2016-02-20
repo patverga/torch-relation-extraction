@@ -7,9 +7,8 @@ export TRAIN_FILE="train-mtx-3col.torch"
 export TEST_FILE=`ls $TH_RELEX_ROOT/data/new-format-sample-data/test-mtx-3col.torch/dev/* | tr '\n' ','`
 export SAVE_MODEL=true
 
-export ROW_DIM=50
-export COL_DIM=50
-export TOKEN_DIM=50
+export ROW_DIM=100
+export COL_DIM=100
 
 export MAX_SEQ=20
 export MAX_EPOCHS=50
@@ -22,3 +21,4 @@ export ROW_ENCODER="lookup-table-split"
 export MODEL_TYPE="transE"
 
 export CRITERION="hinge"
+export MARGIN=3
