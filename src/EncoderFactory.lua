@@ -130,13 +130,14 @@ end
 
 function EncoderFactory:relation_pool_encoder(params, sub_encoder)
     require 'nn-modules/EncoderPool'
-    local encoder
+    local encoder = nn.Sequential()
     if params.relationPool == 'Mean' or params.relationPool == 'Max' then
-        encoder = nn.EncoderPool(sub_encoder, nn[params.relationPool](2))
+        encoder:add(nn.EncoderPool(sub_encoder, nn[params.relationPool](2)))
+--        if params.colEncoder == 'lookup-table' then encoder:add(nn.View(-1, params.colDim)) end
     elseif params.relationPool == 'identity' or params.relationPool == 'Identity' then
-        encoder = nn.EncoderPool(sub_encoder, nn.Identity())
+        encoder:add(nn.EncoderPool(sub_encoder, nn.Identity()))
     elseif params.relationPool == 'conv-max' then
-        encoder = nn.Sequential():add(nn.EncoderPool(sub_encoder, nn.Identity()))
+        encoder:add(nn.EncoderPool(sub_encoder, nn.Identity()))
             :add(nn.TemporalConvolution(params.colDim, params.colDim, 1)):add(nn.Max(2))
     else
         print('valid options for relationPool are Mean and Max')

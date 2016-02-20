@@ -57,6 +57,9 @@ fi
 if [ "$DROPOUT" ]; then
   RUN_CMD="$RUN_CMD -dropout $DROPOUT"
 fi
+if [ "$L2" ]; then
+  RUN_CMD="$RUN_CMD -l2Reg $L2"
+fi
 if [ "$LAYER_DROPOUT" ]; then
   RUN_CMD="$RUN_CMD -layerDropout $LAYER_DROPOUT"
 fi

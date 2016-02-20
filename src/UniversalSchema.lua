@@ -93,8 +93,8 @@ elseif params.modelType == 'attention-dot' then
 elseif params.modelType == 'attention-matrix' then
     model = UniversalSchemaAttentionMatrix(params, row_table, row_encoder, col_table, col_encoder, false)
 
---elseif params.relationPool ~= '' then
---    model = UniversalSchemaRelationPool(params, row_table, row_encoder, col_table, col_encoder, false)
+elseif params.modelType == 'relation-pool' then
+    model = UniversalSchemaRelationPool(params, row_table, row_encoder, col_table, col_encoder, false)
 
 elseif params.modelType == 'entity-pair' then -- standard uschema with entity pair vectors
     model = UniversalSchemaEncoder(params, row_table, row_encoder, col_table, col_encoder, false)
