@@ -13,6 +13,7 @@ require 'UniversalSchemaRelationPooling'
 require 'UniversalSchemaEntityEncoder'
 require 'UniversalSchemaJointEncoder'
 require 'TransEEncoder'
+require 'PositiveOnlyUniversalSchema'
 
 local params = CmdArgs:parse(arg)
 -- use relation vectors instead of word embeddings
@@ -54,8 +55,9 @@ else
     col_encoder, col_table = get_encoder(params.colEncoder, col_vocab_size, params.colDim, params.loadColEncoder, params.loadColEmbeddings)
 
     -- create row encoder
-    local row_vocab_size = train_data.num_eps and (params.rowEncoder == 'lookup-table' and train_data.num_eps or train_data.num_tokens)
-            or (params.rowEncoder == 'lookup-table' and train_data.num_rows or train_data.num_row_tokens)
+    local row_vocab_size = params.sharedVocab and col_vocab_size or
+            (train_data.num_eps and (params.rowEncoder == 'lookup-table' and train_data.num_eps or train_data.num_tokens) -- 4col format
+            or (params.rowEncoder == 'lookup-table' and train_data.num_rows or train_data.num_row_tokens)) -- 3col format
     row_encoder, row_table = get_encoder(params.rowEncoder, row_vocab_size, params.rowDim, params.loadRowEncoder, params.loadRowEmbeddings)
 end
 
@@ -97,6 +99,9 @@ elseif params.modelType == 'attention-matrix' then
 elseif params.modelType == 'entity-pair' then -- standard uschema with entity pair vectors
     model = UniversalSchemaEncoder(params, row_table, row_encoder, col_table, col_encoder, false)
 
+elseif params.modelType == 'positive' then
+    model = PositiveOnlyUniversalSchema(params, row_table, row_encoder, col_table, col_encoder, false)
+
 else
     print('Must supply option to modelType. Valid options are: '
             .. 'entity-pair, entity, transE, max, mean, attention-dot, and attention-matrix')
@@ -105,7 +110,5 @@ end
 
 
 print(model.net)
-if params.numEpochs > 0 then
-    model:train()
-    if params.saveModel ~= '' then  model:save_model(params.numEpochs) end
-else model:evaluate() end
+if params.numEpochs > 0 then model:train()
+else model:evaluate(params.numEpochs) end

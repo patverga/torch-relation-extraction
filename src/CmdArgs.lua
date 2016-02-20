@@ -31,6 +31,7 @@ cmd:option('-tokenDim', 100, 'embedding dimension for input tokens in compositio
 cmd:option('-batchSize', 128, 'minibatch size')
 cmd:option('-kbWeight', 1, 'weight kb relations differently than text relations')
 cmd:option('-k', 3, 'k for topK model')
+cmd:option('-sharedVocab', false, 'use col vocab size for rows')
 cmd:option('-maxSeq', 100, 'maximum sequence length')
 cmd:option('-shuffle', true, 'shuffle data, read in sequence length order otherwise')
 

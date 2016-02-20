@@ -34,10 +34,12 @@ function UniversalSchemaEncoder:__init(params, row_table, row_encoder, col_table
         self.net = self:to_cuda(loaded_model.net)
         col_encoder = self:to_cuda(loaded_model.col_encoder or loaded_model.encoder)
         row_encoder = self:to_cuda(loaded_model.row_encoder or loaded_model.row_table)
-        row_table = self:to_cuda(loaded_model.row_table)
-        col_table = self:to_cuda(loaded_model.col_table)
+        col_table = col_encoder:findModules('nn.LookupTable')[1] -- assumes the encoder has exactly 1 lookup table
+        row_table = row_encoder:findModules('nn.LookupTable')[1]
         self.opt_state = loaded_model.opt_state
-        for key, val in pairs(loaded_model.opt_state) do if (torch.type(val) == 'torch.DoubleTensor') then self.opt_state[key] = self:to_cuda(val) end; end
+        for key, val in pairs(loaded_model.opt_state) do
+            if (torch.type(val) == 'torch.DoubleTensor') then self.opt_state[key] = self:to_cuda(val) end
+        end
     else
         self.net = self:build_network(row_encoder, col_encoder)
     end
@@ -101,6 +103,7 @@ function UniversalSchemaEncoder:train(num_epochs)
 
     -- make sure model save dir exists
     if self.params.saveModel ~= '' then os.execute("mkdir -p " .. self.params.saveModel) end
+    local best_map = -1
     for epoch = 1, num_epochs
     do
         self.net:training()
@@ -108,7 +111,7 @@ function UniversalSchemaEncoder:train(num_epochs)
         local batches = self:gen_training_batches(self.train_data)
         local shuffle = torch.randperm(#batches)
         local epoch_error = 0
-        print('Starting epoch '.. epoch .. ' of ' .. num_epochs, '\n')
+        print('Starting epoch '.. epoch .. ' of ' .. num_epochs)
         for i = 1, #batches
         do
             local batch = self.params.shuffle and batches[shuffle[i]] or batches[i]
@@ -123,14 +126,18 @@ function UniversalSchemaEncoder:train(num_epochs)
                 io.flush()
             end
         end
-        print(string.format('\nEpoch error = %f', epoch_error))
+        print(string.format('\nEpoch error = %f\n', epoch_error))
         if (epoch % self.params.evaluateFrequency == 0 and epoch < num_epochs) then
-            self:evaluate(epoch)
-            self:save_model(epoch-1)
+            local map = self:evaluate(epoch)
+            if map == -1 then self:save_model(epoch-1)
+            elseif map > best_map then self:save_model('best'); best_map = map
+            end
         end
     end
-    self:evaluate(num_epochs)
-    self:save_model(num_epochs)
+    local map = self:evaluate(num_epochs)
+    if map == -1 then self:save_model(num_epochs)
+    elseif map > best_map then self:save_model('best'); best_map = map
+    end
 end
 
 function UniversalSchemaEncoder:optim_update(net, criterion, x, y, parameters, grad_params, opt_config, opt_state, epoch)
@@ -252,11 +259,12 @@ end
 
 function UniversalSchemaEncoder:evaluate(epoch)
     self.net:evaluate()
-    if self.params.test ~= '' then self:map(self.params.test, true) end
+    local map = self.params.test ~= '' and self:map(self.params.test, true) or -1
     if self.params.vocab ~= '' and self.params.tacYear ~= '' then
         self:tac_eval(self.params.saveModel .. '/' .. epoch, self.params.resultDir .. '/' .. epoch, self.params.evalArgs)
     end
     self.net:clearState()
+    return map
 end
 
 function UniversalSchemaEncoder:map(fileStr, high_score)
@@ -271,7 +279,8 @@ function UniversalSchemaEncoder:map(fileStr, high_score)
             (map / math.max(file_count, 1)), ap, file)); io.flush()
     end
     map = map / math.max(1.0, file_count)
-    print(string.format('\nMAP : %2.3f', map))
+    print(string.format('\nMAP : %2.3f\n', map))
+    return map
 end
 
 function UniversalSchemaEncoder:avg_precision(file, high_score)
@@ -418,16 +427,16 @@ function UniversalSchemaEncoder:load_sub_data_three_col(sub_data, entities)
 end
 
 
-function UniversalSchemaEncoder:save_model(epoch)
+function UniversalSchemaEncoder:save_model(model_name)
     if self.params.saveModel ~= '' then
         self.net:clearState()
         local cpu_opt = {}
         for k,v in pairs(self.opt_state) do cpu_opt[k] = torch.type(v) == 'torch.CudaTensor' and v:double() or v end
 
-        torch.save(self.params.saveModel .. '/' .. epoch .. '-model',
+        torch.save(self.params.saveModel .. '/' .. model_name .. '-model',
             {net = self.net:clone():float(), col_encoder = self.col_encoder:clone():float(), row_encoder = self.row_encoder:clone():float(), opt_state = cpu_opt})
-        torch.save(self.params.saveModel .. '/' .. epoch .. '-rows', self.params.gpuid >= 0 and self.row_table.weight:double() or self.row_table.weight)
-        torch.save(self.params.saveModel .. '/' .. epoch .. '-cols', self.params.gpuid >= 0 and self.col_table.weight:double() or self.col_table.weight)
+        torch.save(self.params.saveModel .. '/' .. model_name .. '-rows', self.params.gpuid >= 0 and self.row_table.weight:double() or self.row_table.weight)
+        torch.save(self.params.saveModel .. '/' .. model_name .. '-cols', self.params.gpuid >= 0 and self.col_table.weight:double() or self.col_table.weight)
     end
 end
 
