@@ -3,7 +3,7 @@ export NAME=mean-relation
 
 export LOG_ROOT="${TH_RELEX_ROOT}/models/akbc/$NAME"
 export TRAIN_FILE_ROOT="$TH_RELEX_ROOT/data/new-format-sample-data/pooling"
-export TRAIN_FILE="train-rels.torch"
+export TRAIN_FILE="train-rel-rel.torch"
 export TEST_FILE=`ls $TH_RELEX_ROOT/data/new-format-sample-data/pooling/test-pooled.torch/dev/* | tr '\n' ','`
 export SAVE_MODEL=true
 
