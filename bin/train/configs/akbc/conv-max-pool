@@ -6,16 +6,16 @@ export TRAIN_FILE_ROOT="$TH_RELEX_ROOT/data/new-format-sample-data/pooling"
 export TRAIN_FILE="train-rel-rel.torch"
 export TEST_FILE=`ls $TH_RELEX_ROOT/data/new-format-sample-data/pooling/test-pooled.torch/dev/* | tr '\n' ','`
 
-#export TRAINED_REL="models/akbc/uschema-example-3col/2016-02-19_16/best-cols"
-#export TRAINED_EP="models/akbc/uschema-example-3col/2016-02-19_16/best-cols"
-#export SAVE_MODEL=true
+export TRAINED_REL="models/akbc/uschema-example-3col/2016-02-19_16/best-cols"
+export TRAINED_EP="models/akbc/uschema-example-3col/2016-02-19_16/best-cols"
+export SAVE_MODEL=true
 
 
 export BATCH_SIZE=256
 export LEARN_RATE=.001
 export L2="1e-8"
 export MAX_SEQ=500
-export MAX_EPOCHS=50
+export MAX_EPOCHS=200
 export EVAL_FREQ=3
 
 export ROW_DIM=300
