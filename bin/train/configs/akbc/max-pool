@@ -1,5 +1,5 @@
 export MODEL=UniversalSchema
-export NAME=topk
+export NAME=max-pool
 
 export LOG_ROOT="${TH_RELEX_ROOT}/models/akbc/$NAME"
 export TRAIN_FILE_ROOT="$TH_RELEX_ROOT/data/new-format-sample-data/pooling"

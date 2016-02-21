@@ -1,5 +1,5 @@
 export MODEL=UniversalSchema
-export NAME=lstm-topk
+export NAME=conv-max-pool
 
 export LOG_ROOT="${TH_RELEX_ROOT}/models/akbc/$NAME"
 export TRAIN_FILE_ROOT="$TH_RELEX_ROOT/data/new-format-sample-data/pooling"
@@ -8,23 +8,22 @@ export TEST_FILE=`ls $TH_RELEX_ROOT/data/new-format-sample-data/pooling/test-poo
 
 #export TRAINED_REL="models/uschema-example-3col/2016-02-15_19/20-cols"
 #export TRAINED_EP="models/uschema-example-3col/2016-02-15_19/20-cols"
-export SAVE_MODEL=true
+#export SAVE_MODEL=true
 
 
-export BATCH_SIZE=128
-export LEARN_RATE=.0001
-
+export BATCH_SIZE=256
+export LEARN_RATE=.001
+export L2="1e-8"
 export MAX_SEQ=500
 export MAX_EPOCHS=50
 export EVAL_FREQ=3
-export DROPOUT=.1
 
-export ROW_DIM=200
-export COL_DIM=200
-export TOKEN_DIM=200
+export ROW_DIM=300
+export COL_DIM=300
 export ROW_ENCODER="lookup-table"
-export COL_ENCODER="lstm"
+export COL_ENCODER="lookup-table"
 
+#export TIE_ENCODERS=true
 export SHARED_VOCAB=true
-export RELATION_POOL="identity"
-export MODEL_TYPE="topK"
+export RELATION_POOL="Max"
+export MODEL_TYPE="relation-pool"
