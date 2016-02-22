@@ -23,12 +23,13 @@ gpuids=( `eval $TH_RELEX_ROOT/bin/get-free-gpus.sh | sed '1d'` )
 num_gpus=${#gpuids[@]}
 
 # grid search over these
-lrs="0.005 0.01 0.05"
+lrs="0.0001 0.001 0.01"
 dropouts="0.0" # 0.1 0.25"
+clipgrads="1 10" # 0.1 0.25"
 l2s="0 1e-8 1e-6"
-epsilons="1e-8 1e-6 1e-4"
-dims="50 100 250 500"
-batchsizes="128 256 512 1024"
+epsilons="1e-8 1e-4"
+dims="300"
+batchsizes="256 512 1024"
 
 # array to hold all the commands we'll distribute
 declare -a commands
@@ -42,23 +43,27 @@ do
        do
            for batchsize in $batchsizes;
            do
-               for dropout in $dropouts;
+               for clipgrad in $clipgrads;
                do
-                   for epsilon in $epsilons;
+                   for dropout in $dropouts;
                    do
-                       CMD="$RUN_CMD \
-                            -colDim $dim \
-                            -rowDim $dim \
-                            -learningRate $lr \
-                            -l2Reg $l2 \
-                            -epsilon $epsilon \
-                            -batchSize $batchsize \
-                            -dropout $dropout \
-                            -gpuid XX \
-                            &> $OUT_LOG/train-$lr-$dim-$dropout-$l2-$epsilon-$batchsize.log"
-                       commands+=("$CMD")
-                       echo "Adding job lr=$lr dim=$dim dropout=$dropout l2=$l2 batchsize=$batchsize epsilon=$epsilon"
-                   done
+                       for epsilon in $epsilons;
+                       do
+                           CMD="$RUN_CMD \
+                                -colDim $dim \
+                                -rowDim $dim \
+                                -learningRate $lr \
+                                -l2Reg $l2 \
+                                -epsilon $epsilon \
+                                -batchSize $batchsize \
+                                -dropout $dropout \
+                                -clipGrads $clipgrad \
+                                -gpuid XX \
+                                &> $OUT_LOG/train-$lr-$dim-$dropout-$clipgrad-$l2-$epsilon-$batchsize.log"
+                           commands+=("$CMD")
+                           echo "Adding job lr=$lr dim=$dim dropout=$dropout l2=$l2 batchsize=$batchsize epsilon=$epsilon"
+                       done
+                    done
                 done
            done
        done
