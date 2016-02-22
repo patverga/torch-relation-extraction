@@ -7,8 +7,8 @@ additional_args=${@:2}
 
 source $config
 export SAVE_MODEL=""
-export MAX_EPOCHS=25
-export EVAL_FREQ=5
+export MAX_EPOCHS=11
+export EVAL_FREQ=1
 
 OUT_LOG=$LOG_ROOT/hyperparams/
 mkdir -p $OUT_LOG
@@ -25,11 +25,11 @@ num_gpus=${#gpuids[@]}
 # grid search over these
 lrs="0.0001 0.001 0.01"
 dropouts="0.0" # 0.1 0.25"
-clipgrads="1 10" # 0.1 0.25"
-l2s="0 1e-8 1e-6"
-epsilons="1e-8 1e-4"
+clipgrads="10 100" # 0.1 0.25"
+l2s="1e-8 1e-6 1e-4"
+epsilons="1e-8 1e-6 1e-4"
 dims="300"
-batchsizes="256 512 1024"
+batchsizes="1024 512"
 
 # array to hold all the commands we'll distribute
 declare -a commands
