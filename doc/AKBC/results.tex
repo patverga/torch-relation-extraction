@@ -12,15 +12,13 @@ MAP over a held out subset of our tac distant supervision data
 \hline
 \bf Model & MAP \\
 \hline\hline
-USchema              & 47.9 \\
-Comp-USchema         & 47.5  \\
+entity pair embeddings      & 47.9 \\
+TopK relations (k=10)       & \bf48.5  \\
+Mean relations              & 48.4 \\
+Max relation                & 28.1  \\
 \hline\hline
-USchema-TopK         & \bf48.5  \\
-USchema-Mean         & 48.4 \\
-USchema-Max          & 28.1  \\
-Comp-USchema-Mean    & ?  \\
-Comp-USchema-Max     & ? \\
-Comp-USchema-TopK    & ?  \\
+max-pool                    & ? \\
+convolution-max-pool        & 42.7 \\
 \hline
 
 \hline
@@ -30,3 +28,26 @@ Comp-USchema-TopK    & ?  \\
 \end{center}
 \vspace{-.3cm}
 \end{table}
+
+
+%\begin{table}[h!]
+%\setlength{\tabcolsep}{4.1pt}
+%\begin{center}
+%\begin{tabular}{|lr|}
+%\hline
+%\bf Model & MAP \\
+%\hline\hline
+%Comp-USchema         & 47.5  \\
+%\hline\hline
+%Comp-USchema-Mean    & ?  \\
+%Comp-USchema-Max     & ? \\
+%Comp-USchema-TopK    & ?  \\
+%\hline
+%
+%\hline
+%\end{tabular}
+%\caption{compositional models : MAP over a held out subset of our tac distant supervision data
+%\label{distant-supervision-table}}
+%\end{center}
+%\vspace{-.3cm}
+%\end{table}

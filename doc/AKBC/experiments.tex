@@ -6,3 +6,24 @@ We then join this set of entity pairs with the TAC newswire corpus.
 During training we hold out 10,000 positive relations.
 We compute MAP over the entire columns for each relation.
 We randomly choose 10 relations for our development set and use the other 31 for evaluation.
+
+
+\begin{table}[h!]
+\setlength{\tabcolsep}{4.1pt}
+\begin{center}
+\begin{tabular}{|l|r|r|r|}
+\hline
+\bf source & facts & relation types & entity pairs \\
+\hline\hline
+text & 1732346 & & 319066  \\
+\hline
+kb & 353618 & 41 & 319066 \\
+\hline
+
+\hline
+\end{tabular}
+\caption{Data set stats
+\label{data stats}}
+\end{center}
+\vspace{-.3cm}
+\end{table}

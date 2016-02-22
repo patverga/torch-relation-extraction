@@ -1,6 +1,15 @@
 
 \section{Introduction\label{introduction}}
 
+The goal of automatic knowledge base construction (AKBC) is to build a structured knowledge base (KB) of facts using a noisy corpus of raw text evidence, and perhaps an initial seed KB to be augmented~\citep{NELL,yago,freebase}. AKBC supports downstream reasoning at a high level about extracted entities and their relations, and thus has broad-reaching applications to a variety of domains.
+
+One challenge in AKBC is aligning knowledge from a structured KB with a text corpus in order to perform supervised learning through \emph{distant supervision}. \emph{Universal schema}~\citep{limin} along with its extensions~\citep{yao2013universal,vector_pra,neelakantan2015compositional,logicmfnaacl15}, avoids alignment by jointly embedding KB relations, entities, and surface text patterns. This propagates information between KB annotation and corresponding textual evidence.
+
+The above applications of universal schema express each text relation as a distinct item to be embedded. This harms its ability to generalize to inputs not precisely seen at training time. Recently work \citep{toutanova2015representing,verga2015multilingual} has addressed this issue by embedding text patterns using a deep sentence encoder, which captures the compositional semantics of textual relations and allows for prediction on inputs never seen before.
+
+While compositional universal schema has addressed the issue of unseen textual patterns, the problem of unseen entity pairs has not yet been resolved. Our solution is to remove explicit representations of entity pair vectors, and instead express each entity pair as a function of its mentions.
+
+
 \subsection {Universal Schema}
 
 Universal Schema embeds textual patters and knowledge bases into a shared space in order to reason over relations and entity pairs.
