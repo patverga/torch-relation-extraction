@@ -1,5 +1,5 @@
 export MODEL=UniversalSchema
-export NAME="uschema-example-3col"
+export NAME="uschema-best"
 
 export LOG_ROOT="${TH_RELEX_ROOT}/models/akbc/$NAME"
 

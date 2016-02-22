@@ -85,6 +85,9 @@ for gpuid in ${gpuids[@]}; do
         jobid=$((j * jobs_per_gpu + i))
         comm="${commands[$jobid]/XX/$gpuid}"
         echo "Starting job $jobid on gpu $gpuid"
+        if [ "$gpuid" -ge 0 ]; then
+            comm="CUDA_VISIBLE_DEVICES=$gpuid $comm -gpuid 0"
+        fi
         eval ${comm}
     done &
     j=$((j + 1))
