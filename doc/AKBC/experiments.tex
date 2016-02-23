@@ -5,7 +5,9 @@ We query freebase to find all positive examples for these relations.
 We then join this set of entity pairs with the TAC newswire corpus.
 During training we hold out 10,000 positive relations.
 We compute MAP over the entire columns for each relation.
-We randomly choose 10 relations for our development set and use the other 31 for evaluation.
+We hold out 30,000 kb facts from training, using 10,000 for development and 20,000 for testing.
+For each relation, we rank all entity pairs for which that relation is not a training fact.
+We then compute mean average precision over the set of relations.
 
 
 \begin{table}[h!]
@@ -15,9 +17,9 @@ We randomly choose 10 relations for our development set and use the other 31 for
 \hline
 \bf source & facts & relation types & entity pairs \\
 \hline\hline
-text & 1732346 & & 319066  \\
+text & 287741 & 55268 & 93033  \\
 \hline
-kb & 353618 & 41 & 319066 \\
+kb & 152224 & 41 & 119054 \\
 \hline
 
 \hline

@@ -1,25 +1,24 @@
 
 \section{Introduction\label{introduction}}
 
-The goal of automatic knowledge base construction (AKBC) is to build a structured knowledge base (KB) of facts using a noisy corpus of raw text evidence, and perhaps an initial seed KB to be augmented~\citep{NELL,yago,freebase}. AKBC supports downstream reasoning at a high level about extracted entities and their relations, and thus has broad-reaching applications to a variety of domains.
-
-One challenge in AKBC is aligning knowledge from a structured KB with a text corpus in order to perform supervised learning through \emph{distant supervision}. \emph{Universal schema}~\citep{limin} along with its extensions~\citep{yao2013universal,vector_pra,neelakantan2015compositional,logicmfnaacl15}, avoids alignment by jointly embedding KB relations, entities, and surface text patterns. This propagates information between KB annotation and corresponding textual evidence.
-
-The above applications of universal schema express each text relation as a distinct item to be embedded. This harms its ability to generalize to inputs not precisely seen at training time. Recently work \citep{toutanova2015representing,verga2015multilingual} has addressed this issue by embedding text patterns using a deep sentence encoder, which captures the compositional semantics of textual relations and allows for prediction on inputs never seen before.
-
-While compositional universal schema has addressed the issue of unseen textual patterns, the problem of unseen entity pairs has not yet been resolved. Our solution is to remove explicit representations of entity pair vectors, and instead express each entity pair as a function of its mentions.
-
 
 \subsection {Universal Schema}
-
+The goal of automatic knowledge base construction (AKBC) is to build a structured knowledge base (KB) of facts using a noisy corpus of raw text evidence, and perhaps an initial seed KB to be augmented~\citep{NELL,yago,freebase}. AKBC supports downstream reasoning at a high level about extracted entities and their relations, and thus has broad-reaching applications to a variety of domains.
+An effective approach to AKBC is Universal Schema.
 Universal Schema embeds textual patters and knowledge bases into a shared space in order to reason over relations and entity pairs.
 A low dimensional embedding is learned for each entity pair and each relation type using matrix factorization.
 The model is then able to infer relations between entities as the dot product between the two entity pair and relation type vectors.
 
 Unfortunately, this formulation limits the generalization of the model.
+In its original form, Universal Schema can only reason about entity pairs and textual relations explicitly seen at training time.
+
+\subsection {Compositional Universal Schema}
 
 Recently Universal Schema has been extended to deal with compositional representations of textual relations \citep{toutanova2015representing,verga2015multilingual}
-This gives us the ability to generalize to unseen textual patterns.
+Compositional Universal Schema has two main advantages over explicit modeling of textual patterns.
+The first is tt allows for the model to share statistics between very similar patterns.
+Instead of modeling the text pattern 'lives in the city' and 'lives in the city of' as distinct atomic units, they can instead be composed compositionally of the same word embeddings.
+Second, and even more importantly, Compositional Universal Schema allows us to generalize to all possible textual patterns, allowing us to reason over any arbitrary text.
 
 \begin{figure}[h]
 \caption{Top : Universal Schema expresses each textual pattern as an atomic unit \protect\citet{riedel2010modeling}.
@@ -27,6 +26,20 @@ Bottom : Compositional Universal Schema uses an lstm to encode each textual rela
 \centering
 \includegraphics[scale=.68]{relation-models}
 \end{figure}
+
+\subsection {Universal Schema without Entity Embeddings}
+
+While Compositional Universal Schema addresses reasoning over arbitrary textual patterns, it is still limited to reasoning over entity pairs seen at training time.
+\citet{verga2015multilingual} approach this problem by using Universal Schema as a sentence classifier - directly comparing a textual relation to a kb relation to perform relation extraction.
+However, this approach is unsatisfactory for two reasons.
+The first is that this creates an inconsistency between training and testing, as the model is trained to predict compatibality between entity pairs and relations and not relations directly.
+Secondly, it considers only a single piece of evidence while making its prediction.
+
+The learned entity pair can be seen as a sumamrization of all relations for which that entity pair was seen.
+
+
+Rather than modeling each entity pair as an explicit vector, we instead treat each entity pair as an aggregate function over each of its relation types.
+This allows us to trivially extend to unseen entity pairs, have a direct link to provenance, and allocate a variable number of parameters per entity pair.
 
 
 \subsection {Entities vs Entity Pairs}
@@ -48,9 +61,3 @@ Both~\citet{toutanova2015representing} and~\citet{limin} observed that the entit
 This is particularly important when jointly embedding text and knowledge bases.
 By leveraging large amounts of unlabeled text, Universal Schema is able to find additional textual evidence for entity pairs.
 We are interested in high precision information extraction from direct textual provenance.
-
-
-\subsection {Entities as Relations}
-
-Rather than modeling each entity pair as an explicit vector, we instead treat each entity pair as an aggregate function over each of its relation types.
-This allows us to trivially extend to unseen entity pairs, have a direct link to provenance, and allocate a variable number of parameters per entity pair.
