@@ -10,8 +10,9 @@ export TRAIN_FILE_ROOT="$TH_RELEX_ROOT/data/revised-split/torch"
 export TRAIN_FILE="train-mtx-pooled-rel-rel"
 export TEST_FILE=`ls $TH_RELEX_ROOT/data/revised-split/torch/test-mtx-pooled.torch//dev/* | tr '\n' ','`
 
-export TRAINED_REL="models/akbc/uschema-pretrain/2016-02-22_22//best-cols"
-export TRAINED_EP="models/akbc/uschema-pretrain/2016-02-22_22//best-cols"
+export TRAINED_REL="models/akbc/uschema-pretrain/2016-02-23_09/best-cols"
+export TRAINED_EP="models/akbc/uschema-pretrain/2016-02-23_09/best-cols"
+
 export SAVE_MODEL=true
 
 

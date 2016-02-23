@@ -63,6 +63,9 @@ fi
 if [ "$L2" ]; then
   RUN_CMD="$RUN_CMD -l2Reg $L2"
 fi
+if [ "$EPSILON" ]; then
+  RUN_CMD="$RUN_CMD -epsilon $EPSILON"
+fi
 if [ "$LAYER_DROPOUT" ]; then
   RUN_CMD="$RUN_CMD -layerDropout $LAYER_DROPOUT"
 fi

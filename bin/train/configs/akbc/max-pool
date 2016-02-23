@@ -6,17 +6,19 @@ export TRAIN_FILE_ROOT="$TH_RELEX_ROOT/data/revised-split/torch"
 export TRAIN_FILE="train-mtx-pooled-rel-rel"
 export TEST_FILE=`ls $TH_RELEX_ROOT/data/revised-split/torch/test-mtx-pooled.torch//dev/* | tr '\n' ','`
 
-export TRAINED_REL="models/akbc/uschema-pretrain/2016-02-22_22//best-cols"
-export TRAINED_EP="models/akbc/uschema-pretrain/2016-02-22_22//best-cols"
+export TRAINED_REL="models/akbc/uschema-pretrain/2016-02-23_09/best-cols"
+export TRAINED_EP="models/akbc/uschema-pretrain/2016-02-23_09/best-cols"
 export SAVE_MODEL=true
 
 
-export BATCH_SIZE=256
-export LEARN_RATE=.001
-export L2="1e-8"
+export BATCH_SIZE=1024
+export LEARN_RATE=.0001
+export L2="1e-6"
+export EPSILON="1e-6"
+export CLIP_GRADS=10
 export MAX_SEQ=500
-export MAX_EPOCHS=200
-export EVAL_FREQ=3
+export MAX_EPOCHS=50
+export EVAL_FREQ=1
 
 export ROW_DIM=300
 export COL_DIM=300
