@@ -53,6 +53,9 @@ fi
 if [ "$RELATION_POOL" ]; then
   RUN_CMD="$RUN_CMD -relationPool $RELATION_POOL"
 fi
+if [ "$K" ]; then
+  RUN_CMD="$RUN_CMD -k $K"
+fi
 
 if [ "$DROPOUT" ]; then
   RUN_CMD="$RUN_CMD -dropout $DROPOUT"

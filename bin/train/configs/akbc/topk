@@ -2,13 +2,13 @@ export MODEL=UniversalSchema
 export NAME=topk
 
 export LOG_ROOT="${TH_RELEX_ROOT}/models/akbc/$NAME"
-export TRAIN_FILE_ROOT="$TH_RELEX_ROOT/data/new-format-sample-data/pooling"
-export TRAIN_FILE="train-rel-rel.torch"
-export TEST_FILE=`ls $TH_RELEX_ROOT/data/new-format-sample-data/pooling/test-pooled.torch/dev/* | tr '\n' ','`
+export TRAIN_FILE_ROOT="$TH_RELEX_ROOT/data/revised-split/torch"
+export TRAIN_FILE="train-mtx-pooled-rel-rel"
+export TEST_FILE=`ls $TH_RELEX_ROOT/data/revised-split/torch/test-mtx-pooled.torch//dev/* | tr '\n' ','`
 
-#export TRAINED_REL="models/uschema-example-3col/2016-02-15_19/20-cols"
-#export TRAINED_EP="models/uschema-example-3col/2016-02-15_19/20-cols"
-#export SAVE_MODEL=true
+export TRAINED_REL="models/akbc/uschema-pretrain/2016-02-22_22//best-cols"
+export TRAINED_EP="models/akbc/uschema-pretrain/2016-02-22_22//best-cols"
+export SAVE_MODEL=true
 
 
 export BATCH_SIZE=256
@@ -27,3 +27,4 @@ export COL_ENCODER="lookup-table"
 export SHARED_VOCAB=true
 export RELATION_POOL="identity"
 export MODEL_TYPE="topK"
+export K=5

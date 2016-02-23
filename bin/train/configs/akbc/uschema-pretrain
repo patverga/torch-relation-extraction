@@ -3,9 +3,9 @@ export NAME="uschema-pretrain"
 
 export LOG_ROOT="${TH_RELEX_ROOT}/models/akbc/$NAME"
 
-export TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/data/new-format-sample-data"
-export TRAIN_FILE="train-mtx-3col.torch"
-export TEST_FILE=`ls $TH_RELEX_ROOT/data/new-format-sample-data/test-mtx-3col.torch/dev/* | tr '\n' ','`
+export TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/data/revised-split/torch/"
+export TRAIN_FILE="train-mtx.torch"
+export TEST_FILE=`ls $TH_RELEX_ROOT/data/revised-split/torch/test-mtx.torch/dev/* | tr '\n' ','`
 export SAVE_MODEL=true
 
 export BATCH_SIZE=1024
@@ -17,6 +17,6 @@ export MAX_EPOCHS=50
 export EVAL_FREQ=3
 
 export COL_NORM=0
-export CLIP_GRADS=0
+export CLIP_GRADS=10
 
 export COL_ENCODER="lookup-table"

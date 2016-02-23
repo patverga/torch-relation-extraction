@@ -2,13 +2,13 @@ export MODEL=UniversalSchema
 export NAME=mean-relation
 
 export LOG_ROOT="${TH_RELEX_ROOT}/models/akbc/$NAME"
-export TRAIN_FILE_ROOT="$TH_RELEX_ROOT/data/new-format-sample-data/pooling"
-export TRAIN_FILE="train-rel-rel.torch"
-export TEST_FILE=`ls $TH_RELEX_ROOT/data/new-format-sample-data/pooling/test-pooled.torch/dev/* | tr '\n' ','`
+export TRAIN_FILE_ROOT="$TH_RELEX_ROOT/data/revised-split/torch"
+export TRAIN_FILE="train-mtx-pooled-rel-rel"
+export TEST_FILE=`ls $TH_RELEX_ROOT/data/revised-split/torch/test-mtx-pooled.torch//dev/* | tr '\n' ','`
 export SAVE_MODEL=true
 
-#export TRAINED_REL="models/uschema-example-3col/2016-02-15_19/20-cols"
-
+export TRAINED_REL="models/akbc/uschema-pretrain/2016-02-22_22//best-cols"
+export TRAINED_EP="models/akbc/uschema-pretrain/2016-02-22_22//best-cols"
 
 export BATCH_SIZE=1024
 export LEARN_RATE=.0001
@@ -16,11 +16,9 @@ export LEARN_RATE=.0001
 export MAX_SEQ=500
 export MAX_EPOCHS=50
 export EVAL_FREQ=3
-export DROPOUT=.1
 
-export ROW_DIM=50
-export COL_DIM=50
-export TOKEN_DIM=100
+export ROW_DIM=300
+export COL_DIM=300
 export ROW_ENCODER="lookup-table"
 export COL_ENCODER="lookup-table"
 
