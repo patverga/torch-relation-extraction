@@ -29,6 +29,30 @@ convolution-max-pool        & 42.7 \\
 \vspace{-.3cm}
 \end{table}
 
+\begin{table}[h!]
+\setlength{\tabcolsep}{4.1pt}
+\begin{center}
+\begin{tabular}{|lr|}
+\hline
+\bf Model & MAP \\
+\hline\hline
+entity pair embeddings      & 34.1 \\
+TopK relations (k=5)       & 32.4  \\
+Mean relations              & 32.2 \\
+Max relation                & 22.7  \\
+\hline\hline
+max-pool                    & 29.6 \\
+convolution-max-pool        & ? \\
+\hline
+
+\hline
+\end{tabular}
+\caption{MAP over a held out subset of our tac distant supervision data
+\label{distant-supervision-table}}
+\end{center}
+\vspace{-.3cm}
+\end{table}
+
 
 %\begin{table}[h!]
 %\setlength{\tabcolsep}{4.1pt}
