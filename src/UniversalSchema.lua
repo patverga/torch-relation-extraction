@@ -14,6 +14,7 @@ require 'UniversalSchemaEntityEncoder'
 require 'UniversalSchemaJointEncoder'
 require 'TransEEncoder'
 require 'PositiveOnlyUniversalSchema'
+require 'SparseClassifier'
 
 local params = CmdArgs:parse(arg)
 -- use relation vectors instead of word embeddings
@@ -102,6 +103,8 @@ elseif params.modelType == 'entity-pair' then -- standard uschema with entity pa
 elseif params.modelType == 'positive' then
     model = PositiveOnlyUniversalSchema(params, row_table, row_encoder, col_table, col_encoder, false)
 
+elseif params.modelType == 'sparse' then
+    model = SparseClassifier(params, row_table, row_encoder, col_table, col_encoder, false)
 else
     print('Must supply option to modelType. Valid options are: '
             .. 'entity-pair, entity, transE, max, mean, attention-dot, and attention-matrix')

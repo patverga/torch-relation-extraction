@@ -180,7 +180,10 @@ function UniversalSchemaEncoder:gen_training_batches(data, shuffle)
     if data.num_cols or data.col then
         if #data > 0 then
             for seq_size = 1, self.params.maxSeq and math.min(self.params.maxSeq, #data) or #data do
-                if data[seq_size] and data[seq_size].row then self:gen_subdata_batches_three_col(data, data[seq_size], batches, self.row_table.weight:size(1), shuffle) end
+                if data[seq_size] and data[seq_size].row then
+                    local neg_size = self.row_table and self.row_table.weight:size(1) or 0
+                    self:gen_subdata_batches_three_col(data, data[seq_size], batches, neg_size, shuffle)
+                end
             end
         else  self:gen_subdata_batches_three_col(data, data, batches, self.row_table.weight:size(1), shuffle) end
     else
