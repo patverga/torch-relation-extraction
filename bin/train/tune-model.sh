@@ -26,8 +26,8 @@ num_gpus=${#gpuids[@]}
 lrs="0.0001 0.001 0.01"
 dropouts="0.0" # 0.1 0.25"
 clipgrads="10 100" # 0.1 0.25"
-l2s="1e-8 1e-6 1e-4"
-epsilons="1e-8 1e-6 1e-4"
+l2s="1e-8 1e-4"
+epsilons="1e-8 1e-4"
 dims="300"
 batchsizes="1024 512"
 

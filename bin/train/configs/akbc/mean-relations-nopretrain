@@ -1,0 +1,29 @@
+export MODEL=UniversalSchema
+export NAME=mean-relation-no-pretrain
+
+export LOG_ROOT="${TH_RELEX_ROOT}/models/akbc/$NAME"
+export TRAIN_FILE_ROOT="$TH_RELEX_ROOT/data/revised-split/torch"
+export TRAIN_FILE="train-mtx-pooled-rel-rel"
+export TEST_FILE=`ls $TH_RELEX_ROOT/data/revised-split/torch/test-mtx-pooled.torch//dev/* | tr '\n' ','`
+export SAVE_MODEL=true
+
+
+export BATCH_SIZE=512
+export LEARN_RATE=.0001
+export EPSILON="1e-6"
+export L2="1e-6"
+export CLIP_GRADS=100
+
+export MAX_SEQ=500
+export MAX_EPOCHS=50
+export EVAL_FREQ=1
+
+export ROW_DIM=300
+export COL_DIM=300
+export ROW_ENCODER="lookup-table"
+export COL_ENCODER="lookup-table"
+
+
+export TIE_ENCODERS=true
+export RELATION_POOL="identity"
+export MODEL_TYPE="mean"
