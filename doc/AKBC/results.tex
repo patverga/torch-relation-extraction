@@ -34,7 +34,12 @@ kb & 152224 & 41 & 119054 \\
 
 
 \subsection {Results}
-\todo{Describe results}
+Our results show that relation aggregation is competitive with entity pair embeddings and it is possible to have a Universal Schema model without entity embeddings.
+We find that the most effective aggregation function in our experiments is the TopK relation strategy.
+As discussed in Section \ref{sec:functions}, taking the top k relation types strikes a balance between the two extremes of Mean and Max relations.
+While Mean relations is competetive with TopK, this is most likely a result of using a small data set.
+
+
 %\begin{table}[h!]
 %\setlength{\tabcolsep}{4.1pt}
 %\begin{center}
@@ -43,18 +48,15 @@ kb & 152224 & 41 & 119054 \\
 %\bf Model & MAP \\
 %\hline\hline
 %entity pair embeddings      & 47.9 \\
-%TopK relations (k=10)       & \bf48.5  \\
+%TopK relations              & \bf48.5  \\
 %Mean relations              & 48.4 \\
 %Max relation                & 28.1  \\
-%\hline\hline
-%max-pool                    & ? \\
-%convolution-max-pool        & 42.7 \\
 %\hline
 %
 %\hline
 %\end{tabular}
 %\caption{MAP over a held out subset of our tac distant supervision data
-%\label{distant-supervision-table}}
+%\label{tab:results}}
 %\end{center}
 %\vspace{-.3cm}
 %\end{table}
@@ -67,11 +69,12 @@ kb & 152224 & 41 & 119054 \\
 \bf Model & MAP \\
 \hline\hline
 entity pair embeddings      & 34.1 \\
+\hline
 TopK relations (k=5)       & 32.4  \\
 Mean relations              & 32.2 \\
 Max relation                & 22.7  \\
 max-pool                    & 30.0 \\
-convolution-max-pool        & ? \\
+%convolution-max-pool        & 28.3 \\
 \hline
 
 \hline
