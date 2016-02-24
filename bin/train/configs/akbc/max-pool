@@ -11,11 +11,11 @@ export TRAINED_EP="models/akbc/uschema-pretrain/2016-02-23_09/best-cols"
 export SAVE_MODEL=true
 
 
-export BATCH_SIZE=1024
+export BATCH_SIZE=512
 export LEARN_RATE=.0001
-export L2="1e-6"
-export EPSILON="1e-6"
-export CLIP_GRADS=10
+export L2="1e-8"
+export EPSILON="1e-8"
+export CLIP_GRADS=100
 export MAX_SEQ=500
 export MAX_EPOCHS=50
 export EVAL_FREQ=1
