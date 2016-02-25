@@ -70,40 +70,41 @@ While Mean relations is competetive with TopK, this is most likely a result of u
 \hline\hline
 entity pair embeddings      & 34.1 \\
 \hline
-TopK relations (k=5)       & 32.4  \\
-Mean relations              & 32.2 \\
-Max relation                & 22.7  \\
-max-pool                    & 30.0 \\
+TopK Relations (k=5)       & 32.4  \\
+Mean Relations              & 32.2 \\
+Max Relation                & 22.7  \\
+Max Pool                    & 30.0 \\
 %convolution-max-pool        & 28.3 \\
 \hline
 
 \hline
 \end{tabular}
-\caption{MAP over a held out subset of our tac distant supervision data
+\caption{With pretraining
 \label{distant-supervision-table}}
 \end{center}
 \vspace{-.3cm}
 \end{table}
 
 
-%\begin{table}[h!]
-%\setlength{\tabcolsep}{4.1pt}
-%\begin{center}
-%\begin{tabular}{|lr|}
-%\hline
-%\bf Model & MAP \\
-%\hline\hline
-%Comp-USchema         & 47.5  \\
-%\hline\hline
-%Comp-USchema-Mean    & ?  \\
-%Comp-USchema-Max     & ? \\
-%Comp-USchema-TopK    & ?  \\
-%\hline
-%
-%\hline
-%\end{tabular}
-%\caption{compositional models : MAP over a held out subset of our tac distant supervision data
-%\label{distant-supervision-table}}
-%\end{center}
-%\vspace{-.3cm}
-%\end{table}
+\begin{table}[h!]
+\setlength{\tabcolsep}{4.1pt}
+\begin{center}
+\begin{tabular}{|lr|}
+\hline
+\bf Model & MAP \\
+\hline\hline
+entity pair embeddings      & 34.1 \\
+\hline
+TopK Relations (k=5)       & 14.6  \\
+Mean Relations              & 17.2 \\
+Max Relation                & 10.4  \\
+Max Pool                    & 10.6 \\
+\hline
+
+\hline
+\end{tabular}
+\caption{No pretraining
+\label{tab:no-pretrain}}
+\end{center}
+\vspace{-.3cm}
+\end{table}

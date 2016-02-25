@@ -42,7 +42,13 @@
 \maketitle
 
 \begin{abstract}
-Universal schema jointly embeds knowledge bases and textual patterns to reason about entities and relations for automatic knowledge base construction and information extraction. In the past, entity pairs and relations were represented as learned vectors whose compatibility was determined by a scoring function. However, this leads to cold-start problems where the model is unable to reason about entity pairs and text patterns unseen at train time. Recently, compositional Universal Schema was proposed to address generalization to unseen text patterns. In this work we take the next step of removing explicit entity pair representations. Instead of learning vector representations for each entity pair in our training set, we treat an entity pair as a function of its relation. In our experiments, we hopefully show that this works.
+Universal schema jointly embeds knowledge bases and textual patterns to reason about entities and relations for automatic knowledge base construction and information extraction.
+In the past, entity pairs and relations were represented as learned vectors whose compatibility was determined by a scoring function.
+However, this leads to cold-start problems where the model is unable to reason about entity pairs and text patterns unseen at train time.
+Recently, compositional Universal Schema was proposed to address generalization to unseen text patterns.
+In this work we take the next step of removing explicit entity pair representations.
+Instead of learning vector representations for each entity pair in our training set, we treat an entity pair as a function of its relation.
+In this paper, we experiment with several aggregation functions and demonstrate that we can perform inference using only learned relation representations.
 \end{abstract}
 
 

@@ -142,7 +142,7 @@ end
 
 function UniversalSchemaEncoder:optim_update(net, criterion, x, y, parameters, grad_params, opt_config, opt_state, epoch)
     local err
-    if x[2]:dim() == 1 or x[2]:size(2) == 1 then opt_config.learningRate = self.params.learningRate * self.params.kbWeight end
+--    if x[2]:dim() == 1 or x[2]:size(2) == 1 then opt_config.learningRate = self.params.learningRate * self.params.kbWeight end
     local function fEval(parameters)
         if parameters ~= parameters then parameters:copy(parameters) end
         net:zeroGradParameters()

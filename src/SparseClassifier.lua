@@ -19,20 +19,20 @@ require 'PositiveOnlyUniversalSchema'
 
 local SparseClassifier, parent = torch.class('SparseClassifier', 'UniversalSchemaEncoder')
 
-local kb_rels = {}
-local kb_file = 'data/revised-split/torch/vocabs/kb-indices.txt'
-io.write('Loading kb map... ')
-local new_id = 1
-for line in io.lines(kb_file) do
-    local token, id = string.match(line, "([^\t]+)\t([^\t]+)")
-    if token and id then
-        id = tonumber(id)
-        if id > 1 then kb_rels[id] = new_id; new_id = new_id + 1 end
-    end
-end
-print('Done')
 
 function SparseClassifier:__init(params, row_table, row_encoder, col_table, col_encoder, use_entities)
+    self.kb_rels = {}
+    local kb_file = 'data/revised-split/torch/vocabs/kb-indices.txt'
+    io.write('Loading kb map... ')
+    local new_id = 1
+    for line in io.lines(kb_file) do
+        local token, id = string.match(line, "([^\t]+)\t([^\t]+)")
+        if token and id then
+            id = tonumber(id)
+            if id > 1 then self.kb_rels[id] = new_id; new_id = new_id + 1 end
+        end
+    end
+    print('Done')
     self.__index = self
     self.params = params
     self.opt_config = { learningRate = self.params.learningRate, epsilon = self.params.epsilon,
@@ -78,8 +78,8 @@ function SparseClassifier:gen_subdata_batches_three_col(data, sub_data, batches,
     local kb_mapped = {}
     -- only keep kb exampels
     for i = 1, sub_data.row:size(1) do
-        if kb_rels[sub_data.row[i]] then
-           table.insert(kb_mapped,  kb_rels[sub_data.row[i]])
+        if self.kb_rels[sub_data.row[i]] then
+           table.insert(kb_mapped, self.kb_rels[sub_data.row[i]])
            table.insert(kb_indices,  i)
         end
         i = i + 1

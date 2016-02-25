@@ -12,8 +12,8 @@ Unfortunately, this formulation limits the generalization of the model.
 In its original form, Universal Schema can only reason about entity pairs and textual relations explicitly seen at training time.
 In this work we extend Universal Schema to represent entity pairs not as a learned dense vector representation, but as an aggregate function over its relation types.
 This allows Universal Schema to form predictions for all entity pairs - whether seen in training or not - and makes a direct connection between the prediction and its provenance.
-\todo{describe methods / results}
-
+% this is breaking compilation
+%We demonstrate that our relation only models perform competitively with models using explicit entity pair vectors.
 
 
 
@@ -46,7 +46,7 @@ A variety of model variants have been suggested, where the probability of a give
 These models all operate at the level of entities rather than entity pairs.
 Entity-based models have recall advantages over entity pairs.
 For any two entities, the model is able to make predictions even if there is no information regarding the explicit entity pair.
-However, this essentially reduces to type clustering as every action star would have a high probability for every action movie.
+However, this essentially reduces to type clustering.
 
 Entity pairs on the other hand have higher precision.
 Both~\citet{toutanova2015representing} and~\citet{limin} observed that the entity pair model outperforms entity models in cases where the entity pair was seen at training time.
