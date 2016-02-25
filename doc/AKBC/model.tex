@@ -9,7 +9,8 @@ However, this approach is unsatisfactory for two reasons.
 The first is that this creates an inconsistency between training and testing, as the model is trained to predict compatibality between entity pairs and relations and not relations directly.
 Secondly, it considers only a single piece of evidence while making its prediction.
 The learned entity pair can be seen as a sumamrization of all relations for which that entity pair was seen.
-\todo{describe that its uscham + aggregation - refer to figures}
+Because of this, it should be possible to reconstruct an entity pair representation from its relation types.
+%\todo{describe that its uscham + aggregation - refer to figures}
 
 
 
@@ -27,15 +28,15 @@ While this intuitive makes sense as an approximation for the explicit entity pai
 The \textbf{Max Relation} represents the entity pair as its most similar relation to the query vector of interest.
 This model has the advantage of creating a query specific entity pair representation but also is more susceptible to noisey training data as a single incorrect piece of evidence could be used to form a prediction.
 \textbf {TopK Relations} is a middle ground between Mean and Max relations.
- Dimension-wise Max Pool
-   Convolution + Dimension-wise Max Pool
+Finally, we look at dimension-wise \textbf{Max Pool}.
+Like Mean Relation, this allows the model to pool relevant information over the entire set of relations.
 
 \subsection {Training}
 Training the standard Universal Schema model is performed using Bayesian Personalized Ranking (BPR)~\citep{rendle2009bpr} which seeks to rank the probability of observed triples above unobserved triples rather than explicitly model unobserved edges as negative.
 Each training example is an entity pair/relation type triple observed in the training text corpora or KB.
 
 Our training procedure for our relation-only Universal Schema model is very similar to the original model.
-We first pool all of the observed triples in our training data to make an entity pair to set of relation mapping $R^{Ep}$.
+We first pool all of the observed triples in our training data by entity pair creating entity pair specific relation sets $R^{Ep}$.
 We then construct training examples for each observed relation type of an entity and an aggregation of all other relation types observed with that entity.
 For each $r_i \in R^{Ep}$, construct training example $(r_i, \left\{R^{Ep}\setminus r_i\right\})$.
-We randomly sample a
+We randomly sample a differnent relation to act as the negative sample.
