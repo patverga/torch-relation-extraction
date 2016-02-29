@@ -13,7 +13,6 @@ cmd:option('-gpuid', -1, 'Which gpu to use, -1 for cpu (default)')
 
 -- data file locations
 cmd:option('-train', 'data/train-mtx.torch', 'torch format train file list')
-cmd:option('-test', '', 'torch format test file list')
 cmd:option('-loadModel', '', 'load a pretrained model from this file')
 cmd:option('-saveModel', '', 'file to save the trained model to')
 cmd:option('-loadColEncoder', '', 'load a pretrained relation/column encoder from this file')
@@ -82,6 +81,8 @@ cmd:option('-freezeRow', 0, 'freeze the ep embeddings for this many epochs')
 cmd:option('-freezeCol', 0, 'freeze the rel embeddings for this many epochs')
 
 -- evaluation
+cmd:option('-test', '', 'torch format test file list')
+cmd:option('-fb15kDir', '', 'torch format fb15k file dir')
 cmd:option('-resultDir', '', 'tac eval output dir')
 cmd:option('-vocab', '', 'vocab file to use for tac eval')
 cmd:option('-tacYear', '', 'tac evaluation year')

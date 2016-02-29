@@ -17,6 +17,7 @@ function UniversalSchemaEncoder:to_cuda(x) return self.params.gpuid >= 0 and x:c
 
 function UniversalSchemaEncoder:__init(params, row_table, row_encoder, col_table, col_encoder, use_entities)
     self.__index = self
+    self.correct_label = 1
     self.params = params
     self.opt_config = { learningRate = self.params.learningRate, epsilon = self.params.epsilon,
         beta1 = self.params.beta1, beta2 = self.params.beta2,
@@ -263,6 +264,7 @@ end
 function UniversalSchemaEncoder:evaluate(epoch)
     self.net:evaluate()
     local map = self.params.test ~= '' and self:map(self.params.test, true) or -1
+    local mrr, hits_at_10 = self.params.fb15kDir ~= '' and self:fb15k_evaluation(self.params.test, true) or -1, -1
     if self.params.vocab ~= '' and self.params.tacYear ~= '' then
         self:tac_eval(self.params.saveModel .. '/' .. epoch, self.params.resultDir .. '/' .. epoch, self.params.evalArgs)
     end
@@ -287,8 +289,6 @@ function UniversalSchemaEncoder:map(fileStr, high_score)
 end
 
 function UniversalSchemaEncoder:avg_precision(file, high_score)
-    local correct_label = 1.0
-    --    local correct_label = 2.0
     local data = torch.load(file)
 
     -- score each of the test samples
@@ -302,12 +302,39 @@ function UniversalSchemaEncoder:avg_precision(file, high_score)
     -- iterate over all the scored data
     for rank = 1, sorted_labels:size(1) do
         -- if label is true, increment positive count and update avg p
-        if (sorted_labels[rank] == correct_label) then
+        if (sorted_labels[rank] == self.correct_label) then
             ap = ((ap * pos_n) / (pos_n + 1)) + (1.0 / rank)
             pos_n = pos_n + 1
         end
     end
     return ap
+end
+
+function UniversalSchemaEncoder:fb15k_evluation(dir, high_score)
+    local mrr = 0
+    local hits_at_10 = 0
+    local count = 0
+    for file in io.popen('ls ' .. dir):lines() do
+        local data = torch.load(dir..'/'..file)
+        for _, sub_data in pairs(data) do
+            -- score each of the test samples
+            local scores, labels = self:score_subdata(data)
+            -- sort scores and attach the original labels correctly
+            local sorted_scores, sorted_idx = torch.sort(scores, 1, high_score)
+            local sorted_labels = labels:index(1, sorted_idx)
+
+            local rank = 1 -- find the rank of the true fact
+            while(rank < sorted_labels:size(1) and not sorted_labels[rank] == self.correct_label) do rank=rank+1 end
+            if rank <= 10 then hits_at_10 = hits_at_10 + 1 end
+            count = count + 1
+            mrr = mrr + (1/rank)
+            io.write('mrr: ' .. mrr/count .. '\t hits@10: ' .. hits_at_10/count); io.flush()
+        end
+    end
+    mrr = mrr / count
+    hits_at_10 = hits_at_10 / count
+    print ('\nmrr: ' .. mrr/count .. '\t hits@10: ' .. hits_at_10/count)
+    return mrr, hits_at_10
 end
 
 function UniversalSchemaEncoder:score_test_data(data)
