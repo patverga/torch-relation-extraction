@@ -264,7 +264,7 @@ end
 function UniversalSchemaEncoder:evaluate(epoch)
     self.net:evaluate()
     local map = self.params.test ~= '' and self:map(self.params.test, true) or -1
-    local mrr, hits_at_10 = self.params.fb15kDir ~= '' and self:fb15k_evaluation(self.params.test, true) or -1, -1
+    local mrr, hits_at_10 = self.params.fb15kDir ~= '' and self:fb15k_evluation(self.params.fb15kDir, true) or -1, -1
     if self.params.vocab ~= '' and self.params.tacYear ~= '' then
         self:tac_eval(self.params.saveModel .. '/' .. epoch, self.params.resultDir .. '/' .. epoch, self.params.evalArgs)
     end
@@ -318,17 +318,17 @@ function UniversalSchemaEncoder:fb15k_evluation(dir, high_score)
         local data = torch.load(dir..'/'..file)
         for _, sub_data in pairs(data) do
             -- score each of the test samples
-            local scores, labels = self:score_subdata(data)
+            local scores, labels = self:score_subdata(sub_data)
             -- sort scores and attach the original labels correctly
-            local sorted_scores, sorted_idx = torch.sort(scores, 1, high_score)
+            local sorted_scores, sorted_idx = torch.sort(nn.JoinTable(1)(scores), 1, high_score)
             local sorted_labels = labels:index(1, sorted_idx)
 
             local rank = 1 -- find the rank of the true fact
-            while(rank < sorted_labels:size(1) and not sorted_labels[rank] == self.correct_label) do rank=rank+1 end
+            while(rank < sorted_labels:size(1) and sorted_labels[rank] == 0) do rank=rank+1 end
             if rank <= 10 then hits_at_10 = hits_at_10 + 1 end
             count = count + 1
             mrr = mrr + (1/rank)
-            io.write('mrr: ' .. mrr/count .. '\t hits@10: ' .. hits_at_10/count); io.flush()
+            io.write(string.format('\rmrr : %2.3f \t hits@10 : %2.3f \t%s', (mrr/count)*100, (hits_at_10/count)*100, file)); io.flush()
         end
     end
     mrr = mrr / count

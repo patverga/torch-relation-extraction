@@ -86,6 +86,9 @@ fi
 if [ "$TEST_FILE" ]; then
   RUN_CMD="$RUN_CMD -test $TEST_FILE"
 fi
+if [ "$FB15K_DIR" ]; then
+  RUN_CMD="$RUN_CMD -fb15kDir $FB15K_DIR"
+fi
 if [ "$TAC_YEAR" ]; then
   RUN_CMD="$RUN_CMD -tacYear $TAC_YEAR"
 fi
