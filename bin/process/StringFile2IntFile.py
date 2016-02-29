@@ -82,11 +82,12 @@ def main(argv):
     double_vocab = False
     reset_tokens = False
     replace_digits = False
+    merge_maps = False
 
     help_msg = 'test.py -i <inFile> -o <outputfile> -m <throw away tokens seen less than this many times> \
 -s <throw away relations longer than this> -c <use char tokens (default is use words)> -d <double vocab depending on if [A1 rel A2] or [A2 rel A1]>'
     try:
-        opts, args = getopt.getopt(argv, "hi:o:dcm:s:l:v:rn", ["inFile=", "outFile=", "saveVocab=", "loadVocab=",
+        opts, args = getopt.getopt(argv, "hi:o:dcm:s:l:v:rng", ["inFile=", "outFile=", "saveVocab=", "loadVocab=",
                                                                "chars", "doubleVocab", "minCount=", "maxSeq=",
                                                                "resetVocab", "noNumbers"])
     except getopt.GetoptError:
@@ -116,6 +117,8 @@ def main(argv):
             reset_tokens = True
         elif opt in ("-n", "--noNumbers"):
             replace_digits = True
+        elif opt in ("-g", "--mergeMaps"):
+            merge_maps = True
     print 'Input file is :', in_file
     print 'Output file is :', out_file
     print 'Exporting char tokens' if chars else 'Exporting word tokens'
@@ -138,6 +141,9 @@ def main(argv):
         rel_map = {}
         token_map = {}
         token_counter = defaultdict(int)
+
+    if merge_maps:
+        ep_map = rel_map
 
     # memory map all the data and return processed lines
     print 'Processing lines and getting token counts'
