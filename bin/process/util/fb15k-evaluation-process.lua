@@ -58,7 +58,7 @@ end
 local example_table
 local e1, e1_idx, e2, e2_idx, neg_idx, rel, rel_idx, token_idx
 --for _, file in pairs({ 'valid', 'test'}) do
-for _, file in pairs({ 'test'}) do
+for _, file in pairs({ 'valid', 'test'}) do
     local file_data_table = {}
     os.execute("mkdir -p " .. params.outDir..'/'..file)
     local filtered_facts = 0
