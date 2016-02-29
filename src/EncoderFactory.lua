@@ -136,6 +136,8 @@ function EncoderFactory:relation_pool_encoder(params, sub_encoder)
 --        if params.colEncoder == 'lookup-table' then encoder:add(nn.View(-1, params.colDim)) end
     elseif params.relationPool == 'identity' or params.relationPool == 'Identity' then
         encoder:add(nn.EncoderPool(sub_encoder, nn.Identity()))
+    elseif params.relationPool == 'convolution' then
+        encoder:add(nn.EncoderPool(sub_encoder, nn.TemporalConvolution(params.colDim, params.colDim, 1)))
     elseif params.relationPool == 'conv-max' then
         encoder:add(nn.EncoderPool(sub_encoder, nn.Identity()))
             :add(nn.TemporalConvolution(params.colDim, params.colDim, 1)):add(nn.Max(2))
