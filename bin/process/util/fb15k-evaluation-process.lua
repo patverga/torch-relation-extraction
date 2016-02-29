@@ -88,7 +88,7 @@ for _, file in pairs({ 'test'}) do
 --                    if facts[neg_fact] then filtered_facts = filtered_facts +1
 --                    else
 --                        neg_idx = entity_map[neg_ent]
---                        insert_to_out_table(out_table, neg_idx, e2_idx, neg_ep_idx, rel_idx, token_idx, 1)
+--                        insert_to_out_table(out_table, neg_idx, e2_idx, neg_ep_idx, rel_idx, token_idx, 0)
 --                    end
 --                end
 --            end
@@ -101,7 +101,7 @@ for _, file in pairs({ 'test'}) do
                     if facts[neg_fact] then filtered_facts = filtered_facts +1
                     else
                         neg_idx = entity_map[neg_ent]
-                        insert_to_out_table(example_table, e1_idx, neg_idx, neg_ep_idx, rel_idx, token_idx, 1)
+                        insert_to_out_table(example_table, e1_idx, neg_idx, neg_ep_idx, rel_idx, token_idx, 0)
                     end
                 end
             end
