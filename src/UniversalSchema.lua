@@ -23,6 +23,7 @@ torch.manualSeed(0)
 print('Using ' .. (params.gpuid >= 0 and 'GPU' or 'CPU'))
 if params.gpuid >= 0 then require 'cunn'; cutorch.manualSeed(0); cutorch.setDevice(params.gpuid + 1) else require 'nn' end
 
+local col_encoder, col_table, row_encoder, row_table
 if params.loadModel == '' then
     local train_data = torch.load(params.train)
 
@@ -39,7 +40,6 @@ if params.loadModel == '' then
 
 
     --[[ Define column and row encoders ]]--
-    local col_encoder, col_table, row_encoder, row_table
     if params.tieEncoders then -- use the same encoder for columns and rows
         -- handle old and new data formats
         local vocab_size = train_data.num_rels and (params.colEncoder == 'lookup-table' and math.max(train_data.num_rels, train_data.num_eps) or train_data.num_tokens)

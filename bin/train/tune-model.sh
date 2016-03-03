@@ -23,12 +23,12 @@ gpuids=( `eval $TH_RELEX_ROOT/bin/get-free-gpus.sh | sed '1d'` )
 num_gpus=${#gpuids[@]}
 
 # grid search over these
-lrs="0.0001 0.001 0.01"
+lrs="0.001 0.01 0.1"
 dropouts="0.0" # 0.1 0.25"
 clipgrads="10 100" # 0.1 0.25"
 l2s="1e-8 1e-4"
 epsilons="1e-8 1e-4"
-dims="300"
+dims="5 10 25 50 100"
 batchsizes="1024 512"
 
 # array to hold all the commands we'll distribute

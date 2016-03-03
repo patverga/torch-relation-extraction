@@ -259,6 +259,7 @@ function UniversalSchemaEncoder:gen_neg(data, pos_batch, neg_sample_count, max_n
 end
 
 
+
 ----- Evaluate ----
 
 function UniversalSchemaEncoder:evaluate(epoch)
@@ -314,6 +315,8 @@ function UniversalSchemaEncoder:fb15k_evluation(dir, high_score)
     local mrr = 0
     local hits_at_10 = 0
     local count = 0
+    local orig_batch_size = self.params.batchSize
+    self.params.batchSize = self.params.batchSize*10
     for file in io.popen('ls ' .. dir):lines() do
         local data = torch.load(dir..'/'..file)
         for _, sub_data in pairs(data) do
@@ -331,9 +334,10 @@ function UniversalSchemaEncoder:fb15k_evluation(dir, high_score)
             io.write(string.format('\rmrr : %2.3f \t hits@10 : %2.3f \t%s', (mrr/count)*100, (hits_at_10/count)*100, file)); io.flush()
         end
     end
-    mrr = mrr / count
-    hits_at_10 = hits_at_10 / count
-    print ('\nmrr: ' .. mrr/count .. '\t hits@10: ' .. hits_at_10/count)
+    self.params.batchSize = orig_batch_size
+    mrr = mrr / count * 100
+    hits_at_10 = hits_at_10 / count * 100
+    io.write(string.format('\nMRR : %2.3f \t hits@10 : %2.3f\n', mrr, hits_at_10)); io.flush()
     return mrr, hits_at_10
 end
 
