@@ -35,36 +35,11 @@ First, a set of candidate entities is obtained by following frequent link anchor
 We then select that candidate entity for which the cosine similarity between the respective Wikipedia and the sentence context of the mention is highest, and link to that entity if a threshold is exceeded.
 
 An entity pair qualifies as a candidate prediction if it meets the type criteria for the slot.\footnote{Due to the difficulty of retrieval and entity detection, the maximum recall for predictions is limited. For this reason, \citet{surdeanu2012multi} restrict the evaluation to answer candidates returned by their system and effectively rescaling recall. We do not perform such a re-scaling in our English results in order to compare to other reported results. Our Spanish numbers are rescaled. All scores reflect the `anydoc' (relaxed) scoring to mitigate penalizing effects for systems not included in the evaluation pool.} The TAC 2013 English and Spanish newswire corpora each contain about 1 million newswire documents from 2009--2012. The document retrieval and entity matching components of our relation extraction pipeline are based on RelationFactory~\citep{roth2014relationfactory}, the top-ranked system of the 2013 English slot-filling task. We also use the English distantly supervised training data from this system, which aligns the TAC 2012 corpus to Freebase.
-%% APPENDIX %% ; More details on alignment are described in Appendix \ref{sec:ds-el}.
+ More details on alignment are described in Appendix \ref{sec:ds-el}.
 
 %Our maximum recall is significantly limited by our entity extraction pipeline: $\sim$60\% for English using the TAC `anydoc' (relaxed) scoring. \todo{Ben: juxtapose this with stanford scoring. explain what the SOA numbers are.} 
 
 As discussed in Section~\ref{sec:non-comp}, models using a deep sentence encoder and using a pattern lookup table have complementary strengths and weaknesses. In response, we present results where we ensemble the outputs of the two models by simply taking the union of their individual outputs. Slightly higher results might be obtained through more sophisticated ensembling schemes. % We manually shift the models' thresholds to be more precision-biased, and take the union of the predictions returned by the two models. In contrast,~\citet{toutanova2015representing}, add the confidence scores of the systems and then apply a threshold. We found that this ensembling approach does not adequately account for the qualitative distinction in types of prediction that each technique can make accurately.
-
-\subsection{Data Pre-processing, Distant Supervision and Extraction Pipeline \label{sec:ds-el}}
-
-We replace tokens occurring less than 5 times in the corpus with UNK and normalize all digits to \# (e.g. Oct-11-1988 becomes Oct-\#\#-\#\#\#\#).
-For each sentence, we then extract all entity pairs and the text between them as surface patterns, ignoring patterns longer than 20 tokens.
-This results in 48 million English `relations'.
-We filter out entity pairs that occurred less than 10 times in the data and extract the largest connected component in this entity co-occurrence graph.
-This is necessary for the baseline US model, as otherwise learning decouples into independent problems per connected component.
-Though the components are connected when using sentence encoders, we use only a single component to facilitate a fair comparison between modeling approaches.
-We add the distant supervision training facts from the RelationFactory system, i.e. 352,236 entity-pair-relation tuples obtained from Freebase and high precision seed patterns.
-The final training data contains a set of 3,980,164 (KB and openIE) facts made up of 549,760 unique entity pairs, 1,285,258 unique relations and 62,841 unique tokens.
-
-We perform the same preprocessing on the Spanish data, resulting in 34 million raw surface patterns between entities.
-We then filter patterns that never occur with an entity pair found in the English data.  This yields 860,502 Spanish patterns.
-Our multilingual model is trained on a combination of these Spanish patterns, the English surface patterns, and the distant supervision data described above.
-We learn word embeddings for 39,912 unique Spanish word types.
-After parameter tying for translation pairs (Section \ref{sec:tie-words}),  there are 33,711 additional Spanish words not tied to English.
-
-We follow the same procedure for generating translation pairs as \cite{mikolov2013}.
-First, we select the top 6000 words occurring in the lowercased Europarl dataset for each language and obtain a Google translation.
-We then filter duplicates and translations resulting in multi-word phrases.
-We also remove English past participles (ending in -ed) as we found the Google translation interprets these as adjectives (e.g.,  `she read the borrowed book' rather than `she borrowed the book') and much of the relational structure in language we seek to model is captured by verbs.
-This resulted in 6201 translation pairs that occurred in our text corpus.
-Though higher quality translation dictionaries would likely improve this technique, our experimental results show that such automatically generated dictionaries perform well.
-
 
 
 
@@ -75,19 +50,7 @@ We additionally tune the thresholds of our pattern scorer on a per-relation basi
 As in~\citet{limin}, we train using the BPR loss of~\citet{rendle2009bpr}.
 Our CNN is implemented as described in \citet{toutanova2015representing}, using width-3 convolutions, followed by tanh and max pool layers.
 The LSTM uses a bi-directional architecture where the forward and backward representations of each hidden state are averaged, followed by max pooling over time.
-
-We performed a small grid search over learning rate {0.0001, 0.005, 0.001}, dropout {0.0, 0.1, 0.25, 0.5}, dimension {50, 100}, $\ell_2$ gradient clipping {1, 10, 50}, and epsilon {1e-8, 1e-6, 1e-4}.
-All models are trained for a maximum of 15 epochs.
-The CNN and LSTM both use 100d embeddings while USchema uses 50d.
-The CNN and LSTM both learned 100-dimensional word embeddings which were randomly initialized.
-Using pre-trained embeddings did not substantially affect the results.
-Entity pair embeddings for the baseline USchema model are randomly initialized.
-For the models with LSTM and CNN text encoders, entity pair embeddings are initialized using vectors from the baseline USchema model.
-This performs better than random initialization.
-We perform $\ell_2$ gradient clipping to 1 on all models.
-Universal Schema uses a batch size of 1024 while the CNN and LSTM use 128.
-All models are optimized using ADAM \citep{kingma2014adam} with $\epsilon=1e-8$, $\beta_1=0.9$, and $\beta_2=0.999$ with a learning rate of .001 for USchema and .0001 for CNN and LSTM.
-The CNN and LSTM also use dropout of 0.1 after the embedding layer.
+See Section \ref{sec:details}
 
 We also report results including an alternate names (AN) heuristic, which uses automatically-extracted rules to detect the TAC `alternate name' relation.
 To achieve this, we collect frequent Wikipedia link anchor texts for each query entity.

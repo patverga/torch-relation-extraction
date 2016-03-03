@@ -6,13 +6,13 @@
 Universal Schema jointly embeds KB and textual relations from Spanish and English, learning dense representations for entity pairs and relations using matrix factorization. Cells with a 1 indicate triples observed during training (left). The bold score represents a test-time prediction by the model (right). Using transitivity through KB/English overlap and English/Spanish overlap, our model can predict that a text pattern in Spanish evidences a KB relation despite no overlap between Spanish/KB entity pairs.
 At train time we use BPR loss to maximize the inner product of entity pairs with KB relations and text patterns encoded using a bidirectional LSTM. At test time we score compatibility between embedded KB relations and encoded textual patterns using cosine similarity. In our Spanish model we treat embeddings for a small set of English/Spanish translation pairs as a single word, e.g. casado and married.
 \label{fig:model}}
-  \hspace{-.75cm}%
+  \hspace{-.55cm}%
 \begin{subfigure}{.7\textwidth}
-    \includegraphics[scale=.7]{matrix}
+    \includegraphics[scale=.65]{matrix}
 \end{subfigure}%
-  \hspace{-.75cm}%
+  \hspace{-1.5cm}%
 \begin{subfigure}{.4\textwidth}
-  \includegraphics[scale=.8]{model-score}
+  \includegraphics[scale=.75]{model-score}
 \end{subfigure}
 \end{figure*}
 
@@ -24,8 +24,7 @@ Similar to many link prediction approaches,~\citep{limin} perform transductive l
 In response, this paper re-purposes USchema as a means to train a sentence-level relation classifier, like those in Section~\ref{seq:dist}. This allows us to avoid errors from aligning distant supervision to the corpus, but is more deployable for real world applications. It also provides opportunities in Section~\ref{sec:multilingual} to improve multilingual AKBC.
 
 We produce predictions using a very simple approach: (1) scan the corpus and extract a large quantity of triplets $(s,r_{\text{text}},o)$, where $r_{\text{text}}$ is an OpenIE pattern. For each triplet, if the similarity between the embedding of $r_{\text{text}}$ and the embedding of a target relation $r_{\text{schema}}$ is above some threshold, we predict the triplet $(s,r_{\text{schema}},o)$, and its provenance is the input sentence containing $(s,r_{\text{text}},o)$. We refer to this technique as~\textit{pattern scoring}. In our experiments, we use the cosine distance between the vectors (Figure \ref{fig:model}).
-
-%% APPENDIX %% In Section~\ref{app:cosine}, we discuss details for how to make this distance well-defined.
+In Section~\ref{app:cosine}, we discuss details for how to make this distance well-defined.
 
 
 \subsection{Using a Compositional Sentence Encoder to Predict Unseen Text Patterns \label{sec:encoder}}
@@ -91,6 +90,6 @@ In Section~\ref{sec:results}, we demonstrate that jointly learning models for En
 The sentence encoder approach of Section~\ref{sec:encoder} is complementary to our multilingual modeling technique: we simply use a separate encoder for each language.  This approach is sub-optimal, however, because each sentence encoder will have a separate matrix of word embeddings for its vocabulary, despite the fact that there may be considerable shared structure between the languages. In response, we propose a straightforward method for tying the parameters of the sentence encoders across languages.
 
 Drawing on the dictionary-based techniques described in Section \ref{sec:background-multilingual}, we first obtain a list of word-word translation pairs between the languages using a translation dictionary. The first layer of our deep text encoder consists of a word embedding lookup table. For the aligned word types, we use a single cross-lingual embedding.
-%% APPENDIX %% Details of our approach are described in Section~\ref{sec:word-tying}.
+Details of our approach are described in Section~\ref{sec:word-tying}.
 
 

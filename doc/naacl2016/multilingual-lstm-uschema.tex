@@ -47,10 +47,11 @@ University of Massachusetts Amherst\\
 \maketitle
 
 \begin{abstract}
-When building a knowledge base (KB) of entities and relations from multiple structured KBs and text, \emph{universal schema} represents the union of all input schema, by jointly embedding all relation types from input KBs as well as textual patterns expressing relations.  
+%When building a knowledge base (KB) of entities and relations from multiple structured KBs and text, \emph{universal schema} represents the union of all input schema, by jointly embedding all relation types from input KBs as well as textual patterns expressing relations.
+\emph{Universal schema} builds a knowledge base (KB) of entities and relations  by jointly embedding all relation types from input KBs as well as textual patterns expressing relations from raw text.
 In most previous applications of universal schema, each textual pattern is represented as a single embedding, preventing generalization to unseen patterns. 
-Recent work employed a neural network to capture patterns' compositional semantics, providing generalization to all possible input text. 
-This paper introduces significant further improvements to the coverage and flexibility of universal schema relation extraction: predictions for entities unseen in training and multilingual transfer learning to domains with no annotation. 
+Recent work employs a neural network to capture patterns' compositional semantics, providing generalization to all possible input text.
+In response, this paper introduces significant further improvements to the coverage and flexibility of universal schema relation extraction: predictions for entities unseen in training and multilingual transfer learning to domains with no annotation.
 We evaluate our model through extensive experiments on the English and Spanish TAC KBP benchmark, outperforming the top system from TAC 2013 slot-filling using no handwritten patterns or additional annotation. 
 We also consider a multilingual setting in which English training data entities overlap with the seed KB, but Spanish text does not. 
 Despite having no annotation for Spanish data, we train an accurate predictor, with additional improvements obtained by tying word embeddings across languages. 
@@ -90,7 +91,7 @@ Many thanks to Arvind Neelakantan for good ideas and discussions. We also apprec
 
 \newpage
 %\appendix
-%\input{appendix}
+\input{appendix}
 
 
 
