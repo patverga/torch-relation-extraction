@@ -44,7 +44,7 @@ As discussed in Section~\ref{sec:non-comp}, models using a deep sentence encoder
 
 
 \subsection {Model Details \label{sec:models}}
-All models are implemented in Torch\footnote{\url{http://torch.ch}}(code publicly available\footnote{\url{https://github.com/patverga/torch-relation-extraction}}).
+All models are implemented in Torch (code publicly available\footnote{\url{https://github.com/patverga/torch-relation-extraction}}).
 Models are tuned to maximize F1 on the 2012 TAC KBP slot-filling evaluation.
 We additionally tune the thresholds of our pattern scorer on a per-relation basis to maximize F1 using 2012 TAC slot-filling for English and the 2012 Spanish slot-filling development set for Spanish.
 As in~\citet{limin}, we train using the BPR loss of~\citet{rendle2009bpr}.

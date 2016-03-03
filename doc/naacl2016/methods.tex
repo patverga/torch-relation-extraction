@@ -90,6 +90,6 @@ In Section~\ref{sec:results}, we demonstrate that jointly learning models for En
 The sentence encoder approach of Section~\ref{sec:encoder} is complementary to our multilingual modeling technique: we simply use a separate encoder for each language.  This approach is sub-optimal, however, because each sentence encoder will have a separate matrix of word embeddings for its vocabulary, despite the fact that there may be considerable shared structure between the languages. In response, we propose a straightforward method for tying the parameters of the sentence encoders across languages.
 
 Drawing on the dictionary-based techniques described in Section \ref{sec:background-multilingual}, we first obtain a list of word-word translation pairs between the languages using a translation dictionary. The first layer of our deep text encoder consists of a word embedding lookup table. For the aligned word types, we use a single cross-lingual embedding.
-Details of our approach are described in Section~\ref{sec:word-tying}.
+Details of our approach are described in Appendix~\ref{sec:word-tying}.
 
 
