@@ -110,14 +110,14 @@ As with most of the techniques in Section~\ref{sec:prediction}, the data only co
 
 Recently, \citet{toutanova2015representing} extended USchema to not learn individual pattern embeddings $v_r$, but instead to embed text patterns using a deep architecture applied to word tokens. This shares statistical strength between OpenIE patterns with similar words. We leverage this approach in Section~\ref{sec:encoder}. Additional work has modeled the regularities of multi-hop paths through knowledge graph augmented with text patterns~\citep{pra,pra_second,vector_pra,neelakantan2015compositional}.
 
-\subsection{Multilingual Relation Extraction \label{sec:background-multilingual}}
-Little work exists on multilingual relation extraction. \citet{faruqui2015multilingual} perform multilingual OpenIE relation extraction by projecting all languages to English using Google translate. However, as explained in Section~\ref{sec:openIE} the OpenIE paradigm is not amenable to prediction within a fixed schema. Further, their approach does not generalize to low-resource languages where translation is unavailable -- while we use translation dictionaries to improve our results, our experiments demonstrate that our method is effective even without this resource.
+\subsection{Multilingual Embeddings \label{sec:background-multilingual}}
+Much work has been done on multilingual word embeddings.
+Most of this work uses aligned sentences from the Europarl dataset~\citep{koehn2005europarl} to align word embeddings across languages~\citep{Gouws2015,luong2015bilingual,hermann2014multilingual}.
+Others~\citep{mikolov2013,faruqui2014retrofitting} align separate single-language embedding models using a word-level dictionary.
+\citet{mikolov2013} use translation pairs to learn a linear transform from one embedding space to another.
 
 
-%Much work has been done on multilingual word embeddings.
-%Most of this work uses aligned sentences from the Europarl dataset~\citep{koehn2005europarl} to align word embeddings across languages~\citep{Gouws2015,luong2015bilingual,hermann2014multilingual}.
-%Others~\citep{mikolov2013,faruqui2014retrofitting} align separate single-language embedding models using a word-level dictionary.
-%\citet{mikolov2013} use translation pairs to learn a linear transform from one embedding space to another.
+However, very little work exists on multilingual relation extraction. \citet{faruqui2015multilingual} perform multilingual OpenIE relation extraction by projecting all languages to English using Google translate. However, as explained in Section~\ref{sec:openIE} the OpenIE paradigm is not amenable to prediction within a fixed schema. Further, their approach does not generalize to low-resource languages where translation is unavailable -- while we use translation dictionaries to improve our results, our experiments demonstrate that our method is effective even without this resource.
 
 
 
