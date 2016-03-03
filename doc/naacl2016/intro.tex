@@ -9,7 +9,7 @@ The above applications of universal schema express each text relation as a disti
 
 This paper further expands the coverage abilities of universal schema relation extraction by introducing techniques for forming predictions for new entities unseen in training and even for new domains with no associated annotation. In the extreme example of domain adaptation to a completely new language, we may have limited linguistic resources or labeled data such as treebanks, and only rarely a KB with adequate coverage. Our method performs multilingual transfer learning, providing a predictive model for a language with no coverage in an existing KB, by leveraging common representations for shared entities across text corpora. As depicted in Figure \ref{tab:multilingual-corpora}, we simply require that one language have an available KB of seed facts. We can further improve our models by tying a small set of word embeddings across languages using only simple knowledge about word-level translations, learning to embed semantically similar textual patterns from different languages into the same latent space. 
 
-In extensive experiments on the TAC Knowledge Base Population (KBP) slot-filling benchmark we outperform the top 2013 system with an F1 score of 40.7 and perform relation extraction in Spanish with no labeled data or direct overlap between the Spanish training corpus and the training KB, demonstrating that our approach is well-suited for broad-coverage AKBC in low-resource languages and domains. Interestingly, joint training with Spanish improves English accuracy. Additionally, we demonstrate that encoding text patterns using an LSTM~\citep{lstm} outperforms the convolutional network of~\citet{toutanova2015representing}.
+In extensive experiments on the TAC Knowledge Base Population (KBP) slot-filling benchmark we outperform the top 2013 system with an F1 score of 40.7 and perform relation extraction in Spanish with no labeled data or direct overlap between the Spanish training corpus and the training KB, demonstrating that our approach is well-suited for broad-coverage AKBC in low-resource languages and domains. Interestingly, joint training with Spanish improves English accuracy.
 
 
 \begin{figure}[h!]
@@ -54,14 +54,17 @@ We now describe prior work on approaches to AKBC. They all aim to predict (\emph
 A knowledge base is naturally described as a graph, in which entities are nodes and relations are labeled edges~\citep{yago,freebase}. In the case of \emph{knowledge graph completion}, the task is akin to link prediction, assuming an initial set of (\emph{s, r, o}) triples. See~\citet{nickel2015review} for a review. No accompanying text data is necessary, since links can be predicted using properties of the graph, such as transitivity. In order to generalize well, prediction is often posed as low-rank matrix or tensor factorization. A variety of model variants have been suggested, where the probability of a given edge existing depends on a multi-linear form~\citep{rescal,DBLP:journals/corr/Garcia-DuranBUG15,bishan,transe,wang2014knowledge,lin2015learning}, or non-linear interactions between $s$, $r$, and $o$~\citep{socherkb}.
 Other approaches model the compositionality of multi-hop paths, typically for question answering \citep{bordes2014question,gu2015traversing,neelakantan2015compositional}.
 
-\subsection{Relation Extraction as Sentence Classification}
-\label{seq:dist}
+\subsection{Relation Extraction as Sentence Classification
+\label{seq:dist}}
 
 Here, the training data consist of (1) a text corpus, and (2) a KB of seed facts with provenance, i.e. supporting evidence, in the corpus. Given individual an individual sentence, and pre-specified entities, a classifier predicts whether the sentence expresses a relation from a target schema. To train such a classifier, KB facts need to be aligned with supporting evidence in the text, but this is often challenging. For example, not all sentences containing Barack and Michelle Obama state that they are married. A variety of one-shot and iterative methods have addressed the alignment problem~\citep{bunescu2007learning,distant_supervision,riedel2010modeling,yao2010collective,hoffmann2011knowledge,surdeanu2012multi,min2013distant,zengdistant}.
 An additional degree of freedom in these approaches is whether they classify individual sentences or predicting at the corpus level by aggregating information from all sentences containing a given pair of entities before prediction. The former approach is often preferable in practice, due to the simplicity of independently classifying individual sentences and the ease of associating each prediction with a provenance.
+Prior work has applied deep learning to small-scale relation extraction problems, where functional relationships are detected between common nouns \citep{li2015tree,dos2015classifying}.
+\citet{xu2015classifying} apply an LSTM to a parse path, while ~\citet{zengdistant} use a CNN on the raw text, with a special temporal pooling operation to separately embed the text around each entity.
 
-\subsection{Open-Domain Relation Extraction}
-\label{sec:openIE}
+
+\subsection{Open-Domain Relation Extraction
+\label{sec:openIE}}
 In the previous two approaches, prediction is carried out with respect to a fixed schema $R$ of possible relations $r$. This may overlook salient relations that are expressed in the text but do not occur in the schema. In response, \textit{open-domain} information extraction (OpenIE) lets the text speak for itself: $R$ contains all possible patterns of text occurring between entities $s$ and $o$~\citep{openie,etzioni2008open,resolver}. These are obtained by filtering and normalizing the raw text. The approach offers impressive coverage, avoids issues of distant supervision, and provides a useful exploratory tool. On the other hand, OpenIE predictions are difficult to use in downstream tasks that expect information from a fixed schema. 
 
 Table~\ref{tab:patterns} provides examples of OpenIE patterns. The examples in row two and three illustrate relational contexts for which similarity is difficult to be captured by an OpenIE approach because of their syntactically complex constructions. This motivates the technique in Section~\ref{sec:encoder}, which uses a deep architecture applied to raw tokens, instead of rigid rules for normalizing text to obtain patterns.
@@ -106,6 +109,23 @@ As with most of the techniques in Section~\ref{sec:prediction}, the data only co
 
 
 Recently, \citet{toutanova2015representing} extended USchema to not learn individual pattern embeddings $v_r$, but instead to embed text patterns using a deep architecture applied to word tokens. This shares statistical strength between OpenIE patterns with similar words. We leverage this approach in Section~\ref{sec:encoder}. Additional work has modeled the regularities of multi-hop paths through knowledge graph augmented with text patterns~\citep{pra,pra_second,vector_pra,neelakantan2015compositional}.
+
+\subsection{Multilingual Relation Extraction \label{sec:background-multilingual}}
+Little work exists on multilingual relation extraction. \citet{faruqui2015multilingual} perform multilingual OpenIE relation extraction by projecting all languages to English using Google translate. However, as explained in Section~\ref{sec:openIE} the OpenIE paradigm is not amenable to prediction within a fixed schema. Further, their approach does not generalize to low-resource languages where translation is unavailable -- while we use translation dictionaries to improve our results, our experiments demonstrate that our method is effective even without this resource.
+
+
+%Much work has been done on multilingual word embeddings.
+%Most of this work uses aligned sentences from the Europarl dataset~\citep{koehn2005europarl} to align word embeddings across languages~\citep{Gouws2015,luong2015bilingual,hermann2014multilingual}.
+%Others~\citep{mikolov2013,faruqui2014retrofitting} align separate single-language embedding models using a word-level dictionary.
+%\citet{mikolov2013} use translation pairs to learn a linear transform from one embedding space to another.
+
+
+
+
+
+
+
+
 
 
 
