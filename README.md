@@ -13,12 +13,22 @@ Dependencies
 - [nn](https://github.com/torch/nn)
 - [rnn](https://github.com/Element-Research/rnn)
 - [optim](https://github.com/torch/optim)
+- [autograd](https://github.com/twitter/torch-autograd)
 - set this environment variable : TH_RELEX_ROOT=/path/to/this/proj
+
+
+Overview
+-------------
+Universal Schema embeds text and knowledge base relations together to perform relation extraction and automatic knowledge base population. The typical universal schema model performs matrix factorization where rows are entity pairs and columns are relations.
+
+This code allows you to perform matrix factorization where the column and row embeddings are parameterized by an arbitrary encoder. In the simplest case, a 'standard' matrix factorization would have each encoder as a lookup-table. More complex models could use combinations of LSTMs, CNNs, etc. To do this is as simple as setting the rowEncoder and colEnoder parameters
+
+`th src/UniversalSchema.lua -rowEncoder lookup-table -colEncoder lstm`
 
 
 Data Processing
 --------------
-Your relation data should be 4 col tsv.
+Your entity-relation data should be 4 col tsv.
 
 entity1 \t entity2 \t relation \t 1
 
@@ -26,8 +36,13 @@ entity1 \t entity2 \t relation \t 1
 
 There are other flags in you can look at by doing `./bin/process/process-data.sh --help`
 
-For arbitrary 3 column data, use the -b flag   
+You can also process arbitrary data in 3 column format with the -b flag
+
+row_value \t col_value \t 1
+
 If you want your rows and columns to share the same vocabulary, use the -g flag   
+`./bin/process/process-data.sh -i your-3column-data -o your-data.torch -v vocab-file -b -g`
+
 
 Training Models
 ------------
@@ -81,3 +96,8 @@ Barack Obama &nbsp;&nbsp;&nbsp;&nbsp;	per:spouse &nbsp;&nbsp;&nbsp;&nbsp;	Michel
 This will generate a scored candidate file with the same number of lines and the sentenece replaced by a score where higher is more probable.  
 
 Barack Obama &nbsp;&nbsp;&nbsp;&nbsp;	per:spouse &nbsp;&nbsp;&nbsp;&nbsp;	Michelle Obama &nbsp;&nbsp;&nbsp;&nbsp;	doc_info &nbsp;&nbsp;&nbsp;&nbsp;	0	&nbsp;&nbsp;&nbsp;&nbsp; 2 &nbsp;&nbsp;&nbsp;&nbsp;	8	 &nbsp;&nbsp;&nbsp;&nbsp; 10  &nbsp;&nbsp;&nbsp;&nbsp; 0.94 .
+
+
+Contact
+----------
+Feel free to contact me with questions : patverga123@gmail.com
