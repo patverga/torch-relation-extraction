@@ -12,7 +12,10 @@ if [[ $PP == "pp14" ]]; then
 elif [[ $PP == "pp13" ]]; then
   $TAC_ROOT/components/bin/postprocess2013.sh $RESPONSE $QUERY_EXPANDED /dev/null $RESPONSE_PP
 elif [[ $PP == "pp12" ]]; then
-  $TAC_ROOT/components/bin/postprocess.sh $RESPONSE $QUERY_EXPANDED  $RESPONSE_PP
+    COMP=$TAC_ROOT/components/pipeline/
+    LINKSTAT=/dev/null
+    JAVA_HOME=$TAC_ROOT/lib/java/jdk1.6.0_18/
+    $TAC_ROOT/components/bin/run.sh run.RedundancyEliminator $LINKSTAT $RESPONSE $QUERY_EXPANDED > $RESPONSE_PP
 else
   cp $RESPONSE $RESPONSE_PP
 fi
