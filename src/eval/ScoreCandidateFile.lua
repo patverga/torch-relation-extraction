@@ -3,42 +3,55 @@
 -- Date: 9/17/15
 --
 
-package.path = package.path .. ";src/?.lua;src/nn-modules/?.lua;src/eval/?.lua"
-
 --[[
 Takes a tac candidate file, tab seperated vocab idx file, and a trained uschema encoder model
 and exports a scored candidtate file to outfile
 ]]--
-local cmd = torch.CmdLine()
-cmd:option('-candidates', '', 'input candidate file')
-cmd:option('-outFile', '', 'scored candidate out file')
-cmd:option('-vocabFile', '', 'txt file containing vocab-index map')
-cmd:option('-dictionary', '', 'txt file containing en-es dictionary')
-cmd:option('-maxSeq', 999999, 'throw away sequences longer than this')
-cmd:option('-model', '', 'a trained model that will be used to score candidates')
-cmd:option('-delim', ' ', 'delimiter to split lines on')
-cmd:option('-threshold', 0, 'scores will be max(threshold, score)')
-cmd:option('-gpuid', -1, 'Which gpu to use, -1 for cpu (default)')
-cmd:option('-unkIdx', 1, 'Index to map unknown tokens to')
-cmd:option('-padIdx', 2, 'Index to map unknown tokens to')
-cmd:option('-chars', false, 'Split tokens into characters')
-cmd:option('-relations', false, 'Use full relation vectors instead of tokens')
-cmd:option('-logRelations', false, 'Use log relation vectors instead of tokens')
-cmd:option('-doubleVocab', false, 'double vocab so that tokens to the right of ARG1 are different then to the right of ARG2')
-cmd:option('-appendEs', false, 'append @es to end of relation')
-cmd:option('-normalizeDigits', true, 'map all digits to #')
-cmd:option('-tokenAppend', '', 'append this to the end of each token')
-cmd:option('-fullPath', false, 'use the full input pattern without any segmenting')
-cmd:option('-pool', false, 'pool all relations containing each entity pair to make decicions')
 
-local params = cmd:parse(arg)
+package.path = package.path .. ";src/?.lua;src/nn-modules/?.lua;src/eval/?.lua;src/classifier/?.lua;"
+
+require 'torch'
+require 'rnn'
+require 'nn_modules_init'
+require 'RelationPoolFactory'
+require 'ScoringFunctions'
+require 'TacEvalCmdArgs'
+
+grad = require 'autograd'
+grad.optimize(true) -- global
+
+
+local params = TacEvalCmdArgs:parse(arg)
+
+if params.gpuid >= 0 then require 'cunn'; cutorch.manualSeed(0); cutorch.setDevice(params.gpuid + 1) else require 'nn' end
+
+-- load model
+local model = torch.load(params.model)
+local kb_encoder = model.kb_col_table and model.kb_col_table
+        or (model.row_encoder and model.row_encoder
+        or (model.col_encoder and model.col_encoder
+        or model.encoder))
+local text_encoder = model.text_encoder and model.text_encoder
+        or (model.col_encoder and model.col_encoder
+        or model.encoder)
+local net = model.net
+net:evaluate(); kb_encoder:evaluate(); text_encoder:evaluate()
+
 
 ---- main
-require 'SentenceClassifier'
-require 'PoolClassifier'
-local scorer = params.pool and PoolClassifier(params) or SentenceClassifier(params)
--- process the candidate file
-local data, max_seq = scorer:process_file(scorer:load_maps())
--- score and export candidate file
-scorer:score_data(data, max_seq)
-print ('\nDone, found ' .. scorer.in_vocab .. ' in vocab tokens and ' .. scorer.out_vocab .. ' out of vocab tokens.')
+local scorer
+if params.scoringType == 'pool' then
+    print('broken - sorry'); os.exit()
+--    require 'PoolScorer'
+--    scorer = PoolClassifier(params, net, kb_encoder, text_encoder)
+elseif params.scoringType == 'classifier' then
+    scorer = SentenceClassifier(params, net, kb_encoder, text_encoder)
+elseif params.scoringType == 'pool-classifier' then
+    scorer = PoolSentenceClassifier(params, net, kb_encoder, text_encoder)
+elseif params.scoringType == 'network' then
+    scorer = NetworkScorer(params, net, kb_encoder, text_encoder)
+else
+    scorer = CosineSentenceScorer(params, net, kb_encoder, text_encoder)
+end
+
+scorer:run()
