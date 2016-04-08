@@ -73,6 +73,8 @@ You can tune thresholds on year 2012 and evaluate on year 2013 with this command
 
 `./bin/tac-evaluation/tune-and-score.sh 2012 2013 trained-model vocab-file.txt gpu-id max-length-seq-to-consider output-dir`
 
+You can also download some [pretrained models](https://goo.gl/GeWyDk) from our paper [Multilingual Relation Extraction using Compositional Universal Schema](http://arxiv.org/abs/1511.06396). The download includes a script that will evaluate the models.
+
 Relation Extraction
 ----------
 You can also use this code to score relations. Here we'll walk through the steps to train a universal schema model. 
@@ -86,7 +88,7 @@ You can also use this code to score relations. Here we'll walk through the steps
 | /m/011zd3 | /m/02jknp | /people/person/profession | 1 | 
 1. First create a training set that combines KB triples that you care about as well as text relations you care about. For example generate a file like the one above called train.tsv.
 2. Next, process that file : `./bin/process/process-data.sh -i train.tsv -o data/train.torch -v vocab-file`
-3. Now we want to train a model. Edit the [example lstm config](bin/train/configs/lstm-example) to say `export TRAIN_FILE=train-mtx.torch` and start the model training :  `./bin/train/train-model.sh 0 bin/train/configs/lstm-example`. This will save a model to models/lstm-example/*-model every 3 epochs.
+3. Now we want to train a model. Edit the [example lstm config](bin/train/configs/examples/lstm-example) to say `export TRAIN_FILE=train-mtx.torch` and start the model training :  `./bin/train/train-model.sh 0 bin/train/configs/lstm-example`. This will save a model to models/lstm-example/*-model every 3 epochs.
 4. Now we can use this model to perform relation extraction. Generate a candidate file called candidates.tsv. The file should be tab serparated with the following form :   
 entity_1 &nbsp;&nbsp;&nbsp;&nbsp; kb_relation&nbsp;&nbsp;&nbsp;&nbsp;entity_2 &nbsp;&nbsp;&nbsp;&nbsp; doc_info &nbsp;&nbsp;&nbsp;&nbsp; arg1_start_token_idx	&nbsp;&nbsp;&nbsp;&nbsp; arg1_send_token_idx &nbsp;&nbsp;&nbsp;&nbsp;	arg2_start_token_idx &nbsp;&nbsp;&nbsp;&nbsp;	arg2_end_token_idx &nbsp;&nbsp;&nbsp;&nbsp; sentence.   
 A concrete example is :   
