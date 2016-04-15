@@ -40,10 +40,10 @@ net:evaluate(); kb_encoder:evaluate(); text_encoder:evaluate()
 
 ---- main
 local scorer
-if params.scoringType == 'pool' then
-    print('broken - sorry'); os.exit()
---    require 'PoolScorer'
---    scorer = PoolClassifier(params, net, kb_encoder, text_encoder)
+if params.scoringType == 'cosine' then
+    -- directly compare column representations
+    kb_encoder = text_encoder:clone()
+    scorer = CosineSentenceScorer(params, net, kb_encoder, text_encoder)
 elseif params.scoringType == 'classifier' then
     scorer = SentenceClassifier(params, net, kb_encoder, text_encoder)
 elseif params.scoringType == 'pool-classifier' then
@@ -51,7 +51,8 @@ elseif params.scoringType == 'pool-classifier' then
 elseif params.scoringType == 'network' then
     scorer = NetworkScorer(params, net, kb_encoder, text_encoder)
 else
-    scorer = CosineSentenceScorer(params, net, kb_encoder, text_encoder)
+    print('Must supply valid scoringType : cosine, network, classifier, pool-classifier')
+    os.exit()
 end
 
 scorer:run()
