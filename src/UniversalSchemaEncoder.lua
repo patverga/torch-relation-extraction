@@ -143,7 +143,7 @@ end
 
 function UniversalSchemaEncoder:optim_update(net, criterion, x, y, parameters, grad_params, opt_config, opt_state, epoch)
     local err
---    if x[2]:dim() == 1 or x[2]:size(2) == 1 then opt_config.learningRate = self.params.learningRate * self.params.kbWeight end
+    y = self:to_cuda(y)
     local function fEval(parameters)
         if parameters ~= parameters then parameters:copy(parameters) end
         net:zeroGradParameters()
@@ -166,6 +166,7 @@ function UniversalSchemaEncoder:optim_update(net, criterion, x, y, parameters, g
     optim[self.params.optimMethod](fEval, parameters, opt_config, opt_state)
     self:regularize_hooks()
     opt_config.learningRate = self.params.learningRate
+    y = y:double()
     return err
 end
 
@@ -208,7 +209,7 @@ function UniversalSchemaEncoder:gen_subdata_batches_four_col(data, sub_data, bat
         local neg_ep_batch = self:gen_neg(data, pos_ep_batch, size, max_neg)
         local rel_batch = self.params.colEncoder == 'lookup-table' and sub_data.rel:index(1, batch_indices) or sub_data.seq:index(1, batch_indices)
         local batch = { pos_ep_batch, rel_batch, neg_ep_batch}
-        table.insert(batches, { data = batch, label = self:to_cuda(torch.ones(size)) })
+        table.insert(batches, { data = batch, label = torch.ones(size) })
         start = start + size
     end
 end
@@ -223,7 +224,7 @@ function UniversalSchemaEncoder:gen_subdata_batches_three_col(data, sub_data, ba
         local neg_row_batch = self:gen_neg(data, pos_row_batch, size, max_neg)
         local col_batch = self.params.colEncoder == 'lookup-table' and sub_data.col:index(1, batch_indices) or sub_data.col_seq:index(1, batch_indices)
         local batch = {pos_row_batch, col_batch, neg_row_batch}
-        table.insert(batches, { data = batch, label = self:to_cuda(torch.ones(size)) })
+        table.insert(batches, { data = batch, label = torch.ones(size) })
         start = start + size
     end
 end
