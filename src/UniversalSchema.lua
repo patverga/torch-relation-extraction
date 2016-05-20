@@ -13,8 +13,6 @@ require 'UniversalSchemaRelationPooling'
 require 'UniversalSchemaEntityEncoder'
 require 'UniversalSchemaJointEncoder'
 require 'TransEEncoder'
-require 'PositiveOnlyUniversalSchema'
-require 'SparseClassifier'
 
 local params = CmdArgs:parse(arg)
 -- use relation vectors instead of word embeddings
