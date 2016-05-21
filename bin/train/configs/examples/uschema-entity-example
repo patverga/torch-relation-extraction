@@ -5,7 +5,7 @@ export LOG_ROOT="${TH_RELEX_ROOT}/models/$NAME"
 
 export TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/data/new-format-sample-data"
 export TRAIN_FILE="train-mtx-3col.torch"
-export TEST_FILE=`ls $TH_RELEX_ROOT/data/new-format-sample-data/test-mtx-3col.torch/* | tr '\n' ','`
+export TEST_FILE=$TH_RELEX_ROOT/data/new-format-sample-data/test-mtx-3col.torch/
 
 export BATCH_SIZE=1024
 export LEARN_RATE=.001

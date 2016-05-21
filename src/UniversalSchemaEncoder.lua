@@ -274,12 +274,12 @@ function UniversalSchemaEncoder:evaluate(epoch)
     return map
 end
 
-function UniversalSchemaEncoder:map(fileStr, high_score)
+function UniversalSchemaEncoder:map(dirStr, high_score)
     print('Calculating MAP')
     local map = 0.0
     local file_count = 0
-    for file in string.gmatch(fileStr, "[^,]+") do
-        local ap = self:avg_precision(file, high_score) * 100
+    for file in io.popen('ls ' .. dirStr):lines() do
+        local ap = self:avg_precision(dirStr..'/'..file, high_score) * 100
         map = map + ap
         file_count = file_count + 1
         io.write(string.format('\rcurrent map : %2.3f \t last ap : %2.3f\t%s',
