@@ -8,7 +8,6 @@ require 'UniversalSchemaEncoder'
 require 'UniversalSchemaEntityEncoder'
 require 'TransEEncoder'
 require 'UniversalSchemaNegativeSample'
-require 'UniversalOvals'
 require 'nn_modules_init'
 
 local params = CmdArgs:parse(arg)
