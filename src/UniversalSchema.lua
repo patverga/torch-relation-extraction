@@ -8,7 +8,6 @@ require 'UniversalSchemaEncoder'
 require 'UniversalSchemaEntityEncoder'
 require 'TransEEncoder'
 require 'UniversalSchemaNegativeSample'
-require 'WeightedKBTraining'
 require 'UniversalOvals'
 require 'nn_modules_init'
 
