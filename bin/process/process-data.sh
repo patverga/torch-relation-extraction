@@ -31,9 +31,15 @@ while getopts i:o:v:m:l:s:pbcdrnghx opt; do
   i)
       IN_FILE=$OPTARG
       PY_CMD="$PY_CMD -i $IN_FILE"
-      INTERMEDIATE_FILE=`mktemp`
+      # input supplied was a directory instead of a file
+      if [[ -d $IN_FILE ]]; then
+        INTERMEDIATE_FILE=`mktemp -d`
+        TORCH_CMD="$TORCH_CMD -inDir ${INTERMEDIATE_FILE}"
+      else
+        INTERMEDIATE_FILE=`mktemp`
+        TORCH_CMD="$TORCH_CMD -inFile ${INTERMEDIATE_FILE}"
+      fi
       PY_CMD="$PY_CMD -o $INTERMEDIATE_FILE"
-      TORCH_CMD="$TORCH_CMD -inFile ${INTERMEDIATE_FILE}"
       ;;
   o)
       OUT_FILE=$OPTARG
@@ -94,8 +100,7 @@ done
 
 shift $((OPTIND - 1))
 
-if [[ -z "$IN_FILE" || -z "$OUT_FILE" ]]
-then
+if [[ -z "$IN_FILE" || -z "$OUT_FILE" ]]; then
   echo "Must supply input and output files"$'\n'"${HELP_MSG}"
   exit 1
 fi
@@ -113,7 +118,6 @@ echo "${TORCH_FILE} ${TORCH_CMD}"
 th ${TORCH_FILE} ${TORCH_CMD}
 
 
-if [[ $REL_REL_CONVERT ]]
-then
+if [[ $REL_REL_CONVERT ]]; then
     th ${CUR_DIR}/PooledEPRel2RelRel.lua -inFile ${OUT_FILE} -outFile ${OUT_FILE}-rel-rel
 fi

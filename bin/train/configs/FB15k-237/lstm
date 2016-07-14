@@ -1,0 +1,32 @@
+export MODEL=UniversalSchema
+export NAME=lstm
+
+export LOG_ROOT="${TH_RELEX_ROOT}/models/fb15k/$NAME"
+export TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/data/FB15K-237/fix_padding_no-min/"
+export TRAIN_FILE="train.torch"
+export FB15K_DIR="${TH_RELEX_ROOT}/data/FB15K-237/fix_padding_no-min/eval-data/valid/"
+
+# export SAVE_MODEL=true
+
+export BATCH_SIZE=128
+export LEARN_RATE=.001
+export L2="0"
+export EPSILON="1e-8"
+export CLIP_GRADS=100
+
+export ROW_DIM=100
+export COL_DIM=100
+export TOKEN_DIM=200
+
+export MAX_SEQ=35
+export MAX_EPOCHS=-1
+export EVAL_FREQ=1
+export DROPOUT=.25
+export CLIP_GRADS=1
+
+export POOL_LAYER=last
+export COL_ENCODER="lstm"
+
+export CRITERION="cross-entropy"
+export MODEL_TYPE="neg-sample"
+export NEG_SAMPLES=200

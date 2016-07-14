@@ -7,7 +7,7 @@
 require 'torch'
 
 --[[
-    Takes a tac candidate file and exports a candidtate file to outfile with subtrings between entities extracted
+    Takes a matrix file and exports a matrix file to outfile with subtrings between entities extracted
 ]]--
 
 local cmd = torch.CmdLine()

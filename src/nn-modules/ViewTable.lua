@@ -53,7 +53,7 @@ function ViewTable:updateOutput(input)
         if bsz then
             self.output[i] = input[i]:view(bsz, table.unpack(self.size:totable()))
         else
-            self.output[i] = input[i]:view(self.size)
+            self.output[i] = input[i]:isContiguous() and input[i]:view(self.size) or input[i]:clone():view(self.size)
         end
     end
     return self.output

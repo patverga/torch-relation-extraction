@@ -3,7 +3,7 @@
 RUN_CMD="th ${TH_RELEX_ROOT}/src/${MODEL}.lua -train ${TRAIN_FILE_ROOT}/${TRAIN_FILE} -maxSeq $MAX_SEQ -learningRate $LEARN_RATE -rowDim ${ROW_DIM} -numEpochs ${MAX_EPOCHS} -resultDir ${LOG_ROOT} -colEncoder ${COL_ENCODER}"
 
 if [ "$SAVE_MODEL" ]; then
-  RUN_CMD="$RUN_CMD -saveModel $LOG_ROOT"
+  RUN_CMD="$RUN_CMD -saveModel"
 fi
 if [ "$GPU_ID" ]; then
   RUN_CMD="$RUN_CMD -gpuid $GPU_ID"
@@ -15,6 +15,9 @@ if [ "$ROW_ENCODER" ]; then
 fi
 if [ "$TIE_ENCODERS" ]; then
   RUN_CMD="$RUN_CMD -tieEncoders"
+fi
+if [ "$TIE_ATTENTION" ]; then
+  RUN_CMD="$RUN_CMD -tieColViews"
 fi
 if [ "$SHARED_VOCAB" ]; then
   RUN_CMD="$RUN_CMD -sharedVocab"
@@ -33,6 +36,9 @@ if [ "$LAYERS" ]; then
 fi
 if [ "$POOL_LAYER" ]; then
   RUN_CMD="$RUN_CMD -poolLayer $POOL_LAYER"
+fi
+if [ "$AGGREGATOR" ]; then
+  RUN_CMD="$RUN_CMD -aggregationType $AGGREGATOR"
 fi
 if [ "$NON_LINEAR_LAYER" ]; then
   RUN_CMD="$RUN_CMD -nonLinearLayer $NON_LINEAR_LAYER"
@@ -56,9 +62,21 @@ fi
 if [ "$K" ]; then
   RUN_CMD="$RUN_CMD -k $K"
 fi
+if [ "$NEG_SAMPLES" ]; then
+  RUN_CMD="$RUN_CMD -negSamples $NEG_SAMPLES"
+fi
 
 if [ "$DROPOUT" ]; then
   RUN_CMD="$RUN_CMD -dropout $DROPOUT"
+fi
+if [ "$HIDDEN_DROPOUT" ]; then
+  RUN_CMD="$RUN_CMD -hiddenDropout $HIDDEN_DROPOUT"
+fi
+if [ "$PATTERN_DROPOUT" ]; then
+  RUN_CMD="$RUN_CMD -patternDropout $PATTERN_DROPOUT"
+fi
+if [ "$LR_DECAY" ]; then
+  RUN_CMD="$RUN_CMD -lrDecay $LR_DECAY"
 fi
 if [ "$L2" ]; then
   RUN_CMD="$RUN_CMD -l2Reg $L2"
@@ -83,14 +101,23 @@ if [ "$CLIP_GRADS" ]; then
   RUN_CMD="$RUN_CMD -clipGrads $CLIP_GRADS"
 fi
 
-if [ "$TEST_FILE" ]; then
-  RUN_CMD="$RUN_CMD -test $TEST_FILE"
+if [ "$MAP_TEST_DIR" ]; then
+  RUN_CMD="$RUN_CMD -test $MAP_TEST_DIR"
 fi
 if [ "$FB15K_DIR" ]; then
   RUN_CMD="$RUN_CMD -fb15kDir $FB15K_DIR"
 fi
+if [ "$ACCURACY_TEST_FILE" ]; then
+  RUN_CMD="$RUN_CMD -accuracyTest $ACCURACY_TEST_FILE"
+fi
 if [ "$TAC_YEAR" ]; then
+  source ${TH_RELEX_ROOT}/bin/tac-evaluation/configs/${TAC_YEAR}
+  EVAL_ARGS="${EVAL_ARGS},-candidates,${CANDIDATES}"
   RUN_CMD="$RUN_CMD -tacYear $TAC_YEAR"
+fi
+
+if [ "$TYPE_FILE" ]; then
+  RUN_CMD="$RUN_CMD -typeSampleFile $TYPE_FILE"
 fi
 if [ "$TRAINED_EP" ]; then
   RUN_CMD="$RUN_CMD -loadRowEmbeddings $TRAINED_EP"
@@ -98,17 +125,23 @@ fi
 if [ "$TRAINED_REL" ]; then
   RUN_CMD="$RUN_CMD -loadColEmbeddings $TRAINED_REL"
 fi
+if [ "$LOAD_COL_ENCODER" ]; then
+  RUN_CMD="$RUN_CMD -loadColEncoder $LOAD_COL_ENCODER"
+fi
+if [ "$LOAD_ROW_ENCODER" ]; then
+  RUN_CMD="$RUN_CMD -loadRowEncoder $LOAD_ROW_ENCODER"
+fi
 if [ "$LOAD_MODEL" ]; then
   RUN_CMD="$RUN_CMD -loadModel $LOAD_MODEL"
 fi
-if [ "$LOAD_ENCODER" ]; then
-  RUN_CMD="$RUN_CMD -loadEncoder $LOAD_ENCODER"
+if [ "$COLS_ONLY" ]; then
+  RUN_CMD="$RUN_CMD -colsOnly"
 fi
 if [ "$VOCAB" ]; then
   RUN_CMD="$RUN_CMD -vocab $VOCAB"
 fi
 if [ "$EVAL_ARGS" ]; then
-  RUN_CMD="$RUN_CMD -evalArgs $EVAL_ARGS"
+  RUN_CMD="$RUN_CMD -evalArgs ${EVAL_ARGS}"
 fi
 
 if [ "$EVAL_FREQ" ]; then

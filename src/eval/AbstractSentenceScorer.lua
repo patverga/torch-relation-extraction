@@ -22,7 +22,6 @@ function AbstractSentenceScorer:to_cuda(x) return self.params.gpuid >= 0 and x:c
 function AbstractSentenceScorer:run()
     -- process the candidate file
     local data = self:process_file(self:load_maps())
-    -- score and export candidate file
     local max_scores, max_score, min_score, out_lines = self:score_data(data)
     self:write_output(max_scores, max_score, min_score, out_lines)
     print ('\nDone, found ' .. self.in_vocab .. ' in vocab tokens and ' .. self.out_vocab .. ' out of vocab tokens.')
@@ -216,10 +215,12 @@ function AbstractSentenceScorer:rel_tensor(arg1_first, pattern_rel, vocab_map, s
     return pattern_tensor, len
 end
 
-
 --- score the data returned by process_file ---
-function AbstractSentenceScorer:score_data(data, ep_tac_scores)
+function AbstractSentenceScorer:score_data(data)
     print('Scoring data')
+
+    local ep_tac_scores = self.params.poolWeight > 0 and self:pooled_scores(data) or nil
+
     -- open output file to write scored candidates file
     local max_scores = {}
     local max_score = -1e8
@@ -256,6 +257,52 @@ function AbstractSentenceScorer:score_data(data, ep_tac_scores)
         end
     end
     return max_scores, max_score, min_score, out_lines
+end
+
+--- pool all relations for each entity pair and score them together
+function AbstractSentenceScorer:pooled_scores(data)
+    -- seperate data by eps
+    local ep_data = {}
+    for _, sub_data in pairs(data) do
+        if torch.type(sub_data) == 'table' then
+            for i = 1, #sub_data.tac_tensor do
+                local ep = sub_data.ep[i]
+                local tac_idx = sub_data.tac_tensor[i][1][1]
+                if ep_data[ep] == nil then ep_data[ep] = {} end
+                if ep_data[ep][tac_idx] == nil then ep_data[ep][tac_idx] = {} end
+                local padded_pattern = sub_data.pattern_tensor[i]
+                if padded_pattern:size(2) < self.params.maxSeq then
+                    local padding = padded_pattern:clone():resize(1,self.params.maxSeq-padded_pattern:size(2)):fill(self.params.padIdx)
+                    padded_pattern = padded_pattern:cat(padding)
+                end
+                table.insert(ep_data[ep][tac_idx], padded_pattern:view(1,1,-1))
+            end
+        end
+    end
+    -- group data by number of relations for batching
+    local pattern_count_data = {}
+    for ep, tac_indices in pairs(ep_data) do
+        for tac_idx, pattern_table in pairs(tac_indices) do
+            local pattern_tensor = nn.JoinTable(2)(pattern_table)
+            local count = pattern_tensor:size(2)
+            if not pattern_count_data[count] then pattern_count_data[count] = {pattern_tensor={}, tac_tensor={}, ep={}} end
+            table.insert(pattern_count_data[count].pattern_tensor, pattern_tensor)
+            table.insert(pattern_count_data[count].tac_tensor, torch.Tensor(1,1):fill(tac_idx))
+            table.insert(pattern_count_data[count].ep, ep)
+        end
+    end
+    -- get a score for each ep,pattern
+    local ep_tac_scores = {}
+    for _, sub_data in pairs(pattern_count_data) do
+        local pattern_tensor = nn.JoinTable(1)(sub_data.pattern_tensor)
+        local tac_tensor = nn.JoinTable(1)(sub_data.tac_tensor)
+        local scores = self:score_tac_relation(pattern_tensor, tac_tensor)
+        for i = 1, scores:size(1) do
+            if ep_tac_scores[sub_data.ep[i]] == nil then ep_tac_scores[sub_data.ep[i]] = {} end
+            ep_tac_scores[sub_data.ep[i]][tac_tensor[i][1]] = scores[i]
+        end
+    end
+    return ep_tac_scores
 end
 
 function AbstractSentenceScorer:score_tac_relation(pattern_tensor, tac_tensor)

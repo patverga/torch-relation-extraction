@@ -1,0 +1,34 @@
+export MODEL=UniversalSchema
+export NAME=topk-neg-sample
+
+export LOG_ROOT="${TH_RELEX_ROOT}/models/fb15k/$NAME"
+export TRAIN_FILE_ROOT="$TH_RELEX_ROOT/data/FB15K-237/pooled/"
+export TRAIN_FILE="train-rel.torch"
+export FB15K_DIR="$TH_RELEX_ROOT/data/FB15K-237/pooled/valid/"
+
+
+# export TRAINED_REL="${TH_RELEX_ROOT}/models/fb15k/uschema/2016-03-30_12/3-cols"
+# export TRAINED_EP="${TH_RELEX_ROOT}/models/fb15k/uschema/2016-03-30_12/3-cols"
+
+# export SAVE_MODEL=true
+
+export BATCH_SIZE=1024
+export LEARN_RATE=.001
+export L2="1e-8"
+export EPSILON="1e-4"
+export CLIP_GRADS=100
+
+export MAX_SEQ=500
+export MAX_EPOCHS=10
+export EVAL_FREQ=1
+
+export ROW_DIM=30
+export COL_DIM=30
+export ROW_ENCODER="lookup-table"
+export COL_ENCODER="lookup-table"
+
+#export TIE_ENCODERS=true
+export CRITERION="cross-entropy"
+export MODEL_TYPE="neg-sample"
+export RELATION_POOL="topK"
+export NEG_SAMPLES=200

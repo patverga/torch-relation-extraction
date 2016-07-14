@@ -7,15 +7,14 @@
 require 'torch'
 require 'nn'
 
--- note : in data is assumed to be 0 indexed but all output is 1 indxed
 local cmd = torch.CmdLine()
 cmd:option('-inFile', '', 'input file')
 cmd:option('-outFile', '', 'out file')
 cmd:option('-delim', ' ', 'delimiter to split lines on')
-cmd:option('-maxSeq', 20, 'throw away sequences longer than this')
+cmd:option('-maxSeq', 50, 'throw away sequences longer than this')
 cmd:option('-maxCount', 10000, 'throw away eps with more than this many relations')
 cmd:option('-minCount', 1, 'throw away tokens seen less than this many times')
-cmd:option('-padToken', 1, 'unk token idx')
+cmd:option('-unkToken', 1, 'unk token idx')
 cmd:option('-padToken', 2, 'pad token idx')
 
 
@@ -26,6 +25,7 @@ print(params)
 local max_ep = 0
 local max_rel = 0
 local max_token = 0
+local max_labels = 0
 local num_rows = 0
 local ep_rels = {}
 local ep_seqs = {}
@@ -44,16 +44,20 @@ for line in io.lines(params.inFile) do
         max_token = math.max(token, max_token)
         max_ep = math.max(ep_num, max_ep)
         max_rel = math.max(rel_num, max_rel)
+        max_labels = math.max(tonumber(label), max_labels)
     end
     if #tokens <= params.maxSeq then
         ep_rels[ep] = ep_rels[ep] or {}
         ep_seqs[ep] = ep_seqs[ep] or {}
         -- pad all sequences to same length
-        for _ = #tokens, params.maxSeq-1 do table.insert(tokens, 2) end
-        table.insert(ep_seqs[ep], torch.Tensor(tokens):view(1, #tokens))
+--        for _ = #tokens, params.maxSeq-1 do table.insert(tokens, params.padToken) end
+        local token_tensor = torch.Tensor(tokens):view(1, #tokens)
+        if #tokens < params.maxSeq then token_tensor = torch.Tensor(1, params.maxSeq - #tokens):fill(params.padToken):view(1,-1):cat(token_tensor) end
+        table.insert(ep_seqs[ep], token_tensor)
         table.insert(ep_rels[ep], rel)
     end
-    if (num_rows % 10000 == 0) then io.write('\rProcessing line number : '..num_rows); io.flush() end
+    if (num_rows % 1000 == 0) then io.write('\rProcessing line number : '..((num_rows)/1000)..'k'); io.flush() end
+    if (num_rows % 100000 == 0) then collectgarbage()  end
 end
 
 print('\nJoining tensors')
@@ -75,6 +79,7 @@ for ep, seq_table in pairs(ep_seqs) do
 
     max_count = math.max(max_count, #seq_table)
     if (ep_num % 100 == 0) then io.write('\rProcessing ep number : '..ep_num); io.flush() end; ep_num = ep_num+1
+    if (ep_num % 100000 == 0) then collectgarbage() end
 end
 ep_rels = nil
 
@@ -86,7 +91,8 @@ for i = 1, math.min(params.maxCount, max_count) do
         local relTensor = torch.Tensor(rel_counts[i])
         relTensor = relTensor:view(relTensor:size(1),relTensor:size(2), 1)
 
-        data[i] = { ep = epTensor, seq = seqTensor, rel = relTensor, count = epTensor:size(1), num_eps = max_ep, num_tokens = max_token }
+        data[i] = { ep = epTensor, seq = seqTensor, rel = relTensor, count = epTensor:size(1),
+            num_eps = max_ep, num_tokens = max_token, num_labels=max_labels }
     end
 end
 

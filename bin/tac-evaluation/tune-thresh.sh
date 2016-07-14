@@ -14,7 +14,7 @@ source ${TAC_EVAL_ROOT}/configs/${YEAR}
 
 # score candidate file
 SCORED_CANDIDATES=`mktemp`
-CAND_SCORE_CMD="th ${TH_RELEX_ROOT}/src/eval/ScoreCandidateFile.lua -candidates $CANDIDATES -vocabFile $VOCAB -model $MODEL -gpuid $GPU -threshold 0 -outFile $SCORED_CANDIDATES -maxSeq $MAX_SEQ $EVAL_ARGS"
+CAND_SCORE_CMD="th ${TH_RELEX_ROOT}/src/eval/ScoreCandidateFile.lua -candidates $CANDIDATES -vocabFile $VOCAB -model $MODEL -gpuid $GPU -outFile $SCORED_CANDIDATES -maxSeq $MAX_SEQ $EVAL_ARGS"
 echo "Scoring candidate file: ${CAND_SCORE_CMD}"
 ${CAND_SCORE_CMD}
 

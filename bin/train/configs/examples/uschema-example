@@ -4,7 +4,7 @@ export NAME="uschema-example"
 export LOG_ROOT="${TH_RELEX_ROOT}/models/$NAME"
 export TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/data/"
 export TRAIN_FILE="train-mtx.torch"
-export TEST_FILE=$TH_RELEX_ROOT/data/test-mtx-torch
+export MAP_TEST_DIR=$TH_RELEX_ROOT/data/test-mtx-torch/
 
 export BATCH_SIZE=1024
 export LEARN_RATE=.001

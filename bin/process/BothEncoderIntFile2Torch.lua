@@ -74,7 +74,7 @@ end
 print ('Filling in tensors\n')
 local lin_num = 0
 for line in io.lines(params.inFile) do
-    if (lin_num % 100000 == 0) then io.write('\r'..lin_num); io.flush() end
+    if (lin_num % 10000 == 0) then io.write('\rProcessing line number : '..lin_num); io.flush() end
     lin_num = lin_num + 1
     local row, row_tokens, col, col_tokens, label = string.match(line, "([^\t]+)\t([^\t]+)\t([^\t]+)\t([^\t]+)\t([^\t]+)")
     local row_seq_len = 0

@@ -7,7 +7,7 @@ ARGS=${@:3}
 
 source ${TH_RELEX_ROOT}/${CONFIG}
 
-DATE=`date +'%Y-%m-%d_%H'`
+DATE=`date +'%Y-%m-%d_%H:%M'`
 export LOG_ROOT="${LOG_ROOT}/$DATE/"
 mkdir -p ${LOG_ROOT}
 cp ${TH_RELEX_ROOT}/${CONFIG} $LOG_ROOT

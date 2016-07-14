@@ -1,13 +1,11 @@
 #!/usr/bin/env bash
 
-#!/bin/sh
-
 config=$1
 additional_args=${@:2}
 
 source $config
-export SAVE_MODEL=""
-export MAX_EPOCHS=11
+#export SAVE_MODEL=""
+export MAX_EPOCHS=-1
 export EVAL_FREQ=1
 
 OUT_LOG=$LOG_ROOT/hyperparams/
@@ -15,21 +13,25 @@ mkdir -p $OUT_LOG
 echo "Writing to "$OUT_LOG
 
 source ${TH_RELEX_ROOT}/bin/train/gen-run-cmd.sh
-RUN_CMD="$RUN_CMD $additional_args"
 
 # run on all available gpus
 #gpus=`nvidia-smi -L | wc -l`
-gpuids=( `eval $TH_RELEX_ROOT/bin/get-free-gpus.sh | sed '1d'` )
+#gpuids=( `eval $TH_RELEX_ROOT/bin/get-free-gpus.sh | sed '1d'` )
+gpuids=( 0 2 1 3 )
 num_gpus=${#gpuids[@]}
 
 # grid search over these
-lrs="0.001 0.01 0.1"
-dropouts="0.0" # 0.1 0.25"
-clipgrads="10 100" # 0.1 0.25"
-l2s="1e-8 1e-4"
-epsilons="1e-8 1e-4"
-dims="5 10 25 50 100"
-batchsizes="1024 512"
+lrs=".01 .001"
+dropouts="0.0"
+hiddenDropouts="0.0"
+wordDropouts="0.0"
+clipgrads="0" # 1 10"
+l2s="1e-8 0"
+epsilons="1e-8"
+dims="25"
+tokenDims="200"
+batchsizes="512 1024 2048"
+negsamples="2 200"
 
 # array to hold all the commands we'll distribute
 declare -a commands
@@ -39,32 +41,53 @@ for dim in $dims
 do
    for lr in $lrs
    do
-       for l2 in $l2s
+       for tokenDim in $tokenDims
        do
-           for batchsize in $batchsizes;
+           for l2 in $l2s
            do
-               for clipgrad in $clipgrads;
+               for batchsize in $batchsizes;
                do
-                   for dropout in $dropouts;
+                   for negsample in $negsamples;
                    do
-                       for epsilon in $epsilons;
+                       for clipgrad in $clipgrads;
                        do
-                           CMD="$RUN_CMD \
-                                -colDim $dim \
-                                -rowDim $dim \
-                                -learningRate $lr \
-                                -l2Reg $l2 \
-                                -epsilon $epsilon \
-                                -batchSize $batchsize \
-                                -dropout $dropout \
-                                -clipGrads $clipgrad \
-                                -gpuid XX \
-                                &> $OUT_LOG/train-$lr-$dim-$dropout-$clipgrad-$l2-$epsilon-$batchsize.log"
-                           commands+=("$CMD")
-                           echo "Adding job lr=$lr dim=$dim dropout=$dropout l2=$l2 batchsize=$batchsize epsilon=$epsilon"
+                           for dropout in $dropouts;
+                           do
+                               for hiddendropout in $hiddenDropouts;
+                               do
+                                   for worddropout in $wordDropouts;
+                                       do
+                                       for epsilon in $epsilons;
+                                       do
+                                           JOB_LOG="$OUT_LOG/train-$lr-$tokenDim-$dim-$dropout-$hiddendropout-$worddropout-$clipgrad-$l2-$epsilon-$batchsize-${negsample}.log"
+            #                               if [ ! -f "$JOB_LOG" ]; then
+                                               RESULT_DIR="$OUT_LOG/tac/$lr-$tokenDim-$dim-$dropout-$hiddendropout-$worddropout-$clipgrad-$l2-$epsilon-$batchsize-${negsample}"
+                                               echo $JOB_LOG
+                                               CMD="$RUN_CMD \
+                                                    -colDim $dim \
+                                                    -rowDim $dim \
+                                                    -learningRate $lr \
+                                                    -l2Reg $l2 \
+                                                    -tokenDim $tokenDim \
+                                                    -epsilon $epsilon \
+                                                    -batchSize $batchsize \
+                                                    -dropout $dropout \
+                                                    -hiddenDropout $hiddendropout \
+                                                    -wordDropout $worddropout \
+                                                    -clipGrads $clipgrad \
+                                                    -resultDir $RESULT_DIR \
+                                                    -negSamples $negsample \
+                                                    -gpuid XX $additional_args \
+                                                    &> $JOB_LOG"
+                                               commands+=("$CMD")
+            #                               fi
+                                       done
+                                   done
+                               done
+                           done
                        done
-                    done
-                done
+                   done
+               done
            done
        done
    done

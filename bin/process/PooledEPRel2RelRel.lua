@@ -8,20 +8,21 @@ require 'nn'
 local cmd = torch.CmdLine()
 cmd:option('-inFile', '', 'input file')
 cmd:option('-outFile', '', 'out file')
-cmd:option('-kbMap', '', 'out file')
-cmd:option('-kbOnly', false, 'only use kb relations as the single relation')
+cmd:option('-relationSubset', '', 'only take out relations in this map file')
 cmd:option('-maxSamples', 0, 'maximum number of samples to take for a given entity pair - 0 = all')
+cmd:option('-maxColumns', 0, 'maximum number of columns to use for a single example - 0 = all')
+cmd:option('-dummyRelation', 0, 'if > 0, add dummy relation with this index to every row')
 local params = cmd:parse(arg)
 
 
-local kb_rels = {}
-if params.kbMap ~= '' then
+local relation_subset = {}
+if params.relationSubset ~= '' then
     io.write('Loading kb map... ')
-    for line in io.lines(params.kbMap) do
+    for line in io.lines(params.relationSubset) do
         local token, id = string.match(line, "([^\t]+)\t([^\t]+)")
         if token and id then
             id = tonumber(id)
-            if id > 1 then table.insert(kb_rels, torch.Tensor(1,1):fill(id)) end
+            if id > 1 then table.insert(relation_subset, torch.Tensor(1,1):fill(id)) end
         end
     end
     print('Done')
@@ -31,7 +32,8 @@ end
 print('loading file: ', params.inFile)
 local original_data = torch.load(params.inFile)
 -- prepare new data object dNew
-local reformatted_data = {num_cols = original_data.num_rels, num_rows = original_data.num_eps,
+local reformatted_data = {num_cols = math.max(params.dummyRelation, original_data.num_rels),
+    num_rows = math.max(params.dummyRelation, original_data.num_rels),
     num_col_tokens = original_data.num_tokens, num_row_tokens = original_data.num_tokens}
 
 
@@ -50,6 +52,12 @@ local function extract_example(ep_data, i)
     col = col:view(col:size(1), col:size(2))
     local col_seq = ep_data.seq:index(2, range:long())
 
+    if  params.maxColumns > 0 and col:size(2) > params.maxColumns then
+        local rand_subset = torch.randperm(col:size(2)):narrow(1, 1, math.min(col:size(2), params.maxSamples)):long()
+        col = col:index(2,rand_subset)
+        col_seq = col_seq:index(2,rand_subset)
+    end
+
     return col, row, col_seq, row_seq
 end
 
@@ -57,7 +65,9 @@ end
 local function extract_relations(ep_data)
     local col_table, row_table, col_seq_table, row_seq_table = {}, {}, {}, {}
     local shuffle = torch.randperm(ep_data.rel:size(2))
-    if params.maxSamples > 0 then shuffle = shuffle:narrow(1, 1, math.min(shuffle:size(1), params.maxSamples)) end
+    if params.maxSamples > 0 then
+        shuffle = shuffle:narrow(1, 1, math.min(shuffle:size(1), params.maxSamples))
+    end
     for i = 1, shuffle:size(1) do
         local col, row, col_seq, row_seq = extract_example(ep_data, shuffle[i])
         table.insert(col_table, col);  table.insert(col_seq_table, col_seq)
@@ -74,7 +84,7 @@ local function extract_kb_only_relations(ep_data)
 
         local mask = torch.ByteTensor(row:size(1), 1):fill(0)
         -- get indices in the row tensor that match any of our kb ids
-        for _, kb_id in pairs(kb_rels) do
+        for _, kb_id in pairs(relation_subset) do
             mask:add(row:eq(kb_id:expandAs(row)))
         end
         local index = {}
@@ -92,24 +102,35 @@ end
 
 local i = 0
 for num_relations, ep_data in pairs(original_data) do
---    num_relations = 131
---    ep_data = original_data[num_relations]
     io.write('\rProcessing : '..i); io.flush(); i = i + 1
     if (type(ep_data) == 'table' and i > 1) then
         local col_table, row_table, col_seq_table, row_seq_table
-        if params.kbOnly then col_table, row_table, col_seq_table, row_seq_table = extract_kb_only_relations(ep_data)
+        if params.relationSubset ~= '' then col_table, row_table, col_seq_table, row_seq_table = extract_kb_only_relations(ep_data)
         else col_table, row_table, col_seq_table, row_seq_table =  extract_relations(ep_data) end
-
-        reformatted_data[num_relations] = {
-            row_seq = nn.JoinTable(1)(row_seq_table), row = nn.JoinTable(1)(row_table),
-            col_seq = nn.JoinTable(1)(col_seq_table), col = nn.JoinTable(1)(col_table) }
-        reformatted_data[num_relations].count = reformatted_data[num_relations].row:size(1)
+        if #row_table > 0 then
+            local row, col = nn.JoinTable(1)(row_table), nn.JoinTable(1)(col_table)
+            if params.dummyRelation > 0 then col = col:cat(row:clone():fill(params.dummyRelation):view(-1,1)) end
+            if params.maxColumns == 0 or num_relations <= params.maxColumns or not reformatted_data[params.maxColumns] then
+                reformatted_data[num_relations-1] = {
+                    row_seq = nn.JoinTable(1)(row_seq_table), row = row,
+                    col_seq = nn.JoinTable(1)(col_seq_table), col = col,
+                    count = row:size(1)
+                }
+            else
+                reformatted_data[params.maxColumns].row_seq = reformatted_data[params.maxColumns].row_seq:cat(nn.JoinTable(1)(row_seq_table), 1)
+                reformatted_data[params.maxColumns].row = reformatted_data[params.maxColumns].row:cat(row, 1)
+                reformatted_data[params.maxColumns].col_seq = reformatted_data[params.maxColumns].col_seq:cat(nn.JoinTable(1)(col_seq_table), 1)
+                reformatted_data[params.maxColumns].col = reformatted_data[params.maxColumns].col:cat(col, 1)
+                reformatted_data[params.maxColumns].count = reformatted_data[params.maxColumns].count + row:size(1)
+            end
+        end
     end
 end
-print('\nDone')
+print('\nSaving')
 reformatted_data.max_length = i
 
 -- SAVE FILE
 torch.save(params.outFile, reformatted_data)
+print('Done')
 
 

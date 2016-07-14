@@ -5,7 +5,7 @@ export LOG_ROOT="${TH_RELEX_ROOT}/models/$NAME"
 export TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/data/"
 export TRAIN_FILE="train-mtx.torch"
 export TRAINED_EP="${TH_RELEX_ROOT}/data/pretrained-ent-weights"
-export TEST_FILE=$TH_RELEX_ROOT/data/test-mtx-torch/
+export MAP_TEST_DIR=$TH_RELEX_ROOT/data/test-mtx-torch/
 
 export BATCH_SIZE=128
 export LEARN_RATE=.0001

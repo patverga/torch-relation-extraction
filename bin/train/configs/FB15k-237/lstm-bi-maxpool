@@ -2,24 +2,32 @@ export MODEL=UniversalSchema
 export NAME=lstm-bi-maxpool
 
 export LOG_ROOT="${TH_RELEX_ROOT}/models/fb15k/$NAME"
-export TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/training-data/"
-
-export TRAINED_EP="${TH_RELEX_ROOT}/models/uschema-english-relogged-100d/2015-12-18_11/5-ent-weights"
-export TRAIN_FILE="data/FB15K-237/torch/all-train.txt"
-#export VOCAB="${TH_RELEX_ROOT}/vocabs/no-log_min5_noramlized.en-tokens.txt"
-#export TAC_YEAR="2012"
+export TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/tmp_fb15k2/"
+export TRAIN_FILE="train-relations_max15.torch"
+export FB15K_DIR="${TH_RELEX_ROOT}/tmp_fb15k2/eval-data/valid-pooled/"
+# export TRAINED_EP="${TH_RELEX_ROOT}/models/fb15k/uschema/2016-03-30_12/3-cols"
 
 export SAVE_MODEL=true
 
-export BATCH_SIZE=128
-export LEARN_RATE=.0001
-export ROW_DIM=100
-export COL_DIM=100
-export MAX_SEQ=20
-export MAX_EPOCHS=15
-export EVAL_FREQ=3
-export DROPOUT=.1
-export TOKEN_DIM=100
+export BATCH_SIZE=1024
+export LEARN_RATE=.01
+export L2="0"
+export EPSILON="1e-8"
+export CLIP_GRADS=0
+
+export ROW_DIM=10
+export COL_DIM=10
+export TOKEN_DIM=25
+
+export MAX_SEQ=35
+export MAX_EPOCHS=-1
+export EVAL_FREQ=1
+export DROPOUT=0
+
 export BI_DIRECTIONAL="add"
 export POOL_LAYER=Max
 export COL_ENCODER="lstm"
+
+export CRITERION="cross-entropy"
+export MODEL_TYPE="neg-sample"
+export NEG_SAMPLES=200

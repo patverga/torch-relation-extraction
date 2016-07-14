@@ -1,6 +1,7 @@
 __author__ = 'pat'
 
 import re
+import os
 import sys
 import getopt
 import pickle
@@ -12,9 +13,25 @@ from collections import defaultdict
 # use -v to export string-int maps
 ###
 
-def process_seq(seq, token_counter, replace_digits, chars, double_vocab):
+in_file = ''
+out_file = ''
+save_vocab_dir = ''
+load_vocab_file = ''
+chars = False
+min_count = 0
+unk_idx = '1'
+pad_idx = '2'
+max_seq = sys.maxint
+double_vocab = False
+reset_tokens = False
+replace_digits = False
+merge_maps = False
+pad_seq = True
+
+
+def process_seq(seq, token_counter, norm_digits):
     # normalize digits except in $ARG wildcard tokens
-    if replace_digits:
+    if norm_digits:
         seq = re.sub(r'(?<!\$ARG)[0-9]', '#', seq)
     tokens = seq.split(' ')
 
@@ -39,28 +56,37 @@ def process_seq(seq, token_counter, replace_digits, chars, double_vocab):
     return tokens
 
 
-def process_line(line, col_str_map, row_str_map, col_token_counter, row_token_counter, double_vocab, replace_digits,
-                 chars):
+def process_line(line, col_str_map, row_str_map, label_map, col_token_counter, row_token_counter):
     row_seq, col_seq, label = line.strip().split('\t')
 
-    row_tokens = process_seq(row_seq, row_token_counter, replace_digits, chars, double_vocab)
-    col_tokens = process_seq(col_seq, col_token_counter, replace_digits, chars, double_vocab)
+    row_tokens = process_seq(row_seq, row_token_counter, False)
+    col_tokens = process_seq(col_seq, col_token_counter, replace_digits)
     col_str = ' '.join(col_tokens)
     row_str = ' '.join(row_tokens)
 
     # add 1 for 1 indexing
     col_str_map.setdefault(col_str, str(len(col_str_map) + 1))
     row_str_map.setdefault(row_str, str(len(row_str_map) + 1))
+    label_map.setdefault(label, str(len(label_map) + 1))
 
     return row_tokens, col_tokens, row_str, col_str, label
 
 
-def export_line(row_tokens, col_tokens, row_str, col_str, row_token_map, col_token_map, row_str_map, col_str_map, label, out):
+def export_line(row_tokens, col_tokens, row_str, col_str, label_str, row_token_map, col_token_map, row_str_map,
+                col_str_map, label_map, out):
     # map tokens -- sets unk idx to 1
-    col_token_ids = [str(col_token_map[token]) if token in col_token_map else '1' for token in col_tokens]
-    row_token_ids = [str(row_token_map[token]) if token in row_token_map else '1' for token in row_tokens]
+    col_token_ids = [str(col_token_map[token]) if token in col_token_map else unk_idx for token in col_tokens]
+    row_token_ids = [str(row_token_map[token]) if token in row_token_map else unk_idx for token in row_tokens]
+    # pad all seqs to have max length size
+    if max_seq < sys.maxint and pad_seq:
+        if len(col_token_ids) < max_seq:
+            col_token_ids = ([pad_idx] * (max_seq - len(col_token_ids))) + col_token_ids
+        if len(row_token_ids) < max_seq:
+            row_token_ids = ([pad_idx] * (max_seq - len(row_token_ids))) + row_token_ids
+
     cs = col_str_map[col_str]
     rs = row_str_map[row_str]
+    label = label_map[label_str]
     out.write('\t'.join([rs, ' '.join(row_token_ids), cs, ' '.join(col_token_ids), label]) + '\n')
 
 
@@ -80,17 +106,7 @@ def filter_tokens(token_counter, min_count):
 
 
 def main(argv):
-    in_file = ''
-    out_file = ''
-    save_vocab_file = ''
-    load_vocab_file = ''
-    chars = False
-    min_count = 0
-    max_seq = sys.maxint
-    double_vocab = False
-    reset_tokens = False
-    replace_digits = False
-    merge_maps = False
+    global load_vocab_file, reset_tokens, in_file, out_file, chars, double_vocab, merge_maps, min_count, max_seq, save_vocab_dir, replace_digits
 
     help_msg = 'test.py -i <inFile> -o <outputfile> -m <throw away tokens seen less than this many times> \
 -s <throw away relations longer than this> -c <use char tokens (default is use words)> -d <double vocab depending on if [A1 rel A2] or [A2 rel A1]>'
@@ -116,7 +132,7 @@ def main(argv):
         elif opt in ("-c", "--chars"):
             chars = True
         elif opt in ("-v", "--saveVocab"):
-            save_vocab_file = arg
+            save_vocab_dir = arg
         elif opt in ("-l", "--loadVocab"):
             load_vocab_file = arg
         elif opt in ("-d", "--doubleVocab"):
@@ -136,8 +152,14 @@ def main(argv):
 
     # load memory maps from file or initialize new ones
     if load_vocab_file:
+        print 'Loading vocab maps from ' + load_vocab_file
         with open(load_vocab_file, 'rb') as fp:
-            [col_str_map, row_str_map, col_token_map, row_token_map, col_token_counter, row_token_counter] = pickle.load(fp)
+            maps = pickle.load(fp)
+            if len(maps) == 7:
+                col_str_map, row_str_map, col_token_map, row_token_map, label_map, col_token_counter, row_token_counter = maps
+            else:
+                _, _, col_str_map, label_map, col_token_map, col_token_counter = maps
+                merge_maps = True
         if reset_tokens:
             # this should probably be a different flag
             col_str_map = {}
@@ -148,6 +170,7 @@ def main(argv):
         row_str_map = {}
         col_token_map = {}
         row_token_map = {}
+        label_map = {}
         col_token_counter = defaultdict(int)
         row_token_counter = defaultdict(int)
 
@@ -159,8 +182,7 @@ def main(argv):
     # memory map all the data and return processed lines
     print 'Processing lines and getting token counts'
     data = [
-        process_line(line, col_str_map, row_str_map, col_token_counter, row_token_counter,
-                     double_vocab, replace_digits, chars)
+        process_line(line, col_str_map, row_str_map, label_map, col_token_counter, row_token_counter)
         for line in open(in_file, 'r')]
 
     if reset_tokens or not load_vocab_file:
@@ -173,21 +195,24 @@ def main(argv):
     print 'Exporting processed lines to file'
     # export processed data
     out = open(out_file, 'w')
-    [export_line(row_tokens, col_tokens, row_str, col_str, row_token_map, col_token_map, row_str_map, col_str_map, label, out)
+    [export_line(row_tokens, col_tokens, row_str, col_str, label, row_token_map, col_token_map, row_str_map, col_str_map, label_map, out)
       for row_tokens, col_tokens, row_str, col_str, label in data if len(row_tokens) <= max_seq and len(row_tokens) <= max_seq]
     out.close()
 
     print 'Num rows: ', len(row_str_map), 'Num row tokens: ', len(row_token_map), \
         'Num cols: ', len(col_str_map), 'Num col tokens: ', len(col_token_map)
 
-    if save_vocab_file:
+    if save_vocab_dir:
         print 'Exporting vocab maps to file'
-        with open(save_vocab_file, 'wb') as fp:
-            pickle.dump([col_str_map, row_str_map, col_token_map, row_token_map, col_token_counter, row_token_counter], fp)
-        export_map(save_vocab_file + '-col-tokens.txt', col_token_map)
-        export_map(save_vocab_file + '-row-tokens.txt', row_token_map)
-        export_map(save_vocab_file + '-cols.txt', col_str_map)
-        export_map(save_vocab_file + '-rows.txt', row_str_map)
+        if not os.path.exists(save_vocab_dir):
+            os.makedirs(save_vocab_dir)
+        with open(save_vocab_dir + '/vocab.pkl', 'wb') as fp:
+            pickle.dump([col_str_map, row_str_map, col_token_map, row_token_map, label_map, col_token_counter, row_token_counter], fp)
+        export_map(save_vocab_dir + '/col-tokens.txt', col_token_map)
+        export_map(save_vocab_dir + '/row-tokens.txt', row_token_map)
+        export_map(save_vocab_dir + '/cols.txt', col_str_map)
+        export_map(save_vocab_dir + '/rows.txt', row_str_map)
+        export_map(save_vocab_dir + '/labels.txt', label_map)
 
 
 if __name__ == "__main__":

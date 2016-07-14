@@ -1,3 +1,6 @@
+-- User: David
+
+
 local EncoderPool, parent = torch.class('nn.EncoderPool', 'nn.Container')
 
 
@@ -5,7 +8,7 @@ function EncoderPool:__init(mapper,reducer)
     parent.__init(self)
 
     self.mapper = mapper
-    self.reducer = reducer
+    self.reducer = reducer or nn.Identity()
 
     self.modules = {}
     table.insert(self.modules,mapper)
@@ -25,7 +28,16 @@ function EncoderPool:updateOutput(input)
         self.sizes[i] = self.inputSize[i+1]
     end
 
-    self.reshapedInput = input:view(self.sizes)
+
+--    self.reshapedInput = input:view(self.sizes)
+    if input:isContiguous()  then
+        self.reshapedInput = input:view(self.sizes)
+    else
+        self.reshapedInput = self.reshapedInput or input:clone()
+        self.reshapedInput:resizeAs(input):copy(input):resize(self.sizes)
+    end
+
+
     self.mapped = self.mapper:updateOutput(self.reshapedInput)
     self.sizes3 = self.mapped:size()
 
@@ -65,7 +77,7 @@ function EncoderPool:accGradParameters(input,gradOutput,lr)
 end
 
 
-function EncoderPool:genericBackward(operator,input, gradOutput)
+function EncoderPool:genericBackward(operator, input, gradOutput)
     operator(self.reducer,self.mappedAndReshaped,gradOutput)
     local reducerGrad = self.reducer.gradInput
 
@@ -76,9 +88,12 @@ function EncoderPool:genericBackward(operator,input, gradOutput)
         self.reshapedReducerGrad:resizeAs(reducerGrad):copy(reducerGrad):resize(self.sizes3)
     end
 
-    operator(self.mapper,self.reshapedInput,self.reshapedReducerGrad)
+    -- TODO: when loading serialized networks, sometimes this throws error -catch it for now and fix it later
+    if not pcall(operator, self.mapper,self.reshapedInput,self.reshapedReducerGrad) then
+        print("Error in EncoderPool operator ")
+        collectgarbage()
+    end
     local mapperGrad = self.mapper.gradInput
-
-    self.gradInput = (mapperGrad:dim() > 0) and mapperGrad:view(self.inputSize) or nil --some modules return nil from backwards, such as the lookup table
+    self.gradInput = (mapperGrad:dim() > 0) and mapperGrad:view(self.inputSize) or mapperGrad
     return self.gradInput
 end

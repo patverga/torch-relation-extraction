@@ -1,0 +1,35 @@
+export MODEL=UniversalSchema
+export NAME=max-relation-bi-lstm
+
+export LOG_ROOT="${TH_RELEX_ROOT}/models/fb15k/$NAME"
+export TRAIN_FILE_ROOT="$TH_RELEX_ROOT/data/FB15K-237/fix_padding_no-min//"
+export TRAIN_FILE="train-relations.torch"
+export FB15K_DIR="$TH_RELEX_ROOT/data/FB15K-237/fix_padding_no-min/eval-data/valid-pooled/"
+
+# export SAVE_MODEL=true
+# export LOAD_COL_ENCODER="${TH_RELEX_ROOT}/models/fb15k/lstm-bi-maxpool/tuned/best-model"
+
+export BATCH_SIZE=1200
+export LEARN_RATE=.001
+export L2="0"
+export EPSILON="1e-8"
+export CLIP_GRADS=100
+
+export MAX_SEQ=500
+export MAX_EPOCHS=-1
+export EVAL_FREQ=1
+
+export ROW_DIM=25
+export COL_DIM=25
+export TOKEN_DIM=50
+export ROW_ENCODER="lookup-table"
+export COL_ENCODER="lstm"
+
+export CRITERION="cross-entropy"
+export MODEL_TYPE="neg-sample"
+export RELATION_POOL="max-relation"
+export BI_DIRECTIONAL="add"
+export POOL_LAYER=Max
+
+export NEG_SAMPLES=200
+export PATTERN_DROPOUT=10
