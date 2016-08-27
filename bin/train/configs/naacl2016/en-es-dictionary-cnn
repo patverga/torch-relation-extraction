@@ -1,22 +1,22 @@
 export MODEL=UniversalSchema
-export NAME=char-lstm-subset-center-nolog-100d
+export NAME=en-es-dictionary-cnn-paper
 
 export LOG_ROOT="${TH_RELEX_ROOT}/models/$NAME"
-export TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/training-data/full-sentence-subset/"
-
+export TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/training-data/"
+export TRAIN_FILE="no-log_min5_noramlized.en-es_dictionary"
 export TRAINED_EP="${TH_RELEX_ROOT}/models/uschema-english-relogged-100d/2015-12-18_11/5-ent-weights"
-export TRAIN_FILE="center-no-log.fixed-5mil-subset_chars"
-export VOCAB="${TH_RELEX_ROOT}/vocabs/full-sentence-subset/center-no-log.fixed-5mil-subset_chars-tokens.txt"
+
+export VOCAB="${TH_RELEX_ROOT}/vocabs/no-log_min5_noramlized.en-es_dictionary-tokens.txt"
 export TAC_YEAR="2012"
-export EVAL_ARGS="-chars"
+#export EVAL_ARGS="-tokenAppend,@es,-dictionary,vocabs/en_es.dictionary.uniq"
 
 export BATCH_SIZE=128
 export LEARN_RATE=.0001
 export ROW_DIM=100
 export COL_DIM=100
-export MAX_SEQ=200
+export MAX_SEQ=20
 export MAX_EPOCHS=15
 export EVAL_FREQ=3
 export DROPOUT=.1
 export TOKEN_DIM=100
-export COL_ENCODER="lstm"
+export COL_ENCODER="cnn"

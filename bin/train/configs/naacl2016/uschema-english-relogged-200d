@@ -1,0 +1,14 @@
+export MODEL=UniversalSchema
+export NAME="uschema-english-relogged-200d"
+
+export LOG_ROOT="${TH_RELEX_ROOT}/models/$NAME"
+export TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/training-data"
+
+export TRAIN_FILE="relogged_min5_noramlized.en"
+export BATCH_SIZE=1024
+export LEARN_RATE=.001
+export ROW_DIM=200
+export MAX_SEQ=15
+export MAX_EPOCHS=15
+export EVAL_FREQ=3
+export COL_ENCODER="lookup-table"
