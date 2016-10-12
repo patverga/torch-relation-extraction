@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-dark.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
+    <title>Torch-relation-extraction by patverga</title>
+  </head>
+
+  <body>
+
+    <header>
+      <div class="container">
+        <h1>Torch-relation-extraction</h1>
+        <h2>Universal Schema based relation extraction implemented in Torch.</h2>
+
+        <section id="downloads">
+          <a href="https://github.com/patverga/torch-relation-extraction/zipball/master" class="btn">Download as .zip</a>
+          <a href="https://github.com/patverga/torch-relation-extraction/tarball/master" class="btn">Download as .tar.gz</a>
+          <a href="https://github.com/patverga/torch-relation-extraction" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+        </section>
+      </div>
+    </header>
+
+    <div class="container">
+      <section id="main_content">
+        <h1>
+<a id="universal-schema-based-relation-extraction-implemented-in-torch" class="anchor" href="#universal-schema-based-relation-extraction-implemented-in-torch" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Universal Schema based relation extraction implemented in Torch.</h1>
+
+<h2>
+<a id="paper" class="anchor" href="#paper" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Paper</h2>
+
+<p>This code was used for the paper <a href="http://arxiv.org/abs/1511.06396">Multilingual Relation Extraction using Compositional Universal Schema</a> by Patrick Verga, David Belanger, Emma Strubell, Benjamin Roth, Andrew McCallum.</p>
+
+<p>If you use this code, please cite us.</p>
+
+<h2>
+<a id="dependencies" class="anchor" href="#dependencies" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Dependencies</h2>
+
+<ul>
+<li><a href="https://github.com/torch/torch7">torch</a></li>
+<li><a href="https://github.com/torch/nn">nn</a></li>
+<li><a href="https://github.com/Element-Research/rnn">rnn</a></li>
+<li><a href="https://github.com/torch/optim">optim</a></li>
+<li><a href="https://github.com/twitter/torch-autograd">autograd</a></li>
+<li>set this environment variable : TH_RELEX_ROOT=/path/to/this/proj</li>
+</ul>
+
+<h2>
+<a id="overview" class="anchor" href="#overview" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Overview</h2>
+
+<p>Universal Schema embeds text and knowledge base relations together to perform relation extraction and automatic knowledge base population. The typical universal schema model performs matrix factorization where rows are entity pairs and columns are relations.</p>
+
+<p>This code allows you to perform matrix factorization where the column and row embeddings are parameterized by an arbitrary encoder. In the simplest case, a 'standard' matrix factorization would have each encoder as a lookup-table. More complex models could use combinations of LSTMs, CNNs, etc. To do this is as simple as setting the rowEncoder and colEnoder parameters</p>
+
+<p><code>th src/UniversalSchema.lua -rowEncoder lookup-table -colEncoder lstm</code></p>
+
+<h2>
+<a id="data-processing" class="anchor" href="#data-processing" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Data Processing</h2>
+
+<p>Your entity-relation data should be 4 col tsv.</p>
+
+<p>entity1 \t entity2 \t relation \t 1</p>
+
+<p><code>./bin/process/process-data.sh -i your-data -o your-data.torch -v vocab-file</code></p>
+
+<p>There are other flags in you can look at by doing <code>./bin/process/process-data.sh --help</code></p>
+
+<p>You can also process arbitrary data in 3 column format with the -b flag</p>
+
+<p>row_value \t col_value \t 1</p>
+
+<p>If you want your rows and columns to share the same vocabulary, use the -g flag<br>
+<code>./bin/process/process-data.sh -i your-3column-data -o your-data.torch -v vocab-file -b -g</code></p>
+
+<h2>
+<a id="training-models" class="anchor" href="#training-models" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Training Models</h2>
+
+<p>You can run various Universal Schema models located in <a href="https://github.com/patverga/torch-relation-extraction/blob/master/src/">src</a>. Check out the various options in <a href="https://github.com/patverga/torch-relation-extraction/blob/master/src/CmdArgs.lua">CmdArgs.lua</a></p>
+
+<p>You can train models using this <a href="https://github.com/patverga/torch-relation-extraction/blob/master/bin/train/train-model.sh">train script</a>. The script takes two parameters, a gpuid (-1 for cpu) and a <a href="https://github.com/patverga/torch-relation-extraction/tree/master/bin/train/configs">config file</a>. You can run an example base Universal Schema model and evaluate MAP with the following command. </p>
+
+<p><code>./bin/train/train-model.sh 0 bin/train/configs/examples/uschema-example</code></p>
+
+<h2>
+<a id="evaluation" class="anchor" href="#evaluation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Evaluation</h2>
+
+<h4>
+<a id="map" class="anchor" href="#map" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>MAP</h4>
+
+<p>MAP will be calculated every kth iteration based on the -evaluateFrequency cmd arg. AP is calculated on a per-column basis and then averaged to get MAP. To calculate MAP for your model, you need to generate one file per test column in the same format as your test data. Unlike the training data, in the test data you need to explicitly give negative examples. Negative samples should just have a 0 in the last column of the file while positive examples have a 1.</p>
+
+<p>Place all of these files in a directory, test-data-dir for example, and then run the following command:<br>
+<code>./bin/process/process-test-data-dir.sh test-data-dir test-data-dir.torch vocab-file</code><br>
+Here vocab-file should be the same vocab file that you generated your training data with.</p>
+
+<h4>
+<a id="tac-slot-filling-task" class="anchor" href="#tac-slot-filling-task" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="http://www.nist.gov/tac/2013/KBP/">TAC slot filling task</a>
+</h4>
+
+<ul>
+<li>This requires setting up <a href="https://github.com/beroth/relationfactory">Relation Factory</a> and setting $TAC_ROOT=/path/to/relation-factory. Just follow the setup instructions on the relation factory github or run <code>$TH_RELEX_ROOT/setup-relationfactory.sh</code>.</li>
+</ul>
+
+<p>First run :<code>./setup-tac-eval.sh</code> </p>
+
+<p>We include candidate files for years 2012, 2013, and 2014 as well as <a href="https://github.com/patverga/torch-relation-extraction/tree/master/bin/tac-evaluation/configs/2013">config files</a> to evaluate each year. </p>
+
+<p>You can tune thresholds on year 2012 and evaluate on year 2013 with this command :</p>
+
+<p><code>./bin/tac-evaluation/tune-and-score.sh 2012 2013 trained-model vocab-file.txt gpu-id max-length-seq-to-consider output-dir</code></p>
+
+<p>You can also download some <a href="https://goo.gl/GeWyDk">pretrained models</a> from our paper <a href="http://arxiv.org/abs/1511.06396">Multilingual Relation Extraction using Compositional Universal Schema</a>. The download includes a script that will evaluate the models.</p>
+
+<h2>
+<a id="relation-extraction" class="anchor" href="#relation-extraction" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Relation Extraction</h2>
+
+<p>You can also use this code to score relations. Here we'll walk through the steps to train a universal schema model. </p>
+
+<table>
+<thead>
+<tr>
+<th>e1</th>
+<th align="center">e2</th>
+<th>relation</th>
+<th>1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>/m/02k__v</td>
+<td align="center">/m/01y5zy</td>
+<td>$ARG1 lives in the city of $ARG2</td>
+<td>1</td>
+</tr>
+<tr>
+<td>/m/09cg6</td>
+<td align="center">/m/0r297</td>
+<td>$ARG2 is a type of $ARG1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>/m/02mwx2g</td>
+<td align="center">/m/02lmm0_</td>
+<td>/biology/gene_group_membership/gene</td>
+<td>1</td>
+</tr>
+<tr>
+<td>/m/0hqv6zr</td>
+<td align="center">/m/0hqx04q</td>
+<td>/medicine/drug_formulation/formulation_of</td>
+<td>1</td>
+</tr>
+<tr>
+<td>/m/011zd3</td>
+<td align="center">/m/02jknp</td>
+<td>/people/person/profession</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+
+<ol>
+<li>First create a training set that combines KB triples that you care about as well as text relations you care about. For example generate a file like the one above called train.tsv.</li>
+<li>Next, process that file : <code>./bin/process/process-data.sh -i train.tsv -o data/train.torch -v vocab-file</code>
+</li>
+<li>Now we want to train a model. Edit the <a href="bin/train/configs/examples/lstm-example">example lstm config</a> to say <code>export TRAIN_FILE=train-mtx.torch</code> and start the model training :  <code>./bin/train/train-model.sh 0 bin/train/configs/lstm-example</code>. This will save a model to models/lstm-example/*-model every 3 epochs.</li>
+<li>Now we can use this model to perform relation extraction. Generate a candidate file called candidates.tsv. The file should be tab serparated with the following form :<br>
+entity_1      kb_relation    entity_2      doc_info      arg1_start_token_idx        arg1_send_token_idx        arg2_start_token_idx        arg2_end_token_idx      sentence.<br>
+A concrete example is :<br>
+Barack Obama        per:spouse      Michelle Obama      doc_info        0        2      8         10       Barack Obama was seen yesterday with his wife Michelle Obama .<br>
+</li>
+<li>Finally, we can score each relation with the following command <code>th src/eval/ScoreCandidateFile.lua -candidates candidates.tsv -outFile scored-candidates.tsv -vocabFile vocab-file-tokens.txt -model models/lstm-example/5-model -gpuid 0</code>
+</li>
+</ol>
+
+<p>This will generate a scored candidate file with the same number of lines and the sentenece replaced by a score where higher is more probable.  </p>
+
+<p>Barack Obama        per:spouse      Michelle Obama      doc_info        0        2      8         10       0.94 .</p>
+
+<h2>
+<a id="contact" class="anchor" href="#contact" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Contact</h2>
+
+<p>Feel free to contact me with questions : <a href="mailto:patverga123@gmail.com">patverga123@gmail.com</a></p>
+      </section>
+    </div>
+
+    
+  </body>
+</html>
