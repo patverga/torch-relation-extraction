@@ -20,7 +20,7 @@ end
 function MaxOneHot:_lazyInit()
     self._max = self._max or self.output.new()
     self._indices = self._indices or
-            (torch.type(self.output) == 'torch.CudaTensor' and torch.CudaTensor() or torch.LongTensor())
+            (torch.type(self.output) == 'torch.CudaTensor' and torch.CudaLongTensor() or torch.LongTensor())
     self.gradInput = self._max.new()
 end
 

@@ -3,7 +3,7 @@
 -- Date: 3/10/16
 --
 
-
+require 'RelationPoolFactory'
 local UniversalSchemaNegativeSample, parent = torch.class('UniversalSchemaNegativeSample', 'UniversalSchemaEncoder')
 
 
