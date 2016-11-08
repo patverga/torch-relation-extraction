@@ -52,6 +52,14 @@ You can train models using this [train script](https://github.com/patverga/torch
 
 `./bin/train/train-model.sh 0 bin/train/configs/examples/uschema-example`
 
+FB15K-237 and rowless models
+----------
+Use this script to process the data : `./bin/process/fb15k/process-fb15k.sh FB15K_DIR OUTPUT_DIR`  
+Look at the configs in this directory for examples https://github.com/patverga/torch-relation-extraction/tree/rowless-updates/bin/train/configs/rowless/fb15k-237
+
+
+
+
 Evaluation
 ---------
 
@@ -74,6 +82,7 @@ You can tune thresholds on year 2012 and evaluate on year 2013 with this command
 `./bin/tac-evaluation/tune-and-score.sh 2012 2013 trained-model vocab-file.txt gpu-id max-length-seq-to-consider output-dir`
 
 You can also download some [pretrained models](https://goo.gl/GeWyDk) from our paper [Multilingual Relation Extraction using Compositional Universal Schema](http://arxiv.org/abs/1511.06396). The download includes a script that will evaluate the models.
+
 
 Relation Extraction
 ----------
