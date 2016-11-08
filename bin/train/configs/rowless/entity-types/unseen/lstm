@@ -1,0 +1,30 @@
+export MODEL=UniversalSchema
+export NAME="lstm"
+
+export LOG_ROOT="${TH_RELEX_ROOT}/models/entities/unseen/$NAME"
+export TRAIN_FILE_ROOT="$TH_RELEX_ROOT/data/entities/updated_processing_torch/"
+export TRAIN_FILE="train.torch"
+export MAP_TEST_DIR="${TH_RELEX_ROOT}/data/entities/updated_processing_torch//valid/unseen"
+
+export SAVE_MODEL=true
+
+export BATCH_SIZE=128
+export LEARN_RATE=.0005
+export L2="0"
+export EPSILON="1e-8"
+export CLIP_GRADS=10
+
+export MAX_SEQ=35
+export MAX_EPOCHS=-1
+export EVAL_FREQ=1
+
+export ROW_DIM=25
+export COL_DIM=25
+export TOKEN_DIM=100
+
+export POOL_LAYER=last
+export COL_ENCODER="seq-lstm"
+
+export CRITERION="cross-entropy"
+export MODEL_TYPE="neg-sample"
+export NEG_SAMPLES=2
