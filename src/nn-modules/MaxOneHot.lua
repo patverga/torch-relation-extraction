@@ -12,6 +12,7 @@ end
 function MaxOneHot:updateOutput(input)
     self:_lazyInit()
     local dimension = self:_getPositiveDimension(input)
+    self._indices = self._indices:typeAs(input)
     torch.max(self._max, self._indices, input, dimension)
     self.output = self.output:resizeAs(input):zero():scatter(dimension, self._indices, self._max)
     return self.output
