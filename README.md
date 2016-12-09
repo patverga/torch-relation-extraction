@@ -1,8 +1,24 @@
 # Universal Schema based relation extraction implemented in Torch.
 
+
+Overview
+-------------
+Universal Schema embeds text and knowledge base relations together to perform relation extraction and automatic knowledge base population. The typical universal schema model performs matrix factorization where rows are entity pairs and columns are relations.
+
+This code allows you to perform matrix factorization where the column and row embeddings are parameterized by an arbitrary encoder. In the simplest case, a 'standard' matrix factorization would have each encoder as a lookup-table. More complex models could use combinations of LSTMs, CNNs, etc. To do this is as simple as setting the rowEncoder and colEnoder parameters
+
+`th src/UniversalSchema.lua -rowEncoder lookup-table -colEncoder lstm`
+
 Paper
 ------------
-This code was used for the paper [Multilingual Relation Extraction using Compositional Universal Schema](http://arxiv.org/abs/1511.06396) by Patrick Verga, David Belanger, Emma Strubell, Benjamin Roth, Andrew McCallum.
+This code was used for the following papers  
+[Multilingual Relation Extraction using Compositional Universal Schema](http://arxiv.org/abs/1511.06396) by Patrick Verga, David Belanger, Emma Strubell, Benjamin Roth, Andrew McCallum. NAACL 2016. (You can download our training data [here](https://people.cs.umass.edu/~pat/data/naacl-data.tar.gz))  
+
+[Row-less Universal Schema](https://arxiv.org/pdf/1604.06361v1.pdf) Patrick Verga and Andrew McCallum. AKBC 2016 (For this code, use the [rowless-updates](https://github.com/patverga/torch-relation-extraction/tree/rowless-updates) branch)
+
+[Generalizing to Unseen Entities and Entity Pairs with Row-less Universal Schema](https://arxiv.org/pdf/1606.05804v1.pdf) by Patrick Verga, Arvind Neelakantan, Andrew McCallum. EACL 2017. (For this code, use the [rowless-updates](https://github.com/patverga/torch-relation-extraction/tree/rowless-updates) branch)
+
+
 
 If you use this code, please cite us.
 
@@ -13,17 +29,7 @@ Dependencies
 - [nn](https://github.com/torch/nn)
 - [rnn](https://github.com/Element-Research/rnn)
 - [optim](https://github.com/torch/optim)
-- [autograd](https://github.com/twitter/torch-autograd)
 - set this environment variable : TH_RELEX_ROOT=/path/to/this/proj
-
-
-Overview
--------------
-Universal Schema embeds text and knowledge base relations together to perform relation extraction and automatic knowledge base population. The typical universal schema model performs matrix factorization where rows are entity pairs and columns are relations.
-
-This code allows you to perform matrix factorization where the column and row embeddings are parameterized by an arbitrary encoder. In the simplest case, a 'standard' matrix factorization would have each encoder as a lookup-table. More complex models could use combinations of LSTMs, CNNs, etc. To do this is as simple as setting the rowEncoder and colEnoder parameters
-
-`th src/UniversalSchema.lua -rowEncoder lookup-table -colEncoder lstm`
 
 
 Data Processing
