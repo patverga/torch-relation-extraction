@@ -1,5 +1,7 @@
 export MODEL=UniversalSchema
 export NAME="lstm-example"
+export SAVE_MODEL=true
+
 
 export LOG_ROOT="${TH_RELEX_ROOT}/models/$NAME"
 export TRAIN_FILE_ROOT="${TH_RELEX_ROOT}/data/"
