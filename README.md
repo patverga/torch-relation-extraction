@@ -25,6 +25,7 @@ If you use this code, please cite us.
 
 Dependencies
 -----------
+- Lua 5.1	(may not work with newer versions)
 - [torch](https://github.com/torch/torch7)
 - [nn](https://github.com/torch/nn)
 - [rnn](https://github.com/Element-Research/rnn)
