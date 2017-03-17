@@ -12,7 +12,7 @@ This code allows you to perform matrix factorization where the column and row em
 Paper
 ------------
 This code was used for the following papers  
-[Multilingual Relation Extraction using Compositional Universal Schema](http://arxiv.org/abs/1511.06396) by Patrick Verga, David Belanger, Emma Strubell, Benjamin Roth, Andrew McCallum. NAACL 2016. (You can download our training data [here](https://people.cs.umass.edu/~pat/data/naacl-data.tar.gz))  
+[Multilingual Relation Extraction using Compositional Universal Schema](http://arxiv.org/abs/1511.06396) by Patrick Verga, David Belanger, Emma Strubell, Benjamin Roth, Andrew McCallum. NAACL 2016. (You can download our training data [here](https://people.cs.umass.edu/~pat/data/naacl-data.tar.gz) and some pretrained models [here](https://goo.gl/GeWyDk))  
 
 [Row-less Universal Schema](https://arxiv.org/pdf/1604.06361v1.pdf) Patrick Verga and Andrew McCallum. AKBC 2016 (For this code, use the [rowless-updates](https://github.com/patverga/torch-relation-extraction/tree/rowless-updates) branch)
 
