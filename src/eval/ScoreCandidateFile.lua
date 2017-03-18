@@ -13,7 +13,6 @@ package.path = package.path .. ";src/?.lua;src/nn-modules/?.lua;src/eval/?.lua;s
 require 'torch'
 require 'rnn'
 require 'nn_modules_init'
-require 'RelationPoolFactory'
 require 'ScoringFunctions'
 require 'TacEvalCmdArgs'
 
