@@ -16,7 +16,7 @@ This code was used for the following papers
 
 [Row-less Universal Schema](https://arxiv.org/pdf/1604.06361v1.pdf) Patrick Verga and Andrew McCallum. AKBC 2016 (For this code, use the [rowless-updates](https://github.com/patverga/torch-relation-extraction/tree/rowless-updates) branch)
 
-[Generalizing to Unseen Entities and Entity Pairs with Row-less Universal Schema](https://arxiv.org/pdf/1606.05804v1.pdf) by Patrick Verga, Arvind Neelakantan, Andrew McCallum. EACL 2017. (For this code, use the [rowless-updates](https://github.com/patverga/torch-relation-extraction/tree/rowless-updates) branch)
+[Generalizing to Unseen Entities and Entity Pairs with Row-less Universal Schema](https://arxiv.org/pdf/1606.05804v1.pdf) by Patrick Verga, Arvind Neelakantan, Andrew McCallum. EACL 2017. (For this code, use the [rowless-updates](https://github.com/patverga/torch-relation-extraction/tree/rowless-updates) branch. You can download our entity type data [here](https://people.cs.umass.edu/~pat/data/EACL_rowless_entity_types.tar.gz) )
 
 
 
